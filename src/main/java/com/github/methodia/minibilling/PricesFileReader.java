@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class PricesFileReader {
+public class PricesFileReader  implements FileReading{
     String path;
 
     public PricesFileReader(String path) {
