@@ -5,16 +5,16 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Users implements FileReader {
 
 
-    String nameForFolder;
+    List<String> userNames = new ArrayList<>();
 
-    public String returnNameUser() {
-        this.nameForFolder = nameForFolder;
-        return nameForFolder;
+    public List<String> returnNameUser() {
 
+        return userNames;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Users implements FileReader {
         for (int i = 0; i < userList.size(); i++) {
             String[] strings = userList.get(i);
             String name = strings[0];
-            nameForFolder = strings[0];
+            userNames.add(strings[0]);
 
 
 //            String referentenNomer = strings[1];

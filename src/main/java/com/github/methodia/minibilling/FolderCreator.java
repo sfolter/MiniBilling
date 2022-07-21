@@ -11,7 +11,6 @@ public class FolderCreator extends Users {
         Users folderName=new Users();
 
 
-
         //        public Users getFolderName() {
 //            return folderName;
 //        }for(i=0,i<=userNames.lenght,i++){
