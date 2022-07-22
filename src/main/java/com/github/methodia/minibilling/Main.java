@@ -3,6 +3,7 @@ package com.github.methodia.minibilling;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -23,7 +24,7 @@ public class Main {
         Readings readingsReadFile = new Readings();
         readingsReadFile.reader(readingsPath);
 
-        ArrayList<Instant> proba1= readingsReadFile.parseToDate();
+        ArrayList<ZonedDateTime> proba1= readingsReadFile.parseToDate();
         for (int i = 0; i < proba1.size(); i++) {
             System.out.println(proba1.get(i));
         }

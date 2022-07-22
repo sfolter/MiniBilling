@@ -6,6 +6,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 public class Readings implements FileReader {
@@ -13,7 +14,7 @@ public class Readings implements FileReader {
     static ArrayList<String> Product = new ArrayList<>();
     static ArrayList<String> DateString = new ArrayList<>();
     static ArrayList<Float> Pokazanie = new ArrayList<>();
-    static ArrayList<Instant> Date = new ArrayList<Instant>();
+    static ArrayList<ZonedDateTime> Date = new ArrayList<ZonedDateTime>();
 
 
 
@@ -46,14 +47,15 @@ public class Readings implements FileReader {
         return readingsList;
     }
 
-    public ArrayList<Instant> parseToDate() {
+    public ArrayList<ZonedDateTime> parseToDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
 
 
 //        for (String dateString : DateString)
 
             for (int i = 0; i < DateString.size(); i++) {
-                Date.add(Instant.parse(DateString.get(i)));
+                ZonedDateTime instant = ZonedDateTime.parse(DateString.get(i));
+                Date.add(instant);
             }
         return Date;
     }
