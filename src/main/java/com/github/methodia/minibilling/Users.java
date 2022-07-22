@@ -5,17 +5,25 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Users implements FileReader {
+    static ArrayList<String> nameList = new ArrayList<>();
+    static ArrayList<String> refList = new ArrayList<>();
 
+    static ArrayList<Integer> numOfPriceList = new ArrayList<>();
 
-    List<String> userNames = new ArrayList<>();
-
-    public List<String> returnNameUser() {
-
-        return userNames;
+    public ArrayList<String> returnNameList() {
+        return nameList;
     }
+
+    public ArrayList<String> returnRefList() {
+        return refList;
+    }
+
+    public ArrayList<Integer> numOfPrice() {
+        return numOfPriceList;
+    }
+
 
     @Override
     public ArrayList<String[]> reader(String path) {
@@ -33,19 +41,15 @@ public class Users implements FileReader {
         }
         for (int i = 0; i < userList.size(); i++) {
             String[] strings = userList.get(i);
-            String name = strings[0];
-            userNames.add(strings[0]);
+            nameList.add(strings[0]);
+            refList.add(strings[1]);
+            numOfPriceList.add(Integer.parseInt(strings[2]));
 
 
-//            String referentenNomer = strings[1];
-//            String nomerNaCenovaLista = strings[2];
-//            System.out.println(name + " " + referentenNomer + " " + nomerNaCenovaLista);
-//
         }
 
         return userList;
     }
-
 
 }
 
