@@ -1,6 +1,9 @@
 package com.github.methodia.minibilling;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.net.URL;
 
 /**
  * @author Miroslav Kovachev
@@ -9,12 +12,17 @@ import org.junit.jupiter.api.Test;
  */
 public class MainTest {
 
-    @Test
+   // @Test
     void testSample1() {
-        //define the args array so that you pass the path to the files from sample1/input
-        final String[] args = {};
-        Main.main(args);
-
-        //read the output and compare with the files in sample1/expected
+//            final String month="21-03";
+//
+//            final URL resource = Main.class.getClassLoader().getResource("sample1/input");
+//            final  String path = resource.getPath();
+//            final String[] args ={month,path};
+//            Main.main(args);
+            //String expectedName =
+    //actualName
+   //     Assertions.assertEquals(expectedName, actualName, message);
     }
+
 }
