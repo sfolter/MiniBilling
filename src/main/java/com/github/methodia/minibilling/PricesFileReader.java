@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,14 +26,15 @@ public class PricesFileReader {
             BufferedReader br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null)
             {
-                String[] pricesData = line.split(", ");
+                String[] pricesData = line.split(",");
                 String stringBeginningDate =pricesData[1];
                 String stringEndDate =pricesData[2];
-                Date beginningDate=new SimpleDateFormat("yyyy-MM-dd").parse(stringBeginningDate);
-                Date endingDate=new SimpleDateFormat("yyyy-MM-dd").parse(stringEndDate);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate start = LocalDate.parse(stringBeginningDate, formatter);
+                LocalDate end = LocalDate.parse(stringEndDate, formatter);
                 Double price= Double.parseDouble(pricesData[3]);
 
-                arrListOfUserInformation.add(new Prices(pricesData[0],beginningDate,endingDate,price));
+                arrListOfUserInformation.add(new Prices(pricesData[0],start,end,price));
             }
         } catch (IOException e) {
             e.printStackTrace();

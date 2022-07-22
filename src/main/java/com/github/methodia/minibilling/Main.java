@@ -1,18 +1,35 @@
 package com.github.methodia.minibilling;
 
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Main {
     public static void main(String[] args) throws Exception {
-        String userDataPath="C:\\Users\\user\\Desktop\\New folder\\users.csv";
-        String reportsDataPath="C:\\Users\\user\\Desktop\\New folder\\readings.csv";
-        String pricesDataPath="C:\\Users\\user\\Desktop\\New folder\\prices.csv";
-        final UsersFileReading usersFileReading = new UsersFileReading(userDataPath);
-        usersFileReading.readToArrayList();
-        PricesFileReader pricesFileReader=new PricesFileReader(pricesDataPath);
-        for (int i = 0; i < usersFileReading.readToArrayList().size() ; i++) {
-            User user= usersFileReading.readToArrayList().get(i);
-            Prices prices=pricesFileReader.readToArrayList().get(i);
-            System.out.println(prices);
+//        final URL resource = Main.class.getClassLoader().getResource("");
+//        final  String path = resource.getPath();
+        Path resourceDirectory = Paths.get("src","test","resources","sample1","input");
+        final String pricesReadingPath=resourceDirectory+"\\" +"prices-1.csv";
+        final String readingsPath=resourceDirectory+"\\" +"readings.csv";
+
+        final UsersFileReading usersFileRead = new UsersFileReading();
+
+        final PricesFileReader pricesFileRead = new PricesFileReader(pricesReadingPath);
+
+        final ReadingsFileReader readingsRead=new ReadingsFileReader(readingsPath);
+        usersFileRead.readToArrayList();
+        pricesFileRead.readToArrayList();
+        readingsRead.readToArrayList();
+        for (int i = 0; i <usersFileRead.readToArrayList().size() ; i++) {
+            User user=usersFileRead.readToArrayList().get(i);
+            for (int j = 0; j <readingsRead.readToArrayList().size() ; j++) {
+                if(user)
+            }
         }
+        System.out.println(readingsRead.readToArrayList());
+
+
+
 
     }
 }
