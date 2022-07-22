@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,13 +19,12 @@ public class PricesReader {
             br = new BufferedReader(new FileReader(directory));
             while ((line = br.readLine()) != null) {
                 String[] price = line.split(",");
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date start = simpleDateFormat.parse(price[1]);
-                Date end = simpleDateFormat.parse(price[2]);
-                LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate start = LocalDate.parse(price[1], formatter);
+                LocalDate end = LocalDate.parse(price[2], formatter);
                 informationForPrices.add(new Prices(price[0], start  , end , Double.parseDouble(price[3])));
             }
-        } catch (IOException|ParseException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return informationForPrices;

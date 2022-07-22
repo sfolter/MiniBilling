@@ -1,14 +1,15 @@
 package com.github.methodia.minibilling;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Prices {
     private String product;
-    private Date start;
-    private Date end;
+    private LocalDate start;
+    private LocalDate end;
     private double price;
 
-    public Prices(String product, Date start, Date end, double price) {
+    public Prices(String product, LocalDate start, LocalDate end, double price) {
         this.product = product;
         this.start = start;
         this.end = end;
@@ -23,19 +24,19 @@ public class Prices {
         this.product = product;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 
