@@ -1,36 +1,33 @@
 package com.github.methodia.minibilling;
 
-import java.net.URL;
+import netscape.javascript.JSObject;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-//        final URL resource = Main.class.getClassLoader().getResource("");
-//        final  String path = resource.getPath();
-        Path resourceDirectory = Paths.get("src","test","resources","sample1","input");
-        final String pricesReadingPath=resourceDirectory+"\\" +"prices-1.csv";
-        final String readingsPath=resourceDirectory+"\\" +"readings.csv";
 
-        final UsersFileReading usersFileRead = new UsersFileReading();
+        Path resourceDirectory = Paths.get("src", "test", "resources", "sample1", "input");
+        final String pricesReadingPath = resourceDirectory + "\\" + "prices-1.csv";
+        final String readingsPath = resourceDirectory + "\\" + "readings.csv";
 
-        final PricesFileReader pricesFileRead = new PricesFileReader(pricesReadingPath);
+        final PricesFileReader pricesFileRead = new PricesFileReader();
+        final ReadingsFileReader readingsRead = new ReadingsFileReader();
+        UsersFileReading usersFileRead = new UsersFileReading();
+        usersFileRead.convertUsersInformationToMap();
+        pricesFileRead.convertPricesInformationToMap();
+        readingsRead.convertReadingsInformationToMap(true);
+        readingsRead.convertReadingsInformationToMap(false);
+        System.out.println(readingsRead.convertReadingsInformationToMap(true));
+        System.out.println(readingsRead.convertReadingsInformationToMap(false));
 
-        final ReadingsFileReader readingsRead=new ReadingsFileReader(readingsPath);
-        usersFileRead.readToArrayList();
-        pricesFileRead.readToArrayList();
-        readingsRead.readToArrayList();
-        for (int i = 0; i <usersFileRead.readToArrayList().size() ; i++) {
-            User user=usersFileRead.readToArrayList().get(i);
-            for (int j = 0; j <readingsRead.readToArrayList().size() ; j++) {
-                if(user)
-            }
+
         }
-        System.out.println(readingsRead.readToArrayList());
-
-
-
 
     }
-}
+
+
+
 

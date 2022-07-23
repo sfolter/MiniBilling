@@ -11,12 +11,29 @@ public class Prices {
     LocalDate endDate;
     double price;
 
+
     public Prices(String product, LocalDate startingDate, LocalDate endDate, double price) {
         this.product = product;
         this.startingDate = startingDate;
         this.endDate = endDate;
         this.price = price;
     }
+    public String getProduct() {
+        return product;
+    }
+
+    public LocalDate getStartingDate() {
+        return startingDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         return "Prices{" +
