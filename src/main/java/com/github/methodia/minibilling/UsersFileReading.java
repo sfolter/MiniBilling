@@ -4,32 +4,34 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.*;
 import java.io. * ;
-
 
 public class UsersFileReading implements FileReading {
     String path;
+    final  Path resourceDirectory = Paths.get("src","test","resources","sample1","input");
 
-    final private Path resourceDirectory = Paths.get("src","test","resources","sample1","input");
+    final  String usersFilePath=resourceDirectory+"\\" +"users.csv";
 
-    final private String usersReadingPath=resourceDirectory+"\\" +"users.csv";
     public UsersFileReading() {
-        this.path=usersReadingPath;
+        this.path=usersFilePath;
     }
 
-    public ArrayList<User> parseToMap() {
+    public  Map<String, List<User>> convertUsersInformationToMap() {
+
         String line = "";
-        ArrayList<User> arrListOfUserInformation=new ArrayList<>();
+       Map<String, List<User>> mapOfUsersInformation=new LinkedHashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null)
             {
                 String[] client = line.split(",");
-                arrListOfUserInformation.add(new User(client[0],client[1],Integer.parseInt(client[2])));
+                mapOfUsersInformation.putIfAbsent(client[1], new ArrayList<>());
+                mapOfUsersInformation.get(client[1]).add(new User(client[0],client[1],Integer.parseInt(client[2])));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return arrListOfUserInformation; }
+        return mapOfUsersInformation; }
 }
+
