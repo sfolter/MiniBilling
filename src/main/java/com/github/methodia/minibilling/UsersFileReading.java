@@ -7,17 +7,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.io. * ;
 
+
 public class UsersFileReading implements FileReading {
     String path;
 
-   final private Path resourceDirectory = Paths.get("src","test","resources","sample1","input");
+    final private Path resourceDirectory = Paths.get("src","test","resources","sample1","input");
 
     final private String usersReadingPath=resourceDirectory+"\\" +"users.csv";
     public UsersFileReading() {
         this.path=usersReadingPath;
     }
 
-    public ArrayList<User> readToArrayList() {
+    public ArrayList<User> parseToMap() {
         String line = "";
         ArrayList<User> arrListOfUserInformation=new ArrayList<>();
         try {

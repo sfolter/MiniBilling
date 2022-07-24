@@ -17,6 +17,23 @@ public class Prices {
         this.endDate = endDate;
         this.price = price;
     }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public LocalDate getStartingDate() {
+        return startingDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         return "Prices{" +
