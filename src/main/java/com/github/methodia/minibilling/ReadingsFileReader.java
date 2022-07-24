@@ -1,44 +1,49 @@
 package com.github.methodia.minibilling;
 
 
-import java.io.*;
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ReadingsFileReader  implements FileReading{
-                    String path;
+public class ReadingsFileReader implements FileReading {
 
-        public ReadingsFileReader(String path) {
-                        this.path = path;
-                    }
+    String path;
 
-                    public ArrayList<Readings> readToArrayList()throws Exception {
-                        String line = "";
-                        ArrayList<Readings> arrListOfUserInformation=new ArrayList<>();
-                        try {
-                            BufferedReader br =new BufferedReader (new FileReader(path));
-                            while ((line = br.readLine()) != null)
-                            {
-                                //TODO:Продукт Дата (формат yyyy-MM-dd'T'HH:mm:ss'Z') Стойност (число с плаваща запетая)
 
-                                String[] data = line.split(",");
-                                String referentNumber= data[0];
-                                String product= data[1];
-                                String time=data[2];
-                                ZonedDateTime instant=ZonedDateTime.parse(time);
-                                double price= Double.parseDouble(data[3]);
-
-                    arrListOfUserInformation.add(new Readings(referentNumber,product,instant,price));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return arrListOfUserInformation; }
+    public ReadingsFileReader(String path) {
+        this.path = path;
     }
+
+    public Map<String, List<Readings>> readToArrayList() throws Exception {
+        String line = "";
+        Map<String, List<Readings>> result = new HashMap<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String referentNumber = data[0];
+                String product = data[1];
+                String time = data[2];
+                ZonedDateTime instant = ZonedDateTime.parse(time);
+                double price = Double.parseDouble(data[3]);
+                List<Readings> list = new ArrayList<>();
+                if (result.get(referentNumber) == null) {
+                    list.add(new Readings(referentNumber, product, instant, price));
+                    result.put(referentNumber, list);
+                } else{
+                    result.get(referentNumber).add(new Readings(referentNumber, product, instant, price));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+}
 

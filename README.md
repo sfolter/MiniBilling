@@ -72,7 +72,7 @@ Mini Billing
   },...]
 }
 ```
-
+                    user.getNumberPricingList(), reading.getMetrics(), String.valueOf(price.startingDate),String.valueOf(price.endDate),reading.getProduct(),price.getPrice(),user.numberPricingList,reading.getMetrics()*price.getPrice(),user.getNumberPricingList(),reading.getMetrics()*price.getPrice();
 където
 - documentDate - дата на издаване на документа
 - documentNumber - номер на документа/фактурата (същия номер, както и на файла)
@@ -88,3 +88,4 @@ Mini Billing
 - lines.price - цена, която сме определили
 - lines.priceList - номера на ценовата листа
 - lines.amount - дължимата сума по тази линия
+ 
