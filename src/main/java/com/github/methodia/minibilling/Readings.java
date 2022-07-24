@@ -41,30 +41,4 @@ public class Readings {
                 ", metrics=" + price +
                 '}';
     }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public String getRefferentNumber() {
-        return refferentNumber;
-    }
-
-    public ZonedDateTime getDate() {
-        return date;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    @Override
-    public String toString() {
-        return "Readings{" +
-                " refferentNumber='" + refferentNumber + '\'' +
-                "product='" + product + '\'' +
-                ", date=" + date +
-                ", price=" + price +
-                '}';
-    }
 }
