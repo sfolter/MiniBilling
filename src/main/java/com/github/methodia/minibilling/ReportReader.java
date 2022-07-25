@@ -2,26 +2,40 @@ package com.github.methodia.minibilling;
 import java.io.*;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ReportReader {
-    public ArrayList<Report> informationForReport = new ArrayList<>();
 
-    public ArrayList<Report> readReportToList(String directory) {
+
+    public Map<String, List<Report>> readReportToList(String directory) {
         String line = "";
-
+        Map<String, List<Report>> result = new HashMap<>();
         try {
             BufferedReader br =new BufferedReader (new InputStreamReader(new FileInputStream(directory), "UTF-8"));
             while ((line = br.readLine()) != null) {
                 String[] report = line.split(",");
+                String referentNumber=report[0];
+                String product = report[1];
                 String date = report[2];
                 ZonedDateTime instant=ZonedDateTime.parse(date);
-                informationForReport.add(new Report(report[0], report
-                        [1], instant, Double.parseDouble(report[3])));
+                double price =Double.parseDouble(report[3]);
+                List <Report> list= new ArrayList<>();
+//                informationForReport.add(new Report(report[0], report
+//                        [1], instant, Double.parseDouble(report[3])));
+//            }
+                if (result.get(referentNumber) == null) {
+                    list.add(new Report(referentNumber, product, instant, price));
+                    result.put(referentNumber, list);
+                } else{
+                    result.get(referentNumber).add(new Report(referentNumber, product, instant, price));
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return informationForReport;
+        return result;
     }
 }
 
