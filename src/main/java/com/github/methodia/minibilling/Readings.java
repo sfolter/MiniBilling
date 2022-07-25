@@ -14,6 +14,23 @@ public class Readings implements FileReader {
     static ArrayList<Float> pokazanie = new ArrayList<>();
     static ArrayList<ZonedDateTime> parsedData = new ArrayList<ZonedDateTime>();
 
+
+    public ArrayList<String> getReferentialNumberReadings() {
+        return referentialNumberReadings;
+    }
+
+    public  ArrayList<String> getProduct() {
+        return product;
+    }
+
+    public ArrayList<Float> getPokazanie() {
+        return pokazanie;
+    }
+
+    public ArrayList<ZonedDateTime> getParsedData() {
+        return parsedData;
+    }
+
     @Override
     public ArrayList<String[]> reader(String path) {
         String[] readingsLineInArray;

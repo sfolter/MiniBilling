@@ -2,6 +2,8 @@ package com.github.methodia.minibilling;
 
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
+
 /**
  * @author Miroslav Kovachev
  * 21.07.2022
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class MainTest {
 
     @Test
-    void testSample1() {
+    void testSample1() throws ParseException {
         //define the args array so that you pass the path to the files from sample1/input
         final String[] args = {};
         Main.main(args);

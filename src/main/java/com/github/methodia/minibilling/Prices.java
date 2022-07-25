@@ -4,17 +4,37 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Prices implements FileReader{
 
     static ArrayList<String> productInPrices = new ArrayList<>();
-    static ArrayList<String> startDateString = new ArrayList<>();
-    static ArrayList<ZonedDateTime> parsedStartDate = new ArrayList<>();
-    static ArrayList<String> endDateString = new ArrayList<>();
-    static ArrayList<ZonedDateTime> parsedEndDate = new ArrayList<>();
+    static ArrayList<LocalDate> parsedStartDate = new ArrayList<>();
+
+    static ArrayList<LocalDate> parsedEndDate = new ArrayList<>();
     static ArrayList<Float> price = new ArrayList<>();
+
+    public ArrayList<String> getProductInPrices() {
+        return productInPrices;
+    }
+
+    public ArrayList<LocalDate> getParsedStartDate() {
+        return parsedStartDate;
+    }
+
+    public ArrayList<LocalDate> getParsedEndDate() {
+        return parsedEndDate;
+    }
+
+    public  ArrayList<Float> getPrice() {
+        return price;
+    }
+
     @Override
     public ArrayList<String[]> reader(String path) {
         String[] pricesLineInArray;
@@ -32,25 +52,14 @@ public class Prices implements FileReader{
         for (int i = 0; i < pricesList.size(); i++) {
             String[] strings = pricesList.get(i);
             productInPrices.add(strings[0]);
-            startDateString.add(strings[1]);
-            endDateString.add(strings[2]);
+            LocalDate parsedStartDate = LocalDate.parse(strings[1]);
+            Prices.parsedStartDate.add(parsedStartDate);
+            LocalDate parsedEndDate = LocalDate.parse(strings[2]);
+            Prices.parsedEndDate.add(parsedEndDate);
             price.add(Float.parseFloat(strings[3]));
 
         }
         return pricesList;
     }
-    public ArrayList<ZonedDateTime> startDateParsing() {
-        for (int i = 0; i < startDateString.size(); i++) {
-            ZonedDateTime instant = ZonedDateTime.parse(startDateString.get(i));
-            parsedStartDate.add(instant);
-        }
-        return parsedStartDate;
-    }
-    public ArrayList<ZonedDateTime> endDateParsing() {
-        for (int i = 0; i < endDateString.size(); i++) {
-            ZonedDateTime instant = ZonedDateTime.parse(endDateString.get(i));
-            parsedEndDate.add(instant);
-        }
-        return parsedEndDate;
-    }
+
 }
