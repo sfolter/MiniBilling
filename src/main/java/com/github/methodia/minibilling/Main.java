@@ -73,17 +73,18 @@ public class Main {
             String folderPath=outputPath+"\\"+user.getName() + "-" + user.getReferentNumber();
             File creatingFolders = new File(folderPath);
             boolean bool2 = creatingFolders.mkdirs();
-            File creatingFiles= new File(folderPath+"\\"+user.getName()+"-"+user.getReferentNumber());
-            creatingFiles.createNewFile();
+
             Date jud = new SimpleDateFormat("yy-MM-dd").parse(reportTime);
             String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
-            System.out.println(month);
-         //   Форматът на името за текстовия файл, за фактурата е: {пореден-номер}-{месец}-{година}.json
+            String [] splitDate=month.split("\\s+");
+            String monthInCyrilic=splitDate[1];
 
-//            Path jsonFilePath = Paths.get(user.getName() + "-" + user.getReferentNumber());
-//            File yourFile = new File(user.getName()+"-"+user.getReferentNumber());
-//            yourFile.createNewFile(); // if file already exists will do nothing
-//            FileOutputStream oFile = new FileOutputStream(yourFile, false);
+            String jsonFilePath=folderPath+"\\"+outputClass.documentNumber+"-"+monthInCyrilic+".json";
+            File creatingFiles= new File(jsonFilePath);
+            creatingFiles.createNewFile();
+
+
+            outputClass=new OutputClass();
 
         }
 
