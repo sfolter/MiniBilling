@@ -4,11 +4,11 @@ package com.github.methodia.minibilling;
 
 public class User {
 
-    String name;
+   private String name;
 
-    String referentNumber;
+    private String referentNumber;
 
-    int numberPricingList;
+    private int numberPricingList;
 
     public User(String name, String referentNumber, int numberPricingList) {
         this.name = name;
