@@ -3,10 +3,10 @@ package com.github.methodia.minibilling;
 import java.time.ZonedDateTime;
 
 public class Readings {
-    String product;
+  private   String product;
 
-    String referentNUmber;
-    ZonedDateTime date;
+   private String referentNUmber;
+    private ZonedDateTime date;
 
     double price;
     public Readings(String referentNumber,String product, ZonedDateTime date, double metrics) {

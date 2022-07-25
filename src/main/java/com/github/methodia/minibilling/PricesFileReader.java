@@ -8,13 +8,11 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PricesFileReader implements FileReading {
 
-    public  List<Prices> readToArrayList(String path) throws ParseException {
+    public  List<Prices> parseToArrayList(String path) throws ParseException {
         String line = "";
         List<Prices>result = new ArrayList<>();
         try {

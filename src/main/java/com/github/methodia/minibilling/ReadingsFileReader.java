@@ -20,7 +20,7 @@ public class ReadingsFileReader implements FileReading {
         this.path = path;
     }
 
-    public Map<String, List<Readings>> readToArrayList() throws Exception {
+    public Map<String, List<Readings>> parseToMap() throws Exception {
         String line = "";
         Map<String, List<Readings>> result = new HashMap<>();
         try {

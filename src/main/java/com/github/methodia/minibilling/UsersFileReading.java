@@ -18,7 +18,7 @@ public class UsersFileReading implements FileReading {
         this.path=usersReadingPath;
     }
 
-    public ArrayList<User> parseToMap() {
+    public ArrayList<User> parseToArrayList() {
         String line = "";
         ArrayList<User> arrListOfUserInformation=new ArrayList<>();
         try {

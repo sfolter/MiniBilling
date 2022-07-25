@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class Prices {
-    String product;
-    LocalDate startingDate;
-    LocalDate endDate;
-    double price;
+    private String product;
+    private LocalDate startingDate;
+    private LocalDate endDate;
+    private double price;
 
     public Prices(String product, LocalDate startingDate, LocalDate endDate, double price) {
         this.product = product;
