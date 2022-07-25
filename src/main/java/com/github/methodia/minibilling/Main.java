@@ -43,12 +43,8 @@ public class Main {
                 for (Prices price :prices){
                     if(reading.getProduct().equals(price.getProduct())){
 
-                        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                        outputClass.documentDate=ZonedDateTime.now().format(formatter);
-                        outputClass.documentNumber=user.getReferentNumber();
-                        outputClass.consumer=user.getName();
-                        outputClass.reference=user.getReferentNumber();
-                        outputClass.totalAmount=reading.getMetrics()*price.getPrice();
+
+
                         Lines line=new Lines();
                         line.index=user.getNumberPricingList();
                         line.quantity=reading.getMetrics();
@@ -58,9 +54,18 @@ public class Main {
                         line.price=price.getPrice();
                         line.priceList=user.getNumberPricingList();
                         line.amount=reading.getMetrics()*price.getPrice();
-
+                        double totalAmountCounter=0;
                         outputClass.lines.add(line);
+                        for (int i = 0; i<outputClass.lines.size() ; i++) {
 
+                            totalAmountCounter+=line.amount;
+                        }
+                        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                        outputClass.documentDate=ZonedDateTime.now().format(formatter);
+                        outputClass.documentNumber=user.getReferentNumber();
+                        outputClass.consumer=user.getName();
+                        outputClass.reference=user.getReferentNumber();
+                        outputClass.totalAmount=totalAmountCounter*price.getPrice();
                         reportTime=String.valueOf(reading.getDate());
                     }
                 }
