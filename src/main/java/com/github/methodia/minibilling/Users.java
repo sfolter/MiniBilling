@@ -12,8 +12,7 @@ public class Users {
         this.priceListNumber = priceListNumber;
     }
 
-    public Users() {
-    }
+
 
 
     public String getUserName() {
@@ -28,11 +27,11 @@ public class Users {
         return priceListNumber;
     }
 
-    @Override
-    public String toString() {
-        // return String.format("%s %s %d %n",this.userName,this.referenceNumber,this.priceListNumber);
-        return   this.userName + " " +
-                this.referenceNumber + " " +
-                this.priceListNumber + "\n";
-    }
+ //   @Override
+//    public String toString() {
+//        // return String.format("%s %s %d %n",this.userName,this.referenceNumber,this.priceListNumber);
+//        return   this.userName + " " +
+//                this.referenceNumber + " " +
+//                this.priceListNumber + "\n";
+//    }
 }

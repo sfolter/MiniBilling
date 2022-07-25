@@ -6,30 +6,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVUserReader {
-    public List<Users> read(String csvFile) {
-        List<Users> listOfUsers = new ArrayList<>();
+public class CSVUserReader  {
+    public ArrayList<Users> read() {
+        ArrayList<Users> listOfUsers = new ArrayList<>();
         String line = "";
-        try {
-            //parsing a CSV file into BufferedReader class constructor
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\user\\Desktop\\users.csv"));
 
-            while ((line = br.readLine()) != null)
+            try {
+                //parsing a CSV file into BufferedReader class constructor
+                BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\user\\MiniBilling1\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv"));
 
-            {
-                String[] client = line.split(", ");
-
-
-              listOfUsers.add(new Users(client[0], client[1], Integer.parseInt(client[2])));
+                while ((line = br.readLine()) != null) {
+                    String[] client = line.split(",");
 
 
+                    listOfUsers.add(new Users(client[0], client[1], Integer.parseInt(client[2])));
+
+
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        // return listOfUsers;
-        return  listOfUsers;
+            return listOfUsers;
+        }
     }
-}
+
+

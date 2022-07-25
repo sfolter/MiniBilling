@@ -1,30 +1,25 @@
 package com.github.methodia.minibilling;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
 
-import static java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+
 import static java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME;
 
 public class CSVReportsReader {
 
 
-    public List<Reports> read(String csvFile) throws IOException, ParseException {
+    public Map<String, List<Readings>> read() throws IOException, ParseException {
+        Map<String, List<Readings>> listOfReports = new HashMap<>();
 
-        List<Reports> listOfReports = new ArrayList<>();
         String line = "";
 
         try {
@@ -34,7 +29,7 @@ public class CSVReportsReader {
 
                 String[] reports = line.split(",");
 
-
+                List<Readings> list = new ArrayList<>();
                 int indication = Integer.parseInt(reports[3]);
 
                 String jtdate = reports[2];
@@ -43,8 +38,8 @@ public class CSVReportsReader {
                 DateTime dateTime = parser.parseDateTime(jtdate);
 
 
-                listOfReports.add(new Reports(reports[0], reports[1], dateTime, indication));
-
+                list.add(new Readings(reports[0], reports[1], dateTime, indication));
+                listOfReports.put(reports[0], list);
 
             }
 
@@ -57,6 +52,5 @@ public class CSVReportsReader {
     }
 
 
-    private Date datebl;
 }
 

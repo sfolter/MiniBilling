@@ -3,7 +3,7 @@ package com.github.methodia.minibilling;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
-public class Prices extends Reports {
+public class Prices {
     private String product;
     private LocalDate startDate;
     private LocalDate endDate;
