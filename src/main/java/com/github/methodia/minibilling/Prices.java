@@ -4,14 +4,36 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Prices implements FileReader {
 
-    static ArrayList<String> product = new ArrayList<>();
-    static ArrayList<String> lineStart = new ArrayList<>();
-    static ArrayList<String> lineEnd = new ArrayList<>();
+    static ArrayList<String> productInPrices = new ArrayList<>();
+    static ArrayList<LocalDate> parsedStartDate = new ArrayList<>();
+
+    static ArrayList<LocalDate> parsedEndDate = new ArrayList<>();
     static ArrayList<Float> price = new ArrayList<>();
+
+    public ArrayList<String> getProductInPrices() {
+        return productInPrices;
+    }
+
+    public ArrayList<LocalDate> getParsedStartDate() {
+        return parsedStartDate;
+    }
+
+    public ArrayList<LocalDate> getParsedEndDate() {
+        return parsedEndDate;
+    }
+
+    public  ArrayList<Float> getPrice() {
+        return price;
+    }
 
     @Override
     public ArrayList<String[]> reader(String path) {
@@ -29,13 +51,15 @@ public class Prices implements FileReader {
         }
         for (int i = 0; i < pricesList.size(); i++) {
             String[] strings = pricesList.get(i);
-            product.add(strings[0]);
-            lineStart.add(strings[1]);
-            lineEnd.add(strings[2]);
+            productInPrices.add(strings[0]);
+            LocalDate parsedStartDate = LocalDate.parse(strings[1]);
+            Prices.parsedStartDate.add(parsedStartDate);
+            LocalDate parsedEndDate = LocalDate.parse(strings[2]);
+            Prices.parsedEndDate.add(parsedEndDate);
             price.add(Float.parseFloat(strings[3]));
-
 
         }
         return pricesList;
     }
 }
+

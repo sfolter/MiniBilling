@@ -7,23 +7,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Users implements FileReader {
-    static ArrayList<String> namesFolders = new ArrayList<>();
-    static ArrayList<String> referentenZaPapka = new ArrayList<>();
-    static ArrayList<Integer> numberofPriceList =new ArrayList<>();
+    static ArrayList<String> nameList = new ArrayList<>();
+    static ArrayList<String> refList = new ArrayList<>();
 
-    public ArrayList<String> getNamesForFolders() {
-        return namesFolders;
+    static ArrayList<Integer> numOfPriceList = new ArrayList<>();
+
+    public ArrayList<String> returnNameList() {
+        return nameList;
     }
 
-    public ArrayList<String> getReferentenForFolders() {
-        return referentenZaPapka;
+    public ArrayList<String> returnRefList() {
+        return refList;
     }
 
-    public ArrayList<Integer> getNumberofPriceListPriceList(){
-        return numberofPriceList;
+    public ArrayList<Integer> numOfPrice() {
+        return numOfPriceList;
     }
 
 
+    @Override
     public ArrayList<String[]> reader(String path) {
         String[] lineInArray;
         ArrayList<String[]> userList = new ArrayList<>();
@@ -39,13 +41,14 @@ public class Users implements FileReader {
         }
         for (int i = 0; i < userList.size(); i++) {
             String[] strings = userList.get(i);
+            nameList.add(strings[0]);
+            refList.add(strings[1]);
+            numOfPriceList.add(Integer.parseInt(strings[2]));
 
-            namesFolders.add(strings[0]);
-            referentenZaPapka.add(strings[1]);
-            numberofPriceList.add(Integer.parseInt(strings[2]));
 
         }
 
         return userList;
     }
+
 }

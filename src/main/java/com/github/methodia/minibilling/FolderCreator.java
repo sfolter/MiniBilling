@@ -4,18 +4,26 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class FolderCreator {
+    public ArrayList<String> folderPath=new ArrayList<>();
+
+
+    public ArrayList<String> getFolderPath() {
+        return folderPath;
+    }
+
     public void createFolders() {
-        String path = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\proba\\";
-        Users proba1 = new Users();
-        ArrayList<String> usernames = proba1.getNamesForFolders();
+        String path = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\usernames\\";
+        Users newUser = new Users();
+        ArrayList<String> userNames = newUser.returnNameList();
+        ArrayList<String> userRef = newUser.returnRefList();
 
-        ArrayList<String> referenten = proba1.getReferentenForFolders();
 
-
-        for (int i = 0; i < usernames.size(); i++) {
-            File f1 = new File(path + usernames.get(i) + "-" + referenten.get(i));
-            boolean bool2 = f1.mkdirs();
+        for (int m = 0; m < userNames.size(); m++) {
+            folderPath.add( path + userNames.get(m) + "-" + userRef.get(m));
+            File newFolder = new File(folderPath.get(m));
+            boolean bool2 = newFolder.mkdirs();
 
         }
+
     }
 }

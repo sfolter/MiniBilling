@@ -10,14 +10,28 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 public class Readings implements FileReader {
-    static ArrayList<String> referentenZaUser = new ArrayList<>();
-    static ArrayList<String> Product = new ArrayList<>();
-    static ArrayList<String> DateString = new ArrayList<>();
-    static ArrayList<Float> Pokazanie = new ArrayList<>();
-    static ArrayList<ZonedDateTime> Date = new ArrayList<ZonedDateTime>();
+    static ArrayList<String> referentialNumberReadings = new ArrayList<>();
+    static ArrayList<String> product = new ArrayList<>();
+    static ArrayList<String> dataString = new ArrayList<>();
+    static ArrayList<Float> pokazanie = new ArrayList<>();
+    static ArrayList<ZonedDateTime> parsedData = new ArrayList<ZonedDateTime>();
 
 
+    public ArrayList<String> getReferentialNumberReadings() {
+        return referentialNumberReadings;
+    }
 
+    public  ArrayList<String> getProduct() {
+        return product;
+    }
+
+    public ArrayList<Float> getPokazanie() {
+        return pokazanie;
+    }
+
+    public ArrayList<ZonedDateTime> getParsedData() {
+        return parsedData;
+    }
 
     @Override
     public ArrayList<String[]> reader(String path) {
@@ -35,29 +49,22 @@ public class Readings implements FileReader {
         }
         for (int i = 0; i < readingsList.size(); i++) {
             String[] strings = readingsList.get(i);
-            referentenZaUser.add(strings[0]);
-            Product.add(strings[1]);
-            DateString.add(strings[2]);
-            Pokazanie.add(Float.parseFloat(strings[3]));
-
+            referentialNumberReadings.add(strings[0]);
+            product.add(strings[1]);
+            dataString.add(strings[2]);
+            pokazanie.add(Float.parseFloat(strings[3]));
 
         }
-
 
         return readingsList;
     }
 
-    public ArrayList<ZonedDateTime> parseToDate() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
-
-
-//        for (String dateString : DateString)
-
-            for (int i = 0; i < DateString.size(); i++) {
-                ZonedDateTime instant = ZonedDateTime.parse(DateString.get(i));
-                Date.add(instant);
-            }
-        return Date;
+    public ArrayList<ZonedDateTime> dateParsing() {
+        for (int i = 0; i < dataString.size(); i++) {
+            ZonedDateTime instant = ZonedDateTime.parse(dataString.get(i));
+            parsedData.add(instant);
+        }
+        return parsedData;
     }
 }
 
