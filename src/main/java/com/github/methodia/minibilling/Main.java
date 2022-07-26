@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws ParseException, IOException {
+    public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
         Scanner scanner = new Scanner(System.in);
         String userPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv";
         Users userReadingFile = new Users();
@@ -28,6 +28,7 @@ public class Main {
         String readingsPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\readings.csv";
         Readings readingsReadFile = new Readings();
         ArrayList<String[]> readingsList = readingsReadFile.reader(readingsPath);
+        ArrayList<Float> quantity1 = readingsReadFile.getQuantity();
         String pricesPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv";
         Prices pricesReadFile = new Prices();
         ArrayList<String[]> priceList = pricesReadFile.reader(pricesPath);
@@ -39,28 +40,32 @@ public class Main {
         JSONObject json = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < usersList.size(); i++) {
+
             String[] lineInUser = usersList.get(i);
             String name = lineInUser[0];
             int numOfPriceList = Integer.parseInt(lineInUser[2]);
             String refNum = lineInUser[1];
-            String[] lineInReadings = readingsList.get(i);
-            String refReadFirst = lineInReadings[0];
-            float pokazanieFirst = Float.parseFloat(lineInReadings[3]);
-            ZonedDateTime startLineDate = ZonedDateTime.parse(lineInReadings[2]);
             for (int j = readingsList.size() / 2; j < readingsList.size(); j++) {
+                String[] lineInReadings = readingsList.get(i);
+                String refReadFirst = lineInReadings[0];
+                float pokazanieFirst = Float.parseFloat(lineInReadings[3]);
+                ZonedDateTime startLineDate = ZonedDateTime.parse(lineInReadings[2]);
                 lineInReadings = readingsList.get(j);
                 String refReadSecond = lineInReadings[0];
                 String product = lineInReadings[1];
                 ZonedDateTime endLineDate = ZonedDateTime.parse(lineInReadings[2]);
                 float pokazanieSecond = Float.parseFloat(lineInReadings[3]);
+                if (refReadFirst.equals(refReadSecond)) {
+                    quantity = pokazanieSecond - pokazanieFirst;
+                }
                 if (refNum.equals(refReadSecond)) {
                     for (int k = 0; k < priceList.size(); k++) {
+
                         String[] lineInPrices = priceList.get(k);
                         String productInPrices = lineInPrices[0];
                         LocalDate startDate = LocalDate.parse(lineInPrices[1]);
                         LocalDate endDate = LocalDate.parse(lineInPrices[2]);
                         float price = Float.parseFloat(lineInPrices[3]);
-
 
                         if (product.equals(productInPrices)) {
                             json.put("consumer", lineInUser[0]);
@@ -68,10 +73,7 @@ public class Main {
                             json.put("lines", lines);
                             JSONObject newLine = new JSONObject();
                             newLine.put("index", 1);
-                            if (refReadFirst.equals(refReadSecond)) {
-                                 quantity = pokazanieSecond - pokazanieFirst;
-                                 amount = quantity * price;
-                            }
+
                             newLine.put("quantity", quantity);
                             newLine.put("amount", amount);
                             newLine.put("lineStart", lineInReadings[2]);
@@ -80,6 +82,7 @@ public class Main {
                             newLine.put("price", price);
                             newLine.put("priceList", numOfPriceList);
                             lines.add(newLine);
+
                             Date jud = new SimpleDateFormat("yy-MM-dd").parse(lineInReadings[2]);
                             String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
                             String[] splitDate = month.split("\\s+");
@@ -90,7 +93,6 @@ public class Main {
                             file = new FileWriter(folderPath.get(i) + "//" + fileWriter + ".json");
                             file.write(json.toJSONString());
                         }
-
                     }
                     p++;
                 }
@@ -102,4 +104,5 @@ public class Main {
 
         }
     }
+
 }
