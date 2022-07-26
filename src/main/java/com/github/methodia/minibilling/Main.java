@@ -98,12 +98,12 @@ public class Main {
                 File creatingFolders = new File(folderPath);
                 boolean bool2 = creatingFolders.mkdirs();
 
-                Date jud = new SimpleDateFormat("yy-MM-dd").parse(reportTime);
+                Date jud = new SimpleDateFormat("yy-MM").parse(reportTime);
                 String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
                 String[] splitDate = month.split("\\s+");
                 String monthInCyrilic = splitDate[1];
-
-                String jsonFilePath = folderPath + "\\" + outputClass.documentNumber + "-" + monthInCyrilic + ".json";
+                int outputOfTheYear=lastReadingForUserDateYear%100;
+                String jsonFilePath = folderPath + "\\" + outputClass.documentNumber + "-" + monthInCyrilic + "-"+outputOfTheYear+".json";
                 File creatingFiles = new File(jsonFilePath);
                 creatingFiles.createNewFile();
                 try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
@@ -120,7 +120,7 @@ public class Main {
     }
 
     private static class OutputClass {
-        String documentDate;
+                String documentDate;
         String documentNumber;
         String consumer;
         String reference;

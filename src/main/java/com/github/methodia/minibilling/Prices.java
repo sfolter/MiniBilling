@@ -36,12 +36,7 @@ public class Prices {
 
     @Override
     public String toString() {
-        return "Prices{" +
-                "product='" + product + '\'' +
-                ", startingDate=" + startingDate +
-                ", endDate=" + endDate +
-                ", price=" + price +
-                '}';
+        return  "product='" + getProduct() + ", startingDate=" + getStartingDate() + ", endDate=" + getEndDate()+ ", price=" + getPrice();
     }
 
 
