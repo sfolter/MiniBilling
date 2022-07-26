@@ -28,7 +28,7 @@ public class Main {
                 .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
                 .toFormatter();
         LocalDate borderTime=LocalDate.parse(dateToReporting,formatterBorderTime);
-        //ZonedDateTime borderTime=ZonedDateTime.parse(dateToReporting,formatterBorderTime);
+
 
 
         Path resourceDirectory = Paths.get("src", "test", "resources", "sample1", "input");
@@ -60,7 +60,9 @@ public class Main {
             Month lastReadingForUserDateMonth=lastReadingForUser.getDate().getMonth();
             int lastReadingForUserDateYear=lastReadingForUser.getDate().getYear();
             LocalDate lastReadingForUserInLocalDate=LocalDate.of(lastReadingForUserDateYear,lastReadingForUserDateMonth,lastReadingForUserDateDay);
+
             if(lastReadingForUserInLocalDate.isBefore(borderTime)) {
+
                 double quantity = lastReadingForUser.getMetrics() - firstReadingForUser.getMetrics();
                 lastReadingForUser.getMetrics();
                 firstReadingForUser.getMetrics();
@@ -90,8 +92,7 @@ public class Main {
                 reportTime = String.valueOf(lastReadingForUser.getDate());
 
 
-                //todo kato e gotovo pravish edin output class (example below), mapvash gotovoto info kum nego
-                //finish with outplustClass.jsonify() or toJson() depending on what library you are using
+
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 String json = gson.toJson(outputClass);
                 String folderPath = outputPath + "\\" + user.getName() + "-" + user.getReferentNumber();
