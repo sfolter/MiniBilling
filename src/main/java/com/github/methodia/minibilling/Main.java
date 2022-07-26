@@ -3,11 +3,12 @@ package com.github.methodia.minibilling;
 import com.google.gson.Gson;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Miroslav Kovachev
@@ -31,34 +32,37 @@ public class Main {
         String directoryPrices = resourceDirectory + "prices-1.csv";
         String directoryReport = resourceDirectory + "readings.csv";
 
+
         final ClientReader clientReader = new ClientReader();
         final PriceReader pricesReader = new PriceReader();
         final ReportReader reportReader = new ReportReader();
 
         Bill bill = new Bill();
+        String reportTime = "";
+
         ArrayList<Client> clients = clientReader.readClientsToList(directoryClients);
         Map<String, List<Report>> readings = reportReader.readReportForGasToMap(directoryReport);
         Map<String, List<Prices>> prices = pricesReader.readPricesToMap(directoryPrices);
 
         for (Client client : clients) {
             //create folder
-            String folderName = resourceDirectory + client.getName() + "-" + client.getReferenseNumber();
-            File theDir = new File(folderName);
+            String folderPath = resourceDirectory + client.getName() + "-" + client.getReferenseNumber();
+            File theDir = new File(folderPath);
             if (!theDir.exists()) {
                 theDir.mkdirs();
             }
             //class connecting
             List<Report> readingsForUser = readings.get(client.getReferenseNumber());
-            Report FirstReportInArray = readings.get(client.getReferenseNumber()).get(0);
-            Report LastReportInArray = readings.get(client.getReferenseNumber()).get(readingsForUser.size() - 1);
+            Report firstReportInArray = readings.get(client.getReferenseNumber()).get(0);
+            Report lastReportInArray = readings.get(client.getReferenseNumber()).get(readingsForUser.size() - 1);
             final String pricesReadingPath = resourceDirectory + "prices-" + client.getNumberOfPriceList() + ".csv";
             prices.get("gas");
 
             Line line = new Line();
             line.index = client.getNumberOfPriceList();
-            line.quantity = LastReportInArray.getValue() - FirstReportInArray.getValue();
-            line.lineStart = String.valueOf(FirstReportInArray.getData());//
-            line.lineEnd = String.valueOf(LastReportInArray.getData());//
+            line.quantity = lastReportInArray.getValue() - firstReportInArray.getValue();
+            line.lineStart = String.valueOf(firstReportInArray.getData());//
+            line.lineEnd = String.valueOf(lastReportInArray.getData());//
             line.product = readings.get(client.getReferenseNumber()).get(0).getProduct();
             line.price = prices.get("gas").get(0).getPrice();
             line.priceList = client.getNumberOfPriceList();
@@ -79,26 +83,28 @@ public class Main {
             }
             bill.totalAmount = totalAmountCounter;
 
-
             Gson save = new Gson();
-            //json file write
             String json = save.toJson(bill);
-            //name of json file
             System.out.println(json);
-            //make json file
             String fileJson = client.getName() + ".json";
             try {
-                File myObj = new File(folderName + "\\", fileJson);
-                if (myObj.createNewFile()) {
-                    System.out.println("File created: " + myObj.getName());
-                } else {
-                    // System.out.println("File already exists.");
-                    FileWriter myWriter = new FileWriter(folderName + "\\" + fileJson);
+                reportTime = String.valueOf(lastReportInArray.getData());
+
+                Date jud = new SimpleDateFormat("yy-MM-dd").parse(reportTime);
+
+                String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
+                String[] splitDate = month.split("\\s+");
+                String monthInCyrilic = splitDate[1];
+//month
+                String jsonFilePath = folderPath + "\\" + bill.documentNumber + "-" + monthInCyrilic + "-" + ".json";
+                File myObj = new File(jsonFilePath);
+                FileWriter myWriter = new FileWriter(jsonFilePath);
+                myObj.createNewFile();
+                if (!myObj.createNewFile()) {
                     myWriter.write(json);
                     myWriter.close();
                 }
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
+            } catch (IOException|ParseException e) {
                 e.printStackTrace();
             }
             bill = new Bill();
