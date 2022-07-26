@@ -8,12 +8,12 @@ public class Readings {
    private String referentNUmber;
     private ZonedDateTime date;
 
-    double price;
+    private double metrics;
     public Readings(String referentNumber,String product, ZonedDateTime date, double metrics) {
         this.referentNUmber =referentNumber;
         this.product = product;
         this.date = date;
-        this.price = metrics;
+        this.metrics = metrics;
     }
 
     public String getProduct() {
@@ -29,7 +29,7 @@ public class Readings {
     }
 
     public double getMetrics() {
-        return price;
+        return metrics;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Readings {
                 "product='" + product + '\'' +
                 ", referentNUmber='" + referentNUmber + '\'' +
                 ", date=" + date +
-                ", metrics=" + price +
+                ", metrics=" + metrics +
                 '}';
     }
 }
