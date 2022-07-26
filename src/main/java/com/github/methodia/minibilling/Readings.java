@@ -5,42 +5,38 @@ import org.joda.time.DateTime;
 
 public class Readings {
     private String referenceNumber;
-    private String product;
+    private  String product;
     private DateTime date;
-    private int indication;
+    private double indication;
 
-    public Readings(String referenceNumber, String product, DateTime date, int indication) {
+    public Readings(String referenceNumber, String product, DateTime date, double indication) {
 
 
         this.referenceNumber = referenceNumber;
         this.product = product;
         this.date = date;
         this.indication = indication;
-        // this.value = value;
+
     }
 
+    public Readings() {
 
-
-    public String getReferenceNumber() {
-        return referenceNumber;
-    }
-
-    public String getProduct() {
-        return product;
     }
 
     public DateTime getDate() {
         return date;
     }
 
-    public int getIndication() {
+    public String getProduct() {
+        return product;
+    }
+
+
+    public double getIndication() {
         return indication;
     }
 
-    @Override
-    public String toString() {
-        return this.referenceNumber + " " +
-                this.product + " " +
-                this.date +" "+ this.indication + "\n";
+    public String getReferenceNumber() {
+        return referenceNumber;
     }
 }

@@ -1,21 +1,24 @@
 package com.github.methodia.minibilling;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
-public class Prices {
-    private String product;
-    private LocalDate startDate;
+public class Price {
+    private  String product;
+    private  LocalDate startDate;
     private LocalDate endDate;
-    private double price;
+    private  double price;
 
 
-    public Prices(String product, LocalDate startDate, LocalDate endDate, double price) {
+    public Price(String product, LocalDate startDate, LocalDate endDate, double price) {
 
         this.product = product;
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
+    }
+
+    public Price() {
+
     }
 
     public String getProduct() {
@@ -34,12 +37,5 @@ public class Prices {
         return price;
     }
 
-    @Override
-    public String toString() {
-        return  product + " " +
-                 startDate +
-                " " + endDate +
-                " " + price +
-                "\n";
-    }
+
 }

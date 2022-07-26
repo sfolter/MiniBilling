@@ -1,14 +1,19 @@
 package com.github.methodia.minibilling;
 
-import java.time.LocalDate;
+
+import java.util.ArrayList;
 
 public class Lines {
-    double index;
-    int quantity;
+    int index;
+    double quantity;
     String lineStart;
     String lineEnd;
     String product;
     Double price;
     int priceList;
     Double amount;
+
+    public double getQuantity() {
+        return quantity;
+    }
 }

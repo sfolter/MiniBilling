@@ -8,9 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVPriceReader {
-    public List<Prices> read(String csvFile) throws IOException {
-    ArrayList<Prices> informationForPrices= new ArrayList<>();
+public class PriceReader {
+    public List<Price> read(String csvFile) throws IOException {
+    ArrayList<Price> informationForPrices= new ArrayList<>();
 
         String line = "";
         BufferedReader br;
@@ -21,7 +21,7 @@ public class CSVPriceReader {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate start = LocalDate.parse(price[1], formatter);
                 LocalDate end = LocalDate.parse(price[2], formatter);
-                informationForPrices.add(new Prices(price[0], start  , end , Double.parseDouble(price[3])));
+                informationForPrices.add(new Price(price[0], start  , end , Double.parseDouble(price[3])));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
