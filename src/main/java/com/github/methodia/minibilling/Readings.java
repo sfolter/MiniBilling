@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -19,19 +21,22 @@ public class Readings {
     private ArrayList<Integer> number = new ArrayList<>();
     private ArrayList<String> product = new ArrayList<>();
     private ArrayList<ZonedDateTime> data = new ArrayList<>();
-    private ArrayList<Integer> price = new ArrayList<>();
+    private ArrayList<Integer> quantityFullValue = new ArrayList<>();
     private ArrayList<BigDecimal> quantity = new ArrayList<>();
     private ArrayList<ZonedDateTime> dateStart = new ArrayList<>();
     private ArrayList<ZonedDateTime> dateEnd = new ArrayList<>();
     int counterReadings = 0;
 
     public Readings(ArrayList<Integer> number, ArrayList<String> product,
-                    ArrayList<ZonedDateTime> data, ArrayList<Integer> price, ArrayList<BigDecimal> dateDiff) {
+                    ArrayList<ZonedDateTime> data, ArrayList<Integer> price, ArrayList<BigDecimal> dateDiff,
+                    ArrayList<ZonedDateTime> dateStart, ArrayList<ZonedDateTime> dateEnd) {
         this.number = number;
         this.product = product;
         this.data = data;
-        this.price = price;
+        this.quantityFullValue = price;
         this.quantity = dateDiff;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
     }
 
 
@@ -60,7 +65,7 @@ public class Readings {
 
             }
             if (counter == 4) {
-                price.add(Integer.parseInt(i));
+                quantityFullValue.add(Integer.parseInt(i));
                 counter = 0;
             }
             counterReadings++;
@@ -71,21 +76,11 @@ public class Readings {
     public Integer getNumber(int i) {
         return this.number.get(i);
     }
-
     public String getProduct(int i) {
         return this.product.get(i);
     }
-
     public ZonedDateTime getData(int i) {
         return this.data.get(i);
-    }
-
-    public Integer getPrice(int i) {
-        return this.price.get(i);
-    }
-
-    public Integer getCount() {
-        return this.counterReadings / 4;
     }
 
     public void Quantity() {
@@ -94,7 +89,7 @@ public class Readings {
             for (int j = 10; j < 20; j++) {
                 if (number.get(i) == counter && number.get(i) == number.get(j)) {
                     counter++;
-                    BigDecimal haveToPay = BigDecimal.valueOf(Math.max(price.get(i), price.get(j)) - Math.min(price.get(i), price.get(j)));
+                    BigDecimal haveToPay = BigDecimal.valueOf(Math.max(quantityFullValue.get(i), quantityFullValue.get(j)) - Math.min(quantityFullValue.get(i), quantityFullValue.get(j)));
                     quantity.add(haveToPay);
                     dateStart.add(data.get(i));
                     dateEnd.add(data.get(j));
@@ -123,54 +118,55 @@ public class Readings {
 
     public String monthBG(ZonedDateTime date) {
 
-        String month = date.getMonth().toString();
-//        DateTimeFormatter bulgarianMonthFormetter =
-//                DateTimeFormatter.ofPattern("MMMM", new Locale("bg"));
-//        String formattedMonth = date.format(bulgarianMonthFormetter);
-//        return formattedMonth;
-        switch (month) {
-            case "JANUARY":
-                month = "Януари";
-                break;
-            case "FEBRUARY":
-                month = "Февруари";
-                break;
-            case "MARCH":
-                month = "Март";
-                break;
-            case "APRIL":
-                month = "Април";
-                break;
-            case "MAY":
-                month = "Май";
-                break;
-            case "JUNE":
-                month = "Юни";
-                break;
-            case "JULY":
-                month = "Юли";
-                break;
-            case "AUGUST":
-                month = "Август";
-                break;
-            case "SEPTEMBER":
-                month = "Септември";
-                break;
-            case "OCTOBER":
-                month = "Октомври";
-                break;
-            case "NOVEMBER":
-                month = "Ноември";
-                break;
-            case "DECEMBER":
-                month = "Декември";
-                break;
-            default:
-                break;
-
-        }
-
-        return month;
+       // String month = date.getMonth().toString();
+        DateTimeFormatter bulgarianMonthFormetter =
+                DateTimeFormatter.ofPattern("MMMM", new Locale("bg"));
+        String formattedMonth = date.format(bulgarianMonthFormetter).substring(0, 1).toUpperCase()
+                + date.format(bulgarianMonthFormetter).substring(1);
+        return formattedMonth;
+//        switch (month) {
+//            case "JANUARY":
+//                month = "Януари";
+//                break;
+//            case "FEBRUARY":
+//                month = "Февруари";
+//                break;
+//            case "MARCH":
+//                month = "Март";
+//                break;
+//            case "APRIL":
+//                month = "Април";
+//                break;
+//            case "MAY":
+//                month = "Май";
+//                break;
+//            case "JUNE":
+//                month = "Юни";
+//                break;
+//            case "JULY":
+//                month = "Юли";
+//                break;
+//            case "AUGUST":
+//                month = "Август";
+//                break;
+//            case "SEPTEMBER":
+//                month = "Септември";
+//                break;
+//            case "OCTOBER":
+//                month = "Октомври";
+//                break;
+//            case "NOVEMBER":
+//                month = "Ноември";
+//                break;
+//            case "DECEMBER":
+//                month = "Декември";
+//                break;
+//            default:
+//                break;
+//
+//        }
+//
+//        return month;
     }
 
     public Integer getYear(ZonedDateTime date) {
