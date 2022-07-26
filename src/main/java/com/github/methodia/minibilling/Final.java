@@ -1,4 +1,4 @@
-package org.example;
+package com.github.methodia.minibilling;
 
 public class Final {
 }

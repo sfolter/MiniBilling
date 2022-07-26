@@ -1,13 +1,11 @@
-package org.example;
+package com.github.methodia.minibilling;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 
