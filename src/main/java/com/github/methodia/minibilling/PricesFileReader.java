@@ -8,13 +8,15 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PricesFileReader implements FileReading {
 
-    public  List<Prices> parseToArrayList(String path) throws ParseException {
+    public  Map<String,Prices>parseToArrayList(String path) throws ParseException {
         String line = "";
-        List<Prices>result = new ArrayList<>();
+        Map<String,Prices> result = new HashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null) {
@@ -27,8 +29,10 @@ public class PricesFileReader implements FileReading {
                 LocalDate start = LocalDate.parse(stringBeginningDate, formatter);
                 LocalDate end = LocalDate.parse(stringEndDate, formatter);
                 Double price = Double.parseDouble(pricesData[3]);
-               result.add(new Prices(product,start,end,price));
-            }
+
+                    result.put(product, new Prices(product,start,end,price));
+                }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
