@@ -34,7 +34,6 @@ public class User {
 
             if (counter == 1) {
                 consumers.add(i);
-
             }
             if (counter == 2) {
                 reference.add(Integer.parseInt(i));
@@ -42,7 +41,6 @@ public class User {
             if (counter == 3) {
                 priceList.add(Integer.parseInt(i));
                 counter = 0;
-
             }
             counterUsers++;
         }

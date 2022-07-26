@@ -17,7 +17,6 @@ public class Readings {
     public Readings(File readings) {
         this.readings = readings;
     }
-
     private ArrayList<Integer> number = new ArrayList<>();
     private ArrayList<String> product = new ArrayList<>();
     private ArrayList<ZonedDateTime> data = new ArrayList<>();
@@ -25,9 +24,11 @@ public class Readings {
     private ArrayList<BigDecimal> quantity = new ArrayList<>();
     private ArrayList<ZonedDateTime> dateStart = new ArrayList<>();
     private ArrayList<ZonedDateTime> dateEnd = new ArrayList<>();
+    private int counterReadings = 0;
+
     public Readings(ArrayList<Integer> number, ArrayList<String> product,
                     ArrayList<ZonedDateTime> data, ArrayList<Integer> price, ArrayList<BigDecimal> dateDiff,
-                    ArrayList<ZonedDateTime> dateStart, ArrayList<ZonedDateTime> dateEnd) {
+                    ArrayList<ZonedDateTime> dateStart, ArrayList<ZonedDateTime> dateEnd, int counter) {
         this.number = number;
         this.product = product;
         this.data = data;
@@ -35,6 +36,7 @@ public class Readings {
         this.quantity = dateDiff;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
+        this.counterReadings = counter;
     }
     public void read() throws FileNotFoundException, ParseException {
 
@@ -64,6 +66,7 @@ public class Readings {
                 quantityFullValue.add(Integer.parseInt(i));
                 counter = 0;
             }
+            counterReadings++;
         }
 
     }
@@ -76,27 +79,42 @@ public class Readings {
     public ZonedDateTime getData(int i) {
         return this.data.get(i);
     }
-    public void Quantity() {
+    public void Quantity() throws FileNotFoundException {
         int counter = 1;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 10; j < 20; j++) {
-                if (number.get(i) == counter && number.get(i) == number.get(j)) {
-                    counter++;
-                    BigDecimal haveToPay = BigDecimal.valueOf(Math.max(quantityFullValue.get(i), quantityFullValue.get(j)) - Math.min(quantityFullValue.get(i), quantityFullValue.get(j)));
-                    quantity.add(haveToPay);
-                    dateStart.add(data.get(i));
-                    dateEnd.add(data.get(j));
-                    i = 0;
+        User user = new User(new File("C:\\Users\\user\\Desktop\\MiniBilling\\user.csv"));
+        user.read();
+        while (counter != user.getCount() + 1) {
+            for (int i = 0; i < getCountReadings(); i++) {
+                for (int j = i + 1; j < getCountReadings(); j++) {
+                    if (number.get(i) == counter && number.get(i) == number.get(j)) {
+                        counter++;
+                        BigDecimal haveToPay = BigDecimal.valueOf(Math.max(quantityFullValue.get(i), quantityFullValue.get(j)) - Math.min(quantityFullValue.get(i), quantityFullValue.get(j)));
+                        quantity.add(haveToPay);
+                        dateStart.add(data.get(i));
+                        dateEnd.add(data.get(j));
+                        i = 0;
+
+                    }
                 }
             }
         }
+    }
 
-    }
-    public BigDecimal getAmount(int i) {
-        return this.quantity.get(i).multiply(BigDecimal.valueOf(1.8));
-    }
+
     public BigDecimal getQuantity(int i) {
         return this.quantity.get(i);
+    }
+    public BigDecimal getAmount(int i) throws FileNotFoundException {
+        double rightPrice = 0;
+        User user = new User(new File("C:\\Users\\user\\Desktop\\MiniBilling\\user.csv"));
+        user.read();
+        Prices prices = new Prices(new File("C:\\Users\\user\\Desktop\\MiniBilling\\prices.csv"));
+        prices.read();
+
+            //System.out.println(dateStart.get(0));
+
+
+        return this.quantity.get(i).multiply(BigDecimal.valueOf(1.8));
     }
     public ZonedDateTime getStartDate(int i) {
         return this.dateStart.get(i);
@@ -160,6 +178,9 @@ public class Readings {
         int year = date.getYear();
         year = year % 100;
         return year;
+    }
+    public Integer getCountReadings(){
+        return this.counterReadings/4;
     }
 }
 
