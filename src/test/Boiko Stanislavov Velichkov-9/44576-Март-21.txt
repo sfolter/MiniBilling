@@ -1,0 +1,17 @@
+{
+    "documentDate": "2022-07-26T13:30:49Z",
+    "documentNumber": 44576,
+    "consumer": "Boiko Stanislavov Velichkov",
+    "reference": 1,
+    "totalAmount": 1071,
+    "lines": [
+        "index: 9",
+        "quantity: 595",
+        "lineStart: 2021-01-01T15:00+03:00",
+        "lineEnd: 2021-03-09T09:40+03:00",
+        "product: gas",
+        "price: 1.8",
+        "priceList: 1",
+        "amount: 1071.0"
+    ]
+}

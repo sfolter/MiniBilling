@@ -1,0 +1,17 @@
+{
+    "documentDate": "2022-07-26T13:30:49Z",
+    "documentNumber": 25309,
+    "consumer": "Lyuben Danailov Petkov",
+    "reference": 1,
+    "totalAmount": 795.6,
+    "lines": [
+        "index: 4",
+        "quantity: 442",
+        "lineStart: 2021-01-01T13:40+03:00",
+        "lineEnd: 2021-03-26T17:20+03:00",
+        "product: gas",
+        "price: 1.8",
+        "priceList: 1",
+        "amount: 795.6"
+    ]
+}
