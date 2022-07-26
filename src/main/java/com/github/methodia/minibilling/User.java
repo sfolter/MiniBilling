@@ -22,7 +22,7 @@ public class User {
         this.priceList = priceList;
         this.counterUsers = counterUsers;
     }
-    public void print() throws FileNotFoundException {
+    public void read() throws FileNotFoundException {
 
         Scanner sc = new Scanner(this.users);
         sc.useDelimiter(",|\\r\\n");
@@ -47,7 +47,6 @@ public class User {
             counterUsers++;
         }
     }
-
     public String getConsumer(int i) {
        return this.consumers.get(i);
     }
@@ -57,7 +56,6 @@ public class User {
     public Integer getPriceList(int i) {
         return this.priceList.get(i);
     }
-
     public Integer getCount(){
         return this.counterUsers/3;
     }

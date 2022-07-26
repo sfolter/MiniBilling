@@ -11,7 +11,6 @@ public class Prices {
     public Prices(File prices) {
         this.prices = prices;
     }
-
     private ArrayList<String> product = new ArrayList<>();
     private ArrayList<String> dateBegin = new ArrayList<>();
     private ArrayList<String> dateEnd = new ArrayList<>();
@@ -23,8 +22,7 @@ public class Prices {
         this.dateEnd = dateEnd;
         this.price = price;
     }
-
-    public void print() throws FileNotFoundException {
+    public void read() throws FileNotFoundException {
 
         Scanner sc = new Scanner(this.prices);
         sc.useDelimiter(",|\\r\\n");

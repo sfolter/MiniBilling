@@ -25,8 +25,6 @@ public class Readings {
     private ArrayList<BigDecimal> quantity = new ArrayList<>();
     private ArrayList<ZonedDateTime> dateStart = new ArrayList<>();
     private ArrayList<ZonedDateTime> dateEnd = new ArrayList<>();
-    int counterReadings = 0;
-
     public Readings(ArrayList<Integer> number, ArrayList<String> product,
                     ArrayList<ZonedDateTime> data, ArrayList<Integer> price, ArrayList<BigDecimal> dateDiff,
                     ArrayList<ZonedDateTime> dateStart, ArrayList<ZonedDateTime> dateEnd) {
@@ -38,9 +36,7 @@ public class Readings {
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
     }
-
-
-    public void printRead() throws FileNotFoundException, ParseException {
+    public void read() throws FileNotFoundException, ParseException {
 
         Scanner sc = new Scanner(this.readings);
         sc.useDelimiter(",|\\r\\n");
@@ -68,11 +64,9 @@ public class Readings {
                 quantityFullValue.add(Integer.parseInt(i));
                 counter = 0;
             }
-            counterReadings++;
         }
 
     }
-
     public Integer getNumber(int i) {
         return this.number.get(i);
     }
@@ -82,7 +76,6 @@ public class Readings {
     public ZonedDateTime getData(int i) {
         return this.data.get(i);
     }
-
     public void Quantity() {
         int counter = 1;
         for (int i = 0; i < 10; i++) {
@@ -99,23 +92,18 @@ public class Readings {
         }
 
     }
-
     public BigDecimal getAmount(int i) {
         return this.quantity.get(i).multiply(BigDecimal.valueOf(1.8));
     }
-
     public BigDecimal getQuantity(int i) {
         return this.quantity.get(i);
     }
-
     public ZonedDateTime getStartDate(int i) {
         return this.dateStart.get(i);
     }
-
     public ZonedDateTime getEndDate(int i) {
         return this.dateEnd.get(i);
     }
-
     public String monthBG(ZonedDateTime date) {
 
        // String month = date.getMonth().toString();
@@ -168,7 +156,6 @@ public class Readings {
 //
 //        return month;
     }
-
     public Integer getYear(ZonedDateTime date) {
         int year = date.getYear();
         year = year % 100;

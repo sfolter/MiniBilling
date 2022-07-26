@@ -18,24 +18,23 @@ import java.util.LinkedHashMap;
 public class Main {
     public static void main(String[] args) throws IOException, ParseException, NoSuchFieldException, IllegalAccessException {
 
+        //Reading .csv files
         User user = new User(new File("C:\\Users\\user\\Desktop\\MiniBilling\\user.csv"));
-        user.print();
+        user.read();
 
         Readings readings = new Readings(new File("C:\\Users\\user\\Desktop\\MiniBilling\\readings.csv"));
-        readings.printRead();
+        readings.read();
         readings.Quantity();
 
-
         Prices prices = new Prices(new File("C:\\Users\\user\\Desktop\\MiniBilling\\prices.csv"));
-        prices.print();
+        prices.read();
 
-
+        // Current date and time
         JSONObject jsonObject = new JSONObject();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         Calendar cal = Calendar.getInstance();
 
-
-
+        //Creating JSON Object
         for (int i = 0; i < user.getCount(); i++) {
             int diff = user.getReference(i);
             int min = 10000;
@@ -63,21 +62,15 @@ public class Main {
 
             jsonObject.put("lines", courses);
 
-
-
-
+            //Creating Directories
             String path = "C:\\Users\\user\\Desktop\\tasks\\MiniBillingNew\\src\\test\\";
-
             String folderName = user.getConsumer(i) + "-" + user.getReference(i);
             path = path + folderName;
-
             File file = new File(path);
-
             boolean bool = file.mkdir();
 
+            //Creating .txt files
             String txtName = random_int + "-" + readings.monthBG(readings.getEndDate(i)) + "-" + readings.getYear(readings.getEndDate(i));
-
-
             File Dirfile = new File("C:\\Users\\user\\Desktop\\tasks\\MiniBillingNew\\src\\test\\" + folderName + "\\" + txtName + ".txt");
             Dirfile.getParentFile().mkdirs();
             Dirfile.createNewFile();
