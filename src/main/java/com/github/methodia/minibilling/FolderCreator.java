@@ -2,23 +2,32 @@ package com.github.methodia.minibilling;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FolderCreator extends Users {
+    public ArrayList<String> folderPath=new ArrayList<>();
 
-        public void createFolders() {
+
+    public ArrayList<String> getFolderPath() {
+        return folderPath;
+    }
+
+    public void createFolders() {
             String path = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\newFoldersForUsers\\";
             Users newUser = new Users();
             ArrayList<String> userNames = newUser.returnNameList();
             ArrayList<String> userRef = newUser.returnRefList();
 
-            for (int i = 0; i < userNames.size(); i++) {
-                File newFolder = new File(path + userNames.get(i) + "-" + userRef.get(i));
+
+            for (int m = 0; m < userNames.size(); m++) {
+                folderPath.add( path + userNames.get(m) + "-" + userRef.get(m));
+                File newFolder = new File(folderPath.get(m));
                 boolean bool2 = newFolder.mkdirs();
 
             }
+
         }
 
 }
+
 
 

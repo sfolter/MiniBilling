@@ -2,6 +2,7 @@ package com.github.methodia.minibilling;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 /**
@@ -12,7 +13,7 @@ import java.text.ParseException;
 public class MainTest {
 
     @Test
-    void testSample1() throws ParseException {
+    void testSample1() throws ParseException, IOException {
         //define the args array so that you pass the path to the files from sample1/input
         final String[] args = {};
         Main.main(args);
