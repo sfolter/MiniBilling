@@ -9,27 +9,31 @@ import java.util.Map;
 public class ReportReader {
 
 
-    public Map<String, List<Report>> readReportToList(String directory) {
+    public Map<String, List<Report>> readReportForGasToMap(String directory) {
         String line = "";
         Map<String, List<Report>> result = new HashMap<>();
         try {
             BufferedReader br =new BufferedReader (new InputStreamReader(new FileInputStream(directory), "UTF-8"));
             while ((line = br.readLine()) != null) {
                 String[] report = line.split(",");
-                String referentNumber=report[0];
-                String product = report[1];
-                String date = report[2];
-                ZonedDateTime instant=ZonedDateTime.parse(date);
-                double price =Double.parseDouble(report[3]);
-                List <Report> list= new ArrayList<>();
-//                informationForReport.add(new Report(report[0], report
-//                        [1], instant, Double.parseDouble(report[3])));
-//            }
-                if (result.get(referentNumber) == null) {
-                    list.add(new Report(referentNumber, product, instant, price));
-                    result.put(referentNumber, list);
-                } else{
-                    result.get(referentNumber).add(new Report(referentNumber, product, instant, price));
+                //check kind of product
+                if (report[1].equals("gas")) {
+
+
+                    String referentNumber = report[0];
+                    String product = report[1];
+                    String date = report[2];
+                    ZonedDateTime instant = ZonedDateTime.parse(date);
+                    double price = Double.parseDouble(report[3]);
+
+                    List<Report> list = new ArrayList<>();
+
+                    if (result.get(referentNumber) == null) {
+                        list.add(new Report(referentNumber, product, instant, price));
+                        result.put(referentNumber, list);
+                    } else {
+                        result.get(referentNumber).add(new Report(referentNumber, product, instant, price));
+                    }
                 }
             }
         } catch (IOException e) {

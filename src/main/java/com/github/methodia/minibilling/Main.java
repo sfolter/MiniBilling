@@ -6,7 +6,6 @@ import java.io.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,129 +25,87 @@ public class Main {
 //        final String billingDataDir=args[1];
 //        final File usersFile= new File(billingDataDir+"clients.csv");
 
-        String resourceDirectory="C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        //directories
+        String resourceDirectory = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         String directoryClients = resourceDirectory + "users.csv";
-        String directoryPrices = resourceDirectory +"prices-1.csv";
-        String directoryReport=resourceDirectory +"readings.csv";
-//        ClientReader readerFile = new ClientReader();
-//        ArrayList<Client> arrayOfClients= readerFile.readClientsToList(directoryClients);
-//        for (int i = 0; i < arrayOfClients.size(); i++) {
-//            Client client =arrayOfClients.get(i);
-//            if (client.getName().equals("Marko Boikov Tsvetkov")) {
-//                System.out.println(client.getReferenseNumber());
-//            }
-//        }
-//        PricesReader pricesReader=new PricesReader();
-//        ArrayList<Prices> arrayOfPrices=pricesReader.readPricesToList(directoryPrices);
-//        for (int i = 0; i < arrayOfPrices.size(); i++) {
-//            Prices price=arrayOfPrices.get(i);
-//            System.out.println(price);
-//        }
-//        ReportReader reportReader=new ReportReader();
-//        ArrayList<Report> arrayOfReport=reportReader.readReportToList(directoryReport);
-//        for (int i = 0; i < arrayOfReport.size(); i++) {
-//            Report report=arrayOfReport.get(i);
-//            System.out.println(report);
-//        }
-//          ClientPair clientPair= new ClientPair();
-//
-//
-//        for (int i = 0; i < arrayOfClients.size(); i++) {
-//            clientPair.makeReferenceReportMap(arrayOfReport).get(arrayOfClients.get(i).getReferenseNumber());
-//            System.out.println(arrayOfClients.get(i).getName()+clientPair.makeReferenceReportMap(arrayOfReport).get(arrayOfClients.get(i).getReferenseNumber()));
-//        }
-        final ClientReader usersFileRead = new ClientReader();
-        final PricesReader pricesFileRead = new PricesReader();
-        final ReportReader readingsRead = new ReportReader();
+        String directoryPrices = resourceDirectory + "prices-1.csv";
+        String directoryReport = resourceDirectory + "readings.csv";
 
-        ArrayList<Client> clients = usersFileRead.readClientsToList(directoryClients);
-        Map<String, List<Report>> readings = readingsRead.readReportToList(directoryReport);
+        final ClientReader clientReader = new ClientReader();
+        final PriceReader pricesReader = new PriceReader();
+        final ReportReader reportReader = new ReportReader();
 
+        Bill bill = new Bill();
+        ArrayList<Client> clients = clientReader.readClientsToList(directoryClients);
+        Map<String, List<Report>> readings = reportReader.readReportForGasToMap(directoryReport);
+        Map<String, List<Prices>> prices = pricesReader.readPricesToMap(directoryPrices);
 
         for (Client client : clients) {
-            String folderName=resourceDirectory+client.getName()+"-"+client.getReferenseNumber();
+            //create folder
+            String folderName = resourceDirectory + client.getName() + "-" + client.getReferenseNumber();
             File theDir = new File(folderName);
-            if (!theDir.exists()){
+            if (!theDir.exists()) {
                 theDir.mkdirs();
             }
-            OutputClass outputClass = new OutputClass();
+            //class connecting
             List<Report> readingsForUser = readings.get(client.getReferenseNumber());
-            final String pricesReadingPath = resourceDirectory  + "prices-" + client.getNumberOfPriceList() + ".csv";
-            List<Prices> prices=pricesFileRead.readPricesToList(directoryPrices);
-            //todo namapani gi tuk, veche imash vsichko koeto ti trqbwa -> usera, negovite readings, negovite cenovi list
+            Report FirstReportInArray = readings.get(client.getReferenseNumber()).get(0);
+            Report LastReportInArray = readings.get(client.getReferenseNumber()).get(readingsForUser.size() - 1);
+            final String pricesReadingPath = resourceDirectory + "prices-" + client.getNumberOfPriceList() + ".csv";
+            prices.get("gas");
 
-            Gson save= new Gson();
-            String json = save.toJson(outputClass);
-            String fileJson=client.getName()+ ".json";
+            Line line = new Line();
+            line.index = client.getNumberOfPriceList();
+            line.quantity = LastReportInArray.getValue() - FirstReportInArray.getValue();
+            line.lineStart = String.valueOf(FirstReportInArray.getData());//
+            line.lineEnd = String.valueOf(LastReportInArray.getData());//
+            line.product = readings.get(client.getReferenseNumber()).get(0).getProduct();
+            line.price = prices.get("gas").get(0).getPrice();
+            line.priceList = client.getNumberOfPriceList();
+            line.amount = line.quantity * prices.get("gas").get(0).getPrice(); //
+
+            bill.lines.add(line);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            bill.setDocumentDate(ZonedDateTime.now().format(formatter));
+            bill.documentNumber = bill.getDocumentNumber();
+            // System.out.println(client.getName());
+            bill.consumer = client.getName();
+            bill.reference = client.getReferenseNumber();
+            double totalAmountCounter = 0;
+            for (int i = 0; i < bill.lines.size(); i++) {
+
+                totalAmountCounter += line.amount;
+            }
+            bill.totalAmount = totalAmountCounter;
+
+
+            Gson save = new Gson();
+            //json file write
+            String json = save.toJson(bill);
+            //name of json file
+            System.out.println(json);
+            //make json file
+            String fileJson = client.getName() + ".json";
             try {
-                File myObj = new File(fileJson);
+                File myObj = new File(folderName + "\\", fileJson);
                 if (myObj.createNewFile()) {
                     System.out.println("File created: " + myObj.getName());
                 } else {
-                    System.out.println("File already exists.");
+                    // System.out.println("File already exists.");
+                    FileWriter myWriter = new FileWriter(folderName + "\\" + fileJson);
+                    myWriter.write(json);
+                    myWriter.close();
                 }
             } catch (IOException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
-            try (PrintWriter out = new PrintWriter(new FileWriter(folderName)+"\\"+fileJson)) {
-
-                out.write(json);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-             for (Report reading : readingsForUser) {
-                for (Prices price :prices){
-                    if(reading.getProduct().equals(price.getProduct())){
-                        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                        outputClass.documentDate= ZonedDateTime.now().format(formatter);
-                        outputClass.documentNumber=client.getReferenseNumber();
-                        outputClass.consumer=client.getName();
-                        outputClass.reference=client.getReferenseNumber();
-                        outputClass.totalAmount=reading.getValue()*price.getPrice();
-                        Lines line=new Lines();
-                        line.index=client.getNumberOfPriceList();
-                        line.quantity=reading.getValue();
-                        line.lineStart= String.valueOf(price.getStart());
-                        line.lineEnd= String.valueOf(price.getEnd());
-                        line.product=reading.getProduct();
-                        line.price=price.getPrice();
-                        line.priceList=client.getNumberOfPriceList();
-                        line.amount=reading.getValue()*price.getPrice();
-
-                        outputClass.lines.add(line);
-
-                    }
-                }
-
-            }
-            //todo kato e gotovo pravish edin output class (example below), mapvash gotovoto info kum nego
-            //finish with outplustClass.jsonify() or toJson() depending on what library you are using
-
+            bill = new Bill();
         }
 
 
     }
-
-    private static class OutputClass {
-        String documentDate;
-        String documentNumber;
-        String consumer;
-        String reference;
-        Double totalAmount;
-
-        List<Lines> lines = new ArrayList<>();
-
-    }
-
-    private static class Lines {
-        private double index;
-        private double quantity;
-        private String lineStart;
-        private String lineEnd;
-        private String product;
-        private Double price;
-        private int priceList;
-        private Double amount;
-    }
 }
+
+
