@@ -17,10 +17,6 @@ public class User {
     }
 
 
-    @Override
-    public String toString() {
-        return this.name  + " + " + this.referentNumber  + " + " + this.numberPricingList;
-    }
 
     public String getName() {
         return name;
