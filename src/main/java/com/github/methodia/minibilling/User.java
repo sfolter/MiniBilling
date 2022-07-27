@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class User {
     public File users;
-
     public User(File users) {
         this.users = users;
     }
@@ -15,7 +14,6 @@ public class User {
     private ArrayList<Integer> reference = new ArrayList<>();
     private ArrayList<Integer> priceList = new ArrayList<>();
     private int counterUsers = 0;
-
     public User(ArrayList<String> consumers, ArrayList<Integer> reference, ArrayList<Integer> priceList, int counterUsers){
         this.consumers = consumers;
         this.reference = reference;

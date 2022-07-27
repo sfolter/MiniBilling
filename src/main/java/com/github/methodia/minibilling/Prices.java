@@ -50,28 +50,17 @@ public class Prices {
 
             }
             if (counter == 2) {
+
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-                // Given date string
-
-
-                // Parse the given date string to ZonedDateTime
                 ZonedDateTime zdt = LocalDate.parse(i, dtf).atStartOfDay(ZoneOffset.UTC);
                 dateBegin.add(zdt);
 
             }
             if (counter == 3) {
-               // ZonedDateTime instant = ZonedDateTime.parse(i);
-                //dateEnd.add(instant);
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-                // Given date string
-
-
-                // Parse the given date string to ZonedDateTime
                 ZonedDateTime zdt = LocalDate.parse(i, dtf).atStartOfDay(ZoneOffset.UTC);
-                dateBegin.add(zdt);
+                dateEnd.add(zdt);
 
             }
             if (counter == 4) {

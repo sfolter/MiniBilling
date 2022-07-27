@@ -99,8 +99,6 @@ public class Readings {
             }
         }
     }
-
-
     public BigDecimal getQuantity(int i) {
         return this.quantity.get(i);
     }
@@ -110,11 +108,15 @@ public class Readings {
         user.read();
         Prices prices = new Prices(new File("C:\\Users\\user\\Desktop\\MiniBilling\\prices.csv"));
         prices.read();
-
-            //System.out.println(dateStart.get(0));
-
-
-        return this.quantity.get(i).multiply(BigDecimal.valueOf(1.8));
+        for(int j = 0; j < user.getCount(); j++) {
+            for (int k = 0; k < prices.getPriceCount(); k++) {
+                if (dateStart.get(j).isAfter(prices.getDataBegin(k)) && dateEnd.get(j).isBefore(prices.getDataEnd(k))) {
+                    rightPrice = prices.getPrice(k);
+                    break;
+                }
+            }
+        }
+        return this.quantity.get(i).multiply(BigDecimal.valueOf(rightPrice));
     }
     public ZonedDateTime getStartDate(int i) {
         return this.dateStart.get(i);
@@ -124,55 +126,55 @@ public class Readings {
     }
     public String monthBG(ZonedDateTime date) {
 
-       // String month = date.getMonth().toString();
-        DateTimeFormatter bulgarianMonthFormetter =
-                DateTimeFormatter.ofPattern("MMMM", new Locale("bg"));
-        String formattedMonth = date.format(bulgarianMonthFormetter).substring(0, 1).toUpperCase()
-                + date.format(bulgarianMonthFormetter).substring(1);
-        return formattedMonth;
-//        switch (month) {
-//            case "JANUARY":
-//                month = "Януари";
-//                break;
-//            case "FEBRUARY":
-//                month = "Февруари";
-//                break;
-//            case "MARCH":
-//                month = "Март";
-//                break;
-//            case "APRIL":
-//                month = "Април";
-//                break;
-//            case "MAY":
-//                month = "Май";
-//                break;
-//            case "JUNE":
-//                month = "Юни";
-//                break;
-//            case "JULY":
-//                month = "Юли";
-//                break;
-//            case "AUGUST":
-//                month = "Август";
-//                break;
-//            case "SEPTEMBER":
-//                month = "Септември";
-//                break;
-//            case "OCTOBER":
-//                month = "Октомври";
-//                break;
-//            case "NOVEMBER":
-//                month = "Ноември";
-//                break;
-//            case "DECEMBER":
-//                month = "Декември";
-//                break;
-//            default:
-//                break;
-//
-//        }
-//
-//        return month;
+        String month = date.getMonth().toString();
+//        DateTimeFormatter bulgarianMonthFormetter =
+//                DateTimeFormatter.ofPattern("MMMM", new Locale("bg"));
+//        String formattedMonth = date.format(bulgarianMonthFormetter).substring(0, 1).toUpperCase()
+//                + date.format(bulgarianMonthFormetter).substring(1);
+//        return formattedMonth;
+        switch (month) {
+            case "JANUARY":
+                month = "Януари";
+                break;
+            case "FEBRUARY":
+                month = "Февруари";
+                break;
+            case "MARCH":
+                month = "Март";
+                break;
+            case "APRIL":
+                month = "Април";
+                break;
+            case "MAY":
+                month = "Май";
+                break;
+            case "JUNE":
+                month = "Юни";
+                break;
+            case "JULY":
+                month = "Юли";
+                break;
+            case "AUGUST":
+                month = "Август";
+                break;
+            case "SEPTEMBER":
+                month = "Септември";
+                break;
+            case "OCTOBER":
+                month = "Октомври";
+                break;
+            case "NOVEMBER":
+                month = "Ноември";
+                break;
+            case "DECEMBER":
+                month = "Декември";
+                break;
+            default:
+                break;
+
+        }
+
+        return month;
     }
     public Integer getYear(ZonedDateTime date) {
         int year = date.getYear();
