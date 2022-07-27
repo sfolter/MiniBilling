@@ -3,8 +3,8 @@ package com.github.methodia.minibilling;
 public class Client {
     private String name;
     private String referenseNumber;
-    private int numberOfPriceList;
-    public Client(String name, String referenseNumber, int numberOfPriceList) {
+    private Integer numberOfPriceList;
+    public Client(String name, String referenseNumber, Integer numberOfPriceList) {
         this.name = name;
         this.referenseNumber = referenseNumber;
         this.numberOfPriceList = numberOfPriceList;

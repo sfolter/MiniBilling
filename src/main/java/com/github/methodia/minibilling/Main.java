@@ -40,6 +40,10 @@ public class Main {
         final ReportReader reportReader = new ReportReader();
         Bill bill = new Bill();
 
+        ClientReader1 clientReader1= new ClientReader1();
+        Map<String,Map<String,Integer>> allInfoClient=clientReader1.readClientsToMap(directoryClients);
+        System.out.println(allInfoClient.get("1"));
+
         ArrayList<Client> clients = clientReader.readClientsToList(directoryClients);
         Map<String, List<Report>> readings = reportReader.readReportForGasToMap(directoryReport);
 
@@ -58,7 +62,7 @@ public class Main {
             LocalDate ReadingForUserInLocalDate = LocalDate.of(ReadingForUserDateYear, ReadingForUserDateMonth, ReadingForUserDateDay);
             String pricesReadingPath = resourceDirectory + "prices-" + client.getNumberOfPriceList() + ".csv";
             Map<String, List<Prices>> prices = pricesReader.readPricesToMap(pricesReadingPath);
-            List<Prices> priceForUser = prices.get("gas");
+            List<Prices> priceForUser = prices.get(firstReportInArray.getProduct());
             if (ReadingForUserInLocalDate.isBefore(borderTime)) {
 
                 Line line = new Line();
