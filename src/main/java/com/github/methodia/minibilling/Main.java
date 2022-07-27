@@ -56,7 +56,7 @@ public class Main {
             JSONArray courses = new JSONArray(
                     new String[]{"index: " + user.getReference(i), "quantity: " + readings.getQuantity(diff-1),
                             "lineStart: " + readings.getStartDate(diff - 1), "lineEnd: " + readings.getEndDate(diff - 1),
-                            "product: " + prices.getProduct(0), "price: " + prices.getPrice(0),
+                            "product: " + readings.getProduct(i), "price: " + prices.getPrice(0),
                             "priceList: " + user.getPriceList(i), "amount: " + readings.getAmount(diff - 1)});
 
             jsonObject.put("lines", courses);

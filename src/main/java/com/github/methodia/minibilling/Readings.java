@@ -5,9 +5,7 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -38,7 +36,7 @@ public class Readings {
         this.dateEnd = dateEnd;
         this.counterReadings = counter;
     }
-    public void read() throws FileNotFoundException, ParseException {
+    public void read() throws FileNotFoundException{
 
         Scanner sc = new Scanner(this.readings);
         sc.useDelimiter(",|\\r\\n");
@@ -86,7 +84,7 @@ public class Readings {
         while (counter != user.getCount() + 1) {
             for (int i = 0; i < getCountReadings(); i++) {
                 for (int j = i + 1; j < getCountReadings(); j++) {
-                    if (number.get(i) == counter && number.get(i) == number.get(j)) {
+                    if (number.get(i) == counter && number.get(i).equals(number.get(j))) {
                         counter++;
                         BigDecimal haveToPay = BigDecimal.valueOf(Math.max(quantityFullValue.get(i), quantityFullValue.get(j)) - Math.min(quantityFullValue.get(i), quantityFullValue.get(j)));
                         quantity.add(haveToPay);
@@ -133,45 +131,20 @@ public class Readings {
 //                + date.format(bulgarianMonthFormetter).substring(1);
 //        return formattedMonth;
         switch (month) {
-            case "JANUARY":
-                month = "Януари";
-                break;
-            case "FEBRUARY":
-                month = "Февруари";
-                break;
-            case "MARCH":
-                month = "Март";
-                break;
-            case "APRIL":
-                month = "Април";
-                break;
-            case "MAY":
-                month = "Май";
-                break;
-            case "JUNE":
-                month = "Юни";
-                break;
-            case "JULY":
-                month = "Юли";
-                break;
-            case "AUGUST":
-                month = "Август";
-                break;
-            case "SEPTEMBER":
-                month = "Септември";
-                break;
-            case "OCTOBER":
-                month = "Октомври";
-                break;
-            case "NOVEMBER":
-                month = "Ноември";
-                break;
-            case "DECEMBER":
-                month = "Декември";
-                break;
-            default:
-                break;
-
+            case "JANUARY" -> month = "Януари";
+            case "FEBRUARY" -> month = "Февруари";
+            case "MARCH" -> month = "Март";
+            case "APRIL" -> month = "Април";
+            case "MAY" -> month = "Май";
+            case "JUNE" -> month = "Юни";
+            case "JULY" -> month = "Юли";
+            case "AUGUST" -> month = "Август";
+            case "SEPTEMBER" -> month = "Септември";
+            case "OCTOBER" -> month = "Октомври";
+            case "NOVEMBER" -> month = "Ноември";
+            case "DECEMBER" -> month = "Декември";
+            default -> {
+            }
         }
 
         return month;
