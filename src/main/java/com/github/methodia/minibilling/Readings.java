@@ -19,9 +19,6 @@ public class Readings {
 
     }
 
-    public Readings() {
-
-    }
 
     public DateTime getDate() {
         return date;

@@ -41,7 +41,7 @@ public class ReadingsReader {
                     list.add(new Readings(reports[0],reports[1], dateTime, indication));
                     listOfReports.put(reports[0], list);
                 } else{
-                   listOfReports.get(reports[0]).add(new Readings(reports[0],reports[1], dateTime, indication));
+                    listOfReports.get(reports[0]).add(new Readings(reports[0],reports[1], dateTime, indication));
                 }
 
 
