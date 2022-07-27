@@ -32,13 +32,5 @@ public class Readings {
         return metrics;
     }
 
-    @Override
-    public String toString() {
-        return "Readings{" +
-                "product='" + product + '\'' +
-                ", referentNUmber='" + referentNUmber + '\'' +
-                ", date=" + date +
-                ", metrics=" + metrics +
-                '}';
-    }
+
 }

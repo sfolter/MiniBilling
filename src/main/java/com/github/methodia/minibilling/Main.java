@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
@@ -15,24 +16,19 @@ import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.lang.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        String outputPath = scanner.nextLine();
+        String inputPath = scanner.nextLine();
         String dateToReporting=scanner.nextLine();
-
-        DateTimeFormatter formatterBorderTime = new DateTimeFormatterBuilder()
-                .appendPattern("yy-MM")
-                .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
-                .toFormatter();
-        LocalDate borderTime=LocalDate.parse(dateToReporting,formatterBorderTime);
+        LocalDate borderTime = getLocalDate(dateToReporting);
 
 
 
-        Path resourceDirectory = Paths.get("src", "test", "resources", "sample1", "input");
-        final String readingsPath = resourceDirectory + "\\" + "readings.csv";
+        final String readingsPath = inputPath + "\\" + "readings.csv";
 
         String reportTime = "";
         final UsersFileReading usersFileRead = new UsersFileReading();
@@ -47,39 +43,73 @@ public class Main {
             OutputClass outputClass = new OutputClass();
             List<Readings> readingsForUser = readings.get(user.getReferentNumber());
 
+            final String pricesReadingPath = inputPath + "\\" + "prices-" + user.getNumberPricingList() + ".csv";
+            Map<String, List<Prices>> prices=pricesFileRead.parseToArrayList(pricesReadingPath);
 
-            final String pricesReadingPath = resourceDirectory + "\\" + "prices-" + user.getNumberPricingList() + ".csv";
-            Map<String, Prices> prices=pricesFileRead.parseToArrayList(pricesReadingPath);
-
-
-            //todo namapani gi tuk, veche imash vsichko koeto ti trqbwa -> usera, negovite readings, negovite cenovi list
             Readings firstReadingForUser = readingsForUser.get(0);
             Readings lastReadingForUser = readingsForUser.get(readingsForUser.size() - 1);
-            Prices price= prices.get(firstReadingForUser.getProduct());
-            int lastReadingForUserDateDay=lastReadingForUser.getDate().getDayOfMonth();
-            Month lastReadingForUserDateMonth=lastReadingForUser.getDate().getMonth();
-            int lastReadingForUserDateYear=lastReadingForUser.getDate().getYear();
-            LocalDate lastReadingForUserInLocalDate=LocalDate.of(lastReadingForUserDateYear,lastReadingForUserDateMonth,lastReadingForUserDateDay);
+            List<Prices> pricesList= prices.get(firstReadingForUser.getProduct());
 
-            if(lastReadingForUserInLocalDate.isBefore(borderTime)) {
+            LocalDate firstReadingDate=convertingZonedDateTimeToLocalDate(firstReadingForUser.getDate());
+            LocalDate lastReadingDate=convertingZonedDateTimeToLocalDate(lastReadingForUser.getDate());
+            LocalDate firstDateAfterChangePrice;
+            if(lastReadingDate.isBefore(borderTime)) {
 
                 double quantity = lastReadingForUser.getMetrics() - firstReadingForUser.getMetrics();
-                lastReadingForUser.getMetrics();
-                firstReadingForUser.getMetrics();
-                prices.get(readings.get("gas"));
-                double totalAmount = quantity * price.getPrice();
 
                 Lines line = new Lines();
-                line.index = 1;
-                line.quantity = quantity;
-                line.lineStart = String.valueOf(firstReadingForUser.getDate());
-                line.lineEnd = String.valueOf(lastReadingForUser.getDate());
-                line.product = firstReadingForUser.getProduct();
-                line.price = price.getPrice();
-                line.priceList = user.getNumberPricingList();
-                line.amount = quantity * price.getPrice();
-                double totalAmountCounter = 0;
-                outputClass.lines.add(line);
+                for(Prices price:pricesList){
+                   if(price.getStartingDate().isBefore(firstReadingDate)&& price.getEndDate().isAfter(lastReadingDate)){
+
+                       line.index = 1;
+                       line.quantity = quantity;
+                       line.lineStart = String.valueOf(firstReadingForUser.getDate());
+                       line.lineEnd = String.valueOf(lastReadingForUser.getDate());
+                       line.product = firstReadingForUser.getProduct();
+                       line.price = price.getPrice();
+                       line.priceList = user.getNumberPricingList();
+                       line.amount = quantity * price.getPrice();
+                       outputClass.lines.add(line);
+
+                   }else if(price.getStartingDate().isBefore(firstReadingDate) && price.getEndDate().isBefore(lastReadingDate)){
+                       double beginningMetrics=lastReadingForUser.getMetrics();
+                       double endMetrics=firstReadingForUser.getMetrics();
+                       double metricsPerDay=endMetrics-beginningMetrics;
+                       long daysBeforeChangingPrice = ChronoUnit.DAYS.between(firstReadingDate,price.getEndDate());
+
+
+                       line.index = 1;
+                       line.quantity = metricsPerDay*daysBeforeChangingPrice;
+                       line.lineStart = String.valueOf(firstReadingForUser.getDate());
+                       line.lineEnd = String.valueOf(price.getEndDate());
+                       line.product = firstReadingForUser.getProduct();
+                       line.price = price.getPrice();
+                       line.priceList = user.getNumberPricingList();
+                       line.amount = metricsPerDay*daysBeforeChangingPrice*price.getPrice();
+                       firstDateAfterChangePrice=price.getEndDate();
+                       outputClass.lines.add(line);
+                   } else if (price.getStartingDate().isAfter(firstReadingDate)&& price.getEndDate().isAfter(lastReadingDate)) {
+
+                       long daysAfterChangingPrice = ChronoUnit.DAYS.between(firstDateAfterChangePrice,price.getEndDate());
+
+                       double beginningMetrics=lastReadingForUser.getMetrics();
+                       double endMetrics=firstReadingForUser.getMetrics();
+                       double metricsPerDay=endMetrics-beginningMetrics;
+                       double metricsForPeriod= metricsPerDay*daysAfterChangingPrice;
+                       line.index = 1;
+                       line.quantity = metricsForPeriod;
+                       line.lineStart = String.valueOf(firstDateAfterChangePrice);
+                       line.lineEnd = String.valueOf(price.getEndDate());
+                       line.product = firstReadingForUser.getProduct();
+                       line.price = price.getPrice();
+                       line.priceList = user.getNumberPricingList();
+                       line.amount = metricsForPeriod*price.getPrice();
+                       outputClass.lines.add(line);
+                   }
+                }
+
+
+
 
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -92,26 +122,7 @@ public class Main {
                 reportTime = String.valueOf(lastReadingForUser.getDate());
 
 
-
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String json = gson.toJson(outputClass);
-                String folderPath = outputPath + "\\" + user.getName() + "-" + user.getReferentNumber();
-                File creatingFolders = new File(folderPath);
-                boolean bool2 = creatingFolders.mkdirs();
-
-                Date jud = new SimpleDateFormat("yy-MM").parse(reportTime);
-                String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
-                String[] splitDate = month.split("\\s+");
-                String monthInCyrilic = splitDate[1];
-                int outputOfTheYear=lastReadingForUserDateYear%100;
-                String jsonFilePath = folderPath + "\\" + outputClass.documentNumber + "-" + monthInCyrilic + "-"+outputOfTheYear+".json";
-                File creatingFiles = new File(jsonFilePath);
-                creatingFiles.createNewFile();
-                try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
-                    out.write(json.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                savingFiles(inputPath, reportTime, user, outputClass, (convertingZonedDateTimeToLocalDate(lastReadingForUser.getDate()).getYear())%100);
             }
             outputClass = new OutputClass();
             i++;
@@ -120,13 +131,52 @@ public class Main {
 
     }
 
+    private static void savingFiles(String inputPath, String reportTime, User user, OutputClass outputClass, int lastReadingForUserDateYear) throws ParseException, IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(outputClass);
+        String folderPath = inputPath + "\\" + user.getName() + "-" + user.getReferentNumber();
+        File creatingFolders = new File(folderPath);
+        boolean bool2 = creatingFolders.mkdirs();
+
+        Date jud = new SimpleDateFormat("yy-MM").parse(reportTime);
+        String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
+        String[] splitDate = month.split("\\s+");
+        String monthInCyrilic = splitDate[1];
+        int outputOfTheYear= lastReadingForUserDateYear %100;
+        String jsonFilePath = folderPath + "\\" + outputClass.documentNumber + "-" + monthInCyrilic + "-"+outputOfTheYear+".json";
+        File creatingFiles = new File(jsonFilePath);
+        creatingFiles.createNewFile();
+        try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
+            out.write(json.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static LocalDate getLocalDate(String dateToReporting) {
+        DateTimeFormatter formatterBorderTime = new DateTimeFormatterBuilder()
+                .appendPattern("yy-MM")
+                .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
+                .toFormatter();
+        LocalDate borderTime=LocalDate.parse(dateToReporting,formatterBorderTime);
+        return borderTime;
+    }
+    private static LocalDate convertingZonedDateTimeToLocalDate(ZonedDateTime time){
+
+        int day=time.getDayOfMonth();
+        Month month=time.getMonth();
+        int year=time.getYear();
+
+    return LocalDate.of(year,month,day);
+
+    }
+
     private static class OutputClass {
-                String documentDate;
+        String documentDate;
         String documentNumber;
         String consumer;
         String reference;
         Double totalAmount;
-
         List<Lines> lines = new ArrayList<>();
 
     }

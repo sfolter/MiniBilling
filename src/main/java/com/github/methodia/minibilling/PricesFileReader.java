@@ -14,9 +14,9 @@ import java.util.Map;
 
 public class PricesFileReader implements FileReading {
 
-    public  Map<String,Prices>parseToArrayList(String path) throws ParseException {
+    public  Map<String,List<Prices>>parseToArrayList(String path) throws ParseException {
         String line = "";
-        Map<String,Prices> result = new HashMap<>();
+        Map<String,List<Prices>> result = new HashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null) {
@@ -29,9 +29,15 @@ public class PricesFileReader implements FileReading {
                 LocalDate start = LocalDate.parse(stringBeginningDate, formatter);
                 LocalDate end = LocalDate.parse(stringEndDate, formatter);
                 Double price = Double.parseDouble(pricesData[3]);
-
-                    result.put(product, new Prices(product,start,end,price));
+                List<Prices> list = new ArrayList<>();
+                if (result.get(product) == null) {
+                    list.add(new Prices(product, start,end, price));
+                    result.put(product, list);
+                } else{
+                    result.get(product).add(new Prices( product,start,end, price));
                 }
+
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
