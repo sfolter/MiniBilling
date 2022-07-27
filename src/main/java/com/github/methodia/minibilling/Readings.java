@@ -21,11 +21,21 @@ public class Readings implements FileReader {
     ArrayList<String[]> readingsList = new ArrayList<>();
 
     public ArrayList<String> getReferentialNumberReadings() {
+
         return referentialNumberReadings;
     }
 
     public ArrayList<String> getProduct() {
+
         return product;
+    }
+
+    public ArrayList<Float> getQuantityList() {
+        return quantityList;
+    }
+
+    public static ArrayList<String> getDataString() {
+        return dataString;
     }
 
     public ArrayList<Float> getPokazanie() {

@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,41 +30,29 @@ public class Main {
         String pricesPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv";
         Prices pricesReadFile = new Prices();
         ArrayList<String[]> priceList = pricesReadFile.reader(pricesPath);
-
-        int p = 10000;
+        int docNum = 10000;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         Calendar cal = Calendar.getInstance();
-
         FileWriter file = null;
-        ArrayList<ZonedDateTime> parsedReadingsDate = readingsReadFile.dateParsing();
         JSONObject json = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < usersList.size(); i++) {
-
-            String[] lineInUser = usersList.get(i);
-            String name = lineInUser[0];
-            int numOfPriceList = Integer.parseInt(lineInUser[2]);
-            String refNum = lineInUser[1];
+            String[] lineInReadings1  = readingsList.get(i);
             for (int j = readingsList.size() / 2; j < readingsList.size(); j++) {
                 String[] lineInReadings = readingsList.get(i);
                 float quantity = quantity1.get(i);
-                ZonedDateTime startLineDate = ZonedDateTime.parse(lineInReadings[2]);
                 lineInReadings = readingsList.get(j);
-                String product = lineInReadings[1];
                 String refReadsSecond = lineInReadings[0];
-                ZonedDateTime endLineDate = ZonedDateTime.parse(lineInReadings[2]);
-                if (refNum.equals(refReadsSecond)) {
+                if (userReadingFile.returnRefList().get(i).equals(refReadsSecond)) {
                     for (int k = 0; k < priceList.size(); k++) {
                         String[] lineInPrices = priceList.get(k);
                         String productInPrices = lineInPrices[0];
-                        LocalDate startDate = LocalDate.parse(lineInPrices[1]);
-                        LocalDate endDate = LocalDate.parse(lineInPrices[2]);
                         float price = Float.parseFloat(lineInPrices[3]);
-                        if (product.equals(productInPrices)) {
+                        if (readingsReadFile.getProduct().get(i).equals(productInPrices)) {
                             json.put("documentDate", dateFormat.format(cal.getTime()));
-                            json.put("documentNumber", p);
-                            json.put("consumer", lineInUser[0]);
-                            json.put("reference", refNum);
+                            json.put("documentNumber", docNum);
+                            json.put("consumer", userReadingFile.returnNameList().get(i));
+                            json.put("reference", userReadingFile.returnRefList().get(i));
                             json.put("totalAmount", quantity*price);
                             JSONArray lines = new JSONArray();
                             json.put("lines", lines);
@@ -71,11 +60,11 @@ public class Main {
                             newLine.put("index", 1);
                             newLine.put("quantity", quantity);
                             newLine.put("amount", quantity*price);
-                            newLine.put("lineStart", lineInReadings[2]);
+                            newLine.put("lineStart", lineInReadings1[2]);
                             newLine.put("lineEnd", lineInReadings[2]);
-                            newLine.put("product", product);
+                            newLine.put("product",readingsReadFile.getProduct().get(i));
                             newLine.put("price", price);
-                            newLine.put("priceList", numOfPriceList);
+                            newLine.put("priceList", userReadingFile.numOfPrice().get(i));
                             lines.add(newLine);
                             Date jud = new SimpleDateFormat("yy-MM-dd").parse(lineInReadings[2]);
                             String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
@@ -83,21 +72,16 @@ public class Main {
                             String monthInCyrilic = splitDate[1];
                             int year = Integer.parseInt(splitDate[2]) % 100;
                             String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
-                            String fileWriter = p + "-" + monthInUpperCase + "-" + year;
+                            String fileWriter = docNum + "-" + monthInUpperCase + "-" + year;
                             file = new FileWriter(folderPath.get(i) + "//" + fileWriter + ".json");
                             file.write(json.toJSONString());
-
-
                         }
                     }
-                    p++;
+                    docNum++;
                 }
             }
             file.flush();
             file.close();
-            System.out.println(json);
-
-
         }
     }
 }
