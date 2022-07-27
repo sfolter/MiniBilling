@@ -4,8 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
@@ -13,6 +11,8 @@ public class Readings implements FileReader {
     Users users=new Users();
     static ArrayList<String> referentialNumberReadings = new ArrayList<>();
     static ArrayList<String> product = new ArrayList<>();
+
+
     static ArrayList<String> dataString = new ArrayList<>();
     static ArrayList<Float> pokazanie = new ArrayList<>();
     static ArrayList<ZonedDateTime> parsedData = new ArrayList<ZonedDateTime>();
@@ -21,6 +21,9 @@ public class Readings implements FileReader {
 
     public ArrayList<Float> getQuantityList() {
         return quantityList;
+    }
+    public static ArrayList<String> getDataString() {
+        return dataString;
     }
 
     public ArrayList<String> getReferentialNumberReadings() {
@@ -38,7 +41,7 @@ public class Readings implements FileReader {
     public ArrayList<ZonedDateTime> getParsedData() {
         return parsedData;
     }
-    ArrayList<String> refList = users.returnRefList();
+    ArrayList<String> refList = users.getUserRefList();
     public ArrayList<Float> getQuantity() {
 
 
@@ -65,7 +68,7 @@ public class Readings implements FileReader {
     }
 
     @Override
-    public ArrayList<String[]> reader(String path) {
+    public void reader(String path) {
         String[] readingsLineInArray;
 
 
@@ -87,7 +90,7 @@ public class Readings implements FileReader {
 
         }
 
-        return readingsList;
+
     }
 
     public ArrayList<ZonedDateTime> dateParsing() {

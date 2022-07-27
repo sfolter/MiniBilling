@@ -36,7 +36,7 @@ public class Prices implements FileReader {
     }
 
     @Override
-    public ArrayList<String[]> reader(String path) {
+    public void reader(String path) {
         String[] pricesLineInArray;
         ArrayList<String[]> pricesList = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class Prices implements FileReader {
             price.add(Float.parseFloat(strings[3]));
 
         }
-        return pricesList;
+
     }
 }
 

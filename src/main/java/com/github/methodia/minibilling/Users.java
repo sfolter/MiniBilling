@@ -12,21 +12,21 @@ public class Users implements FileReader {
 
     static ArrayList<Integer> numOfPriceList = new ArrayList<>();
 
-    public ArrayList<String> returnNameList() {
+    public ArrayList<String> getNameList() {
         return nameList;
     }
 
-    public ArrayList<String> returnRefList() {
+    public ArrayList<String> getUserRefList() {
         return refList;
     }
 
-    public ArrayList<Integer> numOfPrice() {
+    public ArrayList<Integer> getNumOfPriceList() {
         return numOfPriceList;
     }
 
 
     @Override
-    public ArrayList<String[]> reader(String path) {
+    public void reader(String path) {
         String[] lineInArray;
         ArrayList<String[]> userList = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class Users implements FileReader {
 
         }
 
-        return userList;
+
     }
 
 }

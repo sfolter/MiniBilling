@@ -4,5 +4,5 @@ import java.util.ArrayList;
 
 public interface FileReader
 {
-    public ArrayList<String[]> reader(String path);
+    public void reader(String path);
 }

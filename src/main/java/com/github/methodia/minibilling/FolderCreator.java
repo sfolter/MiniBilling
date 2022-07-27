@@ -14,8 +14,8 @@ public class FolderCreator {
     public void createFolders() {
         String path = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\usernames\\";
         Users newUser = new Users();
-        ArrayList<String> userNames = newUser.returnNameList();
-        ArrayList<String> userRef = newUser.returnRefList();
+        ArrayList<String> userNames = newUser.getNameList();
+        ArrayList<String> userRef = newUser.getUserRefList();
 
 
         for (int m = 0; m < userNames.size(); m++) {

@@ -1,35 +1,36 @@
 package com.github.methodia.minibilling;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.sound.sampled.Line;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.*;
 
 public class Main {
+    @JsonPropertyOrder({"consumer", "documentDate", "documentNumber","reference","lines"})
+    public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
 
-    public static void main(String[] args) throws ParseException, IOException {
-        Scanner scanner = new Scanner(System.in);
         String userPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv";
-        Users userReadingFile = new Users();
-        ArrayList<String[]> usersList = userReadingFile.reader(userPath);
+        Users user = new Users();
+        user.reader(userPath);
         FolderCreator foldersCreation = new FolderCreator();
         foldersCreation.createFolders();
         ArrayList<String> folderPath = foldersCreation.getFolderPath();
         String readingsPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\readings.csv";
-        Readings readingsReadFile = new Readings();
-        ArrayList<String[]> readingsList = readingsReadFile.reader(readingsPath);
-        readingsReadFile.getQuantity();
-        ArrayList<Float> quantity = readingsReadFile.getQuantityList();
+        Readings reading = new Readings();
+        reading.reader(readingsPath);
+        ArrayList<Float> quantity = reading.getQuantity();
         String pricesPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv";
-        Prices pricesReadFile = new Prices();
-        ArrayList<String[]> priceList = pricesReadFile.reader(pricesPath);
+        Prices price = new Prices();
+        price.reader(pricesPath);
 
         // Current date and time
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -38,67 +39,60 @@ public class Main {
 
         int documentNumber = 10000;
         FileWriter file = null;
-        ArrayList<ZonedDateTime> parsedReadingsDate = readingsReadFile.dateParsing();
-        JSONObject json = new JSONObject();
-        for (int i = 0; i < usersList.size(); i++) {
-            String[] lineInUser = usersList.get(i);
-            String name = lineInUser[0];
-            int numOfPriceList = Integer.parseInt(lineInUser[2]);
-            String refNum = lineInUser[1];
-            String[] lineInReadings = readingsList.get(i);
-            ZonedDateTime startLineDate = ZonedDateTime.parse(lineInReadings[2]);
-            for (int j = readingsList.size() / 2; j < readingsList.size(); j++) {
-                lineInReadings = readingsList.get(j);
-                String refReadSecond = lineInReadings[0];
-                String product = lineInReadings[1];
-                ZonedDateTime endLineDate = ZonedDateTime.parse(lineInReadings[2]);
-                if (refNum.equals(refReadSecond)) {
-                    for (int k = 0; k < priceList.size(); k++) {
-                        String[] lineInPrices = priceList.get(k);
-                        String productInPrices = lineInPrices[0];
-                        LocalDate startDate = LocalDate.parse(lineInPrices[1]);
-                        LocalDate endDate = LocalDate.parse(lineInPrices[2]);
-                        float price = Float.parseFloat(lineInPrices[3]);
+        ArrayList<ZonedDateTime> parsedReadingsDate = reading.dateParsing();
 
+        for (int i = 0; i < user.getUserRefList().size(); i++) {
+//            Field changeMap = json.getClass().getDeclaredField("map");
+//            changeMap.setAccessible(true);
+//            changeMap.set(json,new LinkedHashMap<>());
+//            changeMap.setAccessible(false);
+            JSONObject json = new JSONObject();
+            Lines lines = new Lines();
+            JSONObject newLine = new JSONObject();
 
-                        if (product.equals(productInPrices)) {
-                            json.put("consumer", lineInUser[0]);
-                            json.put("documentDate",dateFormat.format(cal.getTime()));
-                            json.put("documentNumber",documentNumber);
-                            json.put("reference",refNum);
-                            JSONArray lines = new JSONArray();
-                            json.put("lines", lines);
-                            JSONObject newLine = new JSONObject();
-                            newLine.put("index", 1);
-                            newLine.put("amount", readingsReadFile.getQuantityList().get(i) * price);
-                            newLine.put("quantity", quantity.get(i));
-                            newLine.put("lineStart", lineInReadings[2]);
-                            newLine.put("lineEnd", lineInReadings[2]);
-                            newLine.put("product", product);
-                            newLine.put("price", price);
-                            newLine.put("priceList", numOfPriceList);
-                            lines.add(newLine);
-                            Date jud = new SimpleDateFormat("yy-MM-dd").parse(lineInReadings[2]);
-                            String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
-                            String[] splitDate = month.split("\\s+");
-                            String monthInCyrilic = splitDate[1];
-                            int year = Integer.parseInt(splitDate[2]) % 100;
-                            String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
-                            String fileWriter = documentNumber + "-" + monthInUpperCase + "-" + year;
-                            file = new FileWriter(folderPath.get(i) + "//" + fileWriter + ".json");
-                            file.write(json.toJSONString());
-                        }
+//            org.json.JSONArray courses = new org.json.JSONArray(new String[]{"index: " + user.getUserRefList().get(i), "quantity: " + reading.getQuantity().get(i),
+//                    "lineStart: " + reading.getParsedData().get(i), "lineEnd: " + reading.getParsedData().get(i),
+//                    "product: " + reading.getProduct().get(i), "price: " + price.getPrice().get(i),
+//                    "priceList: " + user.getNumOfPriceList().get(i), "amount: " + reading.getReferentialNumberReadings().get(i)});
+//            json.put("lines", courses);
+//            if (reading.getProduct().get(i).equals(price.getProductInPrices()))
 
-                    }
-                    documentNumber++;
-                }
-            }
+                json.put("consumer", user.getNameList().get(i));
+                json.put("documentDate", dateFormat.format(cal.getTime()));
+                json.put("documentNumber", documentNumber);
+                json.put("reference", user.getUserRefList().get(i));
+
+                json.put("lines", lines);
+
+                newLine.put("index", 1);
+                newLine.put("amount", quantity.get(i) * price.getPrice().get(0));
+                newLine.put("quantity", quantity.get(i));
+                newLine.put("lineStart", price.getParsedStartDate().get(0));
+                newLine.put("lineEnd", price.getParsedEndDate().get(0));
+                newLine.put("product", reading.getProduct().get(i));
+                newLine.put("price", price.getPrice().get(0));
+                newLine.put("priceList", user.getNumOfPriceList().get(i));
+                lines.add(newLine);
+                Date jud = new SimpleDateFormat("yy-MM-dd").parse(reading.getDataString().get(i));
+                String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
+                String[] splitDate = month.split("\\s+");
+                String monthInCyrilic = splitDate[1];
+                int year = Integer.parseInt(splitDate[2]) % 100;
+                String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
+                String fileWriter = documentNumber + "-" + monthInUpperCase + "-" + year;
+                file = new FileWriter(folderPath.get(i) + "//" + fileWriter + ".json");
+                file.write(json.toJSONString());
+
+            documentNumber++;
             file.flush();
             file.close();
-            System.out.println(json);
-
-
         }
+
+
     }
+
 }
+
+
+
 
