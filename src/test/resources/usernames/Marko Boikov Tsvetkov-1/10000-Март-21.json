@@ -1,15 +1,1 @@
-{
-  "lines": [
-    {
-      "amount": 0.0,
-      "product": "gas",
-      "quantity": 0.0,
-      "lineStart": "2021-03-17T13:20:00+03:00",
-      "price": 1.8,
-      "index": 1,
-      "lineEnd": "2021-03-17T13:20:00+03:00",
-      "priceList": 1
-    }
-  ],
-  "consumer": "Marko Boikov Tsvetkov"
-}
+{"documentDate":"2022-07-27T14:53:54Z","reference":"1","documentNumber":10000,"lines":[{"amount":156.59999,"product":"gas","quantity":87.0,"lineStart":"2021-03-17T13:20:00+03:00","price":1.8,"index":1,"lineEnd":"2021-03-17T13:20:00+03:00","priceList":1}],"consumer":"Marko Boikov Tsvetkov"}
