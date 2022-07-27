@@ -16,6 +16,7 @@ public class Readings implements FileReader {
     static ArrayList<Float> pokazanie = new ArrayList<>();
     static ArrayList<ZonedDateTime> parsedData = new ArrayList<ZonedDateTime>();
     private ArrayList<Float> quantityList = new ArrayList<>();
+
     Users users = new Users();
     ArrayList<String[]> readingsList = new ArrayList<>();
 
@@ -35,20 +36,25 @@ public class Readings implements FileReader {
         return parsedData;
     }
 
+    ArrayList<String> refList = users.returnRefList();
+
     public ArrayList<Float> getQuantity() {
-        ArrayList<String> refList = users.returnRefList();
 
-        int counter = 1;
-        int j=0;
+
+        int j = 0;
         while (j < refList.size()) {
-            for (int i = readingsList.size() / 2; i < readingsList.size(); i++) {
-                if (Integer.parseInt(refList.get(j))==counter&&refList.get(j).equals(referentialNumberReadings.get(i))) {
-                    counter++;
-                    float quantity = pokazanie.get(i) - pokazanie.get(j);
-                    quantityList.add(quantity);
+            for (int i = readingsList.size() / 2; i < readingsList.size() && j < refList.size(); i++) {
+                if (refList.get(j).equals(referentialNumberReadings.get(i))) {
+                    for (int k = 0; k < refList.size(); k++) {
+                        if (referentialNumberReadings.get(i).equals(referentialNumberReadings.get(k))) {
+                            float quantity = pokazanie.get(i) - pokazanie.get(k);
+                            quantityList.add(quantity);
+                            //i = readingsList.size() / 2;
+                            j++;
+                            break;
+                        }
 
-                    i=readingsList.size() / 2;
-                    j++;
+                    }
                 }
             }
 

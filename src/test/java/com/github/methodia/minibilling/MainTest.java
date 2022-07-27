@@ -15,8 +15,8 @@ public class MainTest {
     @Test
     void testSample1() throws ParseException, IOException {
         //define the args array so that you pass the path to the files from sample1/input
-        final String[] args = {};
-        Main.main(args);
+//        final String[] args = {};
+//        Main.main(args);
 
         //read the output and compare with the files in sample1/expected
     }
