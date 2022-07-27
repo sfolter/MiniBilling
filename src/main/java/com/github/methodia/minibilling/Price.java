@@ -3,11 +3,10 @@ package com.github.methodia.minibilling;
 import java.time.LocalDate;
 
 public class Price {
-    private  String product;
-    private  LocalDate startDate;
+    private String product;
+    private LocalDate startDate;
     private LocalDate endDate;
-    private  double price;
-
+    private double price;
 
     public Price(String product, LocalDate startDate, LocalDate endDate, double price) {
 
@@ -17,9 +16,7 @@ public class Price {
         this.price = price;
     }
 
-    public Price() {
 
-    }
 
     public String getProduct() {
         return product;

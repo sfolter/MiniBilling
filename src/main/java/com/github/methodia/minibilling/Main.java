@@ -4,104 +4,136 @@ package com.github.methodia.minibilling;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.*;
 
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        String reportTime;
+    public static void main(String[] args) throws ParseException {
+       String readingTime;
+           Scanner scan = new Scanner(System.in);
 
-//        String csvFileUsers = "src\\test\\resources\\sample1\\input\\users.csv";
-//        String csvFileReports = "src\\test\\resources\\sample1\\input\\readings.csv";
+           String dateForReading = scan.nextLine();
+           String path = scan.nextLine();
+
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendPattern("yy-MM")
+                .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
+                .toFormatter();
+
+              LocalDate localDate = LocalDate.parse(dateForReading, formatter);
+
         String csvFilePrices = "src\\test\\resources\\sample1\\input\\prices-1.csv";
 
-        ClientReader csvUserReader = new ClientReader();
-        ReadingsReader csvReportsReader = new ReadingsReader();
+        ClientsReader csvUserReader = new ClientsReader();
+        ReadingsReader csvReadingReader = new ReadingsReader();
         PriceReader csvPriceReader = new PriceReader();
 
-        ArrayList<Client> users = csvUserReader.read();
+        ArrayList<Clients> users = csvUserReader.read();
 
-        Information inf = new Information();
-        Lines line = new Lines();
-        int counter = 10000;
-        Map<String, List<Readings>> readings = csvReportsReader.read();
+        BillingInformation billInf = new BillingInformation();
+        LinesForJsonFile line = new LinesForJsonFile();
+
+        Map<String, List<Readings>> readings = csvReadingReader.read();
         Map<String, Price> prices = csvPriceReader.read(csvFilePrices);
-        for (Client u : users) {
 
-            List<Readings> readingsForUser = readings.get(u.getReferenceNumber());
-            Readings firstReading = readings.get(u.getReferenceNumber()).get(0);
-            Readings lastReading = readings.get(u.getReferenceNumber()).get(readingsForUser.size() - 1);
+        int counterForDocumentNumber = 10000;
+        String outputPath = "src\\test\\resources\\output";
+
+
+        for (Clients c : users) {
+            //folder name -> Marko Boikov Tsvetkov-1
+            String folderPath = outputPath + "\\" + c.getClientName() + "-" + c.getReferenceNumber();
+
+            // get clients ref.number and hold place for firstReading and lastReading
+            List<Readings> readingsForUser = readings.get(c.getReferenceNumber());
+            Readings firstReading = readings.get(c.getReferenceNumber()).get(0);
+            Readings lastReading = readings.get(c.getReferenceNumber()).get(readingsForUser.size() - 1);
+
             prices.get("gas");
 
+            Price price = prices.get(firstReading.getProduct()); //inf. from prices.csv
+            int lastReadingForUserDateDay=lastReading.getDate().getDayOfMonth();
+            Month lastReadingForUserDateMonth= Month.of(lastReading.getDate().getMonthOfYear());
+            int lastReadingForUserDateYear=lastReading.getDate().getYear();
+            LocalDate lastReadingForUserInLocalDate=LocalDate.of(lastReadingForUserDateYear,lastReadingForUserDateMonth,lastReadingForUserDateDay);
+           if (lastReadingForUserInLocalDate.isBefore(localDate)) {
 
-            Price price = prices.get(firstReading.getProduct());
+                billInf.getDocumentDate();
+                billInf.documentNumber = String.valueOf(counterForDocumentNumber);
+                counterForDocumentNumber++;
+                billInf.consumer = c.getClientName();
+                billInf.reference = c.getReferenceNumber();
+                line.price = price.getPrice();
+                line.quantity = lastReading.getIndication() - firstReading.getIndication();
+                line.getAmount();
+                billInf.totalAmount = line.getAmount();
+                line.index = c.getPriceListNumber();
+                line.lineStart = String.valueOf(firstReading.getDate());
+                line.lineEnd = String.valueOf(lastReading.getDate());
+                line.lineStart = String.valueOf(firstReading.getDate());
+                line.lineEnd = String.valueOf(lastReading.getDate());
+                line.product = firstReading.getProduct();
+                line.priceList = c.getPriceListNumber();
+                readingTime = String.valueOf(lastReading.getDate());
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
-            inf.documentDate = ZonedDateTime.now().format(formatter);
-            inf.documentDate = ZonedDateTime.now().format(formatter);
-            inf.documentNumber = String.valueOf(counter);
-            counter++;
-            inf.consumer = u.getUserName();
-            inf.reference = u.getReferenceNumber();
-            line.price = price.getPrice();
-            line.quantity = lastReading.getIndication() - firstReading.getIndication();
-            line.amount = line.price * line.quantity;
-            inf.totalAmount = line.amount;
-            line.index = u.getPriceListNumber();
-            line.lineStart = String.valueOf(firstReading.getDate());
-            line.lineEnd = String.valueOf(lastReading.getDate());
-            line.lineStart = String.valueOf(firstReading.getDate());
-            line.lineEnd = String.valueOf(lastReading.getDate());
-            line.product = firstReading.getProduct();
-            line.priceList = u.getPriceListNumber();
-            reportTime = String.valueOf(lastReading.getDate());
-
-            inf.lines.add(line);
-
-
-
+                billInf.lines.add(line);
 
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String json = gson.toJson(inf);
+                Gson gson = new GsonBuilder().setPrettyPrinting().create(); // for Json files
+                String json = gson.toJson(billInf);
 
+                Date date = new SimpleDateFormat("yy-MM-dd").parse(readingTime);
+                String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(date); //bg translation
+                String[] splitDate = month.split("\\s+");
+                String Cyrillic = splitDate[1];
+                String firstLetter = Cyrillic.substring(0, 1).toUpperCase(Locale.ROOT);// get only the month
+                String nameCapitalized = firstLetter + Cyrillic.substring(1);
+                String lineStart = line.lineStart;
+                String yearOfIssuedInvoice = lineStart.substring(2, 4); // 2021 -> 21
 
-            String folderPath = "src\\test\\resources\\sample1\\input" + "\\" + u.getUserName() + "-" + u.getReferenceNumber();
-            File creatingFolders = new File(folderPath);
-            Date date = new SimpleDateFormat("yy-MM-dd").parse(reportTime);
-            String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(date);
-            String[] splitDate = month.split("\\s+");
-            String Cyrillic = splitDate[1];
-            String fName = folderPath + "\\" + inf.getDocumentNumber() + "-" + Cyrillic + "-" + u.getReferenceNumber() + ".json";
+                String fName = folderPath + "\\" + billInf.getDocumentNumber() + "-" + nameCapitalized + "-" + yearOfIssuedInvoice + ".json";
 
-            try {
-                File directory = new File(String.valueOf(creatingFolders));
-                directory.mkdirs();
-                FileWriter myWriter = new FileWriter(fName);
-                myWriter.write(json);
-                myWriter.close();
+                createJsonFilesInClientsFolder(folderPath, json, fName);
 
-
-            } catch (Exception e) {
-                e.getStackTrace();
-
+                billInf = new BillingInformation();
+                line = new LinesForJsonFile();
 
             }
-            inf = new Information();
-            line = new Lines();
+
+        }
+   }
+
+
+    static void createJsonFilesInClientsFolder(String folderPath, String json, String fName) {
+        try {
+            File creatingFolders = new File(folderPath);
+            File folderDirectory = new File(String.valueOf(creatingFolders));
+            folderDirectory.mkdirs();
+            FileWriter outputWriter = new FileWriter(fName);
+            outputWriter.write(json); //write json file
+            outputWriter.close();
+
+
+        } catch (Exception e) {
+            e.getStackTrace();
+
 
         }
 
-    }
 
+    }
 }
+
+
