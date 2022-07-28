@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        String outputPath = scanner.nextLine();
+        String resourceDirectory = scanner.nextLine();
         String dateToReporting = scanner.nextLine();
 
         DateTimeFormatter formatterBorderTime = new DateTimeFormatterBuilder()
@@ -29,7 +29,7 @@ public class Main {
         LocalDate borderTime = LocalDate.parse(dateToReporting, formatterBorderTime);
 
         //directories
-        String resourceDirectory = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        //String resourceDirectory = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         String directoryClients = resourceDirectory + "users.csv";
         String directoryReport = resourceDirectory + "readings.csv";
         String directoryPrices = resourceDirectory + "prices-1.csv";
@@ -40,9 +40,6 @@ public class Main {
         final ReportReader reportReader = new ReportReader();
         Bill bill = new Bill();
 
-        ClientReader1 clientReader1= new ClientReader1();
-        Map<String,Map<String,Integer>> allInfoClient=clientReader1.readClientsToMap(directoryClients);
-        System.out.println(allInfoClient.get("1"));
 
         ArrayList<Client> clients = clientReader.readClientsToList(directoryClients);
         Map<String, List<Report>> readings = reportReader.readReportForGasToMap(directoryReport);
@@ -52,44 +49,47 @@ public class Main {
         for (Client client : clients) {
             //class connecting
             List<Report> readingsForUser = readings.get(client.getReferenseNumber());
-            Report firstReportInArray = readingsForUser.get(0);
-            Report lastReportInArray = readingsForUser.get(readingsForUser.size() - 1);
+            Report firstReport = readingsForUser.get(0);
+            Report lastReport = readingsForUser.get(readingsForUser.size() - 1);
 
-
-            int ReadingForUserDateDay = lastReportInArray.getData().getDayOfMonth();
-            Month ReadingForUserDateMonth = lastReportInArray.getData().getMonth();
-            int ReadingForUserDateYear = lastReportInArray.getData().getYear();
-            LocalDate ReadingForUserInLocalDate = LocalDate.of(ReadingForUserDateYear, ReadingForUserDateMonth, ReadingForUserDateDay);
             String pricesReadingPath = resourceDirectory + "prices-" + client.getNumberOfPriceList() + ".csv";
             Map<String, List<Prices>> prices = pricesReader.readPricesToMap(pricesReadingPath);
-            List<Prices> priceForUser = prices.get(firstReportInArray.getProduct());
-            if (ReadingForUserInLocalDate.isBefore(borderTime)) {
+            List<Prices> priceForUser = prices.get(firstReport.getProduct());
 
-                Line line = new Line();
-                line.index = client.getNumberOfPriceList();
-                line.quantity = lastReportInArray.getValue() - firstReportInArray.getValue();
-                line.lineStart = String.valueOf(firstReportInArray.getData());//
-                line.lineEnd = String.valueOf(lastReportInArray.getData());//
-                line.product = readings.get(client.getReferenseNumber()).get(0).getProduct();
-                line.price = prices.get("gas").get(0).getPrice();
-                line.priceList = client.getNumberOfPriceList();
-                line.amount = line.quantity * prices.get("gas").get(0).getPrice(); //
+            LocalDate first = firstReport.getData().toLocalDate();
+            LocalDate last = lastReport.getData().toLocalDate();
+            if (first.isBefore(borderTime)) {
+                LocalDate start = prices.get("gas").get(0).getStart();
+                LocalDate end = prices.get("gas").get(0).getEnd();
+                int compareFirst = first.compareTo(start);
+                int compareLast = last.compareTo(end);
+                if ((first.isAfter(start) || compareFirst == 0) && (last.isBefore(end) || compareLast == 0)) {
 
-                bill.lines.add(line);
+                    Line line = new Line();
+                    line.index = client.getNumberOfPriceList();
+                    line.quantity = lastReport.getValue() - firstReport.getValue();
+                    line.lineStart = String.valueOf(firstReport.getData());//
+                    line.lineEnd = String.valueOf(lastReport.getData());//
+                    line.product = readings.get(client.getReferenseNumber()).get(0).getProduct();
+                    line.price = prices.get("gas").get(0).getPrice();
+                    line.priceList = client.getNumberOfPriceList();
+                    line.amount = line.quantity * prices.get("gas").get(0).getPrice(); //
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                bill.setDocumentDate(ZonedDateTime.now().format(formatter));
-                bill.documentNumber = Bill.getDocumentNumber();
-                bill.consumer = client.getName();
-                bill.reference = client.getReferenseNumber();
-                double totalAmountCounter = 0;
-                for (int j = 0; j < bill.lines.size(); j++) {
-                    totalAmountCounter += line.amount;
+                    bill.lines.add(line);
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                    bill.setDocumentDate(ZonedDateTime.now().format(formatter));
+                    bill.documentNumber = Bill.getDocumentNumber();
+                    bill.consumer = client.getName();
+                    bill.reference = client.getReferenseNumber();
+                    double totalAmountCounter = 0;
+                    for (int j = 0; j < bill.lines.size(); j++) {
+                        totalAmountCounter += line.amount;
+                    }
+                    bill.totalAmount = totalAmountCounter;
                 }
-                bill.totalAmount = totalAmountCounter;
-
             }
-            reportTime = String.valueOf(lastReportInArray.getData());
+            reportTime = String.valueOf(lastReport.getData());
 
 
             Gson save = new Gson();
@@ -99,6 +99,7 @@ public class Main {
                 String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
                 String[] splitDate = month.split("\\s+");
                 String monthInCyrilic = splitDate[1];
+                int ReadingForUserDateYear = lastReport.getData().getYear();
                 int outputOfTheYear = ReadingForUserDateYear % 100;
 
                 String folderPath = resourceDirectory + client.getName() + "-" + client.getReferenseNumber();
