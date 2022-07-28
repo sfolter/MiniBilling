@@ -25,7 +25,7 @@ public class Main {
         String inputPath = scanner.nextLine();
         String dateToReporting=scanner.nextLine();
         LocalDate borderTime = getLocalDate(dateToReporting);
-
+        String outputPath=scanner.nextLine();
 
 
         final String readingsPath = inputPath + "\\" + "readings.csv";
@@ -58,10 +58,11 @@ public class Main {
                 double quantity = lastReadingForUser.getMetrics() - firstReadingForUser.getMetrics();
 
                 Lines line = new Lines();
+                int lineIndexCounter=1;
                 for(Prices price:pricesList){
-                   if(price.getStartingDate().isBefore(firstReadingDate)&& price.getEndDate().isAfter(lastReadingDate)){
 
-                       line.index = 1;
+                    if(firstReadingDate.compareTo(price.getStartingDate())<=0 && lastReadingDate.compareTo(price.getEndDate())<=0){
+                       line.index = lineIndexCounter;
                        line.quantity = quantity;
                        line.lineStart = String.valueOf(firstReadingForUser.getDate());
                        line.lineEnd = String.valueOf(lastReadingForUser.getDate());
@@ -70,15 +71,15 @@ public class Main {
                        line.priceList = user.getNumberPricingList();
                        line.amount = quantity * price.getPrice();
                        outputClass.lines.add(line);
-
-                   }else if(price.getStartingDate().isBefore(firstReadingDate) && price.getEndDate().isBefore(lastReadingDate)){
+                        lineIndexCounter++;
+                   }else if(price.getStartingDate().compareTo(firstReadingDate)>0 && price.getEndDate().compareTo(firstReadingDate)>0){
                        double beginningMetrics=lastReadingForUser.getMetrics();
                        double endMetrics=firstReadingForUser.getMetrics();
                        double metricsPerDay=endMetrics-beginningMetrics;
                        long daysBeforeChangingPrice = ChronoUnit.DAYS.between(firstReadingDate,price.getEndDate());
 
 
-                       line.index = 1;
+                       line.index = lineIndexCounter;
                        line.quantity = metricsPerDay*daysBeforeChangingPrice;
                        line.lineStart = String.valueOf(firstReadingForUser.getDate());
                        line.lineEnd = String.valueOf(price.getEndDate());
@@ -88,7 +89,7 @@ public class Main {
                        line.amount = metricsPerDay*daysBeforeChangingPrice*price.getPrice();
                        firstDateAfterChangePrice=price.getEndDate();
                        outputClass.lines.add(line);
-
+                        lineIndexCounter++;
 
 
                        long daysAfterChangingPrice = ChronoUnit.DAYS.between(firstDateAfterChangePrice,price.getEndDate());
@@ -106,36 +107,38 @@ public class Main {
                        line.priceList = user.getNumberPricingList();
                        line.amount = metricsForPeriod*price.getPrice();
                        outputClass.lines.add(line);
+                       lineIndexCounter++;
                    }
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                    outputClass.documentDate = ZonedDateTime.now().format(formatter);
+
+                    int documentNumber = i * 10000;
+                    outputClass.documentNumber = String.valueOf(documentNumber);
+                    outputClass.consumer = user.getName();
+                    outputClass.reference = user.getReferentNumber();
+                    outputClass.totalAmount =outputClass.totalAmount+line.amount;
+
+
                 }
+                lineIndexCounter=1;
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                outputClass.documentDate = ZonedDateTime.now().format(formatter);
-
-                for (int j = 0; j <outputClass.lines.size() ; j++) {
-                    outputClass.totalAmount+= line.amount;
-                    line.index+=i;
-
-                }
-                int documentNumber = i * 10000;
-                outputClass.documentNumber = String.valueOf(documentNumber);
-                outputClass.consumer = user.getName();
-                outputClass.reference = user.getReferentNumber();
-                outputClass.totalAmount = line.amount;
                 reportTime = String.valueOf(lastReadingForUser.getDate());
-                savingFiles(inputPath, reportTime, user, outputClass, (convertingZonedDateTimeToLocalDate(lastReadingForUser.getDate()).getYear())%100);
+                savingFiles(outputPath, reportTime, user, outputClass, (convertingZonedDateTimeToLocalDate(lastReadingForUser.getDate()).getYear())%100);
+
             }
+
             outputClass = new OutputClass();
             i++;
         }
-
-
     }
 
-    private static void savingFiles(String inputPath, String reportTime, User user, OutputClass outputClass, int lastReadingForUserDateYear) throws ParseException, IOException {
+
+
+
+    private static void savingFiles(String outputPath, String reportTime, User user, OutputClass outputClass, int lastReadingForUserDateYear) throws ParseException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(outputClass);
-        String folderPath = inputPath + "\\" + user.getName() + "-" + user.getReferentNumber();
+        String folderPath = outputPath+ "\\" + user.getName() + "-" + user.getReferentNumber();
         File creatingFolders = new File(folderPath);
         boolean bool2 = creatingFolders.mkdirs();
 
@@ -177,7 +180,7 @@ public class Main {
         String documentNumber;
         String consumer;
         String reference;
-        Double totalAmount;
+        Double totalAmount= Double.valueOf(0);
         List<Lines> lines = new ArrayList<>();
 
     }
