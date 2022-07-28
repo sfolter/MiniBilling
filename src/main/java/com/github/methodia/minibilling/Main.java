@@ -36,7 +36,6 @@ public class Main {
         FileWriter file = null;
         JSONObject json = new JSONObject();
         JSONObject newLine = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
         Field changeMap = json.getClass().getDeclaredField("map");
         changeMap.setAccessible(true);
         changeMap.set(json, new LinkedHashMap<>());
@@ -48,29 +47,24 @@ public class Main {
         for (int i = 0; i < usersList.size(); i++) {
             String[] lineInReadings1  = readingsList.get(i);
             for (int j = readingsList.size() / 2; j < readingsList.size(); j++) {
-                String[] lineInReadings = readingsList.get(i);
-                float quantity = quantity1.get(i);
-                lineInReadings = readingsList.get(j);
-                String refReadsSecond = lineInReadings[0];
-                if (userReadingFile.returnRefList().get(i).equals(refReadsSecond)) {
+                String[] lineInReadings = readingsList.get(j);
+                if (userReadingFile.returnRefList().get(i).equals(lineInReadings[0])) {
                     for (int k = 0; k < priceList.size(); k++) {
                         String[] lineInPrices = priceList.get(k);
-                        String productInPrices = lineInPrices[0];
-                        float price = Float.parseFloat(lineInPrices[3]);
-                        if (readingsReadFile.getProduct().get(i).equals(productInPrices)) {
+                        if (readingsReadFile.getProduct().get(i).equals(lineInPrices[0])) {
                             json.put("documentDate", dateFormat.format(cal.getTime()));
                             json.put("documentNumber", docNum);
                             json.put("consumer", userReadingFile.returnNameList().get(i));
                             json.put("reference", userReadingFile.returnRefList().get(i));
-                            json.put("totalAmount", quantity*price);
+                            json.put("totalAmount", quantity1.get(i)*Float.parseFloat(lineInPrices[3]));
                             JSONArray lines = new JSONArray();
                             newLine.put("index", 1);
-                            newLine.put("quantity", quantity);
-                            newLine.put("amount", quantity*price);
+                            newLine.put("quantity", quantity1.get(i));
+                            newLine.put("amount", quantity1.get(i)*Float.parseFloat(lineInPrices[3]));
                             newLine.put("lineStart", lineInReadings1[2]);
                             newLine.put("lineEnd", lineInReadings[2]);
                             newLine.put("product",readingsReadFile.getProduct().get(i));
-                            newLine.put("price", price);
+                            newLine.put("price", Float.parseFloat(lineInPrices[3]));
                             newLine.put("priceList", userReadingFile.numOfPrice().get(i));
                             lines.add(newLine);
                             json.put("lines", lines);
