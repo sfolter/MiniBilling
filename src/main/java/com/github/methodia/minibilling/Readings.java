@@ -8,58 +8,56 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 public class Readings implements FileReader {
-    Users users=new Users();
+    Users users = new Users();
     static ArrayList<String> referentialNumberReadings = new ArrayList<>();
+    static ArrayList<String> referentialNumb = new ArrayList<>();
     static ArrayList<String> product = new ArrayList<>();
-
-
-    static ArrayList<String> dataString = new ArrayList<>();
-    static ArrayList<Float> pokazanie = new ArrayList<>();
-    static ArrayList<ZonedDateTime> parsedData = new ArrayList<ZonedDateTime>();
+    private ArrayList<ZonedDateTime> startDateParsed = new ArrayList<>();
+    private ArrayList<ZonedDateTime> endDateParsed = new ArrayList<>();
+    static ArrayList<String> dateString = new ArrayList<>();
+    public static ArrayList<String> getEndDateString() {
+        return endDateString;
+    }
+    static ArrayList<String> startDateString = new ArrayList<>();
+    static ArrayList<String> endDateString = new ArrayList<>();
+    static ArrayList<Integer> pokazanie = new ArrayList<>();
+    static ArrayList<Integer> pokazanieStart = new ArrayList<>();
+    static ArrayList<Integer> pokazanieEnd = new ArrayList<>();
+    private ArrayList<ZonedDateTime> parsedData = new ArrayList<ZonedDateTime>();
     static ArrayList<String[]> readingsList = new ArrayList<>();
-    ArrayList<Float> quantityList=new ArrayList<>();
+    ArrayList<Float> quantityList = new ArrayList<>();
 
-    public ArrayList<Float> getQuantityList() {
-        return quantityList;
-    }
-    public static ArrayList<String> getDataString() {
-        return dataString;
-    }
-
-    public ArrayList<String> getReferentialNumberReadings() {
-        return referentialNumberReadings;
-    }
-
-    public  ArrayList<String> getProduct() {
+    public ArrayList<String> getProduct() {
         return product;
     }
 
-    public ArrayList<Float> getPokazanie() {
-        return pokazanie;
+
+
+    ArrayList<String> refList = users.getUserRefList();
+
+    public ArrayList<ZonedDateTime> getStartDateParsed() {
+        return startDateParsed;
     }
 
-    public ArrayList<ZonedDateTime> getParsedData() {
-        return parsedData;
+    public ArrayList<ZonedDateTime> getEndDateParsed() {
+        return endDateParsed;
     }
-    ArrayList<String> refList = users.getUserRefList();
+
     public ArrayList<Float> getQuantity() {
 
 
         int j = 0;
         while (j < refList.size()) {
-            for (int i = readingsList.size() / 2; i < readingsList.size() && j < refList.size(); i++) {
-                if (refList.get(j).equals(referentialNumberReadings.get(i))) {
-                    for (int k = 0; k < refList.size(); k++) {
-                        if (referentialNumberReadings.get(i).equals(referentialNumberReadings.get(k))) {
-                            float quantity = pokazanie.get(i) - pokazanie.get(k);
-                            quantityList.add(quantity);
-                            //i = readingsList.size() / 2;
-                            j++;
-                            break;
-                        }
+            for (int i = 0; i < referentialNumb.size(); i++) {
+                if (refList.get(j).equals(referentialNumb.get(i))) {
+
+                    float quantity = pokazanieEnd.get(i) - pokazanieStart.get(i);
+                    quantityList.add(quantity);
+                    startDateParsed.add(dateParsing(startDateString).get(i));
+                    endDateParsed.add(dateParsing(endDateString).get(i));
+                    j++;
 
 
-                    }
                 }
             }
 
@@ -85,17 +83,31 @@ public class Readings implements FileReader {
             String[] strings = readingsList.get(i);
             referentialNumberReadings.add(strings[0]);
             product.add(strings[1]);
-            dataString.add(strings[2]);
-            pokazanie.add(Float.parseFloat(strings[3]));
+            dateString.add(strings[2]);
+            pokazanie.add(Integer.parseInt(strings[3]));
+        }
+        for (int i = 0; i < readingsList.size(); i++) {
+            for (int j = i + 1; j < readingsList.size(); j++) {
+
+                if (referentialNumberReadings.get(i).equals(referentialNumberReadings.get(j))) {
+                    pokazanieStart.add(Math.min(pokazanie.get(i), pokazanie.get(j)));
+                    pokazanieEnd.add(Math.max(pokazanie.get(i), pokazanie.get(j)));
+                    startDateString.add(dateString.get(i));
+                    endDateString.add(dateString.get(j));
+                    referentialNumb.add(referentialNumberReadings.get(i));
+                }
+
+            }
+
 
         }
 
 
     }
 
-    public ArrayList<ZonedDateTime> dateParsing() {
-        for (int i = 0; i < dataString.size(); i++) {
-            ZonedDateTime instant = ZonedDateTime.parse(dataString.get(i));
+    public ArrayList<ZonedDateTime> dateParsing(ArrayList<String> dateString) {
+        for (int i = 0; i < dateString.size(); i++) {
+            ZonedDateTime instant = ZonedDateTime.parse(dateString.get(i));
             parsedData.add(instant);
         }
         return parsedData;
