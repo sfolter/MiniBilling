@@ -1,8 +1,8 @@
 package com.github.methodia.minibilling;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
+import org.json.*;
+import org.json.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -15,7 +15,7 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) throws ParseException, IOException {
+    public static void main(String[] args) throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
         Scanner scanner = new Scanner(System.in);
         String userPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv";
         Users userReadingFile = new Users();
@@ -35,7 +35,16 @@ public class Main {
         Calendar cal = Calendar.getInstance();
         FileWriter file = null;
         JSONObject json = new JSONObject();
+        JSONObject newLine = new JSONObject();
         JSONArray jsonArray = new JSONArray();
+        Field changeMap = json.getClass().getDeclaredField("map");
+        changeMap.setAccessible(true);
+        changeMap.set(json, new LinkedHashMap<>());
+        changeMap.setAccessible(false);
+        Field changeMapArray = newLine.getClass().getDeclaredField("map");
+        changeMapArray.setAccessible(true);
+        changeMapArray.set(newLine, new LinkedHashMap<>());
+        changeMapArray.setAccessible(false);
         for (int i = 0; i < usersList.size(); i++) {
             String[] lineInReadings1  = readingsList.get(i);
             for (int j = readingsList.size() / 2; j < readingsList.size(); j++) {
@@ -55,8 +64,6 @@ public class Main {
                             json.put("reference", userReadingFile.returnRefList().get(i));
                             json.put("totalAmount", quantity*price);
                             JSONArray lines = new JSONArray();
-                            json.put("lines", lines);
-                            JSONObject newLine = new JSONObject();
                             newLine.put("index", 1);
                             newLine.put("quantity", quantity);
                             newLine.put("amount", quantity*price);
@@ -66,6 +73,7 @@ public class Main {
                             newLine.put("price", price);
                             newLine.put("priceList", userReadingFile.numOfPrice().get(i));
                             lines.add(newLine);
+                            json.put("lines", lines);
                             Date jud = new SimpleDateFormat("yy-MM-dd").parse(lineInReadings[2]);
                             String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
                             String[] splitDate = month.split("\\s+");
@@ -74,7 +82,7 @@ public class Main {
                             String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
                             String fileWriter = docNum + "-" + monthInUpperCase + "-" + year;
                             file = new FileWriter(folderPath.get(i) + "//" + fileWriter + ".json");
-                            file.write(json.toJSONString());
+                            file.write(json.toString(4));
                         }
                     }
                     docNum++;

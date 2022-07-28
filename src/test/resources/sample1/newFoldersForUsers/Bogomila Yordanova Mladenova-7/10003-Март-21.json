@@ -1,0 +1,17 @@
+{
+    "documentDate": "2022-07-28T10:57:33Z",
+    "documentNumber": 10003,
+    "consumer": "Bogomila Yordanova Mladenova",
+    "reference": "7",
+    "totalAmount": 961.19995,
+    "lines": [{
+        "index": 1,
+        "quantity": 534,
+        "amount": 961.19995,
+        "lineStart": "2021-01-01T12:00:00+03:00",
+        "lineEnd": "2021-03-18T15:40:00+03:00",
+        "product": "gas",
+        "price": 1.8,
+        "priceList": 1
+    }]
+}
