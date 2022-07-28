@@ -88,13 +88,14 @@ public class Main {
                        line.amount = metricsPerDay*daysBeforeChangingPrice*price.getPrice();
                        firstDateAfterChangePrice=price.getEndDate();
                        outputClass.lines.add(line);
-                   } else if (price.getStartingDate().isAfter(firstReadingDate)&& price.getEndDate().isAfter(lastReadingDate)) {
+
+
 
                        long daysAfterChangingPrice = ChronoUnit.DAYS.between(firstDateAfterChangePrice,price.getEndDate());
 
-                       double beginningMetrics=lastReadingForUser.getMetrics();
-                       double endMetrics=firstReadingForUser.getMetrics();
-                       double metricsPerDay=endMetrics-beginningMetrics;
+                        beginningMetrics=lastReadingForUser.getMetrics();
+                        endMetrics=firstReadingForUser.getMetrics();
+                        metricsPerDay=endMetrics-beginningMetrics;
                        double metricsForPeriod= metricsPerDay*daysAfterChangingPrice;
                        line.index = 1;
                        line.quantity = metricsForPeriod;
@@ -108,20 +109,20 @@ public class Main {
                    }
                 }
 
-
-
-
-
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
                 outputClass.documentDate = ZonedDateTime.now().format(formatter);
+
+                for (int j = 0; j <outputClass.lines.size() ; j++) {
+                    outputClass.totalAmount+= line.amount;
+                    line.index+=i;
+
+                }
                 int documentNumber = i * 10000;
                 outputClass.documentNumber = String.valueOf(documentNumber);
                 outputClass.consumer = user.getName();
                 outputClass.reference = user.getReferentNumber();
                 outputClass.totalAmount = line.amount;
                 reportTime = String.valueOf(lastReadingForUser.getDate());
-
-
                 savingFiles(inputPath, reportTime, user, outputClass, (convertingZonedDateTimeToLocalDate(lastReadingForUser.getDate()).getYear())%100);
             }
             outputClass = new OutputClass();
