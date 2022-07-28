@@ -11,18 +11,14 @@ import java.util.Scanner;
 
 public class Prices {
     public File prices;
-
     public Prices(File prices) {
         this.prices = prices;
     }
-
     private ArrayList<String> product = new ArrayList<>();
     private ArrayList<ZonedDateTime> dateBegin = new ArrayList<>();
     private ArrayList<ZonedDateTime> dateEnd = new ArrayList<>();
     private ArrayList<Double> price = new ArrayList<>();
-
     private int countPrices = 0;
-
     public Prices(ArrayList<String> product, ArrayList<ZonedDateTime> dateBegin, ArrayList<ZonedDateTime> dateEnd,
                   ArrayList<Double> price, int countPrices){
         this.product = product;
@@ -31,7 +27,6 @@ public class Prices {
         this.price = price;
         this.countPrices = countPrices;
     }
-
     public void read() throws FileNotFoundException {
 
         Scanner sc = new Scanner(this.prices);
@@ -69,10 +64,10 @@ public class Prices {
     public String getProduct(int i) {
         return this.product.get(i);
     }
-    public ZonedDateTime getDataBegin(int i) {
+    public ZonedDateTime getDateBegin(int i) {
         return this.dateBegin.get(i);
     }
-    public ZonedDateTime getDataEnd(int i) {
+    public ZonedDateTime getDateEnd(int i) {
         return this.dateEnd.get(i);
     }
     public Double getPrice(int i) {
@@ -81,6 +76,4 @@ public class Prices {
     public Integer getPriceCount(){
         return countPrices/4;
     }
-
-
 }

@@ -2,7 +2,6 @@ package com.github.methodia.minibilling;
 
 import org.json.*;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -10,13 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException, NoSuchFieldException, IllegalAccessException {
+    public static void main(String[] args) throws IOException, NoSuchFieldException, IllegalAccessException {
+
 
         //Reading .csv files
         User user = new User(new File("C:\\Users\\user\\Desktop\\MiniBilling\\user.csv"));
@@ -30,11 +29,12 @@ public class Main {
         prices.read();
 
         // Current date and time
-        JSONObject jsonObject = new JSONObject();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         Calendar cal = Calendar.getInstance();
 
-        //Creating JSON Object
+        //Creating JSONObject
+        JSONObject jsonObject = new JSONObject();
+
         for (int i = 0; i < user.getCount(); i++) {
             int diff = user.getReference(i);
             int min = 10000;
@@ -75,10 +75,6 @@ public class Main {
             Dirfile.createNewFile();
             Path pathTXT = Paths.get(Dirfile.getAbsolutePath());
             Files.write(pathTXT, jsonObject.toString(4).getBytes());
-
-
         }
-
     }
-
 }
