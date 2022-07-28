@@ -21,18 +21,18 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws ParseException {
-       String readingTime;
-           Scanner scan = new Scanner(System.in);
+        String readingTime;
+//      Scanner scan = new Scanner(System.in);
 
-           String dateForReading = scan.nextLine();
-           String path = scan.nextLine();
-
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendPattern("yy-MM")
-                .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
-                .toFormatter();
-
-              LocalDate localDate = LocalDate.parse(dateForReading, formatter);
+//           String dateForReading = scan.nextLine();
+//           String path = scan.nextLine();
+//
+//           DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+//                .appendPattern("yy-MM")
+//                .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
+//                .toFormatter();
+//
+//           LocalDate localDate = LocalDate.parse(dateForReading, formatter);
 
         String csvFilePrices = "src\\test\\resources\\sample1\\input\\prices-1.csv";
 
@@ -63,64 +63,64 @@ public class Main {
 
             prices.get("gas");
 
-            Price price = prices.get(firstReading.getProduct()); //inf. from prices.csv
-            int lastReadingForUserDateDay=lastReading.getDate().getDayOfMonth();
-            Month lastReadingForUserDateMonth= Month.of(lastReading.getDate().getMonthOfYear());
-            int lastReadingForUserDateYear=lastReading.getDate().getYear();
-            LocalDate lastReadingForUserInLocalDate=LocalDate.of(lastReadingForUserDateYear,lastReadingForUserDateMonth,lastReadingForUserDateDay);
-           if (lastReadingForUserInLocalDate.isBefore(localDate)) {
+            Price price = prices.get(firstReading.getProduct()); //inf. from prices.csv -> gas,2021-01-01,2022-12-31,1.8
+//            int lastReadingForUserDateDay = lastReading.getDate().getDayOfMonth();
+//            Month lastReadingForUserDateMonth = Month.of(lastReading.getDate().getMonthOfYear());
+//            int lastReadingForUserDateYear = lastReading.getDate().getYear();
+//            LocalDate lastReadingForUserInLocalDate = LocalDate.of(lastReadingForUserDateYear, lastReadingForUserDateMonth, lastReadingForUserDateDay);
+//           if (lastReadingForUserInLocalDate.isBefore(localDate)) {
 
-                billInf.getDocumentDate();
-                billInf.documentNumber = String.valueOf(counterForDocumentNumber);
-                counterForDocumentNumber++;
-                billInf.consumer = c.getClientName();
-                billInf.reference = c.getReferenceNumber();
-                line.price = price.getPrice();
-                line.quantity = lastReading.getIndication() - firstReading.getIndication();
-                line.getAmount();
-                billInf.totalAmount = line.getAmount();
-                line.index = c.getPriceListNumber();
-                line.lineStart = String.valueOf(firstReading.getDate());
-                line.lineEnd = String.valueOf(lastReading.getDate());
-                line.lineStart = String.valueOf(firstReading.getDate());
-                line.lineEnd = String.valueOf(lastReading.getDate());
-                line.product = firstReading.getProduct();
-                line.priceList = c.getPriceListNumber();
-                readingTime = String.valueOf(lastReading.getDate());
+            billInf.getDocumentDate();
+            billInf.documentNumber = String.valueOf(counterForDocumentNumber);
+            counterForDocumentNumber++;
+            billInf.consumer = c.getClientName();
+            billInf.reference = c.getReferenceNumber();
+            line.price = price.getPrice();
+            line.quantity = lastReading.getIndication() - firstReading.getIndication();
+            line.getAmount();
+            billInf.totalAmount = line.getAmount();
+            line.index = c.getPriceListNumber();
+            line.lineStart = String.valueOf(firstReading.getDate());
+            line.lineEnd = String.valueOf(lastReading.getDate());
+            line.lineStart = String.valueOf(firstReading.getDate());
+            line.lineEnd = String.valueOf(lastReading.getDate());
+            line.product = firstReading.getProduct();
+            line.priceList = c.getPriceListNumber();
+            readingTime = String.valueOf(lastReading.getDate());
 
-                billInf.lines.add(line);
+            billInf.lines.add(line);
 
 
-                Gson gson = new GsonBuilder().setPrettyPrinting().create(); // for Json files
-                String json = gson.toJson(billInf);
+            Gson gson = new GsonBuilder().setPrettyPrinting().create(); // for Json files
+            String json = gson.toJson(billInf);
 
-                Date date = new SimpleDateFormat("yy-MM-dd").parse(readingTime);
-                String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(date); //bg translation
-                String[] splitDate = month.split("\\s+");
-                String Cyrillic = splitDate[1];
-                String firstLetter = Cyrillic.substring(0, 1).toUpperCase(Locale.ROOT);// get only the month
-                String nameCapitalized = firstLetter + Cyrillic.substring(1);
-                String lineStart = line.lineStart;
-                String yearOfIssuedInvoice = lineStart.substring(2, 4); // 2021 -> 21
+            Date date = new SimpleDateFormat("yy-MM-dd").parse(readingTime);
+            String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(date); //bg translation
+            String[] splitDate = month.split("\\s+");
+            String Cyrillic = splitDate[1];
+            String firstLetter = Cyrillic.substring(0, 1).toUpperCase(Locale.ROOT);// get only the month
+            String nameCapitalized = firstLetter + Cyrillic.substring(1);
+            String lineStart = line.lineStart;
+            String yearOfIssuedInvoice = lineStart.substring(2, 4); // 2021 -> 21
 
-                String fName = folderPath + "\\" + billInf.getDocumentNumber() + "-" + nameCapitalized + "-" + yearOfIssuedInvoice + ".json";
+            String fName = folderPath + "\\" + billInf.getDocumentNumber() + "-" + nameCapitalized + "-" + yearOfIssuedInvoice + ".json";
 
-                createJsonFilesInClientsFolder(folderPath, json, fName);
+            createJsonFilesInClientsFolder(folderPath, json, fName);
 
-                billInf = new BillingInformation();
-                line = new LinesForJsonFile();
-
-            }
+            billInf = new BillingInformation();
+            line = new LinesForJsonFile();
 
         }
-   }
+
+    }
+    // }
 
 
     static void createJsonFilesInClientsFolder(String folderPath, String json, String fName) {
         try {
             File creatingFolders = new File(folderPath);
             File folderDirectory = new File(String.valueOf(creatingFolders));
-            folderDirectory.mkdirs();
+            folderDirectory.mkdirs(); // create new directory
             FileWriter outputWriter = new FileWriter(fName);
             outputWriter.write(json); //write json file
             outputWriter.close();
