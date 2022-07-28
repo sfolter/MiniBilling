@@ -130,45 +130,20 @@ public class Readings {
 //                + date.format(bulgarianMonthFormetter).substring(1);
 //        return formattedMonth;
         switch (month) {
-            case "JANUARY":
-                month = "Януари";
-                break;
-            case "FEBRUARY":
-                month = "Февруари";
-                break;
-            case "MARCH":
-                month = "Март";
-                break;
-            case "APRIL":
-                month = "Април";
-                break;
-            case "MAY":
-                month = "Май";
-                break;
-            case "JUNE":
-                month = "Юни";
-                break;
-            case "JULY":
-                month = "Юли";
-                break;
-            case "AUGUST":
-                month = "Август";
-                break;
-            case "SEPTEMBER":
-                month = "Септември";
-                break;
-            case "OCTOBER":
-                month = "Октомври";
-                break;
-            case "NOVEMBER":
-                month = "Ноември";
-                break;
-            case "DECEMBER":
-                month = "Декември";
-                break;
-            default:
-                break;
-
+            case "JANUARY" -> month = "Януари";
+            case "FEBRUARY" -> month = "Февруари";
+            case "MARCH" -> month = "Март";
+            case "APRIL" -> month = "Април";
+            case "MAY" -> month = "Май";
+            case "JUNE" -> month = "Юни";
+            case "JULY" -> month = "Юли";
+            case "AUGUST" -> month = "Август";
+            case "SEPTEMBER" -> month = "Септември";
+            case "OCTOBER" -> month = "Октомври";
+            case "NOVEMBER" -> month = "Ноември";
+            case "DECEMBER" -> month = "Декември";
+            default -> {
+            }
         }
 
         return month;
