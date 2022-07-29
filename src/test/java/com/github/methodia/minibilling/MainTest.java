@@ -3,7 +3,9 @@ package com.github.methodia.minibilling;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 
 /**
  * @author Miroslav Kovachev
@@ -13,7 +15,7 @@ import java.net.URL;
 public class MainTest {
 
     @Test
-    void testSample1() {
+    void testSample1() throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
         //define the args array so that you pass the path to the files from sample1/input
         final String month = "21-03";
 
@@ -25,6 +27,6 @@ public class MainTest {
 //        String actualInvoiceFileName = "";
 //        Assertions.assertEquals(expectedInvoiceFileName, actualInvoiceFileName,
 //                "The expected invoice name does not match the actual name!");
-//        //read the output and compare with the files in sample1/expected
+        //read the output and compare with the files in sample1/expected
     }
 }
