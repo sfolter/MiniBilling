@@ -1,5 +1,6 @@
 package com.github.methodia.minibilling;
 
+<<<<<<< HEAD
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -54,5 +55,35 @@ public class User {
     }
     public Integer getCount(){
         return this.counterUsers/3;
+=======
+import java.util.List;
+
+/**
+ * @author Miroslav Kovachev
+ * 28.07.2022
+ * Methodia Inc.
+ */
+public class User {
+    private String name;
+    private String ref;
+    private List<Price> price;
+
+    public User(String name, String ref, List<Price> price) {
+        this.name = name;
+        this.ref = ref;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public List<Price> getPrice() {
+        return price;
+>>>>>>> origin/miro
     }
 }
