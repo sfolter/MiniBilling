@@ -8,19 +8,25 @@ import java.time.LocalDateTime;
  * 28.07.2022
  * Methodia Inc.
  */
-public class Reading {
-    private LocalDateTime time;
+public class Measurement {
+    private LocalDateTime start;
+    private LocalDateTime end;
     private BigDecimal value;
     private User user;
 
-    public Reading(LocalDateTime time, BigDecimal value, User user) {
-        this.time = time;
+    public Measurement(LocalDateTime start, LocalDateTime end, BigDecimal value, User user) {
+        this.start = start;
+        this.end = end;
         this.value = value;
         this.user = user;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
     }
 
     public BigDecimal getValue() {

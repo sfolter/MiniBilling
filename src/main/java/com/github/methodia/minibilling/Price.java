@@ -5,35 +5,36 @@ import java.time.LocalDate;
 
 /**
  * @author Miroslav Kovachev
- * 25.07.2022
+ * 28.07.2022
  * Methodia Inc.
  */
 public class Price {
-    private String productKey;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private BigDecimal price;
+    private String product;
+    private LocalDate start;
+    private LocalDate end;
+    private BigDecimal value;
 
-    public Price(String productKey, LocalDate startDate, LocalDate endDate, BigDecimal price) {
-        this.productKey = productKey;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.price = price;
+    public Price(String product, LocalDate start, LocalDate end, BigDecimal value) {
+        this.product = product;
+        this.start = start;
+        this.end = end;
+        this.value = value;
     }
 
-    public String getProductKey() {
-        return productKey;
+    public String getProduct() {
+        return product;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getStart() {
+        return start;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public LocalDate getEnd() {
+        return end;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getValue() {
+        return value;
     }
 }
+
