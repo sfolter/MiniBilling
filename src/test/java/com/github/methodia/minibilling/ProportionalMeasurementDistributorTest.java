@@ -7,15 +7,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 class ProportionalMeasurementDistributorTest {
 
     @Test
@@ -200,8 +194,9 @@ class ProportionalMeasurementDistributorTest {
         Assertions.assertEquals(price3.getValue(), qpp3.getPrice(),
                 "Price for the second quantity must match the second price.");
     }
+
     @Test
-     void priceStartEqualsMeasurmentStartTest(){
+    void priceStartEqualsMeasurmentStartTest() {
         final BigDecimal measurementValue = new BigDecimal("200");
         final Measurement measurement1 = getMeasurement(measurementValue);
 
@@ -235,8 +230,9 @@ class ProportionalMeasurementDistributorTest {
 
 
     }
+
     @Test
-    void priceOverTwoMeasurmentsTest(){
+    void priceOverTwoMeasurmentsTest() {
         final BigDecimal measurementValue = new BigDecimal("200");
         final Measurement measurement1 = getMeasurement(measurementValue);
         final Measurement measurement2 = new Measurement(LocalDateTime.of(2021, 4, 15, 13, 23),
@@ -246,24 +242,18 @@ class ProportionalMeasurementDistributorTest {
         final BigDecimal priceValue = new BigDecimal("1.50");
 
 
-
         final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
                 LocalDate.of(2021, 5, 30), priceValue);
-
-
-//        long firstMeasurmentDays = measurement1.getStart().until(measurement1.getEnd(), ChronoUnit.DAYS);
-//        long secondMeasurmentDays = measurement2.getStart().until(measurement2.getEnd(), ChronoUnit.DAYS);
 
 
         BigDecimal firstQuantity = measurement1.getValue();
         BigDecimal secondQuantity = measurement1.getValue();
 
 
-
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
 
-        final Collection<Measurement> measurements = new LinkedList<Measurement>();
+        final Collection<Measurement> measurements = new LinkedList<>();
         measurements.add(measurement1);
         measurements.add(measurement2);
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
@@ -294,12 +284,10 @@ class ProportionalMeasurementDistributorTest {
                 "Price for the first quantity must match the first price.");
 
 
-
-
     }
 
     @Test
-    void twoPricesTwoMeasurmentsTest(){
+    void twoPricesTwoMeasurmentsTest() {
         final BigDecimal measurementValue = new BigDecimal("200");
         final Measurement measurement1 = getMeasurement(measurementValue);
         final Measurement measurement2 = new Measurement(LocalDateTime.of(2021, 4, 15, 13, 23),
@@ -308,8 +296,6 @@ class ProportionalMeasurementDistributorTest {
 
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
-//        final Measurement measurement1 = new Measurement(LocalDateTime.of(2021, 3, 6, 13, 23),
-//                LocalDateTime.of(2021, 4, 14, 15, 32), measurementValue,
 
 
         final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
@@ -317,8 +303,6 @@ class ProportionalMeasurementDistributorTest {
         final Price price2 = new Price("gas", LocalDate.of(2021, 4, 15),
                 LocalDate.of(2021, 5, 30), priceValue2);
 
-        long firstPriceDays = measurement1.getStart().until(price1.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
-        long secondPriceDays = price2.getStart().atTime(00, 00, 00).until(measurement2.getEnd(), ChronoUnit.DAYS);
 
         BigDecimal firstQuantity = measurement1.getValue();
         BigDecimal secondQuantity = measurement2.getValue();
@@ -326,7 +310,7 @@ class ProportionalMeasurementDistributorTest {
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
         prices.add(price2);
-        final Collection<Measurement> measurements = new LinkedList<Measurement>();
+        final Collection<Measurement> measurements = new LinkedList<>();
         measurements.add(measurement1);
         measurements.add(measurement2);
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
@@ -357,9 +341,6 @@ class ProportionalMeasurementDistributorTest {
                 "Quantity period end must match the period end of the price");
         Assertions.assertEquals(price2.getValue(), qpp2.getPrice(),
                 "Price for the first quantity must match the first price.");
-
-
-
 
     }
 }
