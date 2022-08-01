@@ -32,14 +32,11 @@ public class Main {
         //String resourceDirectory = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         String directoryClients = resourceDirectory + "users.csv";
         String directoryReport = resourceDirectory + "readings.csv";
-        String directoryPrices = resourceDirectory + "prices-1.csv";
-
 
         final ClientReader clientReader = new ClientReader();
         final PriceReader pricesReader = new PriceReader();
         final ReportReader reportReader = new ReportReader();
         Bill bill = new Bill();
-
 
         ArrayList<Client> clients = clientReader.readClientsToList(directoryClients);
         Map<String, List<Report>> readings = reportReader.readReportForGasToMap(directoryReport);
@@ -63,7 +60,7 @@ public class Main {
                 LocalDate end = prices.get("gas").get(0).getEnd();
                 int compareFirst = first.compareTo(start);
                 int compareLast = last.compareTo(end);
-                if ((first.isAfter(start) || compareFirst == 0) && (last.isBefore(end) || compareLast == 0)) {
+                if ((first.compareTo(start)>=0 && (last.compareTo(end))<=0)) {
 
                     Line line = new Line();
                     line.index = client.getNumberOfPriceList();
@@ -91,7 +88,7 @@ public class Main {
             }
             reportTime = String.valueOf(lastReport.getData());
 
-
+            //---------------------------------------
             Gson save = new Gson();
             String json = save.toJson(bill);
             try {

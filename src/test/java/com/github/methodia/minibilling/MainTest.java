@@ -19,6 +19,11 @@ public class MainTest {
         final String path = inputFolder.getPath();
         final String[] args = {mouth, path};
         Main.main(args);
+//        String expectedInvoiceFileName = "";
+//        String actualInvoiceFileName = "";
+//        Assertions.assertEquals(expectedInvoiceFileName, actualInvoiceFileName,
+//                "The expected invoice name does not match the actual name!");
+//        //read the output and compare with the files in sample1/expected
 
         //read the output and compare with the files in sample1/expected
     }

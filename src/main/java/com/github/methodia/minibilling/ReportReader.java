@@ -1,5 +1,9 @@
 package com.github.methodia.minibilling;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ReportReader {
-
-
     public Map<String, List<Report>> readReportForGasToMap(String directory) {
         String line = "";
         Map<String, List<Report>> result = new HashMap<>();
@@ -42,4 +44,3 @@ public class ReportReader {
         return result;
     }
 }
-
