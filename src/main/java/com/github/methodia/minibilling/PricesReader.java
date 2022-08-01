@@ -10,6 +10,6 @@ import java.util.Map;
  */
 public interface PricesReader {
 
-    Map<Integer, Collection<Price>> read();
+    Map<String, Collection<Price>> read();
 
 }

@@ -1,5 +1,10 @@
 package com.github.methodia.minibilling;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +12,7 @@ import java.util.List;
  * 28.07.2022
  * Methodia Inc.
  */
-public class User {
+public class User{
     private String name;
     private String ref;
     private List<Price> price;
@@ -17,6 +22,7 @@ public class User {
         this.ref = ref;
         this.price = price;
     }
+
 
     public String getName() {
         return name;
@@ -29,4 +35,7 @@ public class User {
     public List<Price> getPrice() {
         return price;
     }
+
+
+
 }

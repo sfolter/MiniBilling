@@ -13,11 +13,15 @@ public class Reading {
     private BigDecimal value;
     private User user;
 
-    public Reading(LocalDateTime time, BigDecimal value, User user) {
+    private String product;
+
+    public Reading(LocalDateTime time, BigDecimal value, User user, String product) {
         this.time = time;
         this.value = value;
         this.user = user;
+        this.product = product;
     }
+
 
     public LocalDateTime getTime() {
         return time;
@@ -30,4 +34,6 @@ public class Reading {
     public User getUser() {
         return user;
     }
+
+    public String getProduct() { return product;}
 }

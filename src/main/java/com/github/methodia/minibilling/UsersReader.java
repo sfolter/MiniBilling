@@ -1,6 +1,7 @@
 package com.github.methodia.minibilling;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Miroslav Kovachev
@@ -8,7 +9,5 @@ import java.util.Collection;
  * Methodia Inc.
  */
 public interface UsersReader {
-
-    Collection<Price> read();
-
+    List<User> read();
 }

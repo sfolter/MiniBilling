@@ -44,8 +44,6 @@ public class Users implements FileReader {
             nameList.add(strings[0]);
             refList.add(strings[1]);
             numOfPriceList.add(Integer.parseInt(strings[2]));
-
-
         }
 
         return userList;

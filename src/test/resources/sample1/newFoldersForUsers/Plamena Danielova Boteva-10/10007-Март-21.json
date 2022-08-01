@@ -1,0 +1,17 @@
+{
+    "documentDate": "2022-08-01T17:10:34Z",
+    "documentNumber": 10007,
+    "consumer": "Plamena Danielova Boteva",
+    "reference": "10",
+    "totalAmount": 405,
+    "lines": [{
+        "index": 1,
+        "quantity": 225,
+        "amount": 405,
+        "lineStart": "2021-01-01T16:20:00+03:00",
+        "lineEnd": "2021-03-15T11:44:00+03:00",
+        "product": "gas",
+        "price": 1.8,
+        "priceList": 1
+    }]
+}
