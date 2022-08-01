@@ -4,13 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +17,6 @@ class ProportionalMeasurementDistributorTest {
     @Test
     void priceOverlapsMeasurementTest() {
         final BigDecimal measurementValue = new BigDecimal("200");
-
         final Measurement measurement1 = getMeasurement(measurementValue);
 
         final BigDecimal priceValue = new BigDecimal("1.50");
@@ -66,9 +63,9 @@ class ProportionalMeasurementDistributorTest {
         int firstHalfDays = 14;
         int secondHalfDays = 25;
         int measurementDays = firstHalfDays + secondHalfDays;
-        BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(measurementDays), RoundingMode.HALF_UP)
+        BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(measurementDays),1, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
-        BigDecimal secondQuantity = measurement1.getValue().min(firstQuantity);
+        BigDecimal secondQuantity = measurement1.getValue().subtract(firstQuantity);
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
         prices.add(price2);
@@ -122,5 +119,81 @@ class ProportionalMeasurementDistributorTest {
                 new User("Test Testov", "ref", Collections.emptyList()));
         return measurement1;
     }
+    @Test
+    void partialOverlapThreePrices() {
+        final BigDecimal measurementValue = new BigDecimal("200");
+        final Measurement measurement1 = getMeasurement(measurementValue);
 
+        final BigDecimal priceValue1 = new BigDecimal("1.50");
+        final BigDecimal priceValue2 = new BigDecimal("3.50");
+        final BigDecimal priceValue3 = new BigDecimal("2.50");
+        final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
+                LocalDate.of(2021, 3, 20), priceValue1);
+        final Price price2 = new Price("gas", LocalDate.of(2021, 3, 21),
+                LocalDate.of(2021, 4, 1), priceValue2);
+        final Price price3 = new Price("gas", LocalDate.of(2021, 4, 2),
+                LocalDate.of(2021, 5, 1), priceValue3);
+        int firstThirdDays = 14;
+        int secondThirdDays = 12;
+        int threeThirdDays=13;
+        int measurementDays = firstThirdDays + secondThirdDays + threeThirdDays;
+        BigDecimal firstQuantity = BigDecimal.valueOf(firstThirdDays).divide(BigDecimal.valueOf(measurementDays),1, RoundingMode.HALF_UP)
+                .multiply(measurement1.getValue());
+        BigDecimal secondQuantity = BigDecimal.valueOf(secondThirdDays).divide(BigDecimal.valueOf(measurementDays),1, RoundingMode.HALF_UP)
+                .multiply(measurement1.getValue());
+
+        BigDecimal thirdQuantity = measurement1.getValue().subtract(firstQuantity.add(secondQuantity));
+        final ArrayList<Price> prices = new ArrayList<>();
+        prices.add(price1);
+        prices.add(price2);
+        prices.add(price3);
+        final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
+                Collections.singleton(measurement1), prices);
+
+        final List<QuantityPricePeriod> qppList = proportionalMeasurementDistributor.distribute();
+
+        Assertions.assertEquals(3, qppList.size(),
+                "Distribution is needed, expecting more than one QPP");
+
+        final QuantityPricePeriod qpp1 = qppList.get(0);
+        Assertions.assertEquals(firstQuantity, qpp1.getQuantity(),
+                "Distributed quantity for first third does not match");
+        Assertions.assertEquals(measurement1.getStart(), qpp1.getStart(),
+                "Measurement period start must match quantity period start.");
+
+        final LocalDateTime price1End = price1.getEnd().atTime(23, 59, 59);
+        final LocalDateTime qpp1End = qpp1.getEnd();
+        Assertions.assertEquals(price1End, qpp1End,
+                "Quantity period end must match the period end of the price");
+        Assertions.assertEquals(price1.getValue(), qpp1.getPrice(),
+                "Price for the first quantity must match the first price.");
+
+        final QuantityPricePeriod qpp2 = qppList.get(1);
+        Assertions.assertEquals(secondQuantity, qpp2.getQuantity(),
+                "Distributed quantity for second third does not match");
+        final LocalDateTime price2AtStartOfDay = price2.getStart().atStartOfDay();
+        Assertions.assertEquals(price2AtStartOfDay, qpp2.getStart(),
+                "Quantity period start must match the period start of the price.");
+
+
+        final LocalDateTime price2End = price2.getEnd().atTime(23, 59, 59);
+        final LocalDateTime qpp2End = qpp2.getEnd();
+        Assertions.assertEquals(price2End, qpp2End,
+                "Quantity period end must match the period end of the price");
+        Assertions.assertEquals(price2.getValue(), qpp2.getPrice(),
+                "Price for the second quantity must match the second price.");
+
+        final QuantityPricePeriod qpp3=qppList.get(2);
+        Assertions.assertEquals(thirdQuantity, qpp3.getQuantity(),
+                "Distributed quantity for last third does not match");
+        final LocalDateTime price3AtStartOfDay = price3.getStart().atStartOfDay();
+        Assertions.assertEquals(price3AtStartOfDay, qpp3.getStart(),
+                "Quantity period start must match the period start of the price.");
+
+        Assertions.assertEquals(measurement1.getEnd(), qpp3.getEnd(),
+                "Quantity period end must match the end of the measurement.");
+        Assertions.assertEquals(price3.getValue(), qpp3.getPrice(),
+                "Price for the third quantity must match the third price.");
+
+    }
 }
