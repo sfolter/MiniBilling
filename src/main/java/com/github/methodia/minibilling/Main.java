@@ -7,7 +7,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -33,12 +32,12 @@ public class Main {
         String directoryClients = resourceDirectory + "users.csv";
         String directoryReport = resourceDirectory + "readings.csv";
 
-        final ClientReader clientReader = new ClientReader();
+        final UserReader userReader = new UserReader();
         final PriceReader pricesReader = new PriceReader();
         final ReportReader reportReader = new ReportReader();
         Bill bill = new Bill();
 
-        ArrayList<Client> clients = clientReader.readClientsToList(directoryClients);
+        ArrayList<Client> clients = userReader.readClientsToList(directoryClients);
         Map<String, List<Report>> readings = reportReader.readReportForGasToMap(directoryReport);
 
         String reportTime = "";
@@ -116,6 +115,7 @@ public class Main {
             }
             bill = new Bill();
         }
+       List<Price> price =pricesReader.read("C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv");
     }
 }
 

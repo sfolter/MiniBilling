@@ -63,7 +63,7 @@ class ProportionalMeasurementDistributorTest {
         int firstHalfDays = 14;
         int secondHalfDays = 25;
         int measurementDays = firstHalfDays + secondHalfDays;
-        BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(measurementDays),1, RoundingMode.HALF_UP)
+        BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
         BigDecimal secondQuantity = measurement1.getValue().subtract(firstQuantity);
         final ArrayList<Price> prices = new ArrayList<>();
@@ -104,14 +104,6 @@ class ProportionalMeasurementDistributorTest {
 
     }
 
-    @Test
-    void testLocalDateCompareTo() {
-
-        final LocalDate priceEndDate = LocalDate.of(2021, 03, 20);
-        final LocalDate measurementEndDate = LocalDate.of(2021, 03, 21);
-        final ArrayList<Object> objects = new ArrayList<>();
-        System.out.println(priceEndDate.compareTo(measurementEndDate));
-    }
 
     private static Measurement getMeasurement(BigDecimal measurementValue) {
         final Measurement measurement1 = new Measurement(LocalDateTime.of(2021, 3, 6, 13, 23),
@@ -119,6 +111,14 @@ class ProportionalMeasurementDistributorTest {
                 new User("Test Testov", "ref", Collections.emptyList()));
         return measurement1;
     }
+
+    private static Measurement getSecondMeasurement(BigDecimal measurementValue) {
+        final Measurement measurement2 = new Measurement(LocalDateTime.of(2021, 4, 15, 13, 23),
+                LocalDateTime.of(2021, 5, 14, 15, 32), measurementValue,
+                new User("Test Testov", "ref", Collections.emptyList()));
+        return measurement2;
+    }
+
     @Test
     void partialOverlapThreePrices() {
         final BigDecimal measurementValue = new BigDecimal("200");
@@ -135,11 +135,11 @@ class ProportionalMeasurementDistributorTest {
                 LocalDate.of(2021, 5, 1), priceValue3);
         int firstThirdDays = 14;
         int secondThirdDays = 12;
-        int threeThirdDays=13;
+        int threeThirdDays = 13;
         int measurementDays = firstThirdDays + secondThirdDays + threeThirdDays;
-        BigDecimal firstQuantity = BigDecimal.valueOf(firstThirdDays).divide(BigDecimal.valueOf(measurementDays),1, RoundingMode.HALF_UP)
+        BigDecimal firstQuantity = BigDecimal.valueOf(firstThirdDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
-        BigDecimal secondQuantity = BigDecimal.valueOf(secondThirdDays).divide(BigDecimal.valueOf(measurementDays),1, RoundingMode.HALF_UP)
+        BigDecimal secondQuantity = BigDecimal.valueOf(secondThirdDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
 
         BigDecimal thirdQuantity = measurement1.getValue().subtract(firstQuantity.add(secondQuantity));
@@ -183,7 +183,7 @@ class ProportionalMeasurementDistributorTest {
         Assertions.assertEquals(price2.getValue(), qpp2.getPrice(),
                 "Price for the second quantity must match the second price.");
 
-        final QuantityPricePeriod qpp3=qppList.get(2);
+        final QuantityPricePeriod qpp3 = qppList.get(2);
         Assertions.assertEquals(thirdQuantity, qpp3.getQuantity(),
                 "Distributed quantity for last third does not match");
         final LocalDateTime price3AtStartOfDay = price3.getStart().atStartOfDay();
@@ -195,5 +195,161 @@ class ProportionalMeasurementDistributorTest {
         Assertions.assertEquals(price3.getValue(), qpp3.getPrice(),
                 "Price for the third quantity must match the third price.");
 
+    }
+
+    @Test
+    void partialOverlapTwoMeasurments() {
+        final BigDecimal measurementValue1 = new BigDecimal("200");
+        final Measurement measurement1 = getMeasurement(measurementValue1);
+        final BigDecimal measurementValue2 = new BigDecimal("100");
+        final Measurement measurement2 = getSecondMeasurement(measurementValue2);
+
+        final BigDecimal priceValue1 = new BigDecimal("1.50");
+        final BigDecimal priceValue2 = new BigDecimal("3.50");
+        final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
+                LocalDate.of(2021, 4, 20), priceValue1);
+        final Price price2 = new Price("gas", LocalDate.of(2021, 4, 21),
+                LocalDate.of(2021, 5, 25), priceValue2);
+        int firstHalfDays = 5;
+        int secondHalfDays = 24;
+        int secondMeasurementDays = firstHalfDays + secondHalfDays;
+        BigDecimal firstQuantityForMeasurement2 = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(secondMeasurementDays),1, RoundingMode.HALF_UP)
+                .multiply(measurement2.getValue());
+        BigDecimal secondQuantityForMeasurement2 = measurement2.getValue().subtract(firstQuantityForMeasurement2);
+        final ArrayList<Price> prices = new ArrayList<>();
+        prices.add(price1);
+        prices.add(price2);
+        final ArrayList<Measurement> measurements = new ArrayList<>();
+        measurements.add(measurement1);
+        measurements.add(measurement2);
+        final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
+                measurements, prices);
+
+        final List<QuantityPricePeriod> qppList = proportionalMeasurementDistributor.distribute();
+
+        Assertions.assertEquals(3, qppList.size(),
+                "Distribution is needed, expecting more than one QPP");
+
+        final QuantityPricePeriod qpp1 = qppList.get(0);
+        Assertions.assertEquals(measurementValue1,qpp1.getQuantity(),
+                "Distributed quantity for first half does not match");
+        Assertions.assertEquals(measurement1.getStart(), qpp1.getStart(),
+                "Measurement period start must match quantity period start.");
+        Assertions.assertEquals(price1.getValue(), qpp1.getPrice(),
+                "Price for the first quantity must match the first price.");
+        Assertions.assertEquals(measurement1.getEnd(),qpp1.getEnd(),
+                "Quantity period end must match the end of the measurement.");
+
+
+        final QuantityPricePeriod qpp2 = qppList.get(1);
+        Assertions.assertEquals(firstQuantityForMeasurement2, qpp2.getQuantity(),
+                "Distributed quantity for first half does not match");
+        Assertions.assertEquals(measurement2.getStart(), qpp2.getStart(),
+                "Measurement period start must match quantity period start.");
+        Assertions.assertEquals(price1.getValue(), qpp2.getPrice(),
+                "Price for the first quantity must match the first price.");
+
+
+        final LocalDateTime price1End = price1.getEnd().atTime(23, 59, 59);
+        final LocalDateTime qpp1End = qpp2.getEnd();
+        Assertions.assertEquals(price1End, qpp1End,
+                "Quantity period end must match the period end of the price");
+        Assertions.assertEquals(price1.getValue(), qpp2.getPrice(),
+                "Price for the first quantity must match the first price.");
+
+        final QuantityPricePeriod qpp3 = qppList.get(2);
+        Assertions.assertEquals(secondQuantityForMeasurement2, qpp3.getQuantity(),
+                "Distributed quantity for first half does not match");
+        final LocalDateTime price2AtStartOfDay = price2.getStart().atStartOfDay();
+        Assertions.assertEquals(price2AtStartOfDay, qpp3.getStart(),
+                "Quantity period start must match the period start of the price.");
+
+        Assertions.assertEquals(measurement2.getEnd(), qpp3.getEnd(),
+                "Quantity period end must match the end of the measurement.");
+        Assertions.assertEquals(price2.getValue(), qpp3.getPrice(),
+                "Price for the second quantity must match the second price.");
+    }
+    @Test
+    void priceStartOverlapsMeasurementStart() {
+        final BigDecimal measurementValue = new BigDecimal("200");
+        final Measurement measurement1 = getMeasurement(measurementValue);
+
+        final BigDecimal priceValue = new BigDecimal("1.50");
+        final Price price = new Price("gas", LocalDate.of(2021, 3,6 ),
+                LocalDate.of(2021, 5, 1), priceValue);
+
+        final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
+                Collections.singleton(measurement1), Collections.singleton(price));
+
+        final Collection<QuantityPricePeriod> qppCollection = proportionalMeasurementDistributor.distribute();
+        Assertions.assertEquals(1, qppCollection.size(),
+                "Expecting only one measurement because no distribution is needed.");
+
+        final QuantityPricePeriod singleQpp = qppCollection.iterator().next();
+        final LocalDateTime qppStart = singleQpp.getStart();
+        final LocalDateTime qppEnd = singleQpp.getEnd();
+        final LocalDateTime measurement1Start = measurement1.getStart();
+        final LocalDateTime measurement1End = measurement1.getEnd();
+        Assertions.assertEquals(measurement1Start, qppStart,
+                "Quantity price period start must match the measurement start.");
+        Assertions.assertEquals(measurement1End, qppEnd, "Quantity price period end must match the measurement end.");
+        final BigDecimal qppQuantity = singleQpp.getQuantity();
+        final BigDecimal measurementQuantity = measurement1.getValue();
+        Assertions.assertEquals(measurementQuantity, qppQuantity,
+                "Measurement quantity and quantity price period quantity must match.");
+        final BigDecimal expectedPrice = price.getValue();
+        final BigDecimal actualPrice = singleQpp.getPrice();
+        Assertions.assertEquals(expectedPrice, actualPrice,
+                "The quantity price period price must match the single price provided.");
+
+    }
+    @Test
+    void twoPricesOverlapTwoMeasurments() {
+        final BigDecimal measurementValue1 = new BigDecimal("200");
+        final Measurement measurement1 = getMeasurement(measurementValue1);
+        final BigDecimal measurementValue2 = new BigDecimal("100");
+        final Measurement measurement2 = getSecondMeasurement(measurementValue2);
+
+        final BigDecimal priceValue1 = new BigDecimal("1.50");
+        final BigDecimal priceValue2 = new BigDecimal("3.50");
+        final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
+                LocalDate.of(2021, 4, 14), priceValue1);
+        final Price price2 = new Price("gas", LocalDate.of(2021, 4, 15),
+                LocalDate.of(2021, 5, 25), priceValue2);
+
+        final ArrayList<Price> prices = new ArrayList<>();
+        prices.add(price1);
+        prices.add(price2);
+        final ArrayList<Measurement> measurements = new ArrayList<>();
+        measurements.add(measurement1);
+        measurements.add(measurement2);
+        final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
+                measurements, prices);
+
+        final List<QuantityPricePeriod> qppList = proportionalMeasurementDistributor.distribute();
+
+        Assertions.assertEquals(2, qppList.size(),
+                "Distribution is needed, expecting more than one QPP");
+
+        final QuantityPricePeriod qpp1 = qppList.get(0);
+        Assertions.assertEquals(measurementValue1,qpp1.getQuantity(),
+                "Distributed quantity for first half does not match");
+        Assertions.assertEquals(measurement1.getStart(), qpp1.getStart(),
+                "Measurement period start must match quantity period start.");
+        Assertions.assertEquals(price1.getValue(), qpp1.getPrice(),
+                "Price for the first quantity must match the first price.");
+        Assertions.assertEquals(measurement1.getEnd(),qpp1.getEnd(),
+                "Quantity period end must match the end of the measurement.");
+
+
+        final QuantityPricePeriod qpp2 = qppList.get(1);
+        Assertions.assertEquals(measurement2.getValue(), qpp2.getQuantity(),
+                "Distributed quantity for first half does not match");
+        Assertions.assertEquals(measurement2.getStart(), qpp2.getStart(),
+                "Measurement period start must match quantity period start.");
+        Assertions.assertEquals(price2.getValue(), qpp2.getPrice(),
+                "Price for the first quantity must match the first price.");
+        Assertions.assertEquals(measurement2.getEnd(),qpp2.getEnd(),
+                "Quantity period end must match the end of the measurement.");
     }
 }
