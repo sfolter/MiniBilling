@@ -140,12 +140,12 @@ class ProportionalMeasurementDistributorTest {
         final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
                 LocalDate.of(2021, 3, 20), priceValue1);
         final Price price2 = new Price("gas", LocalDate.of(2021, 3, 21),
-                LocalDate.of(2021, 4, 23), priceValue2);
-        final Price price3 = new Price("gas", LocalDate.of(2021, 4, 24),
+                LocalDate.of(2021, 4, 1), priceValue2);
+        final Price price3 = new Price("gas", LocalDate.of(2021, 4, 2),
                 LocalDate.of(2021, 5, 1), priceValue3);
         long firstThirdDays = measurement1.getStart().until(price1.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
         long secondThirdDays = price2.getStart().atTime(00, 00, 00).until(price2.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
-        long thirdThirdDays = measurement1.getEnd().until(price3.getStart().atTime(00, 00, 00), ChronoUnit.DAYS);
+        long thirdThirdDays = price3.getStart().atTime(00, 00, 00).until(measurement1.getEnd(), ChronoUnit.DAYS);
         long measurementDays = firstThirdDays + secondThirdDays + thirdThirdDays;
         BigDecimal firstQuantity = measurement1.getValue().divide(BigDecimal.valueOf(measurementDays), RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(firstThirdDays));
@@ -161,8 +161,8 @@ class ProportionalMeasurementDistributorTest {
 
         final List<QuantityPricePeriod> qppList = proportionalMeasurementDistributor.distribute();
 
-//        Assertions.assertEquals(3, qppList.size(),
-//                "Distribution is needed, expecting more than one QPP");
+        Assertions.assertEquals(3, qppList.size(),
+                "Distribution is needed, expecting more than one QPP");
 
         final QuantityPricePeriod qpp1 = qppList.get(0);
         Assertions.assertEquals(firstQuantity, qpp1.getQuantity(),
@@ -185,9 +185,6 @@ class ProportionalMeasurementDistributorTest {
         final LocalDateTime price2AtStartOfDay = price2.getStart().atStartOfDay();
         Assertions.assertEquals(price2AtStartOfDay, qpp2.getStart(),
                 "Quantity period start must match the period start of the price.");
-
-        Assertions.assertEquals(measurement1.getEnd(), qpp2.getEnd(),
-                "Quantity period end must match the end of the measurement.");
         Assertions.assertEquals(price2.getValue(), qpp2.getPrice(),
                 "Price for the second quantity must match the second price.");
 
