@@ -6,6 +6,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 public class CSVReadingsReader implements ReadingsReader{
@@ -13,21 +14,20 @@ public class CSVReadingsReader implements ReadingsReader{
     public CSVReadingsReader(String path) {
         this.path = path;
     }
-//new Reading(LocalDateTime.parse(line[0]), new BigDecimal(line[1]), new User(line[2]))
+
     @Override
     public Collection<Reading> read() {
-        User user = null;
 
-        Map<String, List<User>> userMap = new LinkedHashMap<>();
-        userMap.put(user.getRef(), new User());
+
+
+
         String[] line;
-        List<Reading> readingsList = new ArrayList<Reading>() {
-        };
+        List<Reading> readingsList = new ArrayList<Reading>() ;
 
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path))) {
 
             while ((line = reader.readNext()) != null) {
-                readingsList.add(new Reading(LocalDateTime.parse(line[1]),new BigDecimal(line[3]), (User) userMap.get(line[0]),line[2]));
+                readingsList.add(new Reading(ZonedDateTime.parse(line[2]),new BigDecimal(line[3]), User.getRef(),line[1]));
             }
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);

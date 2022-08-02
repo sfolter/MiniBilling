@@ -10,15 +10,24 @@ import java.util.*;
 
 public class CSVPricesReader implements PricesReader{
     String path;
-
     public CSVPricesReader(String path) {
         this.path = path;
     }
+    Map<String, List<Price>> priceCollection = new HashMap<>();
 
+    public Map<String, List<Price>> getPriceCollection() {
+        return priceCollection;
+    }
+
+    static List<Price> prices =new LinkedList<>();
+    public static List<Price> getPrices() {
+        return prices;
+    }
     @Override
-    public Map<String, Collection<Price>> read() {
+    public Map<String, List<Price>> read() {
+
         String[] line;
-        Map<String, Collection<Price>> priceCollection = new HashMap<>();
+
 
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path))) {
 
@@ -27,14 +36,13 @@ public class CSVPricesReader implements PricesReader{
                 LocalDate startDate = LocalDate.parse(line[1]);
                 LocalDate endDate = LocalDate.parse(line[2]);
                 BigDecimal value = new BigDecimal(line[3]);
-                Collection<Price> prices =new LinkedList<>();
                 if (priceCollection.get(product) == null){
                     prices.add(new Price(product, startDate, endDate, value));
                     priceCollection.put(product, prices);
                 }else {
                     priceCollection.get(product).add(new Price(product,startDate,endDate,value));
                 }
-            }
+             }
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);
         }

@@ -85,11 +85,12 @@ public class Main {
 //            file.flush();
 //            file.close();
 //        }
+        CSVPricesReader price = new CSVPricesReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv");
+        price.read();
         CSVUserReader user = new CSVUserReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv");
-                user.read();
-        CSVReadingsReader csv = new CSVReadingsReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\readings.csv");
-
-        csv.read();
+        user.read();
+        CSVReadingsReader readings = new CSVReadingsReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\readings.csv");
+        readings.read();
     }
 }
 

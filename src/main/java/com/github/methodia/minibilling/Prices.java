@@ -44,7 +44,6 @@ public class Prices implements FileReader{
 
             while ((pricesLineInArray = reader.readNext()) != null) {
                 pricesList.add(pricesLineInArray);
-
             }
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);

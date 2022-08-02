@@ -13,29 +13,25 @@ import java.util.List;
  * Methodia Inc.
  */
 public class User{
-    private String name;
-    private String ref;
-    private List<Price> price;
+    private static String name;
+    private static String ref;
+    private static List<Price> price;
 
     public User(String name, String ref, List<Price> price) {
         this.name = name;
         this.ref = ref;
         this.price = price;
     }
-
-
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
-    public String getRef() {
+    public static String getRef() {
         return ref;
     }
 
-    public List<Price> getPrice() {
+    public static List<Price> getPrice() {
         return price;
     }
-
-
 
 }
