@@ -2,9 +2,9 @@ package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class InvoiceGenerator {
     private User user;
@@ -20,25 +20,27 @@ public class InvoiceGenerator {
     public Invoice generate() {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor=new ProportionalMeasurementDistributor(measurements,prices);
         Collection<QuantityPricePeriod> quantityPricePeriods=proportionalMeasurementDistributor.distribute();
-        LocalDateTime documentDate=LocalDateTime.now();
-        String documentNumber=Invoice.getDocumentNumber();
-        User consumer=user; //можеби стринг с името
-        BigDecimal totalAmount;// сума амаунт
 
+        List<InvoiceLine> invoiceLines=new ArrayList<>();
+        BigDecimal totalAmount= new BigDecimal(0);// сума амаунт
         int counter=0;
         for(QuantityPricePeriod qpp:quantityPricePeriods){
             int index=counter++;
             BigDecimal quantity=qpp.getQuantity();
             LocalDateTime start=qpp.getStart();
             LocalDateTime end=qpp.getEnd();
-            String product;//???
-            BigDecimal price=qpp.getPrice();
-            int priceList;
-            BigDecimal amount=qpp.getQuantity().multiply(qpp.getPrice());
-
+            String product=qpp.getPrice().getProduct();
+            BigDecimal price=qpp.getPrice().getValue();
+            int priceList= user.getPriceListNumber();
+            BigDecimal amount=qpp.getQuantity().multiply(qpp.getPrice().getValue());
+            totalAmount.add(amount);
+            invoiceLines.add(new InvoiceLine(index,quantity,start,end,product,price,priceList,amount));
         }
-        //TODO
 
-        throw new UnsupportedOperationException("Not implemented!");
+        LocalDateTime documentDate=LocalDateTime.now();
+        String documentNumber=Invoice.getDocumentNumber();
+        User consumer=user; //можеби стринг с името
+
+        return new Invoice(documentDate,documentNumber,consumer,totalAmount,invoiceLines);
     }
 }

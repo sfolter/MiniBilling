@@ -14,8 +14,7 @@ public class Invoice {
     private List<InvoiceLine> lines;
 
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount,
-                   List<InvoiceLine> lines) {
+    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;

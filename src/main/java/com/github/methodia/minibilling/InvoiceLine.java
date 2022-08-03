@@ -1,21 +1,19 @@
 package com.github.methodia.minibilling;
 
-import org.joda.time.LocalDateTime;
-
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.time.LocalDateTime;
 
 public class InvoiceLine {
     private int index;
     private BigDecimal quantity;
-    private LocalDateTime start;
+    private java.time.LocalDateTime start;
     private LocalDateTime end;
     private String product;
     private BigDecimal price;
     private int priceList;
     private BigDecimal amount;
 
-    public InvoiceLine(int index, BigDecimal quantity, LocalDateTime start, LocalDateTime end, String product,
+    public InvoiceLine(int index, BigDecimal quantity, java.time.LocalDateTime start, java.time.LocalDateTime end, String product,
                        BigDecimal price, int priceList, BigDecimal amount) {
         this.index = index;
         this.quantity = quantity;
@@ -35,11 +33,11 @@ public class InvoiceLine {
         return quantity;
     }
 
-    public LocalDateTime getStart() {
+    public java.time.LocalDateTime getStart() {
         return start;
     }
 
-    public LocalDateTime getEnd() {
+    public java.time.LocalDateTime getEnd() {
         return end;
     }
 

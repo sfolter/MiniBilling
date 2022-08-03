@@ -52,7 +52,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 final LocalDate priceEnd = price.getEnd();
                 final LocalDate measurementEnd = measurement.getEnd().toLocalDate();
                 final LocalDateTime qppStart = lastDateTime;
-                final BigDecimal qppPrice = price.getValue();
+                final Price qppPrice = price;
                 final long measurementDays = measurement.getStart().until(measurement.getEnd(), ChronoUnit.DAYS);
 
                 if (priceEnd.compareTo(measurementEnd) >= 0) {

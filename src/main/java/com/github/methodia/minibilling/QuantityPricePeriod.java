@@ -6,10 +6,11 @@ import java.time.LocalDateTime;
 public class QuantityPricePeriod {
     private LocalDateTime start;
     private LocalDateTime end;
-    private BigDecimal price;
+    //private BigDecimal price;
+    private Price price;
     private BigDecimal quantity;
 
-    public QuantityPricePeriod(LocalDateTime start, LocalDateTime end, BigDecimal price, BigDecimal quantity) {
+    public QuantityPricePeriod(LocalDateTime start, LocalDateTime end, Price price, BigDecimal quantity) {
         this.start = start;
         this.end = end;
         this.price = price;
@@ -24,7 +25,7 @@ public class QuantityPricePeriod {
         return end;
     }
 
-    public BigDecimal getPrice() {
+    public Price getPrice() {
         return price;
     }
 
