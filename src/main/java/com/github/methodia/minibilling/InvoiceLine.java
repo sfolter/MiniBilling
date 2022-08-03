@@ -56,4 +56,18 @@ public class InvoiceLine {
     public BigDecimal getAmount() {
         return amount;
     }
+
+    @Override
+    public String toString() {
+        return "InvoiceLine{" +
+                "index=" + index +
+                ", quantity=" + quantity +
+                ", start=" + start +
+                ", end=" + end +
+                ", product='" + product + '\'' +
+                ", price=" + price +
+                ", priceList=" + priceList +
+                ", amount=" + amount +
+                '}';
+    }
 }

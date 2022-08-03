@@ -9,12 +9,12 @@ public class Invoice {
     private static long idContour= 10000;
     private LocalDateTime documentDate;
     private String documentNumber;
-    private User consumer;
+    private String consumer;
     private BigDecimal totalAmount;
     private List<InvoiceLine> lines;
 
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
+    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -29,7 +29,7 @@ public class Invoice {
         return String.valueOf(idContour++);
     }
 
-    public User getConsumer() {
+    public String getConsumer() {
         return consumer;
     }
 
@@ -39,5 +39,16 @@ public class Invoice {
 
     public List<InvoiceLine> getLines() {
         return lines;
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "documentDate=" + documentDate +
+                ", documentNumber='" + documentNumber + '\'' +
+                ", consumer='" + consumer + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", lines=" + lines +
+                '}';
     }
 }

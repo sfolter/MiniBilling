@@ -8,9 +8,10 @@ public class User {
     private int priceListNumber;
     private List<Price> price;
 
-    public User(String name, String ref, List<Price> price) {
+    public User(String name, String ref, int priceListNumber, List<Price> price) {
         this.name = name;
         this.ref = ref;
+        this.priceListNumber = priceListNumber;
         this.price = price;
     }
 

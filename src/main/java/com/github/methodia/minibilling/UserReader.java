@@ -10,22 +10,7 @@ import java.util.List;
 import static java.lang.Integer.parseInt;
 
 public class UserReader implements UsersReader {
-    ArrayList<Client> informationForClient = new ArrayList<>();
     List<User> users = new ArrayList<>();
-
-    public ArrayList<Client> readClientsToList(String directory) {
-        String line = "";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(directory));
-            while ((line = br.readLine()) != null) {
-                String[] client = line.split(",");
-                informationForClient.add(new Client(client[0], client[1], parseInt(client[2])));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return informationForClient;
-    }
 
     @Override
     public List<User> read(String directory) {
@@ -34,14 +19,16 @@ public class UserReader implements UsersReader {
         BufferedReader br;
         try {
             br = new BufferedReader(new FileReader(directoryUsers));
+
             while ((line = br.readLine()) != null) {
                 String[] client = line.split(",");
-                String priceList=client[2];
-                String pricesPath = directory + "prices-" + priceList + ".csv";
-                PricesReader pricesReader=new PriceReader();
-                List<Price> pricesReader1= pricesReader.read(pricesPath);
-                users.add(new User(client[0], client[1], pricesReader1));
+                int priceList=Integer.parseInt(client[2]);
 
+
+                PricesReader pricesReader=new PriceReader();
+                List<Price> pricesReader1= pricesReader.read(directory,priceList);
+
+                users.add(new User(client[0], client[1],priceList, pricesReader1));
 
             }
         }catch (IOException e) {

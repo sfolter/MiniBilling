@@ -31,4 +31,14 @@ public class Measurement {
     public User getUser() {
         return user;
     }
+
+    @Override
+    public String toString() {
+        return "Measurement{" +
+                "start=" + start +
+                ", end=" + end +
+                ", value=" + value +
+                ", user=" + user +
+                '}';
+    }
 }

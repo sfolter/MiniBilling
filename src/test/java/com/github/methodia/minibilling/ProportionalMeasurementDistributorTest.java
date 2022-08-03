@@ -108,14 +108,14 @@ class ProportionalMeasurementDistributorTest {
     private static Measurement getMeasurement(BigDecimal measurementValue) {
         final Measurement measurement1 = new Measurement(LocalDateTime.of(2021, 3, 6, 13, 23),
                 LocalDateTime.of(2021, 4, 14, 15, 32), measurementValue,
-                new User("Test Testov", "ref", Collections.emptyList()));
+                new User("Test Testov", "ref",1, Collections.emptyList()));
         return measurement1;
     }
 
     private static Measurement getSecondMeasurement(BigDecimal measurementValue) {
         final Measurement measurement2 = new Measurement(LocalDateTime.of(2021, 4, 15, 13, 23),
                 LocalDateTime.of(2021, 5, 14, 15, 32), measurementValue,
-                new User("Test Testov", "ref", Collections.emptyList()));
+                new User("Test Testov", "ref",1, Collections.emptyList()));
         return measurement2;
     }
 

@@ -25,4 +25,13 @@ public class Reading {
     public User getUser() {
         return user;
     }
+
+    @Override
+    public String toString() {
+        return "Reading{" +
+                "time=" + time +
+                ", value=" + value +
+                ", user=" + user +
+                '}';
+    }
 }

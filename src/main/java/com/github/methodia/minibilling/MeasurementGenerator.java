@@ -27,7 +27,6 @@ public class MeasurementGenerator {
                     BigDecimal value = reading.getValue().subtract(previous.get(0).getValue());
                     measurements.add(new Measurement(previous.get(0).getTime(), reading.getTime(), value, user));
                     previous.set(0, reading);
-
                 }
             }
         }

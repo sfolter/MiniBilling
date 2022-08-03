@@ -22,8 +22,11 @@ public class InvoiceGenerator {
         Collection<QuantityPricePeriod> quantityPricePeriods=proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines=new ArrayList<>();
-        BigDecimal totalAmount= new BigDecimal(0);// сума амаунт
-        int counter=0;
+        BigDecimal variable=new BigDecimal(0);
+        BigDecimal amount=BigDecimal.ZERO;
+        BigDecimal totalAmount=null;
+
+        int counter=1;
         for(QuantityPricePeriod qpp:quantityPricePeriods){
             int index=counter++;
             BigDecimal quantity=qpp.getQuantity();
@@ -32,14 +35,14 @@ public class InvoiceGenerator {
             String product=qpp.getPrice().getProduct();
             BigDecimal price=qpp.getPrice().getValue();
             int priceList= user.getPriceListNumber();
-            BigDecimal amount=qpp.getQuantity().multiply(qpp.getPrice().getValue());
-            totalAmount.add(amount);
+            amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
+            totalAmount = variable.add(new BigDecimal(String.valueOf(amount)));
             invoiceLines.add(new InvoiceLine(index,quantity,start,end,product,price,priceList,amount));
         }
 
         LocalDateTime documentDate=LocalDateTime.now();
         String documentNumber=Invoice.getDocumentNumber();
-        User consumer=user; //можеби стринг с името
+        String consumer=user.getName();
 
         return new Invoice(documentDate,documentNumber,consumer,totalAmount,invoiceLines);
     }
