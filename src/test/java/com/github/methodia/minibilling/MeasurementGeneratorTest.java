@@ -58,9 +58,27 @@ class MeasurementGeneratorTest {
         readings.add(reading4);
         final MeasurementGenerator measurementGenerator= new MeasurementGenerator(test,readings);
         List<Measurement> measurementCollections=measurementGenerator.generate().stream().toList();
+
+        Assertions.assertEquals(reading1.getTime(),measurementCollections.get(0).getStart(),
+                "Start time of measurement2 doesn't match with time of reading" );
+        Assertions.assertEquals(reading2.getTime(),measurementCollections.get(0).getEnd(),
+                "End time of measurement2 doesn't match with time of reading" );
+        Assertions.assertEquals(new BigDecimal("100"),measurementCollections.get(0).getValue(),
+                "Quantity is different.");
+
         Assertions.assertEquals(reading2.getTime(),measurementCollections.get(1).getStart(),
                 "Start time of measurement2 doesn't match with time of reading" );
+        Assertions.assertEquals(reading3.getTime(),measurementCollections.get(1).getEnd(),
+                "End time of measurement2 doesn't match with time of reading" );
         Assertions.assertEquals(new BigDecimal("70"),measurementCollections.get(1).getValue(),
                 "Quantity is different.");
+
+        Assertions.assertEquals(reading3.getTime(),measurementCollections.get(2).getStart(),
+                "Start time of measurement2 doesn't match with time of reading" );
+        Assertions.assertEquals(reading4.getTime(),measurementCollections.get(2).getEnd(),
+                "End time of measurement2 doesn't match with time of reading" );
+        Assertions.assertEquals(new BigDecimal("30"),measurementCollections.get(2).getValue(),
+                "Quantity is different.");
+
     }
 }

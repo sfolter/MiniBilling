@@ -6,11 +6,13 @@ import java.util.List;
 
 public class Invoice {
 
+    private static long idContour= 10000;
     private LocalDateTime documentDate;
     private String documentNumber;
     private User consumer;
     private BigDecimal totalAmount;
     private List<InvoiceLine> lines;
+
 
     public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount,
                    List<InvoiceLine> lines) {
@@ -24,9 +26,8 @@ public class Invoice {
     public LocalDateTime getDocumentDate() {
         return documentDate;
     }
-
-    public String getDocumentNumber() {
-        return documentNumber;
+    public static synchronized String getDocumentNumber() {
+        return String.valueOf(idContour++);
     }
 
     public User getConsumer() {
