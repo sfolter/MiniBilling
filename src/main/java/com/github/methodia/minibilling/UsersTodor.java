@@ -6,7 +6,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Users implements FileReader {
+public class UsersTodor implements FileReaderTodor {
     static ArrayList<String> nameList = new ArrayList<>();
     static ArrayList<String> refList = new ArrayList<>();
 

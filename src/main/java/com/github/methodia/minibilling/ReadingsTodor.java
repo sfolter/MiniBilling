@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-public class Readings implements FileReader {
-    Users users = new Users();
+public class ReadingsTodor implements FileReaderTodor {
+    UsersTodor usersTodor = new UsersTodor();
     static ArrayList<String> referentialNumberReadings = new ArrayList<>();
     static ArrayList<String> referentialNumb = new ArrayList<>();
     static ArrayList<String> product = new ArrayList<>();
@@ -33,7 +33,7 @@ public class Readings implements FileReader {
 
 
 
-    ArrayList<String> refList = users.getUserRefList();
+    ArrayList<String> refList = usersTodor.getUserRefList();
 
     public ArrayList<ZonedDateTime> getStartDateParsed() {
         return startDateParsed;

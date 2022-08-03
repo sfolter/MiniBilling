@@ -1,8 +1,6 @@
 package com.github.methodia.minibilling;
 
-import java.util.ArrayList;
-
-public interface FileReader
+public interface FileReaderTodor
 {
     public void reader(String path);
 }

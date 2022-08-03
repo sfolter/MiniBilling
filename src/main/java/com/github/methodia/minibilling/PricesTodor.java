@@ -4,14 +4,10 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 
-public class Prices implements FileReader {
+public class PricesTodor implements FileReaderTodor {
 
     static ArrayList<String> productInPrices = new ArrayList<>();
     static ArrayList<LocalDate> parsedStartDate = new ArrayList<>();
@@ -53,9 +49,9 @@ public class Prices implements FileReader {
             String[] strings = pricesList.get(i);
             productInPrices.add(strings[0]);
             LocalDate parsedStartDate = LocalDate.parse(strings[1]);
-            Prices.parsedStartDate.add(parsedStartDate);
+            PricesTodor.parsedStartDate.add(parsedStartDate);
             LocalDate parsedEndDate = LocalDate.parse(strings[2]);
-            Prices.parsedEndDate.add(parsedEndDate);
+            PricesTodor.parsedEndDate.add(parsedEndDate);
             price.add(Float.parseFloat(strings[3]));
 
         }

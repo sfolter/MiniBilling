@@ -10,5 +10,5 @@ import java.util.Map;
  */
 public interface ReadingsReader {
 
-    Collection<Reading> read();
+    Collection<Reading> read(String path);
 }

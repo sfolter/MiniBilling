@@ -9,10 +9,10 @@ import java.time.LocalDate;
  * Methodia Inc.
  */
 public class Price {
-    private String product;
-    private LocalDate start;
-    private LocalDate end;
-    private BigDecimal value;
+    private static String product;
+    private static LocalDate start;
+    private static LocalDate end;
+    private static BigDecimal value;
 
     public Price(String product, LocalDate start, LocalDate end, BigDecimal value) {
         this.product = product;
@@ -21,19 +21,19 @@ public class Price {
         this.value = value;
     }
 
-    public String getProduct() {
+    public static String getProduct() {
         return product;
     }
 
-    public LocalDate getStart() {
+    public static LocalDate getStart() {
         return start;
     }
 
-    public LocalDate getEnd() {
+    public static LocalDate getEnd() {
         return end;
     }
 
-    public BigDecimal getValue() {
+    public static BigDecimal getValue() {
         return value;
     }
 }

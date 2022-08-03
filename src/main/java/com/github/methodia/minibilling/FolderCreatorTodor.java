@@ -3,7 +3,7 @@ package com.github.methodia.minibilling;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FolderCreator {
+public class FolderCreatorTodor {
     public ArrayList<String> folderPath=new ArrayList<>();
 
 
@@ -13,7 +13,7 @@ public class FolderCreator {
 
     public void createFolders() {
         String path = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\usernames\\";
-        Users newUser = new Users();
+        UsersTodor newUser = new UsersTodor();
         ArrayList<String> userNames = newUser.getNameList();
         ArrayList<String> userRef = newUser.getUserRefList();
 

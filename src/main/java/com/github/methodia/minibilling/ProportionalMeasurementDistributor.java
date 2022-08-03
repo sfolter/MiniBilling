@@ -7,16 +7,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
-
     private Collection<Measurement> measurements;
     private Collection<Price> prices;
 
@@ -59,7 +52,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 final LocalDate priceEnd = price.getEnd();
                 final LocalDate measurementEnd = measurement.getEnd().toLocalDate();
                 final LocalDateTime qppStart = lastDateTime;
-                final BigDecimal qppPrice = price.getValue();
+                final Price qppPrice = price;
                 final long measurementDays = measurement.getStart().until(measurement.getEnd(), ChronoUnit.DAYS);
 
                 if (priceEnd.compareTo(measurementEnd) >= 0) {
@@ -71,8 +64,8 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 } else {
                     final LocalDateTime qppEnd = price.getEnd().atTime(23, 59, 59);
                     final long qppPeriodDays = lastDateTime.until(qppEnd, ChronoUnit.DAYS);
-                    final BigDecimal qppQuantity = measurement.getValue().divide(BigDecimal.valueOf(measurementDays), RoundingMode.HALF_UP)
-                            .multiply(BigDecimal.valueOf(qppPeriodDays));
+                    final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
+                            .multiply(measurement.getValue());
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(lastDateTime, qppEnd,
                             qppPrice, qppQuantity);
                     quantityPricePeriods.add(quantityPricePeriod);
@@ -100,6 +93,4 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
         }
         return filteredPrices;
     }
-
 }
-
