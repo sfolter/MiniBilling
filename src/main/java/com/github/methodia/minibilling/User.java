@@ -1,48 +1,39 @@
 package com.github.methodia.minibilling;
 
+import java.util.List;
 
-
+/**
+ * @author Miroslav Kovachev
+ * 28.07.2022
+ * Methodia Inc.
+ */
 public class User {
-
-   private String name;
-
-    private String referentNumber;
-
+    private String name;
+    private String ref;
     private int numberPricingList;
+    private List<Price> price;
 
-    public User(String name, String referentNumber, int numberPricingList) {
+
+    public User(String name, String ref, int numberPricingList, List<Price> price) {
         this.name = name;
-        this.referentNumber = referentNumber;
-        this.numberPricingList = numberPricingList;
-    }
-
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getReferentNumber() {
-        return referentNumber;
-    }
-
-    public void setReferentNumber(String referentNumber) {
-        this.referentNumber = referentNumber;
+        this.ref = ref;
+        this.price = price;
+        this.numberPricingList=numberPricingList;
     }
 
     public int getNumberPricingList() {
         return numberPricingList;
     }
 
-    public void setNumberPricingList(int numberPricingList) {
-        this.numberPricingList = numberPricingList;
+    public String getName() {
+        return name;
     }
 
+    public String getRef() {
+        return ref;
+    }
+
+    public List<Price> getPrice() {
+        return price;
+    }
 }
-
-
-
