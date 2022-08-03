@@ -31,4 +31,14 @@ public class Price {
     public BigDecimal getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "product='" + product + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                ", value=" + value +
+                '}';
+    }
 }

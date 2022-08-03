@@ -6,19 +6,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
 public class UserReader implements UsersReader {
     ArrayList<Client> informationForClient = new ArrayList<>();
-    Collection<User> users = new ArrayList<>();
+    List<User> users = new ArrayList<>();
 
     public ArrayList<Client> readClientsToList(String directory) {
         String line = "";
-        BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader(directory));
+            BufferedReader br = new BufferedReader(new FileReader(directory));
             while ((line = br.readLine()) != null) {
                 String[] client = line.split(",");
                 informationForClient.add(new Client(client[0], client[1], parseInt(client[2])));
@@ -30,7 +28,7 @@ public class UserReader implements UsersReader {
     }
 
     @Override
-    public Collection<User> read(String directory) {
+    public List<User> read(String directory) {
         String directoryUsers = directory + "users.csv";
         String line = "";
         BufferedReader br;

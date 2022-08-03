@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        String resourceDirectory = scanner.nextLine();
+        String resourceDirector = scanner.nextLine();
         String dateToReporting = scanner.nextLine();
 
         DateTimeFormatter formatterBorderTime = new DateTimeFormatterBuilder()
@@ -28,7 +28,7 @@ public class Main {
         LocalDate borderTime = LocalDate.parse(dateToReporting, formatterBorderTime);
 
         //directories
-        //String resourceDirectory = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        String resourceDirectory = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         String directoryClients = resourceDirectory + "users.csv";
         String directoryReport = resourceDirectory + "readings.csv";
 
@@ -115,7 +115,13 @@ public class Main {
             }
             bill = new Bill();
         }
-       List<Price> price =pricesReader.read("C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv");
+//       List<Price> price =pricesReader.read("C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv");
+       List<User> users=userReader.read("C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\");
+        for (User user:users)
+        {
+            System.out.println(user);
+        }
+        System.out.println(users);
     }
 }
 
