@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 public class Reading {
     private ZonedDateTime time;
     private BigDecimal value;
-    private User user;
+    private  User user;
     private String product;
 
     public Reading(ZonedDateTime time, BigDecimal value, User user, String product) {

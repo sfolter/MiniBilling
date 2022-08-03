@@ -15,20 +15,24 @@ public class CSVReadingsReader implements ReadingsReader{
         this.path = path;
     }
 
+    static List<Reading> readingsList = new ArrayList<Reading>() ;
+
+    public static List<Reading> getReadingsList() {
+        return readingsList;
+    }
+
     @Override
     public Collection<Reading> read() {
 
-
-
-
         String[] line;
-        List<Reading> readingsList = new ArrayList<Reading>() ;
 
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path))) {
 
             while ((line = reader.readNext()) != null) {
-                readingsList.add(new Reading(ZonedDateTime.parse(line[2]),new BigDecimal(line[3]), User.getRef(),line[1]));
+                Map<String, User> userMap = CSVUserReader.getUserMap();
+                readingsList.add(new Reading(ZonedDateTime.parse(line[2]),new BigDecimal(line[3]), userMap.get(line[0]), line[1]));
             }
+
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);
         }

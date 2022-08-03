@@ -88,9 +88,14 @@ public class Main {
         CSVPricesReader price = new CSVPricesReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv");
         price.read();
         CSVUserReader user = new CSVUserReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv");
-        user.read();
+        List<User> users = user.read();
         CSVReadingsReader readings = new CSVReadingsReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\readings.csv");
         readings.read();
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        Collection<Measurement> measurements = measurementGenerator.generate();
+        List<Price> prices = CSVPricesReader.getPrices();
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(1),measurements,prices );
+        invoiceGenerator.generate();
     }
 }
 
