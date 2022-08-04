@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.*;
 
 public class UsersReaders implements UsersReader {
+    public UsersReaders(String inputPath) {
+        inputPath = inputPath;
+    }
+
     public Map<String, User> read() {
 
         PricesReader pricesReader = new PriceReader();

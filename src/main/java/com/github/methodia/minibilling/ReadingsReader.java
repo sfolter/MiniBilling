@@ -10,12 +10,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ReadingsReader implements ReadingsReaderInterface {
+    public ReadingsReader(String inputPath) {
+        inputPath = inputPath;
+    }
+
     @Override
     public List<Reading> read() {
 
         List<Reading> listOfReports = new ArrayList<>();
 
-        UsersReaders userReader = new UsersReaders();//For Marko -> key(referenceNumber)-> List(value)
+        UsersReaders userReader = new UsersReaders("src\\test\\resources\\sample1\\input\\readings.csv");//For Marko -> key(referenceNumber)-> List(value)
 
         String line;
 
