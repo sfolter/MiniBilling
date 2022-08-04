@@ -1,11 +1,6 @@
 package com.github.methodia.minibilling;
 
-import org.json.JSONObject;
-import org.json.simple.JSONArray;
-
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +15,7 @@ public class Main {
 
 
         String userPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv";
-        CsvFileUserReader userFileRead=new CsvFileUserReader();
+        CsvFileUserReader userFileRead = new CsvFileUserReader();
         List<User> users = userFileRead.read(userPath);
         //FolderCreator
         FolderCreatorTodor foldersCreation = new FolderCreatorTodor();
@@ -31,14 +26,18 @@ public class Main {
         CsvFileReadingReader reading = new CsvFileReadingReader();
         Collection<Reading> readings = reading.read(readingsPath);
 //        ArrayList<Float> quantity = reading.getQuantity();
-        MeasurementGenerator measurementGenerator=new MeasurementGenerator(users.get(1),readings);
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator(users.get(1), readings);
         Collection<Measurement> measermantGenerated = measurementGenerator.generate();
         // Current date and time
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         Calendar cal = Calendar.getInstance();
 
-        InvoiceGenerator invoiceGenerator=new InvoiceGenerator(users.get(1),measermantGenerated,users.get(1).getPrice());
-
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(1), measermantGenerated, users.get(1).getPrice());
+        Invoice invoice = invoiceGenerator.generate();
+        FolderGenerator folderGenerator = new FolderGenerator(users.get(3));
+        String folder = folderGenerator.generate();
+        JsonGenerator jsonGenerator = new JsonGenerator(invoice,folder);
+        jsonGenerator.generate();
 
     }
 }

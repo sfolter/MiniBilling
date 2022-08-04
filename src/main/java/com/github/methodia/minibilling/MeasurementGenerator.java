@@ -1,7 +1,6 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
-import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,6 +34,7 @@ public class MeasurementGenerator {
                 }
                 //TODO
 
-            }  return measurements;
+            }
+        return measurements;
     }
 }
