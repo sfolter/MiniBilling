@@ -1,38 +1,41 @@
 package com.github.methodia.minibilling;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
 
-public class Price {
+/**
+ * @author Miroslav Kovachev
+ * 28.07.2022
+ * Methodia Inc.
+ */
+public class Price{
     private String product;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private double price;
+    private LocalDate start;
+    private LocalDate end;
+    private BigDecimal value;
 
-    public Price(String product, LocalDate startDate, LocalDate endDate, double price) {
-
+    public Price(String product, LocalDate start, LocalDate end, BigDecimal value) {
         this.product = product;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.price = price;
+        this.start = start;
+        this.end = end;
+        this.value = value;
     }
-
-
 
     public String getProduct() {
         return product;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getStart() {
+        return start;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public LocalDate getEnd() {
+        return end;
     }
 
-    public double getPrice() {
-        return price;
+    public BigDecimal getValue() {
+        return value;
     }
-
-
 }
+
