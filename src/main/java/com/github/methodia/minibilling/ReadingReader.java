@@ -9,7 +9,7 @@ import java.util.*;
 public class ReadingReader implements ReadingsReader {
 
     @Override
-    public Collection<Reading> read(String directory) {
+    public List<Reading> read(String directory) {
         String line = "";
         List<Reading> result = new ArrayList<>();
         UserReader userReader=new UserReader();

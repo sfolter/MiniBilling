@@ -8,9 +8,9 @@ import java.util.List;
 
 public class MeasurementGenerator {
     private User user;
-    private Collection<Reading> readings;
+    private List<Reading> readings;
 
-    public MeasurementGenerator(User user, Collection<Reading> readings) {
+    public MeasurementGenerator(User user, List<Reading> readings) {
         this.user = user;
         this.readings = readings;
     }

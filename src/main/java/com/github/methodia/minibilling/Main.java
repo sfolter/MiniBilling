@@ -116,21 +116,18 @@ public class Main {
         final PriceReader pricesReader = new PriceReader();
         final ReadingReader readingReader = new ReadingReader();
         List<User> userList = userReader.read(resourceDirectory);
-        Collection<Reading> readingCollection = readingReader.read(resourceDirectory);
+        List<Reading> readingCollection = readingReader.read(resourceDirectory);
 
         for (User user : userList) {
 
             List<Price> priceList = pricesReader.read(resourceDirectory, user.getPriceListNumber());
-
-
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingCollection);
             Collection<Measurement> measurementCollection = measurementGenerator.generate();
-            System.out.println(measurementCollection);
             ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurementCollection, priceList);
             List<QuantityPricePeriod> quantityPricePeriodList = proportionalMeasurementDistributor.distribute();
             InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurementCollection, priceList);
             Invoice invoice = invoiceGenerator.generate();
-
+            System.out.println(invoice);
         }
     }
 }
