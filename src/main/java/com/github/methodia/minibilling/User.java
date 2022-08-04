@@ -36,4 +36,14 @@ public class User {
     public List<Price> getPrice() {
         return price;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", ref='" + ref + '\'' +
+                ", numberPricingList=" + numberPricingList +
+                ", price=" + price +
+                '}';
+    }
 }

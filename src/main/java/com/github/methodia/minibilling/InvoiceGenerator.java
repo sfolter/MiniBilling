@@ -30,11 +30,11 @@ public class InvoiceGenerator {
         BigDecimal totalAmount=null;
         int counter = 0;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
-            int index = counter++;
+            int index =invoiceLines.size()+1;
             BigDecimal quantity = qpp.getQuantity();
             LocalDateTime start = qpp.getStart();
             LocalDateTime end = qpp.getEnd();
-            String product = null;//???
+            String product = null;
             BigDecimal price = qpp.getPrice();
              amount = qpp.getQuantity().multiply(qpp.getPrice());
             totalAmount = variable.add(new BigDecimal(String.valueOf(amount)));

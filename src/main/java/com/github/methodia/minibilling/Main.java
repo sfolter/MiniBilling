@@ -15,8 +15,7 @@ import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
@@ -35,7 +34,6 @@ public class Main {
         String inputPath=scanner.nextLine();
 
         String dateReportingTo=scanner.nextLine();
-        LocalDate borderDate=LocalDate.parse(dateReportingTo,DateTimeFormatter.ofPattern("yy-MM"));
         String outputPath=scanner.nextLine();
         ReadingsFileReader readingsFR=new ReadingsFileReader(inputPath);
         readingsFR.read();
@@ -60,10 +58,10 @@ public class Main {
             //Field documentDate = Invoice.class.getDeclaredField("documentDate");
             //documentDate.setAccessible(true);
            // Object docDateObj = documentDate.get(documentDate);
-
+            System.out.println(user.toString());
 
             try {
-                savingFiles(outputPath,borderDate,invoice,user,invoiceGenerator);
+                savingFiles(outputPath,dateReportingTo,invoice,user,invoiceGenerator);
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -88,24 +86,27 @@ public class Main {
             return LocalDateTime.parse(jsonReader.nextString(),DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
     }
-    private static void savingFiles(String outputPath, LocalDate dateReportTo,Invoice invoice, User user,InvoiceGenerator invoiceGenerator) throws ParseException, IOException {
+    private static void savingFiles(String outputPath, String dateReportTo,Invoice invoice, User user,InvoiceGenerator invoiceGenerator) throws ParseException, IOException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter()).create();
         String json = gson.toJson(invoice);
 
-        List<Invoice> invoices = Collections.singletonList(invoiceGenerator.generate());
+
+        Date jud = new SimpleDateFormat("yy-MM").parse(dateReportTo);
+        LocalDate borderDateLD = convertingBorderDateToLocalDate(jud);
+        LocalDate lastInvoiceDate = invoice.getLines().get(0).getEnd().toLocalDate();
+        if (borderDateLD.isAfter(lastInvoiceDate)) {
+            String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
+            String[] splitDate = month.split("\\s+");
+            String monthInCyrilic = splitDate[1];
 
 
-        LocalDate lastInvoiceDate= LocalDate.parse(invoice.getLines().get(0).toString());
-        if (lastInvoiceDate.isBefore(dateReportTo)) {
+            int outputOfTheYear = lastInvoiceDate.getYear() % 100;
             String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
             File creatingFolders = new File(folderPath);
             boolean bool2 = creatingFolders.mkdirs();
-            String month = lastInvoiceDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
-            String[] splitDate = month.split("\\s+");
-            String monthInCyrilic = splitDate[1];
-            int outputOfTheYear = Integer.parseInt(month) % 100;
-            String jsonFilePath = folderPath + "\\" + invoice.getDocumentDate() + "-" + monthInCyrilic + "-" + outputOfTheYear + ".json";
+
+            String jsonFilePath = folderPath + "\\" + invoice.getDocNumber() + "-" + monthInCyrilic + "-" + outputOfTheYear + ".json";
             File creatingFiles = new File(jsonFilePath);
             creatingFiles.createNewFile();
             try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
@@ -114,8 +115,15 @@ public class Main {
                 e.printStackTrace();
             }
         }
-
     }
+
+    private static LocalDate convertingBorderDateToLocalDate(Date jud) throws ParseException {
+
+        Instant instant = jud.toInstant();
+        ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+        return  zdt.toLocalDate();
+    }
+
 
 }
 
