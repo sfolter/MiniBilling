@@ -22,8 +22,8 @@ public class InvoiceGenerator {
     public Invoice generate() {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor=new ProportionalMeasurementDistributor(measurements,prices);
         Collection<QuantityPricePeriod> quantityPricePeriods=proportionalMeasurementDistributor.distribute();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-           String documentDate= LocalDateTime.now().format(formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+           LocalDateTime documentDate= LocalDateTime.parse(LocalDateTime.now().format(formatter));
         List<InvoiceLine> invoiceLines=new ArrayList<>();
         BigDecimal variable=new BigDecimal(0);
         BigDecimal amount=BigDecimal.ZERO;
@@ -52,6 +52,6 @@ public class InvoiceGenerator {
         String documentNumber=Invoice.getDocumentNumber();
         String userName=user.getName();
 
-       return new Invoice(documentDate,documentNumber,userName,totalAmount,invoiceLines);
+       return new Invoice(  documentDate,documentNumber,userName,totalAmount,invoiceLines);
     }
 }

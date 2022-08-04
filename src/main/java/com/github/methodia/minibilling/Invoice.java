@@ -1,25 +1,22 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.InvoiceLine;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class Invoice {
 
-    private String documentDate;
+    private static long idContour= 10000;
+    private LocalDateTime documentDate;
     private String documentNumber;
     private String consumer;
     private BigDecimal totalAmount;
     private List<InvoiceLine> lines;
 
-    private static long idContour=10000;
 
-    public Invoice(String documentDate, String documentNumber, String consumer, BigDecimal totalAmount,
-                   List<InvoiceLine> lines) {
+    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -27,15 +24,17 @@ public class Invoice {
         this.lines = lines;
     }
 
-    public String getDocumentDate() {
+    public LocalDateTime getDocumentDate() {
         return documentDate;
     }
+    public String getDocNumber() {
+        return documentNumber;
+    }
+    public static synchronized String getDocumentNumber() {
+        return String.valueOf(idContour++);
+    }
 
-//    public String getDocumentNumber() {
-//        return documentNumber;
-//    }
-
-    public String  getConsumer() {
+    public String getConsumer() {
         return consumer;
     }
 
@@ -45,9 +44,6 @@ public class Invoice {
 
     public List<InvoiceLine> getLines() {
         return lines;
-    }
-    public static synchronized String getDocumentNumber() {
-        return String.valueOf(idContour++);
     }
 
     @Override

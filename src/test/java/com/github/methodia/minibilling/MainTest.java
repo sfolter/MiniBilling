@@ -22,20 +22,20 @@ import java.util.stream.Collectors;
 public class MainTest {
 
     @Test
-    void testSample1() throws IOException {
+    void testSample1() throws IOException, NoSuchFieldException, IllegalAccessException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
     @Test
-    void testSample2() throws IOException {
+    void testSample2() throws IOException, NoSuchFieldException, IllegalAccessException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException {
+    private void testSample(int sampleNumber, String yearMonth) throws IOException, NoSuchFieldException, IllegalAccessException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
