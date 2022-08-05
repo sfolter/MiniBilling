@@ -21,7 +21,7 @@ public class Main {
 //        LocalDate borderTime = LocalDate.parse(dateToReporting, formatterBorderTime);
 
         //directories
-        String resourceDirectory = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        String resourceDirectory = "C:\\Users\\vikto\\IdeaProjects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         String directoryClients = resourceDirectory + "users.csv";
         String directoryReport = resourceDirectory + "readings.csv";
 
