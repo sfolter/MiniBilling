@@ -39,9 +39,10 @@ public class InvoiceGenerator {
 //        throw new UnsupportedOperationException("Not implemented!");
         List<InvoiceLine> invoiceLines = new ArrayList<>();
         BigDecimal totalAmount = new BigDecimal(0);
-        int counter = 0;
+        int counter = 1;
+
         for (QuantityPricePeriod qpp : distribute) {
-            int index = counter++;
+            int index = counter;
             BigDecimal quantity = qpp.getQuantity();
             LocalDateTime start = qpp.getStart();
             LocalDateTime end = qpp.getEnd();
@@ -49,8 +50,9 @@ public class InvoiceGenerator {
             BigDecimal price = qpp.getPrice().getValue();
             int priceList = user.getPriceList();
             BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
-            totalAmount.add(amount);
+            totalAmount=totalAmount.add(amount);
             invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
+            counter++;
         }
 
         LocalDateTime documentDate = LocalDateTime.now();

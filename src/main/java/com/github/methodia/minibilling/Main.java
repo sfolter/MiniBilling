@@ -90,13 +90,13 @@ public class Main {
         CSVUserReader user = new CSVUserReader("C:\\Users\\Acer\\Desktop\\MiniBilling1\\src\\test\\resources\\sample1\\input\\users.csv");
         List<User> users = user.read();
         CSVReadingsReader readings = new CSVReadingsReader("C:\\Users\\Acer\\Desktop\\MiniBilling1\\src\\test\\resources\\sample1\\input\\readings.csv");
-        readings.read();
-        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        Collection<Reading> readingCollection = readings.read();
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator(users.get(2), readingCollection);
         Collection<Measurement> measurements = measurementGenerator.generate();
         List<Price> prices = CSVPricesReader.getPrices();
-        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(1),measurements,prices );
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(2),measurements,prices );
         Invoice invoice = invoiceGenerator.generate();
-        FolderGenerator folderGenerator = new FolderGenerator(users.get(1));
+        FolderGenerator folderGenerator = new FolderGenerator(users.get(2));
         String folderPath = folderGenerator.folderGenerate();
         JSONGenerator jsonGenerator = new JSONGenerator(invoice, folderPath);
         jsonGenerator.generateJSON();

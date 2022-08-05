@@ -35,7 +35,7 @@ public class CSVUserReader implements UsersReader {
         int counter = 0;
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path))) {
             while ((line = reader.readNext()) != null) {
-                userList.add(new User(line[0], line[1], priceList));
+                userList.add(new User(line[0], line[1], Integer.parseInt(line[2]), priceList));
                 userMap.put(line[1], userList.get(counter));
                 counter++;
 

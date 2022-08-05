@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CSVReadingsReader implements ReadingsReader{
@@ -30,7 +31,11 @@ public class CSVReadingsReader implements ReadingsReader{
 
             while ((line = reader.readNext()) != null) {
                 Map<String, User> userMap = CSVUserReader.getUserMap();
-                readingsList.add(new Reading(ZonedDateTime.parse(line[2]),new BigDecimal(line[3]), userMap.get(line[0]), line[1]));
+//                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss z");
+                ZonedDateTime zonedDateTime = ZonedDateTime.parse(line[2]);
+//                String  time = line[2];
+//                LocalDateTime instant = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME);
+                readingsList.add(new Reading(zonedDateTime,new BigDecimal(line[3]), userMap.get(line[0]), line[1]));
             }
 
         } catch (CsvValidationException | IOException e) {

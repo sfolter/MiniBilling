@@ -11,13 +11,14 @@ public class User{
     private String name;
     private String ref;
     private List<Price> price;
-    private int priceList=0;
+    private int priceList;
 
 
-    public User(String name, String ref, List<Price> price) {
+    public User(String name, String ref, int priceList, List<Price> price) {
         this.name = name;
         this.ref = ref;
         this.price = price;
+        this.priceList = priceList;
     }
     public String getName() {
         return name;

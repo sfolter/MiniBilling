@@ -17,6 +17,11 @@ public class MeasurementGenerator {
     private User user;
     private Collection<Reading> readings;
 
+    public MeasurementGenerator(User user, Collection<Reading> readings) {
+        this.user = user;
+        this.readings = readings;
+    }
+
     Collection<Measurement> generate() {
         List<Measurement> measurements = new ArrayList<>();
 //        List<Reading> readingsList = CSVReadingsReader.getReadingsList();
