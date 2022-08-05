@@ -11,6 +11,7 @@ public class User{
     private String name;
     private String ref;
     private List<Price> price;
+    private int priceList=0;
 
 
     public User(String name, String ref, List<Price> price) {
@@ -30,4 +31,7 @@ public class User{
         return price;
     }
 
+    public int getPriceList() {
+        return priceList;
+    }
 }

@@ -85,17 +85,21 @@ public class Main {
 //            file.flush();
 //            file.close();
 //        }
-        CSVPricesReader price = new CSVPricesReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv");
+        CSVPricesReader price = new CSVPricesReader("C:\\Users\\Acer\\Desktop\\MiniBilling1\\src\\test\\resources\\sample1\\input\\prices-1.csv");
         price.read();
-        CSVUserReader user = new CSVUserReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv");
+        CSVUserReader user = new CSVUserReader("C:\\Users\\Acer\\Desktop\\MiniBilling1\\src\\test\\resources\\sample1\\input\\users.csv");
         List<User> users = user.read();
-        CSVReadingsReader readings = new CSVReadingsReader("C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\readings.csv");
+        CSVReadingsReader readings = new CSVReadingsReader("C:\\Users\\Acer\\Desktop\\MiniBilling1\\src\\test\\resources\\sample1\\input\\readings.csv");
         readings.read();
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
         Collection<Measurement> measurements = measurementGenerator.generate();
         List<Price> prices = CSVPricesReader.getPrices();
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(1),measurements,prices );
-        invoiceGenerator.generate();
+        Invoice invoice = invoiceGenerator.generate();
+        FolderGenerator folderGenerator = new FolderGenerator(users.get(1));
+        String folderPath = folderGenerator.folderGenerate();
+        JSONGenerator jsonGenerator = new JSONGenerator(invoice, folderPath);
+        jsonGenerator.generateJSON();
     }
 }
 
