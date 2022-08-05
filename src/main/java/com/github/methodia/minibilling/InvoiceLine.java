@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class InvoiceLine {
     private int index;
     private BigDecimal quantity;
-    private java.time.LocalDateTime start;
+    private LocalDateTime start;
     private LocalDateTime end;
     private String product;
     private BigDecimal price;

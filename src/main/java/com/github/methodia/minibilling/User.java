@@ -35,6 +35,7 @@ public class User {
         return "User{" +
                 "name='" + name + '\'' +
                 ", ref='" + ref + '\'' +
+                ", priceListNumber=" + priceListNumber +
                 ", price=" + price +
                 '}';
     }

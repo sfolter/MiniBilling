@@ -20,7 +20,6 @@ public class MeasurementGenerator {
         List<Reading> previous = new ArrayList<>();
         for (Reading reading : readings) {
             if (user.getRef().equals(reading.getUser().getRef())) {
-
                 if (previous.isEmpty()) {
                     previous.add(reading);
                 } else {

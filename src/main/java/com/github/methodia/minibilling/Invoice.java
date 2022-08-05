@@ -10,14 +10,17 @@ public class Invoice {
     private LocalDateTime documentDate;
     private String documentNumber;
     private String consumer;
+
+    private String reference;
     private BigDecimal totalAmount;
     private List<InvoiceLine> lines;
 
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
+    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, String reference, BigDecimal totalAmount, List<InvoiceLine> lines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
+        this.reference = reference;
         this.totalAmount = totalAmount;
         this.lines = lines;
     }
@@ -28,9 +31,16 @@ public class Invoice {
     public static synchronized String getDocumentNumber() {
         return String.valueOf(idContour++);
     }
+    public  String getDocumentNum() {
+        return documentNumber;
+    }
 
     public String getConsumer() {
         return consumer;
+    }
+
+    public String getReference() {
+        return reference;
     }
 
     public BigDecimal getTotalAmount() {

@@ -1,8 +1,9 @@
 package com.github.methodia.minibilling;
 
 import java.util.Collection;
+import java.util.Map;
 
 public interface UsersReader {
-    Collection<User> read(String directory);
+    Map<String,User> read(String directory);
 
 }
