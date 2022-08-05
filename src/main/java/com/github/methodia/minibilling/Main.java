@@ -29,12 +29,17 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws IOException, NoSuchFieldException, IllegalAccessException {
+;
         Scanner scanner=new Scanner(System.in);
        try{
-        String inputPath=scanner.nextLine();
-
-        String dateReportingTo=scanner.nextLine();
-        String outputPath=scanner.nextLine();
+//        String inputPath=args[1];
+//
+//        String dateReportingTo=args[0];
+//
+//        String outputPath=args[2];
+           String inputPath= scanner.nextLine();
+           String dateReportingTo=scanner.nextLine();
+           String outputPath=scanner.nextLine();
         ReadingsFileReader readingsFR=new ReadingsFileReader(inputPath);
         readingsFR.read();
         UserFileReader userFR=new UserFileReader(inputPath);
@@ -87,7 +92,7 @@ public class Main {
         }
     }
     private static void savingFiles(String outputPath, String dateReportTo,Invoice invoice, User user,InvoiceGenerator invoiceGenerator) throws ParseException, IOException {
-        Gson gson = new GsonBuilder()
+        Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter()).create();
         String json = gson.toJson(invoice);
 
