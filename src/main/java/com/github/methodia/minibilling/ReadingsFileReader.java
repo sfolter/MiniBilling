@@ -1,10 +1,14 @@
 package com.github.methodia.minibilling;
 
+import org.joda.time.tz.UTCProvider;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,13 +39,14 @@ public class ReadingsFileReader implements ReadingsReader {
                 String referentNumber = data[0];
                 String product = data[1];
                 String time = data[2];
-
-                LocalDateTime instant = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME);
+                ZonedDateTime timeZDT = ZonedDateTime.parse(time).withZoneSameInstant(ZoneId.of("GMT"));
+                LocalDateTime instant = LocalDateTime.from(timeZDT);
                 BigDecimal price = BigDecimal.valueOf(Long.parseLong(data[3]));
                 result.add(new Reading(instant,price,userFileReader.read().get(referentNumber)));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;}
+        return result;
+    }
 }

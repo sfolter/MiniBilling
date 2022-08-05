@@ -29,7 +29,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws IOException, NoSuchFieldException, IllegalAccessException {
-;
+
         Scanner scanner=new Scanner(System.in);
        try{
 //        String inputPath=args[1];
@@ -37,9 +37,9 @@ public class Main {
 //        String dateReportingTo=args[0];
 //
 //        String outputPath=args[2];
-           String inputPath= scanner.nextLine();
-           String dateReportingTo=scanner.nextLine();
-           String outputPath=scanner.nextLine();
+           String dateReportingTo=args[0];
+           String inputPath= args[1];
+           String outputPath=args[2];
         ReadingsFileReader readingsFR=new ReadingsFileReader(inputPath);
         readingsFR.read();
         UserFileReader userFR=new UserFileReader(inputPath);
@@ -83,7 +83,10 @@ public class Main {
     private static final class LocalDateAdapter extends TypeAdapter<LocalDateTime> {
         @Override
         public void write( final JsonWriter jsonWriter, final LocalDateTime localDate ) throws IOException {
-            jsonWriter.value(localDate.toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+            ZonedDateTime gmt = localDate.atZone(ZoneId.of("GMT"));
+            String formattedLD = gmt.format(formatter);
+            jsonWriter.value(formattedLD);
         }
 
         @Override
@@ -125,7 +128,7 @@ public class Main {
     private static LocalDate convertingBorderDateToLocalDate(Date jud) throws ParseException {
 
         Instant instant = jud.toInstant();
-        ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+        ZonedDateTime zdt = instant.atZone(ZoneId.of("Europe/Sofia"));
         return  zdt.toLocalDate();
     }
 

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,25 +55,39 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
         final ArrayList<QuantityPricePeriod> quantityPricePeriods = new ArrayList<>();
         for (Measurement measurement : measurements) {
             final List<Price> pricesForMeasurement = filterPricesByMeasurementIntersection(measurement);
+
+
             LocalDateTime lastDateTime = measurement.getStart();
+
             BigDecimal currentQuantitySum = BigDecimal.ZERO;
             for (Price price : pricesForMeasurement) {
                 final LocalDate priceEnd = price.getEnd();
                 final LocalDate measurementEnd = measurement.getEnd().toLocalDate();
-                final LocalDateTime qppStart = lastDateTime;
+
+                ZonedDateTime qppStartasasd=lastDateTime.atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
+                final LocalDateTime qppStart = qppStartasasd.toLocalDateTime();
+
+//                ZonedDateTime qppStartZDT=qppStart.atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
+//                LocalDateTime qppStartLD=qppStartZDT.toLocalDateTime();
+
+
                 final BigDecimal qppPrice = price.getValue();
                 final long measurementDays = measurement.getStart().until(measurement.getEnd(), ChronoUnit.DAYS);
 
                 if (priceEnd.compareTo(measurementEnd) >= 0) {
+//                    final ZonedDateTime qppEndZDT=measurement.getEnd().atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
                     final LocalDateTime qppEnd = measurement.getEnd();
+
                     final BigDecimal qppQuantity = measurement.getValue().subtract(currentQuantitySum);
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(qppStart, qppEnd, qppPrice,
                             qppQuantity);
                     quantityPricePeriods.add(quantityPricePeriod);
                 } else {
-                    final LocalDateTime qppEnd = price.getEnd().atTime(23, 59, 59);
+                    final LocalDateTime qppEnd = LocalDateTime.from(price.getEnd().atTime(23, 59, 59)
+                            .atZone(ZoneId.of("Europe/Sofia")).withZoneSameInstant(ZoneId.of("GMT")));
+
                     final long qppPeriodDays = lastDateTime.until(qppEnd, ChronoUnit.DAYS);
-                    final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays), RoundingMode.HALF_UP)
+                    final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays),3, RoundingMode.HALF_UP)
                             .multiply(measurement.getValue());
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(lastDateTime, qppEnd,
                             qppPrice, qppQuantity);

@@ -12,14 +12,16 @@ public class Invoice {
     private LocalDateTime documentDate;
     private String documentNumber;
     private String consumer;
+    private String reference;
     private BigDecimal totalAmount;
     private List<InvoiceLine> lines;
 
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
+    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, String reference, BigDecimal totalAmount, List<InvoiceLine> lines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
+        this.reference=reference;
         this.totalAmount = totalAmount;
         this.lines = lines;
     }
@@ -46,12 +48,17 @@ public class Invoice {
         return lines;
     }
 
+    public String getReference() {
+        return reference;
+    }
+
     @Override
     public String toString() {
         return "Invoice{" +
                 "documentDate=" + documentDate +
                 ", documentNumber='" + documentNumber + '\'' +
                 ", consumer='" + consumer + '\'' +
+                ", reference='" + reference + '\'' +
                 ", totalAmount=" + totalAmount +
                 ", lines=" + lines +
                 '}';

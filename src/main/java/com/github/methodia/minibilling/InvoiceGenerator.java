@@ -1,6 +1,7 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ public class InvoiceGenerator {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
            LocalDateTime documentDate= LocalDateTime.parse(LocalDateTime.now().format(formatter));
         List<InvoiceLine> invoiceLines=new ArrayList<>();
-        BigDecimal variable=new BigDecimal(0);
+       // BigDecimal variable=new BigDecimal(0);
         BigDecimal amount=BigDecimal.ZERO;
-        BigDecimal totalAmount=null;
+        BigDecimal totalAmount=BigDecimal.ZERO;
         int counter = 0;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             int index =invoiceLines.size()+1;
@@ -37,7 +38,7 @@ public class InvoiceGenerator {
             String product = null;
             BigDecimal price = qpp.getPrice();
              amount = qpp.getQuantity().multiply(qpp.getPrice());
-            totalAmount = variable.add(new BigDecimal(String.valueOf(amount)));
+            totalAmount = totalAmount.add(new BigDecimal(String.valueOf(amount)));
 
 
             for (Price priceFromLoop : user.getPrice()) {
@@ -52,6 +53,6 @@ public class InvoiceGenerator {
         String documentNumber=Invoice.getDocumentNumber();
         String userName=user.getName();
 
-       return new Invoice(  documentDate,documentNumber,userName,totalAmount,invoiceLines);
+       return new Invoice(  documentDate,documentNumber,userName,user.getRef(),totalAmount,invoiceLines);
     }
 }
