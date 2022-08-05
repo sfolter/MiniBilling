@@ -27,7 +27,7 @@ public class CSVReadingsReader implements ReadingsReader{
 
         String[] line;
 
-        try (CSVReader reader = new CSVReader(new java.io.FileReader(path))) {
+        try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\readings.csv"))) {
 
             while ((line = reader.readNext()) != null) {
                 Map<String, User> userMap = CSVUserReader.getUserMap();

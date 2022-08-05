@@ -26,11 +26,13 @@ public class JSONGenerator {
 
     JSONObject json = new JSONObject();
     JSONObject newLine = new JSONObject();
+    String documentNumber = Invoice.getDocumentNumber();
 
     public void generateJSON() throws ParseException, IOException {
         Invoice invoice1 = invoice;
         User user = invoice1.getConsumer();
         String folderPath = folder;
+
         try {
             Field changeMap = json.getClass().getDeclaredField("map");
             changeMap.setAccessible(true);
@@ -44,7 +46,7 @@ public class JSONGenerator {
             System.out.println((e.getMessage()));
         }
         json.put("documentDate", invoice1.getDocumentDate());
-        json.put("documentNumber", Invoice.getDocumentNumber());
+        json.put("documentNumber", documentNumber);
         json.put("consumer", user.getName());
         json.put("reference", user.getRef());
         json.put("totalAmount", invoice1.getTotalAmount());
@@ -73,10 +75,11 @@ public class JSONGenerator {
         String monthInCyrilic = splitDate[1];
         int year = Integer.parseInt(splitDate[2]) % 100;
         String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
-        String fileWriter = Invoice.getDocumentNumber() + "-" + monthInUpperCase + "-" + year;
+        String fileWriter = documentNumber + "-" + monthInUpperCase + "-" + year;
         FileWriter file = new FileWriter(folderPath + "//" + fileWriter + ".json");
         file.write(json.toString(4));
         file.flush();
         file.close();
+
     }
 }

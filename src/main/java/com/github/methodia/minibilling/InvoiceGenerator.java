@@ -16,6 +16,7 @@ public class InvoiceGenerator {
     private Collection<Measurement> measurements;
     private Collection<Price> prices;
 
+
     public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices) {
         this.user = user;
         this.measurements = measurements;

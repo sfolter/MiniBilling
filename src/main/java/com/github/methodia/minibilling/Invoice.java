@@ -16,7 +16,7 @@ public class Invoice {
     private User consumer;
     private BigDecimal totalAmount;
     private List<InvoiceLine> lines;
-    private static long counter=1000;
+    private static long counter=10000;
 
     public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount,
                    List<InvoiceLine> lines) {

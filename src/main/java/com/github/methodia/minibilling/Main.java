@@ -3,6 +3,7 @@ package com.github.methodia.minibilling;
 import org.json.simple.JSONArray;
 import org.json.*;
 import org.json.JSONObject;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -85,21 +86,30 @@ public class Main {
 //            file.flush();
 //            file.close();
 //        }
-        CSVPricesReader price = new CSVPricesReader("C:\\Users\\Acer\\Desktop\\MiniBilling1\\src\\test\\resources\\sample1\\input\\prices-1.csv");
+        Scanner scanner = new Scanner(System.in);
+        String inPath = scanner.nextLine();
+//        String reportDate = scanner.nextLine();
+//        String reportDate = args[0];
+//        args[0]=inPath;
+//        String outPath = args[2];
+        CSVPricesReader price = new CSVPricesReader(inPath);
         price.read();
-        CSVUserReader user = new CSVUserReader("C:\\Users\\Acer\\Desktop\\MiniBilling1\\src\\test\\resources\\sample1\\input\\users.csv");
+        CSVUserReader user = new CSVUserReader(inPath);
         List<User> users = user.read();
-        CSVReadingsReader readings = new CSVReadingsReader("C:\\Users\\Acer\\Desktop\\MiniBilling1\\src\\test\\resources\\sample1\\input\\readings.csv");
+        CSVReadingsReader readings = new CSVReadingsReader(inPath);
         Collection<Reading> readingCollection = readings.read();
-        MeasurementGenerator measurementGenerator = new MeasurementGenerator(users.get(2), readingCollection);
-        Collection<Measurement> measurements = measurementGenerator.generate();
-        List<Price> prices = CSVPricesReader.getPrices();
-        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(2),measurements,prices );
-        Invoice invoice = invoiceGenerator.generate();
-        FolderGenerator folderGenerator = new FolderGenerator(users.get(2));
-        String folderPath = folderGenerator.folderGenerate();
-        JSONGenerator jsonGenerator = new JSONGenerator(invoice, folderPath);
-        jsonGenerator.generateJSON();
+        for (int i = 0; i < users.size(); i++) {
+            MeasurementGenerator measurementGenerator = new MeasurementGenerator(users.get(i), readingCollection);
+            Collection<Measurement> measurements = measurementGenerator.generate();
+            List<Price> prices = CSVPricesReader.getPrices();
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(i), measurements, prices);
+            Invoice invoice = invoiceGenerator.generate();
+            FolderGenerator folderGenerator = new FolderGenerator(users.get(i));
+            String folderPath = folderGenerator.folderGenerate();
+            JSONGenerator jsonGenerator = new JSONGenerator(invoice, folderPath);
+            jsonGenerator.generateJSON();
+
+        }
     }
 }
 
