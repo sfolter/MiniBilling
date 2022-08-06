@@ -64,8 +64,8 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 final LocalDate priceEnd = price.getEnd();
                 final LocalDate measurementEnd = measurement.getEnd().toLocalDate();
 
-                ZonedDateTime qppStartasasd=lastDateTime.atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
-                final LocalDateTime qppStart = qppStartasasd.toLocalDateTime();
+               // ZonedDateTime qppStartasasd=lastDateTime.atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
+                final LocalDateTime qppStart = lastDateTime;
 
 //                ZonedDateTime qppStartZDT=qppStart.atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
 //                LocalDateTime qppStartLD=qppStartZDT.toLocalDateTime();
@@ -84,7 +84,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                     quantityPricePeriods.add(quantityPricePeriod);
                 } else {
                     final LocalDateTime qppEnd = LocalDateTime.from(price.getEnd().atTime(23, 59, 59)
-                            .atZone(ZoneId.of("Europe/Sofia")).withZoneSameInstant(ZoneId.of("GMT")));
+                            .atZone(ZoneId.of("Europe/Sofia")).withZoneSameInstant(ZoneId.of("Z")));
 
                     final long qppPeriodDays = lastDateTime.until(qppEnd, ChronoUnit.DAYS);
                     final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays),3, RoundingMode.HALF_UP)

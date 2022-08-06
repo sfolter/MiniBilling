@@ -20,7 +20,7 @@ public class UserFileReader  implements UsersReader {
         PricesFileReader pricesFileReader=new PricesFileReader(usersReadingPath);
         pricesFileReader.read();
         String line = "";
-        Map<String,User> mapOfUser=new TreeMap<>();
+        Map<String,User> mapOfUser=new LinkedHashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(usersReadingPath+"\\users.csv"));
             while ((line = br.readLine()) != null)

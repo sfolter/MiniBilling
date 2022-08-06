@@ -20,7 +20,7 @@ public class InvoiceGenerator {
         this.prices = prices;
     }
 
-    public Invoice generate() {
+    public Invoice generate(LocalDateTime dateReportingTo) {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor=new ProportionalMeasurementDistributor(measurements,prices);
         Collection<QuantityPricePeriod> quantityPricePeriods=proportionalMeasurementDistributor.distribute();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -29,29 +29,33 @@ public class InvoiceGenerator {
        // BigDecimal variable=new BigDecimal(0);
         BigDecimal amount=BigDecimal.ZERO;
         BigDecimal totalAmount=BigDecimal.ZERO;
-        int counter = 0;
+        int counter;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
-            int index =invoiceLines.size()+1;
-            BigDecimal quantity = qpp.getQuantity();
-            LocalDateTime start = qpp.getStart();
-            LocalDateTime end = qpp.getEnd();
-            String product = null;
-            BigDecimal price = qpp.getPrice();
-             amount = qpp.getQuantity().multiply(qpp.getPrice());
-            totalAmount = totalAmount.add(new BigDecimal(String.valueOf(amount)));
+            if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
+                int index = invoiceLines.size() + 1;
+                BigDecimal quantity = qpp.getQuantity();
+                LocalDateTime start = qpp.getStart();
+                LocalDateTime end = qpp.getEnd();
+                String product = null;
+                BigDecimal price = qpp.getPrice();
+                amount = qpp.getQuantity().multiply(qpp.getPrice());
+                totalAmount = totalAmount.add(new BigDecimal(String.valueOf(amount)));
 
 
-            for (Price priceFromLoop : user.getPrice()) {
-                if (qpp.getStart().toLocalDate().compareTo(priceFromLoop.getStart()) >= 0 &&
-                        qpp.getEnd().toLocalDate().compareTo(priceFromLoop.getEnd()) <= 0 && qpp.getPrice().equals(priceFromLoop.getValue())) {
-                    product = priceFromLoop.getProduct();
+                for (Price priceFromLoop : user.getPrice()) {
+                    if (qpp.getStart().toLocalDate().compareTo(priceFromLoop.getStart()) >= 0 &&
+                            qpp.getEnd().toLocalDate().compareTo(priceFromLoop.getEnd()) <= 0 && qpp.getPrice().equals(priceFromLoop.getValue())) {
+                        product = priceFromLoop.getProduct();
+                    }
                 }
+                counter = invoiceLines.size() + 1;
+                invoiceLines.add(new InvoiceLine(counter, quantity, start, end, product, price, user.getNumberPricingList(), amount));
+            }else{
+                continue;
             }
-            invoiceLines.add(new InvoiceLine(counter,quantity,start,end,product,price,user.getNumberPricingList(),amount));
-        counter+=1;
         }
-        String documentNumber=Invoice.getDocumentNumber();
-        String userName=user.getName();
+            String documentNumber = Invoice.getDocumentNumber();
+            String userName = user.getName();
 
        return new Invoice(  documentDate,documentNumber,userName,user.getRef(),totalAmount,invoiceLines);
     }

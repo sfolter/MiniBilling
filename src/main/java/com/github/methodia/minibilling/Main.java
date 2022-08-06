@@ -4,14 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,14 +28,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException, NoSuchFieldException, IllegalAccessException {
 
-        Scanner scanner=new Scanner(System.in);
        try{
-//        String inputPath=args[1];
-//
-//        String dateReportingTo=args[0];
-//
-//        String outputPath=args[2];
            String dateReportingTo=args[0];
+           LocalDateTime dateReportingToLDT=convertingBorderTimeIntoLDT(dateReportingTo);
            String inputPath= args[1];
            String outputPath=args[2];
         ReadingsFileReader readingsFR=new ReadingsFileReader(inputPath);
@@ -49,13 +42,13 @@ public class Main {
             int z = i + 1;
             User user = mapOfUsers.get(String.valueOf(z));
             MeasurementGenerator mmGenerator = new MeasurementGenerator(user, readingsFR.read());
-            mmGenerator.generate();
+           Collection<Measurement> mmCollector= mmGenerator.generate();
             ProportionalMeasurementDistributor proportionalMmDistributor
-                    = new ProportionalMeasurementDistributor(mmGenerator.generate(), user.getPrice());
-            proportionalMmDistributor.distribute();
+                    = new ProportionalMeasurementDistributor(mmCollector, user.getPrice());
+
             List<QuantityPricePeriod> qppInvoiceList = proportionalMmDistributor.distribute();
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, mmGenerator.generate(), user.getPrice());
-            Invoice invoice = invoiceGenerator.generate();
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user,mmCollector, user.getPrice());
+            Invoice invoice = invoiceGenerator.generate(dateReportingToLDT);
 
 
 //            LocalDateAdapter localDateAdapter = new LocalDateAdapter();
@@ -66,7 +59,7 @@ public class Main {
             System.out.println(user.toString());
 
             try {
-                savingFiles(outputPath,dateReportingTo,invoice,user,invoiceGenerator);
+                savingFiles(outputPath,dateReportingToLDT,invoice,user,invoiceGenerator);
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -84,7 +77,7 @@ public class Main {
         @Override
         public void write( final JsonWriter jsonWriter, final LocalDateTime localDate ) throws IOException {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-            ZonedDateTime gmt = localDate.atZone(ZoneId.of("GMT"));
+            ZonedDateTime gmt = localDate.atZone(ZoneId.of("Z"));
             String formattedLD = gmt.format(formatter);
             jsonWriter.value(formattedLD);
         }
@@ -94,27 +87,21 @@ public class Main {
             return LocalDateTime.parse(jsonReader.nextString(),DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
     }
-    private static void savingFiles(String outputPath, String dateReportTo,Invoice invoice, User user,InvoiceGenerator invoiceGenerator) throws ParseException, IOException {
+    private static void savingFiles(String outputPath, LocalDateTime dateReportToLDT,Invoice invoice, User user,InvoiceGenerator invoiceGenerator) throws ParseException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter()).create();
         String json = gson.toJson(invoice);
 
-
-        Date jud = new SimpleDateFormat("yy-MM").parse(dateReportTo);
-        LocalDate borderDateLD = convertingBorderDateToLocalDate(jud);
-        LocalDate lastInvoiceDate = invoice.getLines().get(0).getEnd().toLocalDate();
-        if (borderDateLD.isAfter(lastInvoiceDate)) {
-            String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
-            String[] splitDate = month.split("\\s+");
-            String monthInCyrilic = splitDate[1];
-
+        List <InvoiceLine> invoiceLinesList= invoice.getLines().stream().sorted(Comparator.comparing(InvoiceLine::getEnd).reversed()).toList();
+        LocalDate lastInvoiceDate = invoiceLinesList.get(0).getEnd().toLocalDate();
+              String monthToBulgarian= getMonthOfLastInvoiceToBulgarian(lastInvoiceDate);
 
             int outputOfTheYear = lastInvoiceDate.getYear() % 100;
             String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
             File creatingFolders = new File(folderPath);
             boolean bool2 = creatingFolders.mkdirs();
 
-            String jsonFilePath = folderPath + "\\" + invoice.getDocNumber() + "-" + monthInCyrilic + "-" + outputOfTheYear + ".json";
+            String jsonFilePath = folderPath + "\\" + invoice.getDocNumber() + "-" + monthToBulgarian + "-" + outputOfTheYear + ".json";
             File creatingFiles = new File(jsonFilePath);
             creatingFiles.createNewFile();
             try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
@@ -122,17 +109,25 @@ public class Main {
             } catch (DateTimeParseException e) {
                 e.printStackTrace();
             }
-        }
     }
-
     private static LocalDate convertingBorderDateToLocalDate(Date jud) throws ParseException {
 
         Instant instant = jud.toInstant();
         ZonedDateTime zdt = instant.atZone(ZoneId.of("Europe/Sofia"));
         return  zdt.toLocalDate();
     }
+        private static LocalDateTime convertingBorderTimeIntoLDT(String borderDateString){
+            final YearMonth yearMonth=YearMonth.parse(borderDateString,DateTimeFormatter.ofPattern("yy-MM"));
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+            ZonedDateTime borderTimeZDT=yearMonth.atEndOfMonth().atTime(23,59,59).atZone(ZoneId.of("Z"));
+            return LocalDateTime.parse(String.valueOf(borderTimeZDT),formatter);
+        }
+        private static String getMonthOfLastInvoiceToBulgarian( LocalDate lastInvoiceDate){
 
+             String lastInvoiceDateInBG= lastInvoiceDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("Bg"));
 
+             return lastInvoiceDateInBG.substring(0,1).toUpperCase()+lastInvoiceDateInBG.substring(1);
+        }
 }
 
 
