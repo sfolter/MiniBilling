@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Miroslav Kovachev
@@ -34,14 +35,16 @@ public class Main {
            String inputPath= args[1];
            String outputPath=args[2];
         ReadingsFileReader readingsFR=new ReadingsFileReader(inputPath);
-        readingsFR.read();
+        Collection<Reading> readingCollection=readingsFR.read();
         UserFileReader userFR=new UserFileReader(inputPath);
         Map<String,User>mapOfUsers=userFR.read();
 
         for (int i = 0; i <mapOfUsers.size() ; i++) {
             int z = i + 1;
             User user = mapOfUsers.get(String.valueOf(z));
-            MeasurementGenerator mmGenerator = new MeasurementGenerator(user, readingsFR.read());
+            //Collection<Reading> filteredReadings= readingCollection.stream().filter(reading -> reading.getUser().equals(user)).collect(Collectors.toCollection(TreeSet::new));
+            //reading -> reading.getUser().equals(user)
+            MeasurementGenerator mmGenerator = new MeasurementGenerator(user,readingCollection);
            Collection<Measurement> mmCollector= mmGenerator.generate();
             ProportionalMeasurementDistributor proportionalMmDistributor
                     = new ProportionalMeasurementDistributor(mmCollector, user.getPrice());

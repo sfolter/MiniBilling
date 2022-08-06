@@ -1,6 +1,7 @@
 package com.github.methodia.minibilling;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Miroslav Kovachev
@@ -35,6 +36,20 @@ public class User {
 
     public List<Price> getPrice() {
         return price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getNumberPricingList() == user.getNumberPricingList() && Objects.equals(getName(), user.getName())
+                && Objects.equals(getRef(), user.getRef()) && Objects.equals(getPrice(), user.getPrice());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getRef(), getNumberPricingList(), getPrice());
     }
 
     @Override
