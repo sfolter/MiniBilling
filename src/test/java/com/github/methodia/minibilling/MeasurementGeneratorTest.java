@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,15 +20,15 @@ class MeasurementGeneratorTest {
 
         User test=new User("Test Testov", "ref", 1,Collections.emptyList());
         List<Reading> readings= new ArrayList<>();
-        Reading reading1=new Reading(LocalDateTime.of(2021, 3, 6, 13, 23),new BigDecimal("100"),test);
-        Reading reading2=new Reading(LocalDateTime.of(2021, 5, 6, 13, 23),new BigDecimal("200"),test);
+        Reading reading1=new Reading(ZonedDateTime.of(2021, 3, 6, 13, 23,0,0, ZoneId.of("GMT")),new BigDecimal("100"),test);
+        Reading reading2=new Reading(ZonedDateTime.of(2021, 5, 6, 13, 23,0,0, ZoneId.of("GMT")),new BigDecimal("200"),test);
         readings.add(reading1);
         readings.add(reading2);
         final MeasurementGenerator measurementGenerator= new MeasurementGenerator(test,readings);
         Collection<Measurement> measurementCollections=measurementGenerator.generate();
         final Measurement singleMeasurement = measurementCollections.iterator().next();
-        LocalDateTime measurementStart = singleMeasurement.getStart();
-        LocalDateTime measurementEnd = singleMeasurement.getEnd();
+        ZonedDateTime measurementStart = singleMeasurement.getStart();
+        ZonedDateTime measurementEnd = singleMeasurement.getEnd();
         BigDecimal value=singleMeasurement.getValue();
         Assertions.assertEquals(reading1.getTime(),measurementStart,
                 "Start time of measurement doesn't match with time of reading");
@@ -48,10 +50,10 @@ class MeasurementGeneratorTest {
     void generateTwoMeasurements(){
         User test=new User("Test Testov", "ref",1, Collections.emptyList());
         List<Reading> readings= new ArrayList<>();
-        Reading reading1=new Reading(LocalDateTime.of(2021, 3, 6, 13, 23),new BigDecimal("100"),test);
-        Reading reading2=new Reading(LocalDateTime.of(2021, 5, 6, 13, 23),new BigDecimal("200"),test);
-         Reading reading3=new Reading(LocalDateTime.of(2021, 7, 6, 13, 23),new BigDecimal("270"),test);
-         Reading reading4=new Reading(LocalDateTime.of(2021, 9, 6, 13, 23),new BigDecimal("300"),test);
+        Reading reading1=new Reading(ZonedDateTime.of(2021, 3, 6, 13, 23,0,0, ZoneId.of("GMT")),new BigDecimal("100"),test);
+        Reading reading2=new Reading(ZonedDateTime.of(2021, 5, 6, 13, 23,0,0, ZoneId.of("GMT")),new BigDecimal("200"),test);
+         Reading reading3=new Reading(ZonedDateTime.of(2021, 7, 6, 13, 23,0,0, ZoneId.of("GMT")),new BigDecimal("270"),test);
+         Reading reading4=new Reading(ZonedDateTime.of(2021, 9, 6, 13, 23,0,0, ZoneId.of("GMT")),new BigDecimal("300"),test);
         readings.add(reading1);
         readings.add(reading2);
         readings.add(reading3);

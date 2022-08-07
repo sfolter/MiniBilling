@@ -3,6 +3,7 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,19 +24,20 @@ public class InvoiceGenerator {
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         int counter = 1;
         double total = 0;
-        BigDecimal totalBigDecimal=BigDecimal.ZERO;
+        BigDecimal totalBigDecimal = BigDecimal.ZERO;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             int index = counter++;
             BigDecimal quantity = qpp.getQuantity();
-            LocalDateTime start = qpp.getStart();
-            LocalDateTime end = qpp.getEnd();
+            String start = qpp.getStart().format(formatter);
+            String end = qpp.getEnd().format(formatter);
             String product = qpp.getPrice().getProduct();
             BigDecimal price = qpp.getPrice().getValue();
             int priceList = user.getPriceListNumber();
             BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
-            totalBigDecimal=totalBigDecimal.add(amount);
+            totalBigDecimal = totalBigDecimal.add(amount);
             invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
         }
         LocalDateTime documentDate = LocalDateTime.now();

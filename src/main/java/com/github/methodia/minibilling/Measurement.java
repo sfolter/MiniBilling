@@ -2,25 +2,26 @@ package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class Measurement {
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
     private BigDecimal value;
     private User user;
 
-    public Measurement(LocalDateTime start, LocalDateTime end, BigDecimal value, User user) {
+    public Measurement(ZonedDateTime start, ZonedDateTime end, BigDecimal value, User user) {
         this.start = start;
         this.end = end;
         this.value = value;
         this.user = user;
     }
 
-    public LocalDateTime getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
-    public LocalDateTime getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
     }
 
@@ -32,13 +33,5 @@ public class Measurement {
         return user;
     }
 
-    @Override
-    public String toString() {
-        return "Measurement{" +
-                "start=" + start +
-                ", end=" + end +
-                ", value=" + value +
-                ", user=" + user +
-                '}';
-    }
+
 }

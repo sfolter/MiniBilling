@@ -8,6 +8,8 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,8 +22,8 @@ class ProportionalMeasurementDistributorTest {
         final Measurement measurement1 = getMeasurement(measurementValue);
 
         final BigDecimal priceValue = new BigDecimal("1.50");
-        final Price price = new Price("gas", LocalDate.of(2021, 3, 1),
-                LocalDate.of(2021, 5, 1), priceValue);
+        final Price price = new Price("gas", ZonedDateTime.of(2021, 3,1,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 5, 1,23,59,59,0,ZoneId.of("GMT")), priceValue);
 
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
                 Collections.singleton(measurement1), Collections.singleton(price));
@@ -31,10 +33,10 @@ class ProportionalMeasurementDistributorTest {
                 "Expecting only one measurement because no distribution is needed.");
 
         final QuantityPricePeriod singleQpp = qppCollection.iterator().next();
-        final LocalDateTime qppStart = singleQpp.getStart();
-        final LocalDateTime qppEnd = singleQpp.getEnd();
-        final LocalDateTime measurement1Start = measurement1.getStart();
-        final LocalDateTime measurement1End = measurement1.getEnd();
+        final ZonedDateTime qppStart = singleQpp.getStart();
+        final ZonedDateTime qppEnd = singleQpp.getEnd();
+        final ZonedDateTime measurement1Start = measurement1.getStart();
+        final ZonedDateTime measurement1End = measurement1.getEnd();
         Assertions.assertEquals(measurement1Start, qppStart,
                 "Quantity price period start must match the measurement start.");
         Assertions.assertEquals(measurement1End, qppEnd, "Quantity price period end must match the measurement end.");
@@ -56,10 +58,10 @@ class ProportionalMeasurementDistributorTest {
 
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
-        final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
-                LocalDate.of(2021, 3, 20), priceValue1);
-        final Price price2 = new Price("gas", LocalDate.of(2021, 3, 21),
-                LocalDate.of(2021, 5, 1), priceValue2);
+        final Price price1 = new Price("gas", ZonedDateTime.of(2021, 3, 1,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 3, 20,23,59,59,0,ZoneId.of("GMT")), priceValue1);
+        final Price price2 = new Price("gas", ZonedDateTime.of(2021, 3, 21,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 5, 1,23,59,59,0,ZoneId.of("GMT")), priceValue2);
         int firstHalfDays = 14;
         int secondHalfDays = 25;
         int measurementDays = firstHalfDays + secondHalfDays;
@@ -83,8 +85,8 @@ class ProportionalMeasurementDistributorTest {
         Assertions.assertEquals(measurement1.getStart(), qpp1.getStart(),
                 "Measurement period start must match quantity period start.");
 
-        final LocalDateTime price1End = price1.getEnd().atTime(23, 59, 59);
-        final LocalDateTime qpp1End = qpp1.getEnd();
+        final ZonedDateTime price1End = price1.getEnd();
+        final ZonedDateTime qpp1End = qpp1.getEnd();
         Assertions.assertEquals(price1End, qpp1End,
                 "Quantity period end must match the period end of the price");
         Assertions.assertEquals(price1.getValue(), qpp1.getPrice().getValue(),
@@ -93,7 +95,7 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp2 = qppList.get(1);
         Assertions.assertEquals(secondQuantity, qpp2.getQuantity(),
                 "Distributed quantity for first half does not match");
-        final LocalDateTime price2AtStartOfDay = price2.getStart().atStartOfDay();
+        final ZonedDateTime price2AtStartOfDay = price2.getStart();
         Assertions.assertEquals(price2AtStartOfDay, qpp2.getStart(),
                 "Quantity period start must match the period start of the price.");
 
@@ -106,15 +108,15 @@ class ProportionalMeasurementDistributorTest {
 
 
     private static Measurement getMeasurement(BigDecimal measurementValue) {
-        final Measurement measurement1 = new Measurement(LocalDateTime.of(2021, 3, 6, 13, 23),
-                LocalDateTime.of(2021, 4, 14, 15, 32), measurementValue,
+        final Measurement measurement1 = new Measurement(ZonedDateTime.of(2021, 3, 6, 13, 23,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 4, 14, 15, 32,0,0,ZoneId.of("GMT")), measurementValue,
                 new User("Test Testov", "ref",1, Collections.emptyList()));
         return measurement1;
     }
 
     private static Measurement getSecondMeasurement(BigDecimal measurementValue) {
-        final Measurement measurement2 = new Measurement(LocalDateTime.of(2021, 4, 15, 13, 23),
-                LocalDateTime.of(2021, 5, 14, 15, 32), measurementValue,
+        final Measurement measurement2 = new Measurement(ZonedDateTime.of(2021, 4, 15, 13, 23,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 5, 14, 15, 32,0,0,ZoneId.of("GMT")), measurementValue,
                 new User("Test Testov", "ref",1, Collections.emptyList()));
         return measurement2;
     }
@@ -127,12 +129,12 @@ class ProportionalMeasurementDistributorTest {
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
         final BigDecimal priceValue3 = new BigDecimal("2.50");
-        final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
-                LocalDate.of(2021, 3, 20), priceValue1);
-        final Price price2 = new Price("gas", LocalDate.of(2021, 3, 21),
-                LocalDate.of(2021, 4, 1), priceValue2);
-        final Price price3 = new Price("gas", LocalDate.of(2021, 4, 2),
-                LocalDate.of(2021, 5, 1), priceValue3);
+        final Price price1 = new Price("gas", ZonedDateTime.of(2021, 3, 1,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 3, 20,23,59,59,0,ZoneId.of("GMT")), priceValue1);
+        final Price price2 = new Price("gas", ZonedDateTime.of(2021, 3, 21,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 4, 1,23,59,59,0,ZoneId.of("GMT")), priceValue2);
+        final Price price3 = new Price("gas", ZonedDateTime.of(2021, 4, 20,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 5, 10,23,59,59,0,ZoneId.of("GMT")), priceValue3);
         int firstThirdDays = 14;
         int secondThirdDays = 12;
         int threeThirdDays = 13;
@@ -161,8 +163,8 @@ class ProportionalMeasurementDistributorTest {
         Assertions.assertEquals(measurement1.getStart(), qpp1.getStart(),
                 "Measurement period start must match quantity period start.");
 
-        final LocalDateTime price1End = price1.getEnd().atTime(23, 59, 59);
-        final LocalDateTime qpp1End = qpp1.getEnd();
+        final ZonedDateTime price1End = price1.getEnd();
+        final ZonedDateTime qpp1End = qpp1.getEnd();
         Assertions.assertEquals(price1End, qpp1End,
                 "Quantity period end must match the period end of the price");
         Assertions.assertEquals(price1.getValue(), qpp1.getPrice().getValue(),
@@ -171,13 +173,13 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp2 = qppList.get(1);
         Assertions.assertEquals(secondQuantity, qpp2.getQuantity(),
                 "Distributed quantity for second third does not match");
-        final LocalDateTime price2AtStartOfDay = price2.getStart().atStartOfDay();
+        final ZonedDateTime price2AtStartOfDay = price2.getStart();
         Assertions.assertEquals(price2AtStartOfDay, qpp2.getStart(),
                 "Quantity period start must match the period start of the price.");
 
 
-        final LocalDateTime price2End = price2.getEnd().atTime(23, 59, 59);
-        final LocalDateTime qpp2End = qpp2.getEnd();
+        final ZonedDateTime price2End = price2.getEnd();
+        final ZonedDateTime qpp2End = qpp2.getEnd();
         Assertions.assertEquals(price2End, qpp2End,
                 "Quantity period end must match the period end of the price");
         Assertions.assertEquals(price2.getValue(), qpp2.getPrice().getValue(),
@@ -186,7 +188,7 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp3 = qppList.get(2);
         Assertions.assertEquals(thirdQuantity, qpp3.getQuantity(),
                 "Distributed quantity for last third does not match");
-        final LocalDateTime price3AtStartOfDay = price3.getStart().atStartOfDay();
+        final ZonedDateTime price3AtStartOfDay = price3.getStart();
         Assertions.assertEquals(price3AtStartOfDay, qpp3.getStart(),
                 "Quantity period start must match the period start of the price.");
 
@@ -206,10 +208,10 @@ class ProportionalMeasurementDistributorTest {
 
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
-        final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
-                LocalDate.of(2021, 4, 20), priceValue1);
-        final Price price2 = new Price("gas", LocalDate.of(2021, 4, 21),
-                LocalDate.of(2021, 5, 25), priceValue2);
+        final Price price1 = new Price("gas", ZonedDateTime.of(2021, 3, 1,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 4, 20,23,59,59,0,ZoneId.of("GMT")), priceValue1);
+        final Price price2 = new Price("gas", ZonedDateTime.of(2021, 4, 21,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 5, 25,23,59,59,0,ZoneId.of("GMT")), priceValue2);
         int firstHalfDays = 5;
         int secondHalfDays = 24;
         int secondMeasurementDays = firstHalfDays + secondHalfDays;
@@ -250,8 +252,8 @@ class ProportionalMeasurementDistributorTest {
                 "Price for the first quantity must match the first price.");
 
 
-        final LocalDateTime price1End = price1.getEnd().atTime(23, 59, 59);
-        final LocalDateTime qpp1End = qpp2.getEnd();
+        final ZonedDateTime price1End = price1.getEnd();
+        final ZonedDateTime qpp1End = qpp2.getEnd();
         Assertions.assertEquals(price1End, qpp1End,
                 "Quantity period end must match the period end of the price");
         Assertions.assertEquals(price1.getValue(), qpp2.getPrice().getValue(),
@@ -260,7 +262,7 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp3 = qppList.get(2);
         Assertions.assertEquals(secondQuantityForMeasurement2, qpp3.getQuantity(),
                 "Distributed quantity for first half does not match");
-        final LocalDateTime price2AtStartOfDay = price2.getStart().atStartOfDay();
+        final ZonedDateTime price2AtStartOfDay = price2.getStart();
         Assertions.assertEquals(price2AtStartOfDay, qpp3.getStart(),
                 "Quantity period start must match the period start of the price.");
 
@@ -275,8 +277,8 @@ class ProportionalMeasurementDistributorTest {
         final Measurement measurement1 = getMeasurement(measurementValue);
 
         final BigDecimal priceValue = new BigDecimal("1.50");
-        final Price price = new Price("gas", LocalDate.of(2021, 3,6 ),
-                LocalDate.of(2021, 5, 1), priceValue);
+        final Price price = new Price("gas", ZonedDateTime.of(2021, 3,6,0,0,0,0,ZoneId.of("GMT") ),
+                ZonedDateTime.of(2021, 5, 1,23,59,59,0,ZoneId.of("GMT")), priceValue);
 
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
                 Collections.singleton(measurement1), Collections.singleton(price));
@@ -286,10 +288,10 @@ class ProportionalMeasurementDistributorTest {
                 "Expecting only one measurement because no distribution is needed.");
 
         final QuantityPricePeriod singleQpp = qppCollection.iterator().next();
-        final LocalDateTime qppStart = singleQpp.getStart();
-        final LocalDateTime qppEnd = singleQpp.getEnd();
-        final LocalDateTime measurement1Start = measurement1.getStart();
-        final LocalDateTime measurement1End = measurement1.getEnd();
+        final ZonedDateTime qppStart = singleQpp.getStart();
+        final ZonedDateTime qppEnd = singleQpp.getEnd();
+        final ZonedDateTime measurement1Start = measurement1.getStart();
+        final ZonedDateTime measurement1End = measurement1.getEnd();
         Assertions.assertEquals(measurement1Start, qppStart,
                 "Quantity price period start must match the measurement start.");
         Assertions.assertEquals(measurement1End, qppEnd, "Quantity price period end must match the measurement end.");
@@ -312,10 +314,10 @@ class ProportionalMeasurementDistributorTest {
 
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
-        final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
-                LocalDate.of(2021, 4, 14), priceValue1);
-        final Price price2 = new Price("gas", LocalDate.of(2021, 4, 15),
-                LocalDate.of(2021, 5, 25), priceValue2);
+        final Price price1 = new Price("gas", ZonedDateTime.of(2021, 3, 1,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 4, 14,23,59,59,0,ZoneId.of("GMT")), priceValue1);
+        final Price price2 = new Price("gas", ZonedDateTime.of(2021, 4, 15,0,0,0,0,ZoneId.of("GMT")),
+                ZonedDateTime.of(2021, 5, 25,23,59,59,0,ZoneId.of("GMT")), priceValue2);
 
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);

@@ -1,0 +1,18 @@
+{
+  "documentNumber": "10000",
+  "consumer": "Marko Boikov Tsvetkov",
+  "reference": "1",
+  "totalAmount": 156.6,
+  "lines": [
+    {
+      "index": 1,
+      "quantity":87,
+      "lineStart": "2021-01-01T09:00:00Z",
+      "lineEnd": "2021-03-17T10:20:00Z",
+      "product": "gas",
+      "price": 1.8,
+      "priceList": 1,
+      "amount": 156.6
+    }
+  ]
+}

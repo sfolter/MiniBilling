@@ -2,14 +2,15 @@ package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 public class Price {
     private String product;
-    private LocalDate start;
-    private LocalDate end;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
     private BigDecimal value;
 
-    public Price(String product, LocalDate start, LocalDate end, BigDecimal value) {
+    public Price(String product, ZonedDateTime start, ZonedDateTime end, BigDecimal value) {
         this.product = product;
         this.start = start;
         this.end = end;
@@ -20,11 +21,11 @@ public class Price {
         return product;
     }
 
-    public LocalDate getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
-    public LocalDate getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
     }
 

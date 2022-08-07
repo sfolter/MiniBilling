@@ -2,19 +2,20 @@ package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class Reading {
-    private LocalDateTime time;
+    private ZonedDateTime time;
     private BigDecimal value;
     private User user;
 
-    public Reading(LocalDateTime time, BigDecimal value, User user) {
+    public Reading(ZonedDateTime time, BigDecimal value, User user) {
         this.time = time;
         this.value = value;
         this.user = user;
     }
 
-    public LocalDateTime getTime() {
+    public ZonedDateTime getTime() {
         return time;
     }
 
@@ -26,12 +27,5 @@ public class Reading {
         return user;
     }
 
-    @Override
-    public String toString() {
-        return "Reading{" +
-                "time=" + time +
-                ", value=" + value +
-                ", user=" + user +
-                '}';
-    }
+
 }

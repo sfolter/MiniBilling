@@ -2,25 +2,26 @@ package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class QuantityPricePeriod {
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
     private Price price;
     private BigDecimal quantity;
 
-    public QuantityPricePeriod(LocalDateTime start, LocalDateTime end, Price price, BigDecimal quantity) {
+    public QuantityPricePeriod(ZonedDateTime start, ZonedDateTime end, Price price, BigDecimal quantity) {
         this.start = start;
         this.end = end;
         this.price = price;
         this.quantity = quantity;
     }
 
-    public LocalDateTime getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
-    public LocalDateTime getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
     }
 
