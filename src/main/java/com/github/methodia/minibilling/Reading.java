@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
  * Methodia Inc.
  */
 public class Reading {
-    private LocalDateTime time;
-    private BigDecimal value;
+    private final LocalDateTime time;
+    private final BigDecimal value;
     private User user;
 
     public Reading(LocalDateTime time, BigDecimal value, User user) {

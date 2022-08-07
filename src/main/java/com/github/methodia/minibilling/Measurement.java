@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
  * Methodia Inc.
  */
 public class Measurement {
-    private LocalDateTime start;
-    private LocalDateTime end;
-    private BigDecimal value;
-    private User user;
+    private final LocalDateTime start;
+    private final LocalDateTime end;
+    private final BigDecimal value;
+    private final User user;
 
     public Measurement(LocalDateTime start, LocalDateTime end, BigDecimal value, User user) {
         this.start = start;

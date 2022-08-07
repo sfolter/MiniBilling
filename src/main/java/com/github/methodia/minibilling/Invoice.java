@@ -9,7 +9,7 @@ import java.util.List;
 public class Invoice {
 
     private static long idContour= 10000;
-    private LocalDateTime documentDate;
+
     private String documentNumber;
     private String consumer;
     private String reference;
@@ -17,8 +17,8 @@ public class Invoice {
     private List<InvoiceLine> lines;
 
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, String reference, BigDecimal totalAmount, List<InvoiceLine> lines) {
-        this.documentDate = documentDate;
+    public Invoice( String documentNumber, String consumer, String reference, BigDecimal totalAmount, List<InvoiceLine> lines) {
+
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.reference=reference;
@@ -26,9 +26,6 @@ public class Invoice {
         this.lines = lines;
     }
 
-    public LocalDateTime getDocumentDate() {
-        return documentDate;
-    }
     public String getDocNumber() {
         return documentNumber;
     }
@@ -52,15 +49,5 @@ public class Invoice {
         return reference;
     }
 
-    @Override
-    public String toString() {
-        return "Invoice{" +
-                "documentDate=" + documentDate +
-                ", documentNumber='" + documentNumber + '\'' +
-                ", consumer='" + consumer + '\'' +
-                ", reference='" + reference + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", lines=" + lines +
-                '}';
-    }
+
 }

@@ -29,9 +29,7 @@ public class PricesFileReader implements PricesReader {
                 try (FileReader fileReader = new FileReader(path + "\\" + fileName);) {
 
                     br = new BufferedReader(fileReader);
-                    String[] arr = fileName.split("prices.");
-                    String[] arr2 = arr[1].split(".csv");
-                    int numberPricingList = Integer.parseInt(arr2[0]);
+                    int numberPricingList = getNumberPricingListFromFile(fileName);
 
                     while ((line= br.readLine()) != null) {
                         String[] pricesData = line.split(",");
@@ -62,6 +60,13 @@ public class PricesFileReader implements PricesReader {
         }
 
         return result;
+    }
+    /**Splitting the file name to get the number of pricing list*/
+    private int getNumberPricingListFromFile(String fileName) {
+        String[] arr = fileName.split("prices.");
+        String[] arr2 = arr[1].split(".csv");
+        int numberPricingList = Integer.parseInt(arr2[0]);
+        return numberPricingList;
     }
 }
 

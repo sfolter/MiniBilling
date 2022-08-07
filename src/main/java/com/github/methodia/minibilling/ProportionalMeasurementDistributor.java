@@ -29,7 +29,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
 
     @Override
     public List<QuantityPricePeriod> distribute() {
-        /*
+        /**
         ще обходим межърмънтите
         за всеки межърмънт:
         1. ще вземем цените, които по някаквъ начин припокриват межърмънта

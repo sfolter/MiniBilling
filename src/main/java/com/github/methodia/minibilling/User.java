@@ -39,20 +39,6 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getNumberPricingList() == user.getNumberPricingList() && Objects.equals(getName(), user.getName())
-                && Objects.equals(getRef(), user.getRef()) && Objects.equals(getPrice(), user.getPrice());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getRef(), getNumberPricingList(), getPrice());
-    }
-
-    @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +

@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
  * Methodia Inc.
  */
 public class QuantityPricePeriod {
-    private LocalDateTime start;
-    private LocalDateTime end;
-    private BigDecimal price;
-    private BigDecimal quantity;
+    private final LocalDateTime start;
+    private final LocalDateTime end;
+    private final BigDecimal price;
+    private final BigDecimal quantity;
 
     public QuantityPricePeriod(LocalDateTime start, LocalDateTime end, BigDecimal price, BigDecimal quantity) {
         this.start = start;

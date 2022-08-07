@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Miroslav Kovachev
@@ -20,24 +22,16 @@ public class MeasurementGenerator {
         this.user = user;
         this.readings = readings;
     }
-
+        /**Calculating the quantity between every reading and adding it to list*/
     Collection<Measurement> generate()
     {
         List<Measurement> measurements = new ArrayList<>();
-        List<Reading> previous = new ArrayList<>();
-        for (Reading reading : readings) {
 
-            if (user.getRef().equals( reading.getUser().getRef())) {
-
-                if (previous.isEmpty()) {
-                    previous.add(reading);
-                } else {
-                    BigDecimal value = reading.getValue().subtract(previous.get(0).getValue());
-                    measurements.add(new Measurement(previous.get(0).getTime(), reading.getTime(), value, user));
-                    previous.set(0, reading);
-
-                }
-            }
+        for (int i = 0; i <readings.size()-1 ; i++) {
+            Reading earlierReading=readings.stream().toList().get(i);
+            Reading laterReading=readings.stream().toList().get(i+1);
+            BigDecimal value= laterReading.getValue().subtract(earlierReading.getValue());
+            measurements.add(new Measurement(earlierReading.getTime(),laterReading.getTime(),value,user));
         }
         return measurements;
     }
