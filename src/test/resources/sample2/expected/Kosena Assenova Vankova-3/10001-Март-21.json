@@ -7,17 +7,17 @@
     {
       "index": 1,
       "quantity": 106.7,
-      "lineStart": "2021-01-01T08:00:00Z",
+      "lineStart": "2021-01-01Т14:40:00Z",
       "lineEnd": "2021-02-28T21:59:59Z",
       "product": "gas",
       "price": 0.4,
       "priceList": 1,
-      "amount": 42.68
+      "amount": 74.69
     },{
       "index": 2,
       "quantity": 45.3,
       "lineStart": "2021-02-28T22:00:00Z",
-      "lineEnd": "2021-03-25T13:40:00Z",
+      "lineEnd": "2021-03-25T07:11:00Z",
       "product": "gas",
       "price": 0.4,
       "priceList": 1,

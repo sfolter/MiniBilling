@@ -24,7 +24,7 @@ public class InvoiceGenerator {
         this.prices = prices;
     }
 
-    public Invoice generate() {
+    public Invoice generate(LocalDateTime dateReportingTo) {
 
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
@@ -34,11 +34,10 @@ public class InvoiceGenerator {
         BigDecimal variable = new BigDecimal(0);
         BigDecimal amount = BigDecimal.ZERO;
         BigDecimal totalAmount = null;
-        int counter = 1;
-
+        int lineIndex=0;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
+            if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
 
-            int index = counter++;
             BigDecimal quantity = qpp.getQuantity();
             LocalDateTime lineStart = qpp.getStart();
             LocalDateTime lineEnd = qpp.getEnd();
@@ -48,16 +47,19 @@ public class InvoiceGenerator {
 
             amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
             totalAmount = variable.add(new BigDecimal(String.valueOf(amount)));
-
+                int index = invoiceLines.size() + 1;
             invoiceLines.add(new InvoiceLine(index, quantity, lineStart, lineEnd, product, price, priceList, amount));
 
+            }else{
+                continue;
+            }
         }
 
-        LocalDateTime documentDate = LocalDateTime.now();
         String documentNumber = Invoice.getDocumentNumber();
+
         String consumer = user.getName();
 
-        return new Invoice(documentDate, documentNumber, consumer, totalAmount, invoiceLines);
+        return new Invoice( documentNumber, consumer,user.getRef(), totalAmount, invoiceLines);
 
     }
 

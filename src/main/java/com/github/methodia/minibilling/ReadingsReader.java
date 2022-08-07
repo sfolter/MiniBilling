@@ -10,8 +10,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ReadingsReader implements ReadingsReaderInterface {
-    public ReadingsReader(String inputPath) {
-        inputPath = inputPath;
+    private String path;
+
+
+    public ReadingsReader(String path) {
+        this.path = path;
     }
 
     @Override
@@ -19,11 +22,11 @@ public class ReadingsReader implements ReadingsReaderInterface {
 
         List<Reading> listOfReports = new ArrayList<>();
 
-        UsersReaders userReader = new UsersReaders("src\\test\\resources\\sample1\\input\\readings.csv");//For Marko -> key(referenceNumber)-> List(value)
+        UsersReaders userReader = new UsersReaders(path);//For Marko -> key(referenceNumber)-> List(value)
 
         String line;
 
-        try (BufferedReader br1 = new BufferedReader(new FileReader("src\\test\\resources\\sample1\\input\\readings.csv"))) {
+        try (BufferedReader br1 = new BufferedReader(new FileReader(path+"\\" +"readings.csv"))) {
 
             while ((line = br1.readLine()) != null) { //read all lines from b1
 
@@ -31,10 +34,13 @@ public class ReadingsReader implements ReadingsReaderInterface {
 
                 String referenceNumber = reports[0];
                 String date = reports[2];
-                BigDecimal price1 = new BigDecimal(reports[3]);
-                LocalDateTime date1 = LocalDateTime.parse(date, DateTimeFormatter.ISO_DATE_TIME);
+                ZonedDateTime ZDTTime = ZonedDateTime.parse(date).withZoneSameInstant(ZoneId.of("GMT"));
+                LocalDateTime date1 = LocalDateTime.from(ZDTTime);
 
-                listOfReports.add(new Reading(date1, price1, userReader.read().get(referenceNumber)));
+                BigDecimal price1 = new BigDecimal(reports[3]);
+
+
+                listOfReports.add(new Reading(date1, price1, userReader.read().get(Integer.parseInt(referenceNumber))));
 
             }
 

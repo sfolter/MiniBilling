@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -22,20 +23,20 @@ import java.util.stream.Collectors;
 public class MainTest {
 
     @Test
-    void testSample1() throws IOException {
+    void testSample1() throws IOException, ParseException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
     @Test
-    void testSample2() throws IOException {
+    void testSample2() throws IOException, ParseException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException {
+    private void testSample(int sampleNumber, String yearMonth) throws IOException, ParseException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};

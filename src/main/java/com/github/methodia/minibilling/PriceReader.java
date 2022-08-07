@@ -5,18 +5,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class PriceReader implements  PricesReader {
-    public Map<Integer, List<Price>> read() {
-        final String pricePath1 = "src\\test\\resources\\sample1\\input";
+    String path;
+    public PriceReader(String path) {
+        this.path = path;
+    }
 
-        File dir = new File(pricePath1);
+    @Override
+    public Map<Integer, List<Price>> read() {
+
+
+        File dir = new File(path);
 
         String[] filesList = dir.list();
 
@@ -26,14 +30,14 @@ public class PriceReader implements  PricesReader {
         for (String file1 : filesList) {
             if (file1.contains("prices-")) {
 
-                try (BufferedReader br = new BufferedReader(new FileReader(pricePath1 + "\\" + file1))) {
+                try (BufferedReader br = new BufferedReader(new FileReader(path + "\\" + file1))) {
 //                    List<File> files = Files.list(Paths.get(pricePath1))
 //                            .map(Path::toFile)
 //                            .filter(File::isFile).toList();
 
                     String[] arr=String.valueOf(file1).split("prices-");
                     String [] arr2= arr[1].split(".csv");
-                //    String [] arr2= String.valueOf(file1).split("([a-z -.])");
+                    //    String [] arr2= String.valueOf(file1).split("([a-z -.])");
                     int numPricingList=Integer.parseInt(arr2[0]);
 
 
@@ -71,9 +75,7 @@ public class PriceReader implements  PricesReader {
         }
         return informationForPrices;
 
-    }
+    }}
 
 
 
-
-}

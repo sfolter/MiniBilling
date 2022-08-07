@@ -1,0 +1,48 @@
+{
+  "documentNumber": "10000",
+  "consumer": "Marko Boikov Tsvetkov",
+  "reference": "1",
+  "totalAmount": 40.6,
+  "lines": [
+    {
+      "index": 1,
+      "quantity": 371.908,
+      "start": "2021-01-01T14:40:00Z",
+      "end": "2021-02-28T21:59:59Z",
+      "product": "gas",
+      "price": 0.7,
+      "priceList": 1,
+      "amount": 260.3356
+    },
+    {
+      "index": 2,
+      "quantity": 64.092,
+      "start": "2021-02-28T22:00:00Z",
+      "end": "2021-03-11T07:00:00Z",
+      "product": "gas",
+      "price": 1.4,
+      "priceList": 1,
+      "amount": 89.7288
+    },
+    {
+      "index": 3,
+      "quantity": -171,
+      "start": "2021-03-11T07:00:00Z",
+      "end": "2021-03-17T10:20:00Z",
+      "product": "gas",
+      "price": 1.4,
+      "priceList": 1,
+      "amount": -239.4
+    },
+    {
+      "index": 4,
+      "quantity": 29,
+      "start": "2021-03-17T10:20:00Z",
+      "end": "2021-03-25T13:40:00Z",
+      "product": "gas",
+      "price": 1.4,
+      "priceList": 1,
+      "amount": 40.6
+    }
+  ]
+}
