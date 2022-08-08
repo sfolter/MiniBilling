@@ -11,12 +11,12 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
-        String yearMonthStr = "21-03";
-//        String yearMonthStr = args[0];
-//        String resourceDir = args[1];
-//        String outputDir = args[2];
-        String resourceDir= "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
-        String outputDir="C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
+//        String yearMonthStr = "21-03";
+        String yearMonthStr = args[0];
+        String resourceDir = args[1];
+        String outputDir = args[2];
+//        String resourceDir= "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
+//        String outputDir="C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
 
 
         String userPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";

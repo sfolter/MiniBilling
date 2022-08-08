@@ -41,12 +41,10 @@ public class CsvFilePriceReader implements PricesReader {
                         LocalDate startDate = LocalDate.parse(line[1]);
                         LocalDate endDate = LocalDate.parse(line[2]);
                         BigDecimal value = new BigDecimal(line[3]);
-                        if (result.get(priceListNumber) == null) {
+
                             priceList.add(new Price(product, startDate, endDate, value));
                             result.put(String.valueOf(priceListNumber), priceList);
-                        } else {
-                            result.get(priceListNumber).add(new Price(product, startDate, endDate, value));
-                        }
+
                         }
 
                     } catch(CsvValidationException | IOException e){

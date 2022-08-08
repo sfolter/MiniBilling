@@ -29,6 +29,7 @@ public class JsonGenerator {
 
     JSONObject json = new JSONObject();
     JSONObject newLine = new JSONObject();
+    JSONArray lines = new JSONArray();
     String documentNumber = Invoice.getDocumentNumber();
 
     public void generate() throws ParseException, IOException {
@@ -55,9 +56,9 @@ public class JsonGenerator {
         json.put("reference", user.getRef());
         json.put("totalAmount", invoice1.getTotalAmount());
         LocalDateTime end = invoice1.getLines().get(invoice1.getLines().size()-1).getEnd();
-        JSONArray lines = new JSONArray();
+
         for (int i = 0; i <User.getPrice().size() ; i++) {
-        int index = invoice1.getLines().get (i).getIndex();
+        int index = invoice1.getLines().get(i).getIndex();
         newLine.put("index", index);
         BigDecimal quantity = invoice1.getLines().get(i).getQuantity();
         newLine.put("quantity", quantity);
