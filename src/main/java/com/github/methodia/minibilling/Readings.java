@@ -1,161 +1,111 @@
 package com.github.methodia.minibilling;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.math.BigDecimal;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Scanner;
+
+public class Readings implements FileReader {
 
 
-public class Readings {
-    public File readings;
+    static ArrayList<String> referentialNumberReadings = new ArrayList<>();
+    static ArrayList<String> product = new ArrayList<>();
+    static ArrayList<String> dataString = new ArrayList<>();
+    static ArrayList<Float> pokazanie = new ArrayList<>();
+    static ArrayList<ZonedDateTime> parsedData = new ArrayList<ZonedDateTime>();
+    private ArrayList<Float> quantityList = new ArrayList<>();
 
-    public Readings(File readings) {
-        this.readings = readings;
+    Users users = new Users();
+    ArrayList<String[]> readingsList = new ArrayList<>();
+
+    public ArrayList<String> getReferentialNumberReadings() {
+
+        return referentialNumberReadings;
     }
-    private ArrayList<Integer> number = new ArrayList<>();
-    private ArrayList<String> product = new ArrayList<>();
-    private ArrayList<ZonedDateTime> data = new ArrayList<>();
-    private ArrayList<Integer> quantityFullValue = new ArrayList<>();
-    private ArrayList<BigDecimal> quantity = new ArrayList<>();
-    private ArrayList<ZonedDateTime> dateStart = new ArrayList<>();
-    private ArrayList<ZonedDateTime> dateEnd = new ArrayList<>();
-    private int counterReadings = 0;
 
-    public Readings(ArrayList<Integer> number, ArrayList<String> product,
-                    ArrayList<ZonedDateTime> data, ArrayList<Integer> price, ArrayList<BigDecimal> dateDiff,
-                    ArrayList<ZonedDateTime> dateStart, ArrayList<ZonedDateTime> dateEnd, int counter) {
-        this.number = number;
-        this.product = product;
-        this.data = data;
-        this.quantityFullValue = price;
-        this.quantity = dateDiff;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.counterReadings = counter;
+    public ArrayList<String> getProduct() {
+
+        return product;
     }
-    public void read() throws FileNotFoundException{
 
-        Scanner sc = new Scanner(this.readings);
-        sc.useDelimiter(",|\\r\\n");
-        int counter = 0;
-        while (sc.hasNext()) {
-
-            String i = sc.next();
-            counter++;
-
-            if (counter == 1) {
-                number.add(Integer.parseInt(i));
-
-            }
-            if (counter == 2) {
-                product.add(i);
-
-            }
-            if (counter == 3) {
-
-                ZonedDateTime instant = ZonedDateTime.parse(i);
-                data.add(instant);
-
-            }
-            if (counter == 4) {
-                quantityFullValue.add(Integer.parseInt(i));
-                counter = 0;
-            }
-            counterReadings++;
-        }
-
+    public ArrayList<Float> getQuantityList() {
+        return quantityList;
     }
-    public Integer getNumber(int i) {
-        return this.number.get(i);
+
+    public static ArrayList<String> getDataString() {
+        return dataString;
     }
-    public String getProduct(int i) {
-        return this.product.get(i);
+
+    public ArrayList<Float> getPokazanie() {
+        return pokazanie;
     }
-    public ZonedDateTime getData(int i) {
-        return this.data.get(i);
+
+    public ArrayList<ZonedDateTime> getParsedData() {
+        return parsedData;
     }
-    public void Quantity() throws FileNotFoundException {
-        int counter = 1;
-        User user = new User(new File("C:\\Users\\user\\Desktop\\MiniBilling\\user.csv"));
-        user.read();
-        while (counter != user.getCount() + 1) {
-            for (int i = 0; i < getCountReadings(); i++) {
-                for (int j = i + 1; j < getCountReadings(); j++) {
-                    if (number.get(i) == counter && number.get(i).equals(number.get(j))) {
-                        counter++;
-                        BigDecimal haveToPay = BigDecimal.valueOf(Math.max(quantityFullValue.get(i), quantityFullValue.get(j)) - Math.min(quantityFullValue.get(i), quantityFullValue.get(j)));
-                        quantity.add(haveToPay);
-                        dateStart.add(data.get(i));
-                        dateEnd.add(data.get(j));
-                        i = 0;
+
+    ArrayList<String> refList = users.returnRefList();
+
+    public ArrayList<Float> getQuantity() {
+
+
+        int j = 0;
+        while (j < refList.size()) {
+            for (int i = readingsList.size() / 2; i < readingsList.size() && j < refList.size(); i++) {
+                if (refList.get(j).equals(referentialNumberReadings.get(i))) {
+                    for (int k = 0; k < refList.size(); k++) {
+                        if (referentialNumberReadings.get(i).equals(referentialNumberReadings.get(k))) {
+                            float quantity = pokazanie.get(i) - pokazanie.get(k);
+                            quantityList.add(quantity);
+                            //i = readingsList.size() / 2;
+                            j++;
+                            break;
+                        }
 
                     }
                 }
             }
-        }
-    }
-    public BigDecimal getQuantity(int i) {
-        return this.quantity.get(i);
-    }
-    public BigDecimal getAmount(int i) throws FileNotFoundException {
-        double rightPrice = 0;
-        User user = new User(new File("C:\\Users\\user\\Desktop\\MiniBilling\\user.csv"));
-        user.read();
-        Prices prices = new Prices(new File("C:\\Users\\user\\Desktop\\MiniBilling\\prices.csv"));
-        prices.read();
-        for(int j = 0; j < user.getCount(); j++) {
-            for (int k = 0; k < prices.getPriceCount(); k++) {
-                if (dateStart.get(j).isAfter(prices.getDateBegin(k)) && dateEnd.get(j).isBefore(prices.getDateEnd(k))) {
-                    rightPrice = prices.getPrice(k);
-                    break;
-                }
-            }
-        }
-        return this.quantity.get(i).multiply(BigDecimal.valueOf(rightPrice));
-    }
-    public ZonedDateTime getStartDate(int i) {
-        return this.dateStart.get(i);
-    }
-    public ZonedDateTime getEndDate(int i) {
-        return this.dateEnd.get(i);
-    }
-    public String monthBG(ZonedDateTime date) {
 
-        String month = date.getMonth().toString();
-//        DateTimeFormatter bulgarianMonthFormetter =
-//                DateTimeFormatter.ofPattern("MMMM", new Locale("bg"));
-//        String formattedMonth = date.format(bulgarianMonthFormetter).substring(0, 1).toUpperCase()
-//                + date.format(bulgarianMonthFormetter).substring(1);
-//        return formattedMonth;
-        switch (month) {
-            case "JANUARY" -> month = "Януари";
-            case "FEBRUARY" -> month = "Февруари";
-            case "MARCH" -> month = "Март";
-            case "APRIL" -> month = "Април";
-            case "MAY" -> month = "Май";
-            case "JUNE" -> month = "Юни";
-            case "JULY" -> month = "Юли";
-            case "AUGUST" -> month = "Август";
-            case "SEPTEMBER" -> month = "Септември";
-            case "OCTOBER" -> month = "Октомври";
-            case "NOVEMBER" -> month = "Ноември";
-            case "DECEMBER" -> month = "Декември";
-            default -> {
+        }
+        return quantityList;
+    }
+
+    @Override
+    public ArrayList<String[]> reader(String path) {
+
+        String[] readingsLineInArray;
+
+
+        try (CSVReader reader = new CSVReader(new java.io.FileReader(path))) {
+
+            while ((readingsLineInArray = reader.readNext()) != null) {
+                readingsList.add(readingsLineInArray);
+
             }
+        } catch (CsvValidationException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < readingsList.size(); i++) {
+
+            String[] strings = readingsList.get(i);
+            referentialNumberReadings.add(strings[0]);
+            product.add(strings[1]);
+            dataString.add(strings[2]);
+            pokazanie.add(Float.parseFloat(strings[3]));
+
+
         }
 
-        return month;
+        return readingsList;
     }
-    public Integer getYear(ZonedDateTime date) {
-        int year = date.getYear();
-        year = year % 100;
-        return year;
-    }
-    public Integer getCountReadings(){
-        return this.counterReadings/4;
+
+    public ArrayList<ZonedDateTime> dateParsing() {
+        for (int i = 0; i < dataString.size(); i++) {
+            ZonedDateTime instant = ZonedDateTime.parse(dataString.get(i));
+            parsedData.add(instant);
+        }
+        return parsedData;
     }
 }
-
-

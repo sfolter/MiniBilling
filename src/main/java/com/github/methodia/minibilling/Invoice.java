@@ -16,6 +16,7 @@ public class Invoice {
     private User consumer;
     private BigDecimal totalAmount;
     private List<InvoiceLine> lines;
+    private static long counter=9999;
 
     public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount,
                    List<InvoiceLine> lines) {
@@ -24,14 +25,15 @@ public class Invoice {
         this.consumer = consumer;
         this.totalAmount = totalAmount;
         this.lines = lines;
+        counter++;
     }
 
     public LocalDateTime getDocumentDate() {
         return documentDate;
     }
 
-    public String getDocumentNumber() {
-        return documentNumber;
+    public static synchronized String getDocumentNumber() {
+        return String.valueOf(counter);
     }
 
     public User getConsumer() {
