@@ -26,17 +26,10 @@ public class User {
     public int getPriceListNumber() {
         return priceListNumber;
     }
+
     public List<Price> getPrice() {
         return price;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", ref='" + ref + '\'' +
-                ", priceListNumber=" + priceListNumber +
-                ", price=" + price +
-                '}';
-    }
+
 }

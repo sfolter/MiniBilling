@@ -5,5 +5,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface PricesReader {
-     List<Price> read(String directory,int priceListNumber);
+    List<Price> read(String directory, int priceListNumber);
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Invoice {
 
-    private static long idContour= 10000;
+    private static long idContour = 10000;
     private LocalDateTime documentDate;
     private String documentNumber;
     private String consumer;
@@ -28,10 +28,12 @@ public class Invoice {
     public LocalDateTime getDocumentDate() {
         return documentDate;
     }
+
     public static synchronized String getDocumentNumber() {
         return String.valueOf(idContour++);
     }
-    public  String getDocumentNum() {
+
+    public String getDocumentNum() {
         return documentNumber;
     }
 
@@ -51,14 +53,5 @@ public class Invoice {
         return lines;
     }
 
-    @Override
-    public String toString() {
-        return "Invoice{" +
-                "documentDate=" + documentDate +
-                ", documentNumber='" + documentNumber + '\'' +
-                ", consumer='" + consumer + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", lines=" + lines +
-                '}';
-    }
+
 }
