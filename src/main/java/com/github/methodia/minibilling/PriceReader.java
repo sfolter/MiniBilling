@@ -33,7 +33,8 @@ public class PriceReader implements  PricesReader {
                 try (BufferedReader br = new BufferedReader(new FileReader(path + "\\" + file1))) {
 //                    List<File> files = Files.list(Paths.get(pricePath1))
 //                            .map(Path::toFile)
-//                            .filter(File::isFile).toList();
+//                            .filter(File::isFile)
+//                            .toList();
 
                     String[] arr=String.valueOf(file1).split("prices-");
                     String [] arr2= arr[1].split(".csv");
@@ -48,6 +49,9 @@ public class PriceReader implements  PricesReader {
 //
 //
 //                    });
+
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     while ((line = br.readLine()) != null) { //read all lines from br
 
 
@@ -55,7 +59,6 @@ public class PriceReader implements  PricesReader {
 
                         String product = price[0];
 
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         LocalDate start = LocalDate.parse(price[1], formatter);
                         LocalDate end = LocalDate.parse(price[2], formatter);
                         double price1 = Double.parseDouble(price[3]);
@@ -64,7 +67,8 @@ public class PriceReader implements  PricesReader {
                             list.add(new Price(product, start, end, BigDecimal.valueOf(price1)));
                             informationForPrices.put(numPricingList, list);
                         } else {
-                            informationForPrices.get(numPricingList).add(new Price(product, start, end, BigDecimal.valueOf(price1)));
+                            informationForPrices.get(numPricingList)
+                                    .add(new Price(product, start, end, BigDecimal.valueOf(price1)));
                         }
 
                     }

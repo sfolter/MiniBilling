@@ -15,17 +15,23 @@ public class Invoice {
     private final String consumer;
     private final String reference;
     private final BigDecimal totalAmount;
+    private final BigDecimal totalAmountWIthVat;
     private final List<InvoiceLine> lines;
+    private  final  List<Vat> vat;
     private static long id = 10000;
 
-    public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount, List<InvoiceLine> invoiceLines) {
+
+    public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount, BigDecimal totalAmountWIthVat, List<InvoiceLine> invoiceLines, List<Vat> vat) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.reference = reference;
 
         this.totalAmount = totalAmount;
+        this.totalAmountWIthVat = totalAmountWIthVat;
         this.lines = invoiceLines;
+
+        this.vat = vat;
     }
 
     public String getReference() {
@@ -40,14 +46,5 @@ public class Invoice {
         return documentNumber;
     }
 
-    @Override
-    public String toString() {
-        return "Invoice{" +
-                "documentNumber='" + documentNumber + '\'' +
-                ", consumer='" + consumer + '\'' +
-                ", reference='" + reference + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", lines=" + lines +
-                '}';
-    }
+
 }

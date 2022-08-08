@@ -26,26 +26,24 @@ public class ReadingsReader implements ReadingsReaderInterface {
 
         String line;
 
-        try (BufferedReader br1 = new BufferedReader(new FileReader(path+"\\" +"readings.csv"))) {
+        try (BufferedReader br1 = new BufferedReader(new FileReader(path + "\\" + "readings.csv"))) {
 
             while ((line = br1.readLine()) != null) { //read all lines from b1
 
                 String[] reports = line.split(",");
 
-                String referenceNumber = reports[0];
                 String date = reports[2];
                 ZonedDateTime ZDTTime = ZonedDateTime.parse(date).withZoneSameInstant(ZoneId.of("GMT"));
                 LocalDateTime date1 = LocalDateTime.from(ZDTTime);
 
                 BigDecimal price1 = new BigDecimal(reports[3]);
-
+                String referenceNumber = reports[0];
 
                 listOfReports.add(new Reading(date1, price1, userReader.read().get(referenceNumber)));
-
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return listOfReports;
 

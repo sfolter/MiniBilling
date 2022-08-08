@@ -9,6 +9,5 @@ import java.util.List;
  * Methodia Inc.
  */
 public interface ReadingsReaderInterface {
-
     List<Reading> read();
 }
