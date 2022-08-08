@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +35,7 @@ public class MainTest {
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, ParseException, NoSuchFieldException, IllegalAccessException {
+    private void testSample(int sampleNumber, String yearMonth) throws IOException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};

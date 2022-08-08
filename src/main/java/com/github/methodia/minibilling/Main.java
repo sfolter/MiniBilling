@@ -20,6 +20,12 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         String inPath = scanner.nextLine();
+        String yearMonth = "21-03";
+        //String resourceDirectory = args[1];
+        //String outputDirectory = args[2];
+        //String yearMonth = args[0];
+
+
 
         CSVPricesReader price = new CSVPricesReader(inPath);
         price.read();
@@ -31,7 +37,7 @@ public class Main {
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(users.get(i), readingCollection);
             Collection<Measurement> measurements = measurementGenerator.generate();
             List<Price> prices = CSVPricesReader.getPrices();
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(i), measurements, prices);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(i), measurements, prices, yearMonth);
             Invoice invoice = invoiceGenerator.generate();
             FolderGenerator folderGenerator = new FolderGenerator(users.get(i));
             String folderPath = folderGenerator.folderGenerate();

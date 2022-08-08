@@ -47,7 +47,7 @@ class ProportionalMeasurementDistributorTest {
         Assertions.assertEquals(measurementQuantity, qppQuantity,
                 "Measurement quantity and quantity price period quantity must match.");
         final BigDecimal expectedPrice = price.getValue();
-        final BigDecimal actualPrice = singleQpp.getPrice();
+        final Price actualPrice = singleQpp.getPrice();
         Assertions.assertEquals(expectedPrice, actualPrice,
                 "The quantity price period price must match the single price provided.");
 

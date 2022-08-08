@@ -20,6 +20,10 @@ public class User{
         this.price = price;
         this.priceList = priceList;
     }
+
+    public User(String test_testovv, String ref, List<Object> emptyList) {
+    }
+
     public String getName() {
         return name;
     }
