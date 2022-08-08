@@ -38,14 +38,12 @@ public class Main {
                     .sorted(Comparator.comparing(Reading::getTime))
                     .toList();
 
+            // Looping through users and sort them by their referent number*/
             UserFileReader userFR = new UserFileReader(inputPath);
-            Map<String, User> mapOfUsers = userFR.read();
-
-            /**Looping through every user and check their Measurements, and based on them and price, the algorithm below
-            creates invoices and based on price periods, create individual lines if there is a change of prices.*/
-            for (int i = 1; i <= mapOfUsers.size(); i++) {
-                User user = mapOfUsers.get(String.valueOf(i));
-
+            List<User>listOfUsers=userFR.read().stream().sorted(Comparator.comparing(User::getRef)).toList();
+//            Looping through every user and check their Measurements, and based on them and price, the algorithm below
+//            creates invoices and based on price periods, create individual lines if there is a change of prices.
+            for (User user:listOfUsers) {
                 Collection<Reading> filteredReadings = readingCollection.stream()
                         .filter(reading -> reading.getUser().getRef()
                         .equals(user.getRef())).toList();
@@ -81,18 +79,20 @@ public class Main {
 
     private static void savingFiles(String outputPath, LocalDateTime dateReportToLDT, Invoice invoice, User user, InvoiceGenerator invoiceGenerator) throws ParseException, IOException {
 
-        /**Parsing Invoice class into Json format using GSON library*/
+        //Parsing Invoice class into Json format using GSON library
         Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter()).create();
         String json = gson.toJson(invoice);
 
-        /**Sorting InvoiceLine list as we would like to get the last invoice end date*/
-        List<InvoiceLine> invoiceLinesList = invoice.getLines().stream().sorted(Comparator.comparing(InvoiceLine::getEnd).reversed()).toList();
+        //Sorting InvoiceLine list as we would like to get the last invoice end date
+        List<InvoiceLine> invoiceLinesList = invoice.getLines().stream()
+                .sorted(Comparator.comparing(InvoiceLine::getEnd).reversed()).toList();
+
         LocalDate lastInvoiceDate = invoiceLinesList.get(0).getEnd().toLocalDate();
         String monthToBulgarian = getMonthOfLastInvoiceToBulgarian(lastInvoiceDate);
         int outputOfTheYear = lastInvoiceDate.getYear() % 100;
 
-        /**Creating folder in the following path*/
+        //Creating folder in the following path
         String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
         createFolder(folderPath);
 
@@ -103,27 +103,30 @@ public class Main {
 
     /**Checking if JsonFile by the exists with the format documentNumber-Month(translated to bulgarian language),
             and the last two numbers of the year on Last reporting date, in case not,
-            the following algorithm will create the JsonFiles in the format below.*/
+            the following algorithm will create the JsonFiles in the format below.
+     *@returns void */
     private static void creatingJsonFIle(String json, String jsonFilePath) throws IOException {
         File creatingFiles = new File(jsonFilePath);
         creatingFiles.createNewFile();
         try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
-            out.write(json.toString());
+            out.write(json);
         } catch (DateTimeParseException e) {
             e.printStackTrace();
         }
     }
 
-    /**Checking if folders by the following format - username-referent number, in case the folders doesn't exist
-         the following algorithm will create the folders in the format below.*/
+    /** Checking if folders by the following format - username-referent number, in case the folders doesn't exist
+         the following algorithm will create the folders in the format below.
+     @returns void*/
     private static void createFolder(String folderPath) {
         File creatingFolders = new File(folderPath);
         boolean bool2 = creatingFolders.mkdirs();
     }
 
-    /**Converting the border time we would like to report as it is in format "yy-MM, into LocalDateTime as the zone is
-     GMT
-      returns String*/
+      /** Converting the border time we would like to report as it is in format "yy-MM,
+       * into LocalDateTime as the zone is
+     *GMT
+       @returns LocalDateTime */
     private static LocalDateTime convertingBorderTimeIntoLDT(String borderDateString) {
         final YearMonth yearMonth = YearMonth.parse(borderDateString, DateTimeFormatter.ofPattern("yy-MM"));
         DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
@@ -131,8 +134,9 @@ public class Main {
         return LocalDateTime.parse(String.valueOf(borderTimeZDT), formatter);
     }
 
-    /**Converting the Month of last Invoice to Bulgarian language
-    returns String */
+
+    /** Converting the Month of last Invoice to Bulgarian language String
+     * @returns String*/
     private static String getMonthOfLastInvoiceToBulgarian(LocalDate lastInvoiceDate) {
         String lastInvoiceDateInBG = lastInvoiceDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("Bg"));
         return lastInvoiceDateInBG.substring(0, 1).toUpperCase() + lastInvoiceDateInBG.substring(1);

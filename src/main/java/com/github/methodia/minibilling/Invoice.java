@@ -29,7 +29,7 @@ public class Invoice {
     public String getDocNumber() {
         return documentNumber;
     }
-    public static synchronized String getDocumentNumber() {
+    public static  String getDocumentNumber() {
         return String.valueOf(idContour++);
     }
 

@@ -23,11 +23,7 @@ public class QuantityPricePeriod {
 
     public LocalDateTime getStart() {
         return start;
-    }
-
-    public LocalDateTime getEnd() {
-        return end;
-    }
+    }public LocalDateTime getEnd() {return end;}
 
     public BigDecimal getPrice() {
         return price;
@@ -35,15 +31,5 @@ public class QuantityPricePeriod {
 
     public BigDecimal getQuantity() {
         return quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "QuantityPricePeriod{" +
-                "start=" + start +
-                ", end=" + end +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                '}';
     }
 }

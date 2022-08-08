@@ -64,20 +64,15 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 final LocalDate priceEnd = price.getEnd();
                 final LocalDate measurementEnd = measurement.getEnd().toLocalDate();
 
-               // ZonedDateTime qppStartasasd=lastDateTime.atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
                 final LocalDateTime qppStart = lastDateTime;
 
-//                ZonedDateTime qppStartZDT=qppStart.atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
-//                LocalDateTime qppStartLD=qppStartZDT.toLocalDateTime();
 
 
                 final BigDecimal qppPrice = price.getValue();
                 final long measurementDays = measurement.getStart().until(measurement.getEnd(), ChronoUnit.DAYS);
 
                 if (priceEnd.compareTo(measurementEnd) >= 0) {
-//                    final ZonedDateTime qppEndZDT=measurement.getEnd().atZone(ZoneId.of("UTC+3")).withZoneSameInstant(ZoneId.of("GMT"));
                     final LocalDateTime qppEnd = measurement.getEnd();
-
                     final BigDecimal qppQuantity = measurement.getValue().subtract(currentQuantitySum);
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(qppStart, qppEnd, qppPrice,
                             qppQuantity);

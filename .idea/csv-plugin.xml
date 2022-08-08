@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\test\resources\sample2\input\prices-1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\test\resources\sample2\input\prices-2.csv">
           <value>
             <Attribute>
@@ -32,6 +39,13 @@
           </value>
         </entry>
         <entry key="\src\test\resources\sample2\input\readings.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\test\resources\sample2\input\users.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

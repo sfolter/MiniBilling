@@ -37,9 +37,8 @@ public class PricesFileReader implements PricesReader {
                         String stringBeginningDate = pricesData[1];
                         String stringEndDate = pricesData[2];
 
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                        LocalDate start = LocalDate.parse(stringBeginningDate, formatter);
-                        LocalDate end = LocalDate.parse(stringEndDate, formatter);
+                        LocalDate start = convertStringIntoLocalDate(stringBeginningDate);
+                        LocalDate end = convertStringIntoLocalDate(stringEndDate);
                         Double price = Double.parseDouble(pricesData[3]);
                         List<Price> list = new ArrayList<>();
                         if (result.get(numberPricingList) == null) {
@@ -61,6 +60,13 @@ public class PricesFileReader implements PricesReader {
 
         return result;
     }
+
+    /**Parsing String into LocalDate in format yyyy-MM-dd*/
+    private LocalDate convertStringIntoLocalDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate stringToLD = LocalDate.parse(date, formatter);
+        return stringToLD;
+    }
     /**Splitting the file name to get the number of pricing list*/
     private int getNumberPricingListFromFile(String fileName) {
         String[] arr = fileName.split("prices.");
@@ -68,5 +74,6 @@ public class PricesFileReader implements PricesReader {
         int numberPricingList = Integer.parseInt(arr2[0]);
         return numberPricingList;
     }
+
 }
 

@@ -38,13 +38,5 @@ public class User {
         return price;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", ref='" + ref + '\'' +
-                ", numberPricingList=" + numberPricingList +
-                ", price=" + price +
-                '}';
-    }
+
 }

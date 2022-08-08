@@ -1,6 +1,7 @@
 package com.github.methodia.minibilling;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,6 +11,6 @@ import java.util.Map;
  */
 public interface UsersReader {
 
-    Map<String,User> read() throws IOException;
+    List<User> read() throws IOException;
 
 }

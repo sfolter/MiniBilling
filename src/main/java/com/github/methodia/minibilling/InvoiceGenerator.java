@@ -43,8 +43,10 @@ public class InvoiceGenerator {
                 LocalDateTime end = qpp.getEnd();
                 String product = null;
                 BigDecimal price = qpp.getPrice();
-                amount = qpp.getQuantity().multiply(qpp.getPrice());
-                totalAmount = totalAmount.add(new BigDecimal(String.valueOf(amount)));
+                amount = qpp.getQuantity().multiply(qpp.getPrice())
+                        .setScale(2,RoundingMode.HALF_UP).stripTrailingZeros();
+                totalAmount = totalAmount.add(new BigDecimal(String.valueOf(amount)))
+                        .setScale(2,RoundingMode.HALF_UP).stripTrailingZeros();
 
                 /**Looping through prices to get the product of price as User carry a List of Prices,
                 so we have to iterate through them and get the product for the current indexLine*/
@@ -58,7 +60,7 @@ public class InvoiceGenerator {
                 invoiceLines.add(new InvoiceLine(lineIndex, quantity, start, end,
                         product, price, getUser().getNumberPricingList(), amount));
             }else{
-                continue;
+                break;
             }
         }
             String documentNumber = Invoice.getDocumentNumber();

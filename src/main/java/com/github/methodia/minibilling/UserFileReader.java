@@ -16,11 +16,11 @@ public class UserFileReader  implements UsersReader {
 
 
     @Override
-    public Map<String, User> read() throws IOException {
+    public List<User> read() throws IOException {
         PricesFileReader pricesFileReader=new PricesFileReader(usersReadingPath);
         pricesFileReader.read();
         String line = "";
-        Map<String,User> mapOfUser=new LinkedHashMap<>();
+        List<User> usersList=new LinkedList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(usersReadingPath+"\\users.csv"));
             while ((line = br.readLine()) != null)
@@ -29,16 +29,13 @@ public class UserFileReader  implements UsersReader {
                 String name=client[0];
                 String referentNumber=client[1];
 
-                User user=new User( name,referentNumber,Integer.parseInt(client[2]), pricesFileReader.read().get(Integer.valueOf(client[2])));
-
-                mapOfUser.put(referentNumber,user);
-
+                usersList.add(new User(name,referentNumber,Integer.parseInt(client[2]), pricesFileReader.read().get(Integer.valueOf(client[2]))));
             }
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return mapOfUser;
+        return usersList;
     }
 
 }
