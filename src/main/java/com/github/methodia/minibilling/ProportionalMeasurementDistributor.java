@@ -65,7 +65,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 } else {
                     final ZonedDateTime qppEnd = price.getEnd();
                     final long qppPeriodDays = lastDateTime.until(qppEnd, ChronoUnit.DAYS);
-                    final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays), 3, RoundingMode.HALF_UP)
+                    final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                             .multiply(measurement.getValue());
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(lastDateTime, qppEnd,
                             qppPrice, qppQuantity);

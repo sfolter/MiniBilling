@@ -31,20 +31,28 @@ public class SaveInvoice {
                 .registerTypeAdapter(LocalDateTime.class, new SaveInvoice.LocalDateAdapter()).create();
         String json = gson.toJson(invoice);
 
-
         String month = borderTime.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
         String month1 = month.substring(0, 1).toUpperCase() + month.substring(1);
         int outputOfTheYear = borderTime.getYear() % 100;
+
         String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
-        File creatingFolders = new File(folderPath);
-        boolean bool2 = creatingFolders.mkdirs();
+        createFolder(folderPath);
 
         String jsonFilePath = folderPath + "\\" + invoice.getDocumentNum() + "-" + month1 + "-" + outputOfTheYear + ".json";
+        creatingJsonFIle(json, jsonFilePath);
+    }
+
+    private static void createFolder(String folderPath) {
+        File creatingFolders = new File(folderPath);
+        boolean bool2 = creatingFolders.mkdirs();
+    }
+
+    private static void creatingJsonFIle(String json, String jsonFilePath) {
         File creatingFiles = new File(jsonFilePath);
-        creatingFiles.createNewFile();
         try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
+            creatingFiles.createNewFile();
             out.write(json.toString());
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException | IOException e) {
             e.printStackTrace();
         }
     }
