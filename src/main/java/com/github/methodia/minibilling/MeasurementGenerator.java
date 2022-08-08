@@ -32,7 +32,7 @@ public class MeasurementGenerator {
                     measurements.add(new Measurement(previous.get(0).getTime().toLocalDateTime(), reading.getTime().toLocalDateTime(), value, user));
                     previous.set(0, reading);
                 }
-                //TODO
+
 
             }
         return measurements;

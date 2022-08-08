@@ -1,17 +1,17 @@
 {
-    "documentDate": "2022-08-08T13:58:56.264132800",
-    "documentNumber": "10001",
+    "documentDate": "2022-08-08T13:57:07.404758400",
+    "documentNumber": "10004",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
-    "totalAmount": 156.6,
+    "totalAmount": 0,
     "lines": [{
         "index": 1,
         "quantity": 87,
         "lineStart": "2021-01-01T09:00:00Z",
         "lineEnd": "2021-03-17T10:20:00Z",
         "product": "gas",
-        "price": 1.8,
+        "price": 4.4,
         "priceList": 1,
-        "amount": 156.6
+        "amount": 382.8
     }]
 }
