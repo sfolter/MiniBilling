@@ -33,8 +33,9 @@ public class InvoiceGenerator {
 
         BigDecimal variable = new BigDecimal(0);
         BigDecimal amount = BigDecimal.ZERO;
-        BigDecimal totalAmount = null;
+        BigDecimal totalAmount = BigDecimal.ZERO;
         int lineIndex=0;
+        String documentNumber=null;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
 
@@ -49,13 +50,13 @@ public class InvoiceGenerator {
             totalAmount = variable.add(new BigDecimal(String.valueOf(amount)));
                 int index = invoiceLines.size() + 1;
             invoiceLines.add(new InvoiceLine(index, quantity, lineStart, lineEnd, product, price, priceList, amount));
-
+//            documentNumber= Invoice.getDocumentNumber();
             }else{
                 continue;
             }
         }
 
-        String documentNumber = Invoice.getDocumentNumber();
+        documentNumber= Invoice.getDocumentNumber();
 
         String consumer = user.getName();
 

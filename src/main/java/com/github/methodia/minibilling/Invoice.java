@@ -36,6 +36,10 @@ public class Invoice {
         return String.valueOf(id++);
     }
 
+    public  String getDocNumber() {
+        return documentNumber;
+    }
+
     @Override
     public String toString() {
         return "Invoice{" +

@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
 
-import static com.github.methodia.minibilling.Invoice.getDocumentNumber;
+
 
 /**
  * @author Miroslav Kovachev
@@ -72,9 +72,9 @@ public class Main {
 
             String month = parseReportingDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
             String Month = month.substring(0,1).toUpperCase()+ month.substring(1);
+            String lastNumbers = String.valueOf(parseReportingDate.getYear()).substring(2,4);
 
-
-            String fName = folderPath + "\\" + invoice.getDocumentNumber() + "-" + Month+ "-" + user.getRef() + ".json";
+            String fName = folderPath + "\\" + invoice.getDocNumber() + "-" + Month+ "-" + lastNumbers + ".json";
             try {
                 File directory = new File(String.valueOf(creatingFolders));
                 directory.mkdirs();

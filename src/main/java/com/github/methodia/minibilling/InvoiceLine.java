@@ -12,8 +12,8 @@ public class InvoiceLine {
 
     private final int index;
     private final BigDecimal quantity;
-    private final LocalDateTime start;
-    private final LocalDateTime end;
+    private final LocalDateTime lineStart;
+    private final LocalDateTime lineEnd;
     private final String product;
     private final BigDecimal price;
     private final int priceList;
@@ -23,8 +23,8 @@ public class InvoiceLine {
                        BigDecimal price, int priceList, BigDecimal amount) {
         this.index = index;
         this.quantity = quantity;
-        this.start = start;
-        this.end = end;
+        this.lineStart = start;
+        this.lineEnd = end;
         this.product = product;
         this.price = price;
         this.priceList = priceList;
@@ -40,8 +40,8 @@ public class InvoiceLine {
         return "lines{" +
                 "index:" + index +
                 ", quantity:" + quantity +
-                ", start:" + start +
-                ", end:" + end +
+                ", lineStart:" + lineStart +
+                ", lineEnd:" + lineEnd +
                 ", product:" + product + '\'' +
                 ", price:" + price +
                 ", priceList:" + priceList +

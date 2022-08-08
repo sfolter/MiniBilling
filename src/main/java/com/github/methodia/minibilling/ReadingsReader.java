@@ -40,7 +40,7 @@ public class ReadingsReader implements ReadingsReaderInterface {
                 BigDecimal price1 = new BigDecimal(reports[3]);
 
 
-                listOfReports.add(new Reading(date1, price1, userReader.read().get(Integer.parseInt(referenceNumber))));
+                listOfReports.add(new Reading(date1, price1, userReader.read().get(referenceNumber)));
 
             }
 
