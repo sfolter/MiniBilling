@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Invoice {
 
-    private static long idContour= 10000;
+    private static long idContour= 9999;
     private LocalDateTime documentDate;
     private String documentNumber;
     private User consumer;

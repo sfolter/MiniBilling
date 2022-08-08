@@ -12,40 +12,41 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
 //        String yearMonthStr = "21-03";
-        String yearMonthStr=args[0];
-        String resourceDir=args[1];
-        String outputDir=args[2];
-
+        String yearMonthStr = args[0];
+        String resourceDir = args[1];
+        String outputDir = args[2];
         //prices-1.csv
-//        String pricesPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        String pricesPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         CsvFilePriceReader price = new CsvFilePriceReader();
         Map<String, List<Price>> priceL = price.read(resourceDir);
 
 
-//        String userPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        String userPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         CsvFileUserReader userFileRead = new CsvFileUserReader();
         List<User> users = userFileRead.read(resourceDir);
+        Map<String, User> userMap = CsvFileUserReader.getUserMap();
         //FolderCreator
         FolderCreatorTodor foldersCreation = new FolderCreatorTodor();
         foldersCreation.createFolders();
         ArrayList<String> folderPath = foldersCreation.getFolderPath();
         //readings.csv
-//        String readingsPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        String readingsPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         CsvFileReadingReader reading = new CsvFileReadingReader();
         Collection<Reading> readings = reading.read(resourceDir);
 //        ArrayList<Float> quantity = reading.getQuantity();
-        for (int i = 0; i < users.size(); i++) {
 
+        for (int i = 1; i <= users.size(); i++) {
+            User user = userMap.get(String.valueOf(i));
 
-            MeasurementGenerator measurementGenerator = new MeasurementGenerator(users.get(i), readings);
+            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
             Collection<Measurement> measermantGenerated = measurementGenerator.generate();
             // Current date and time
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             Calendar cal = Calendar.getInstance();
 
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(i), measermantGenerated, users.get(i).getPrice(), yearMonthStr);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measermantGenerated, user.getPrice(), yearMonthStr);
             Invoice invoice = invoiceGenerator.generate();
-            FolderGenerator folderGenerator = new FolderGenerator(users.get(i),outputDir);
+            FolderGenerator folderGenerator = new FolderGenerator(user, outputDir);
             String folder = folderGenerator.generate();
             JsonGenerator jsonGenerator = new JsonGenerator(invoice, folder);
             jsonGenerator.generate();
