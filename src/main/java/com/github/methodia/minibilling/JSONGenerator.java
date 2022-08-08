@@ -11,6 +11,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -32,6 +35,7 @@ public class JSONGenerator {
         Invoice invoice1 = invoice;
         User user = invoice1.getConsumer();
         String folderPath = folder;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
 
         try {
             Field changeMap = json.getClass().getDeclaredField("map");
@@ -54,9 +58,9 @@ public class JSONGenerator {
         newLine.put("index", index);
         BigDecimal quantity = invoice1.getLines().get(0).getQuantity();
         newLine.put("quantity", quantity);
-        LocalDateTime lineStart = invoice1.getLines().get(0).getStart();
+        String lineStart = invoice1.getLines().get(0).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
         newLine.put("lineStart", lineStart);
-        LocalDateTime lineEnd = invoice1.getLines().get(0).getEnd();
+        String lineEnd = invoice1.getLines().get(0).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
         newLine.put("lineEnd", lineEnd);
         String product = invoice.getLines().get(0).getProduct();
         newLine.put("product", product);

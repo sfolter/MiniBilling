@@ -87,7 +87,12 @@ public class Main {
 //            file.close();
 //        }
         Scanner scanner = new Scanner(System.in);
+//        String reportDate = scanner.nextLine();
         String inPath = scanner.nextLine();
+//        String outPath = scanner.nextLine();
+//        args[0]=reportDate;
+//        args[1]=inPath;
+//        args[2]=outPath;
 //        String reportDate = scanner.nextLine();
 //        String reportDate = args[0];
 //        args[0]=inPath;
