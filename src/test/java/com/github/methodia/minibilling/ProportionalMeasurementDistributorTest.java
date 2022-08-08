@@ -116,7 +116,7 @@ class ProportionalMeasurementDistributorTest {
     private static Measurement getMeasurement(BigDecimal measurementValue) {
         final Measurement measurement1 = new Measurement(LocalDateTime.of(2021, 3, 6, 13, 23),
                 LocalDateTime.of(2021, 4, 14, 15, 32), measurementValue,
-                new User("Test Testov", "ref", Collections.emptyList()));
+                new User("Test Testov", "ref", Collections.emptyList(),1));
         return measurement1;
     }
 
@@ -237,7 +237,7 @@ class ProportionalMeasurementDistributorTest {
         final Measurement measurement1 = getMeasurement(measurementValue);
         final Measurement measurement2 = new Measurement(LocalDateTime.of(2021, 4, 15, 13, 23),
                 LocalDateTime.of(2021, 5, 25, 15, 32), measurementValue,
-                new User("Test Testov", "ref", Collections.emptyList()));
+                new User("Test Testov", "ref", Collections.emptyList(),1));
 
         final BigDecimal priceValue = new BigDecimal("1.50");
 
@@ -292,7 +292,7 @@ class ProportionalMeasurementDistributorTest {
         final Measurement measurement1 = getMeasurement(measurementValue);
         final Measurement measurement2 = new Measurement(LocalDateTime.of(2021, 4, 15, 13, 23),
                 LocalDateTime.of(2021, 5, 25, 15, 32), measurementValue,
-                new User("Test Testov", "ref", Collections.emptyList()));
+                new User("Test Testov", "ref", Collections.emptyList(),1));
 
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
