@@ -24,18 +24,7 @@ public class MeasurementGenerator {
 
     Collection<Measurement> generate() {
         List<Measurement> measurements = new ArrayList<>();
-//        List<Reading> readingsList = CSVReadingsReader.getReadingsList();
-//        for (int i = 0; i < readingsList.size()/2; i++) {
-//            for (int j = i+1; j < readingsList.size(); j++) {
-//                if(readingsList.get(i).getUser().equals(readingsList.get(j).getUser())){
-//                    BigDecimal value = readingsList.get(j).getValue().subtract(readingsList.get(i).getValue());
-//                    LocalDateTime startDate = readingsList.get(i).getTime().toLocalDateTime();
-//                    LocalDateTime endDate = readingsList.get(j).getTime().toLocalDateTime();
-//                    measurements.add(new Measurement(startDate,endDate,value, readingsList.get(i).getUser()));
-//                }
-//            }
-//        }
-//        return measurements;
+
         List<Reading> previous = new ArrayList<>();
         for (Reading reading : readings)
             if (user.getRef().equals(reading.getUser().getRef())) {

@@ -26,18 +26,7 @@ public class InvoiceGenerator {
     public Invoice generate() {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements,prices);
         List<QuantityPricePeriod> distribute = proportionalMeasurementDistributor.distribute();
-//        for (int i = 0; i < distribute.size(); i++) {
-//            BigDecimal quantity = distribute.get(i).getQuantity();
-//            LocalDateTime end = distribute.get(i).getEnd();
-//            LocalDateTime start = distribute.get(i).getStart();
-//            BigDecimal price = distribute.get(i).getPrice();
-//            String product = Price.getProduct();
-//            BigDecimal amount = quantity.multiply(price);
-//            int index = 1;
-////            InvoiceLine invoiceLine = new InvoiceLine(index,quantity,start, end, product, price, priceListNumber, amount);
-//        }
-//        //TODO
-//        throw new UnsupportedOperationException("Not implemented!");
+
         List<InvoiceLine> invoiceLines = new ArrayList<>();
         BigDecimal totalAmount = new BigDecimal(0);
         int counter = 1;
