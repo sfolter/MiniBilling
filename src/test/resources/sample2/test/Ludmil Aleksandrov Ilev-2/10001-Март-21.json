@@ -1,0 +1,49 @@
+{
+    "documentDate": "2022-08-08T16:27:28.887358100",
+    "documentNumber": "10001",
+    "consumer": "Ludmil Aleksandrov Ilev",
+    "reference": "2",
+    "totalAmount": 7057.6,
+    "lines": [
+        {
+            "index": 4,
+            "quantity": 152,
+            "lineStart": "2021-01-01T08:00:00Z",
+            "lineEnd": "2021-03-25T13:40:00Z",
+            "product": "gas",
+            "price": 4.4,
+            "priceList": 2,
+            "amount": 668.8
+        },
+        {
+            "index": 4,
+            "quantity": 152,
+            "lineStart": "2021-01-01T08:00:00Z",
+            "lineEnd": "2021-03-25T13:40:00Z",
+            "product": "gas",
+            "price": 4.4,
+            "priceList": 2,
+            "amount": 668.8
+        },
+        {
+            "index": 4,
+            "quantity": 152,
+            "lineStart": "2021-01-01T08:00:00Z",
+            "lineEnd": "2021-03-25T13:40:00Z",
+            "product": "gas",
+            "price": 4.4,
+            "priceList": 2,
+            "amount": 668.8
+        },
+        {
+            "index": 4,
+            "quantity": 152,
+            "lineStart": "2021-01-01T08:00:00Z",
+            "lineEnd": "2021-03-25T13:40:00Z",
+            "product": "gas",
+            "price": 4.4,
+            "priceList": 2,
+            "amount": 668.8
+        }
+    ]
+}

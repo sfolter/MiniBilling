@@ -54,26 +54,34 @@ public class JsonGenerator {
         json.put("consumer", user.getName());
         json.put("reference", user.getRef());
         json.put("totalAmount", invoice1.getTotalAmount());
-        int index = invoice1.getLines().get(0).getIndex();
-        newLine.put("index", index);
-        BigDecimal quantity = invoice1.getLines().get(0).getQuantity();
-        newLine.put("quantity", quantity);
-        String lineStart = invoice1.getLines().get(0).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-        newLine.put("lineStart", lineStart);
-        String lineEnd = invoice1.getLines().get(0).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-        newLine.put("lineEnd", lineEnd);
-        String product = invoice.getLines().get(0).getProduct();
-        newLine.put("product", product);
-        BigDecimal price = invoice1.getLines().get(0).getPrice();
-        newLine.put("price", price);
-        int priceList = invoice1.getLines().get(0).getPriceList();
-        newLine.put("priceList", priceList);
-        BigDecimal amount = invoice1.getLines().get(0).getAmount();
-        newLine.put("amount", amount);
+        LocalDateTime end = invoice1.getLines().get(invoice1.getLines().size()-1).getEnd();
         JSONArray lines = new JSONArray();
+        for (int i = 0; i <User.getPrice().size() ; i++) {
+        int index = invoice1.getLines().get (i).getIndex();
+        newLine.put("index", index);
+        BigDecimal quantity = invoice1.getLines().get(i).getQuantity();
+        newLine.put("quantity", quantity);
+        String lineStart = invoice1.getLines().get(i).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+        newLine.put("lineStart", lineStart);
+
+        String lineEnd = invoice1.getLines().get(i).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+        newLine.put("lineEnd", lineEnd);
+        String product = invoice.getLines().get(i).getProduct();
+        newLine.put("product", product);
+        BigDecimal price = invoice1.getLines().get(i).getPrice();
+        newLine.put("price", price);
+        int priceList = invoice1.getLines().get(i).getPriceList();
+        newLine.put("priceList", priceList);
+        BigDecimal amount = invoice1.getLines().get(i).getAmount();
+        newLine.put("amount", amount);
+
         lines.put(newLine);
-        json.put("lines", lines);
-        Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(lineEnd));
+
+
+
+        }json.put("lines", lines);
+
+        Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(end));
         String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
         String[] splitDate = month.split("\\s+");
         String monthInCyrilic = splitDate[1];

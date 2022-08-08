@@ -11,14 +11,12 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
-//        String yearMonthStr = "21-03";
-        String yearMonthStr = args[0];
-        String resourceDir = args[1];
-        String outputDir = args[2];
-        //prices-1.csv
-        String pricesPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
-        CsvFilePriceReader price = new CsvFilePriceReader();
-        Map<String, List<Price>> priceL = price.read(resourceDir);
+        String yearMonthStr = "21-03";
+//        String yearMonthStr = args[0];
+//        String resourceDir = args[1];
+//        String outputDir = args[2];
+        String resourceDir= "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
+        String outputDir="C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
 
 
         String userPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
@@ -33,16 +31,17 @@ public class Main {
         String readingsPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         CsvFileReadingReader reading = new CsvFileReadingReader();
         Collection<Reading> readings = reading.read(resourceDir);
-//        ArrayList<Float> quantity = reading.getQuantity();
+//prices-1.csv
+        String pricesPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        CsvFilePriceReader price = new CsvFilePriceReader();
+
+
 
         for (int i = 1; i <= users.size(); i++) {
             User user = userMap.get(String.valueOf(i));
-
+            Map<String, List<Price>> priceL = price.read(user,resourceDir);
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
             Collection<Measurement> measermantGenerated = measurementGenerator.generate();
-            // Current date and time
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            Calendar cal = Calendar.getInstance();
 
             InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measermantGenerated, user.getPrice(), yearMonthStr);
             Invoice invoice = invoiceGenerator.generate();
