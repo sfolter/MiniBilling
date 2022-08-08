@@ -106,3 +106,116 @@ Mini Billing
 - lines.amount - дължимата сума по тази линия
 ### Кодировка на файловете
 Файловете трябва да бъдат записани в UTF-8.
+
+# Допълнение 1
+
+Да се добави такса - ДДС. Към всяка фактура трябва да се смята и ДДС/VAT. 
+Таксата трябва да се показва като допълнителен масив с ключ "vat".
+Ще се изчислява като процент от сумата на всяка линия. Ще има референция към конкретната линия, към която прилагаме VAT.
+Примерна фактура с VAT:
+``` json
+{
+  "documentNumber": "10002",
+  "consumer": "Kosena Assenova Vankova",
+  "reference": "3",
+  "totalAmount": 895.2,
+  "totalAmountWithVat": 941.76,
+  "lines": [
+    {
+      "index": 1,
+      "quantity": 436,
+      "lineStart": "2021-01-01T14:40:00Z",
+      "lineEnd": "2021-03-11T07:00:00Z",
+      "product": "gas",
+      "price": 1.8,
+      "priceList": 1,
+      "amount": 784.8
+    }
+  ],
+  "vat": [
+    {
+      "index": 1,
+      "lines": [
+        1
+      ],
+      "percentage": 20,
+      "amount": 156.96
+    }
+  ]
+}
+```
+
+
+# Допълнение 2
+
+Да се добави такса на база на броя дни. Тя ще се смята като отделен продукт.
+``` json
+{
+  "documentNumber": "10002",
+  "consumer": "Kosena Assenova Vankova",
+  "reference": "3",
+  "totalAmount": 895.2,
+  "totalAmountWithVat": 1042.85,
+  "lines": [
+    {
+      "index": 1,
+      "quantity": 436,
+      "lineStart": "2021-01-01T14:40:00Z",
+      "lineEnd": "2021-03-11T07:00:00Z",
+      "product": "gas",
+      "price": 1.8,
+      "priceList": 1,
+      "amount": 784.8
+    }
+  ],
+  "taxes": [
+    {
+      "index": 1,
+      "lines": [
+        1
+      ],
+      "name": "Standing charge",
+      "quantity": 69,
+      "unit": "days",
+      "price": 1.6,
+      "amount": 110.4
+    }
+  ],
+  "vat": [
+    {
+      "index": 1,
+      "lines": [
+        1
+      ],
+      "taxes": [],
+      "taxedAmountPercentage": 60,
+      "percentage": 20,
+      "amount": 94.18
+    },
+    {
+      "index": 2,
+      "lines": [
+        1
+      ],
+      "taxes": [],
+      "taxedAmountPercentage": 40,
+      "percentage": 10,
+      "amount": 31.39
+    },
+    {
+      "index": 3,
+      "lines": [],
+      "taxes": [
+        1
+      ],
+      "taxedAmountPercentage": 100,
+      "percentage": 20,
+      "amount": 22.08
+    }
+  ]
+}
+```
+
+# Допълнение 3
+
+Да се добави валута за цените, а потребителите да имат желана валута, в която да им се показва сумата.
