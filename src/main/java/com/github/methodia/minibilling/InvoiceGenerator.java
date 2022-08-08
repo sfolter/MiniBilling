@@ -30,9 +30,6 @@ public class InvoiceGenerator {
                 new ProportionalMeasurementDistributor(getMeasurements(),getPrices());
         Collection<QuantityPricePeriod> quantityPricePeriods=proportionalMeasurementDistributor.distribute();
 
-        //NOT USED IN THE EXAMPLES DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-         //  LocalDateTime documentDate= LocalDateTime.parse(LocalDateTime.now().format(formatter));
-
         List<InvoiceLine> invoiceLines=new ArrayList<>();
 
         BigDecimal amount=BigDecimal.ZERO;
@@ -53,15 +50,9 @@ public class InvoiceGenerator {
                 so we have to iterate through them and get the product for the current indexLine*/
                List<Price>  productList =getUser().getPrice().stream()
                         .filter(price1 ->qpp.getEnd().toLocalDate().compareTo(price1.getEnd())<=0
-                                &&qpp.getPrice().equals(price1.getValue())).collect(Collectors.toList());
-                    product=String.valueOf(productList.get(0).getProduct());
+                                &&qpp.getPrice().equals(price1.getValue())).toList();
 
-                    //                for (Price priceFromLoop : getUser().getPrice()) {
-//                    if (qpp.getEnd().toLocalDate().compareTo(priceFromLoop.getEnd())
-//                            <= 0 && qpp.getPrice().equals(priceFromLoop.getValue())) {
-//                        product = priceFromLoop.getProduct();
-//                    }
-//                }
+                    product=String.valueOf(productList.get(0).getProduct());
 
                 lineIndex = invoiceLines.size() + 1;
                 invoiceLines.add(new InvoiceLine(lineIndex, quantity, start, end,

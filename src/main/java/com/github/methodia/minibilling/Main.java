@@ -36,20 +36,19 @@ public class Main {
 
             Collection<Reading> readingCollection = readingsFR.read().stream()
                     .sorted(Comparator.comparing(Reading::getTime))
-                    .collect(Collectors.toList());
+                    .toList();
 
             UserFileReader userFR = new UserFileReader(inputPath);
             Map<String, User> mapOfUsers = userFR.read();
 
             /**Looping through every user and check their Measurements, and based on them and price, the algorithm below
             creates invoices and based on price periods, create individual lines if there is a change of prices.*/
-            for (int i = 0; i < mapOfUsers.size(); i++) {
-                int z = i + 1;
-                User user = mapOfUsers.get(String.valueOf(z));
+            for (int i = 1; i <= mapOfUsers.size(); i++) {
+                User user = mapOfUsers.get(String.valueOf(i));
 
                 Collection<Reading> filteredReadings = readingCollection.stream()
                         .filter(reading -> reading.getUser().getRef()
-                        .equals(user.getRef())).collect(Collectors.toList());
+                        .equals(user.getRef())).toList();
 
                 MeasurementGenerator mmGenerator = new MeasurementGenerator(user, filteredReadings);
                 Collection<Measurement> mmCollector = mmGenerator.generate();
