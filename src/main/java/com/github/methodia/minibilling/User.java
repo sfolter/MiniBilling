@@ -5,10 +5,10 @@ import java.util.List;
 public class User {
     private String name;
     private String ref;
-    private int priceListNumber=0;
+    private int priceListNumber;
     private static List<Price> price;
 
-    public User(String name, String ref, List<Price> price) {
+    public User(String name, String ref, List<Price> price,int priceListNumber) {
         this.name = name;
         this.ref = ref;
         this.price = price;

@@ -22,11 +22,14 @@ public class CsvFileReadingReader implements ReadingsReader {
     public Collection<Reading> read(String path) {
         String[] line;
 
-
-        try (CSVReader reader = new CSVReader(new java.io.FileReader(path))) {
+        try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\readings.csv"))) {
 
             while ((line = reader.readNext()) != null) {
                 Map<String, User> userMap = CsvFileUserReader.getUserMap();
+//                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss z");
+                ZonedDateTime zonedDateTime = ZonedDateTime.parse(line[2]);
+//                String  time = line[2];
+//                LocalDateTime instant = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME);
                 readingsList.add(new Reading( userMap.get(line[0]),line[1],ZonedDateTime.parse(line[2]),new BigDecimal(line[3]) ));
             }
 

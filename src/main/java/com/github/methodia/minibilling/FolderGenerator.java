@@ -4,7 +4,7 @@ import java.io.File;
 
 public class FolderGenerator {
     private User user;
-    private String folderPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\test\\";
+    private String folderPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\w\\sample1\\test\\";
 
     public FolderGenerator(User user) {
         this.user = user;

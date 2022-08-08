@@ -9,12 +9,12 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
         //prices-1.csv
-        String pricesPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\prices-1.csv";
+        String pricesPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         CsvFilePriceReader price = new CsvFilePriceReader();
         Map<String, List<Price>> priceL = price.read(pricesPath);
 
 
-        String userPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\users.csv";
+        String userPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         CsvFileUserReader userFileRead = new CsvFileUserReader();
         List<User> users = userFileRead.read(userPath);
         //FolderCreator
@@ -22,7 +22,7 @@ public class Main {
         foldersCreation.createFolders();
         ArrayList<String> folderPath = foldersCreation.getFolderPath();
         //readings.csv
-        String readingsPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\readings.csv";
+        String readingsPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         CsvFileReadingReader reading = new CsvFileReadingReader();
         Collection<Reading> readings = reading.read(readingsPath);
 //        ArrayList<Float> quantity = reading.getQuantity();
@@ -34,7 +34,7 @@ public class Main {
 
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(1), measermantGenerated, users.get(1).getPrice());
         Invoice invoice = invoiceGenerator.generate();
-        FolderGenerator folderGenerator = new FolderGenerator(users.get(3));
+        FolderGenerator folderGenerator = new FolderGenerator(users.get(4));
         String folder = folderGenerator.generate();
         JsonGenerator jsonGenerator = new JsonGenerator(invoice,folder);
         jsonGenerator.generate();

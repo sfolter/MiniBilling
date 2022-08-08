@@ -27,9 +27,9 @@ public class CsvFileUserReader implements UsersReader {
         List<Price> priceList = CsvFilePriceReader.getPriceList();
         String[] line;
         int counter = 0;
-        try (CSVReader reader = new CSVReader(new java.io.FileReader(path))) {
+        try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\users.csv"))) {
             while ((line = reader.readNext()) != null) {
-                userList.add(new User(line[0], line[1], priceList));
+                userList.add(new User(line[0], line[1],priceList, Integer.parseInt(line[2])));
                 userMap.put(line[1], userList.get(counter));
                 counter++;
 

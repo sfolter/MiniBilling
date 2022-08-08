@@ -1,5 +1,7 @@
 package com.github.methodia.minibilling;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,5 +12,5 @@ import java.util.Map;
  */
 public interface PricesReader {
 
-    Map<String, List<Price>> read(String path);
+    Map<String, List<Price>> read(String path) throws IOException;
 }
