@@ -12,6 +12,7 @@ public class User {
         this.name = name;
         this.ref = ref;
         this.price = price;
+        this.priceListNumber = priceListNumber;
     }
 
     public String getName() {

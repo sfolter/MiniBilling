@@ -4,13 +4,16 @@ import java.io.File;
 
 public class FolderGenerator {
     private User user;
-    private String folderPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\w\\sample1\\test\\";
 
-    public FolderGenerator(User user) {
+    private String folderPathStr;
+
+    public FolderGenerator(User user,String folderPath) {
         this.user = user;
+        this.folderPathStr=folderPath;
     }
 
     public String generate() {
+        String folderPath=folderPathStr;
         User consumer = user;
         String name = consumer.getName();
         String refNum = consumer.getRef();

@@ -1,10 +1,7 @@
 package com.github.methodia.minibilling;
 
-import com.google.gson.*;
-
-
 import org.json.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,28 +11,32 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Locale;
+
 public class JsonGenerator {
-    private Invoice invoice;
-    private String folder;
+    Invoice invoice;
+    String folder;
 
-
-    public JsonGenerator(Invoice invoice, String folder){
-        this.folder = folder;
+    public JsonGenerator(Invoice invoice, String folder) {
         this.invoice = invoice;
+        this.folder = folder;
     }
 
-    JSONObject json=new JSONObject();
-    JSONObject lines = new JSONObject();
-    JSONObject newLine= new JSONObject();
+    JSONObject json = new JSONObject();
+    JSONObject newLine = new JSONObject();
+    String documentNumber = Invoice.getDocumentNumber();
 
-    public void generate() throws IOException, ParseException {
+    public void generate() throws ParseException, IOException {
         Invoice invoice1 = invoice;
         User user = invoice1.getConsumer();
         String folderPath = folder;
-        String documentNumber = Invoice.getDocumentNumber();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
+
         try {
             Field changeMap = json.getClass().getDeclaredField("map");
             changeMap.setAccessible(true);
@@ -49,7 +50,6 @@ public class JsonGenerator {
             System.out.println((e.getMessage()));
         }
         json.put("documentDate", invoice1.getDocumentDate());
-
         json.put("documentNumber", documentNumber);
         json.put("consumer", user.getName());
         json.put("reference", user.getRef());
@@ -58,9 +58,9 @@ public class JsonGenerator {
         newLine.put("index", index);
         BigDecimal quantity = invoice1.getLines().get(0).getQuantity();
         newLine.put("quantity", quantity);
-        LocalDateTime lineStart = invoice1.getLines().get(0).getStart();
+        String lineStart = invoice1.getLines().get(0).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
         newLine.put("lineStart", lineStart);
-        LocalDateTime lineEnd = invoice1.getLines().get(0).getEnd();
+        String lineEnd = invoice1.getLines().get(0).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
         newLine.put("lineEnd", lineEnd);
         String product = invoice.getLines().get(0).getProduct();
         newLine.put("product", product);
@@ -81,7 +81,7 @@ public class JsonGenerator {
         String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
         String fileWriter = documentNumber + "-" + monthInUpperCase + "-" + year;
         FileWriter file = new FileWriter(folderPath + "//" + fileWriter + ".json");
-        file.write(json.toString());
+        file.write(json.toString(4));
         file.flush();
         file.close();
 

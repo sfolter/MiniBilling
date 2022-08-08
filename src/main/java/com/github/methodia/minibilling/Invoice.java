@@ -20,13 +20,14 @@ public class Invoice {
         this.consumer = consumer;
         this.totalAmount = totalAmount;
         this.lines = lines;
+        idContour++;
     }
 
     public LocalDateTime getDocumentDate() {
         return documentDate;
     }
     public static synchronized String getDocumentNumber() {
-        return String.valueOf(idContour++);
+        return String.valueOf(idContour);
     }
 
     public User getConsumer() {
