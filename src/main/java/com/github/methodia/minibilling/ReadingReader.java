@@ -24,13 +24,12 @@ public class ReadingReader implements ReadingsReader {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 String referentNumber = data[0];
-                String time = data[2];
-                ZonedDateTime date = ZonedDateTime.parse(time, DateTimeFormatter.ISO_ZONED_DATE_TIME).withZoneSameInstant(ZoneId.of(ZONE_ID));
+                ZonedDateTime date = Formatter.parseReading(data[2]);
                 BigDecimal value = BigDecimal.valueOf(Long.parseLong(data[3]));
 
                 Map<String, User> users = userReader.read(directory);
 
-                LocalDate borderDate = SaveInvoice.parse(borderTime);
+                LocalDate borderDate = Formatter.parseBorder(borderTime);
                 if (date.toLocalDate().isBefore(borderDate)) {
                     result.add(new Reading(date, value, users.get(referentNumber)));
                 }

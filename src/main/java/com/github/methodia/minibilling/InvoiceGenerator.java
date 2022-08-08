@@ -31,8 +31,8 @@ public class InvoiceGenerator {
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             int index = counter++;
             BigDecimal quantity = qpp.getQuantity();
-            String start = qpp.getStart().format(formatter);
-            String end = qpp.getEnd().format(formatter);
+            LocalDateTime start = qpp.getStart().toLocalDateTime();
+            LocalDateTime end = qpp.getEnd().toLocalDateTime();
             String product = qpp.getPrice().getProduct();
             BigDecimal price = qpp.getPrice().getValue();
             int priceList = user.getPriceListNumber();

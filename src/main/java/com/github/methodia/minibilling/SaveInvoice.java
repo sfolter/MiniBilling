@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
@@ -23,7 +25,7 @@ import java.util.Locale;
 public class SaveInvoice {
     public static void savingFiles(String outputPath, String dateToReporting, Invoice invoice, User user) throws ParseException, IOException {
 
-        LocalDate borderTime = parse(dateToReporting);
+        LocalDate borderTime = Formatter.parseBorder(dateToReporting);
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new SaveInvoice.LocalDateAdapter()).create();
@@ -50,21 +52,15 @@ public class SaveInvoice {
     private static final class LocalDateAdapter extends TypeAdapter<LocalDateTime> {
         @Override
         public void write(final JsonWriter jsonWriter, final LocalDateTime localDate) throws IOException {
-            jsonWriter.value(localDate.toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+            ZonedDateTime gmt = localDate.atZone(ZoneId.of("Z"));
+            String formattedLD = gmt.format(formatter);
+            jsonWriter.value(formattedLD);
         }
 
         @Override
         public LocalDateTime read(final JsonReader jsonReader) throws IOException {
             return LocalDateTime.parse(jsonReader.nextString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
-    }
-
-    public static LocalDate parse(String date) {
-        DateTimeFormatter formatterBorderTime = new DateTimeFormatterBuilder()
-                .appendPattern("yy-MM")
-                .parseDefaulting(ChronoField.DAY_OF_MONTH, 31)
-                .toFormatter();
-        LocalDate borderTime = LocalDate.parse(date, formatterBorderTime);
-        return borderTime;
     }
 }

@@ -6,14 +6,14 @@ import java.time.LocalDateTime;
 public class InvoiceLine {
     private int index;
     private BigDecimal quantity;
-    private String lineStart;
-    private String lineEnd;
+    private LocalDateTime lineStart;
+    private LocalDateTime lineEnd;
     private String product;
     private BigDecimal price;
     private int priceList;
     private BigDecimal amount;
 
-    public InvoiceLine(int index, BigDecimal quantity, String lineStart, String lineEnd, String product,
+    public InvoiceLine(int index, BigDecimal quantity, LocalDateTime lineStart, LocalDateTime lineEnd, String product,
                        BigDecimal price, int priceList, BigDecimal amount) {
         this.index = index;
         this.quantity = quantity;
@@ -33,11 +33,11 @@ public class InvoiceLine {
         return quantity;
     }
 
-    public String getLineStart() {
+    public LocalDateTime getLineStart() {
         return lineStart;
     }
 
-    public String getLineEnd() {
+    public LocalDateTime getLineEnd() {
         return lineEnd;
     }
 
