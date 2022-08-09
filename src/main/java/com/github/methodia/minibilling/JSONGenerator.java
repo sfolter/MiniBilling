@@ -29,7 +29,7 @@ public class JSONGenerator {
     }
 
     JSONObject json = new JSONObject();
-    JSONObject newLine = new JSONObject();
+
     JSONArray lines = new JSONArray();
     String documentNumber = Invoice.getDocumentNumber();
 
@@ -38,6 +38,11 @@ public class JSONGenerator {
         User user = invoice1.getConsumer();
         String folderPath = folder;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
+
+        LocalDateTime end = invoice1.getLines().get(invoice1.getLines().size() - 1).getEnd();
+        List<Price> prices = CSVPricesReader.getPriceCollection().get(String.valueOf(user.getPriceList()));
+        for (int i = 0; i < prices.size(); i++) {
+            JSONObject newLine = new JSONObject();
         try {
             Field changeMap = json.getClass().getDeclaredField("map");
             changeMap.setAccessible(true);
@@ -56,9 +61,7 @@ public class JSONGenerator {
         json.put("reference", user.getRef());
         json.put("totalAmount", invoice1.getTotalAmount());
 
-        String lineEnd = invoice1.getLines().get(0).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-        List<Price> prices = CSVPricesReader.getPriceCollection().get(String.valueOf(User.getPriceList()));
-        for (int i = 0; i < prices.size(); i++) {
+
 
             int index = invoice1.getLines().get(i).getIndex();
             newLine.put("index", index);
@@ -66,6 +69,7 @@ public class JSONGenerator {
             newLine.put("quantity", quantity);
             String lineStart = invoice1.getLines().get(i).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
             newLine.put("lineStart", lineStart);
+            String lineEnd = invoice1.getLines().get(0).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
             newLine.put("lineEnd", lineEnd);
             String product = invoice.getLines().get(i).getProduct();
             newLine.put("product", product);
@@ -76,13 +80,12 @@ public class JSONGenerator {
             BigDecimal amount = invoice1.getLines().get(i).getAmount();
             newLine.put("amount", amount);
             lines.put(newLine);
-            json.put("lines", lines);
+
 
         }
+        json.put("lines", lines);
 
-
-
-            Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(lineEnd));
+            Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(end));
             String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
             String[] splitDate = month.split("\\s+");
             String monthInCyrilic = splitDate[1];
@@ -93,7 +96,6 @@ public class JSONGenerator {
             file.write(json.toString(4));
             file.flush();
             file.close();
-
 
     }
 }

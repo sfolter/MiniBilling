@@ -10,7 +10,7 @@ import java.util.List;
 public class User{
     private String name;
     private String ref;
-    private static List<Price> price;
+    private List<Price> price;
     private static int priceList;
 
 
@@ -28,7 +28,7 @@ public class User{
         return ref;
     }
 
-    public static List<Price> getPrice() {
+    public List<Price> getPrice() {
         return price;
     }
 
