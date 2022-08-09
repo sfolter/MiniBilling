@@ -36,7 +36,7 @@ public class MainTest {
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, ParseException, NoSuchFieldException, IllegalAccessException {
+    private void testSample(int sampleNumber, String yearMonth) throws IOException, NoSuchFieldException, IllegalAccessException, ParseException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
@@ -45,6 +45,7 @@ public class MainTest {
         final File output = new File(outputDir);
         checkDirectories(expectedFiles, output, sampleNumber);
     }
+
     private void checkDirectories(File sampleDir, File outputDir, int sampleNumber) throws IOException {
         final File[] sampleInputFiles = sampleDir.listFiles();
         final File[] outputFiles = outputDir.listFiles();
@@ -117,6 +118,5 @@ public class MainTest {
                 .getResource(String.format("sample%s/expected/", sampleNumber));
         return inputDir.getPath();
     }
-
-
 }
+
