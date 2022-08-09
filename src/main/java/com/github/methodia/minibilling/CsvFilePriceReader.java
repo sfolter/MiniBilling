@@ -16,24 +16,24 @@ import java.util.Map;
 
 public class CsvFilePriceReader implements PricesReader {
     final String path = new String();
-    User user;
-    final Map<String, List<Price>> result = new HashMap<>();
-    final static ArrayList<Price> priceList = new ArrayList<>();
 
-    public static ArrayList<Price> getPriceList() {
+    final static Map<String, List<Price>> result = new HashMap<>();
+    final   ArrayList<Price> priceList = new ArrayList<>();
+
+    public final  ArrayList<Price> getPriceList() {
         return priceList;
     }
 
 
-    public Map<String, List<Price>> getResult() {
+    public static Map<String, List<Price>> getResult() {
         return result;
     }
 
     @Override
-    public Map<String, List<Price>> read(User user,String path) throws IOException {
+    public List<Price> read(int priceListNum, String path) throws IOException {
         String[] line;
-        int priceListNumber = user.getPriceListNumber();
-        String directory=path+"prices-"+ priceListNumber +".csv";
+
+        String directory=path+"prices-"+ priceListNum +".csv";
 
                 try (CSVReader reader = new CSVReader(new java.io.FileReader(directory))) {
                     while ((line = reader.readNext()) != null) {
@@ -43,14 +43,14 @@ public class CsvFilePriceReader implements PricesReader {
                         BigDecimal value = new BigDecimal(line[3]);
 
                             priceList.add(new Price(product, startDate, endDate, value));
-                            result.put(String.valueOf(priceListNumber), priceList);
+                            result.put(String.valueOf(priceListNum), priceList);
 
                         }
 
                     } catch(CsvValidationException | IOException e){
                     throw new RuntimeException(e);
                 }
-        return result;
+        return priceList;
     }
 }
 

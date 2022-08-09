@@ -12,5 +12,5 @@ import java.util.Map;
  */
 public interface PricesReader {
 
-    Map<String, List<Price>> read(User user,String path) throws IOException;
+   List<Price> read(int priceListNum,String path) throws IOException;
 }

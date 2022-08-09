@@ -1,17 +1,29 @@
 {
-    "documentDate": "2022-08-08T14:44:33.334166",
+    "documentDate": "2022-08-09T10:20:42.143796200",
     "documentNumber": "10002",
     "consumer": "Kosena Assenova Vankova",
     "reference": "3",
-    "totalAmount": 7673.6,
-    "lines": [{
-        "index": 1,
-        "quantity": 436,
-        "lineStart": "2021-01-01T14:40:00Z",
-        "lineEnd": "2021-03-11T07:00:00Z",
-        "product": "gas",
-        "price": 4.4,
-        "priceList": 1,
-        "amount": 1918.4
-    }]
+    "totalAmount": 3836.8,
+    "lines": [
+        {
+            "index": 2,
+            "quantity": 436,
+            "lineStart": "2021-01-01T14:40:00Z",
+            "lineEnd": "2021-03-11T07:00:00Z",
+            "product": "gas",
+            "price": 4.4,
+            "priceList": 2,
+            "amount": 1918.4
+        },
+        {
+            "index": 2,
+            "quantity": 436,
+            "lineStart": "2021-01-01T14:40:00Z",
+            "lineEnd": "2021-03-11T07:00:00Z",
+            "product": "gas",
+            "price": 4.4,
+            "priceList": 2,
+            "amount": 1918.4
+        }
+    ]
 }
