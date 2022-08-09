@@ -2,41 +2,31 @@ package com.github.methodia.minibilling;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class UsersReaders implements UsersReader {
-    String path;
+    private final String path;
     public UsersReaders(String inputPath) {
         this.path = inputPath;
     }
 
     public Map<String, User> read() {
 
-        PricesReader pricesReader = new PriceReader(path);
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path+"\\" + "users.csv")))) {
 
-        Map<String, User> listOfClients = new HashMap<>();
-
-        String line;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(path+"\\users.csv"))) {
-
-            while ((line = br.readLine()) != null) { //read all lines from b1
-                String[] client = line.split(",");
-
-                String clientName = client[0];
-                String referenceNumber = client[1];
-                // List<Price> price = pricesReader.read().get(Integer.parseInt(client[2]));
-                // int priceListNumber = Integer.parseInt(client[3]);
-
-                User user = new User(clientName,referenceNumber,Integer.parseInt(client[2]), pricesReader.read().get(Integer.valueOf(client[2])));
-                listOfClients.put(referenceNumber, user);
-
-            }
+           return br.lines().map(l->l.split(","))
+                   .map(this::createGraph).collect(Collectors.toMap(User::getRef,u->u));
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        return listOfClients;
+    }
 
+    private User createGraph(String[] client) {
+        PricesReader pricesReader = new PriceReader(path);
+        String clientName = client[0];
+        String referenceNumber = client[1];
+        return new User(clientName,referenceNumber,Integer.parseInt(client[2]), pricesReader.read().get(Integer.valueOf(client[2])));
     }
 }
