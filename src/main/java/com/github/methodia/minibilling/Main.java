@@ -86,23 +86,29 @@ public class Main {
 //            file.flush();
 //            file.close();
 //        }
-        Scanner scanner = new Scanner(System.in);
-        String reportDate = args[0];
-        String inPath = args[1];
-        String outPath = args[2];
-//        String reportDate = "21-03";
+//        String reportDate = args[0];
+//        String inPath = args[1];
+//        String outPath = args[2];
+        String reportDate = "21-03";
+//        test1
+//        String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\input\\";
+//        String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\expected\\";
+//        main sample1
 //        String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
-//        String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";
+//        String outPath="C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";
+//        main sample2
+        String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
+        String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample2\\output\\";
 
         CSVUserReader user = new CSVUserReader(inPath);
         List<User> users = user.read();
         Map<String, User> userMap = CSVUserReader.getUserMap();
         CSVReadingsReader readings = new CSVReadingsReader(inPath);
         Collection<Reading> readingCollection = readings.read();
+        CSVPricesReader price = new CSVPricesReader(inPath);
+        price.read();
         for (int i = 1; i <= users.size(); i++) {
             User user1 = userMap.get(String.valueOf(i));
-            CSVPricesReader price = new CSVPricesReader(user1, inPath);
-            price.read();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user1, readingCollection);
             Collection<Measurement> measurements = measurementGenerator.generate();
             List<Price> prices = CSVPricesReader.getPrices();

@@ -11,6 +11,6 @@ import java.util.Map;
  */
 public interface PricesReader {
 
-    Map<Integer, List<Price>> read();
+    Map<String, List<Price>> read();
 
 }

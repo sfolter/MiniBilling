@@ -11,16 +11,15 @@ import java.util.*;
 
 public class CSVPricesReader implements PricesReader {
     String path;
-    User user;
 
-    public CSVPricesReader(User user, String path) {
-        this.user = user;
+    public CSVPricesReader(String path) {
+
         this.path = path;
     }
 
-    static Map<Integer, List<Price>> priceCollection = new HashMap<>();
+    static Map<String, List<Price>> priceCollection = new HashMap<>();
 
-    public static Map<Integer, List<Price>> getPriceCollection() {
+    public static Map<String , List<Price>> getPriceCollection() {
         return priceCollection;
     }
 
@@ -31,10 +30,10 @@ public class CSVPricesReader implements PricesReader {
     }
 
     @Override
-    public Map<Integer, List<Price>> read() {
+    public Map<String, List<Price>> read() {
         String[] line;
-        int priceListNumber = user.getPriceList();
-        String directory=path+"prices-"+ user.getPriceList() +".csv";
+        int priceListNumber = User.getPriceList();
+        String directory=path+"prices-"+ User.getPriceList() +".csv";
 
         try (CSVReader reader = new CSVReader(new java.io.FileReader(directory))) {
             while ((line = reader.readNext()) != null) {
@@ -44,7 +43,7 @@ public class CSVPricesReader implements PricesReader {
                 BigDecimal value = new BigDecimal(line[3]);
                 if (priceCollection.get(priceListNumber) == null) {
                     prices.add(new Price(product, startDate, endDate, value));
-                    priceCollection.put((user.getPriceList()), prices);
+                    priceCollection.put((String.valueOf(User.getPriceList())), prices);
                 } else {
                     priceCollection.get(priceListNumber).add(new Price(product, startDate, endDate, value));
                 }

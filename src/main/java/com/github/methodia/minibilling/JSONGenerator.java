@@ -16,6 +16,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class JSONGenerator {
@@ -29,6 +30,7 @@ public class JSONGenerator {
 
     JSONObject json = new JSONObject();
     JSONObject newLine = new JSONObject();
+    JSONArray lines = new JSONArray();
     String documentNumber = Invoice.getDocumentNumber();
 
     public void generateJSON() throws ParseException, IOException {
@@ -36,7 +38,6 @@ public class JSONGenerator {
         User user = invoice1.getConsumer();
         String folderPath = folder;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
-
         try {
             Field changeMap = json.getClass().getDeclaredField("map");
             changeMap.setAccessible(true);
@@ -54,36 +55,45 @@ public class JSONGenerator {
         json.put("consumer", user.getName());
         json.put("reference", user.getRef());
         json.put("totalAmount", invoice1.getTotalAmount());
-        int index = invoice1.getLines().get(0).getIndex();
-        newLine.put("index", index);
-        BigDecimal quantity = invoice1.getLines().get(0).getQuantity();
-        newLine.put("quantity", quantity);
-        String lineStart = invoice1.getLines().get(0).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-        newLine.put("lineStart", lineStart);
+
         String lineEnd = invoice1.getLines().get(0).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-        newLine.put("lineEnd", lineEnd);
-        String product = invoice.getLines().get(0).getProduct();
-        newLine.put("product", product);
-        BigDecimal price = invoice1.getLines().get(0).getPrice();
-        newLine.put("price", price);
-        int priceList = invoice1.getLines().get(0).getPriceList();
-        newLine.put("priceList", priceList);
-        BigDecimal amount = invoice1.getLines().get(0).getAmount();
-        newLine.put("amount", amount);
-        JSONArray lines = new JSONArray();
-        lines.put(newLine);
-        json.put("lines", lines);
-        Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(lineEnd));
-        String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
-        String[] splitDate = month.split("\\s+");
-        String monthInCyrilic = splitDate[1];
-        int year = Integer.parseInt(splitDate[2]) % 100;
-        String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
-        String fileWriter = documentNumber + "-" + monthInUpperCase + "-" + year;
-        FileWriter file = new FileWriter(folderPath + "//" + fileWriter + ".json");
-        file.write(json.toString(4));
-        file.flush();
-        file.close();
+        List<Price> prices = CSVPricesReader.getPriceCollection().get(String.valueOf(User.getPriceList()));
+        for (int i = 0; i < prices.size(); i++) {
+
+            int index = invoice1.getLines().get(i).getIndex();
+            newLine.put("index", index);
+            BigDecimal quantity = invoice1.getLines().get(i).getQuantity();
+            newLine.put("quantity", quantity);
+            String lineStart = invoice1.getLines().get(i).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+            newLine.put("lineStart", lineStart);
+            newLine.put("lineEnd", lineEnd);
+            String product = invoice.getLines().get(i).getProduct();
+            newLine.put("product", product);
+            BigDecimal price = invoice1.getLines().get(i).getPrice();
+            newLine.put("price", price);
+            int priceList = invoice1.getLines().get(i).getPriceList();
+            newLine.put("priceList", priceList);
+            BigDecimal amount = invoice1.getLines().get(i).getAmount();
+            newLine.put("amount", amount);
+            lines.put(newLine);
+            json.put("lines", lines);
+
+        }
+
+
+
+            Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(lineEnd));
+            String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
+            String[] splitDate = month.split("\\s+");
+            String monthInCyrilic = splitDate[1];
+            int year = Integer.parseInt(splitDate[2]) % 100;
+            String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
+            String fileWriter = documentNumber + "-" + monthInUpperCase + "-" + year;
+            FileWriter file = new FileWriter(folderPath + "//" + fileWriter + ".json");
+            file.write(json.toString(4));
+            file.flush();
+            file.close();
+
 
     }
 }

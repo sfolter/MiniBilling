@@ -34,7 +34,6 @@ public class InvoiceGenerator {
         List<InvoiceLine> invoiceLines = new ArrayList<>();
         BigDecimal totalAmount = new BigDecimal(0);
         int counter = 1;
-
         for (QuantityPricePeriod qpp : distribute) {
             int index = counter;
             BigDecimal quantity = qpp.getQuantity();
@@ -48,6 +47,7 @@ public class InvoiceGenerator {
             if (yearMonthLocalDate.compareTo(end) >= 0) {
                 invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
                 counter++;
+
             }
         }
         LocalDateTime documentDate = LocalDateTime.now();
