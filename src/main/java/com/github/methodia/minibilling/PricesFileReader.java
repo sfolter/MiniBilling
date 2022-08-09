@@ -1,62 +1,62 @@
 package com.github.methodia.minibilling;
 
-import org.joda.time.tz.UTCProvider;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PricesFileReader implements PricesReader {
     String path;
 
-    PricesFileReader(String path) throws IOException {
+    PricesFileReader(String path)  {
         this.path = path;
     }
 
     @Override
     public Map<Integer, List<Price>> read() {
 
-
         Map<Integer, List<Price>> result = new LinkedHashMap<>();
         File directoryPath = new File(path);
-        String line = "";
-        String contents[] = directoryPath.list();
-        for (String fileName : contents) {
-            if (fileName.startsWith("prices-")) {
-                BufferedReader br = null;
-                try (FileReader fileReader = new FileReader(path + "\\" + fileName);) {
+        String line;
+        String[] contents = directoryPath.list();
+            assert contents!=null;
+            for (String fileName : contents) {
+                Pattern p = Pattern.compile("prices-(\\d+)\\.csv");
+                Matcher m = p.matcher(fileName);
 
-                    br = new BufferedReader(fileReader);
-                    int numberPricingList = getNumberPricingListFromFile(fileName);
+                if (m.find()) {
+                    BufferedReader br;
+                    int numberPricingList = Integer.parseInt(m.group(1));
+                    try (FileReader fileReader = new FileReader(path + "\\" + fileName)) {
+                        br = new BufferedReader(fileReader);
+                        while ((line = br.readLine()) != null) {
+                            String[] pricesData = line.split(",");
+                            String product = pricesData[0];
+                            String stringBeginningDate = pricesData[1];
+                            String stringEndDate = pricesData[2];
 
-                    while ((line= br.readLine()) != null) {
-                        String[] pricesData = line.split(",");
-                        String product = pricesData[0];
-                        String stringBeginningDate = pricesData[1];
-                        String stringEndDate = pricesData[2];
-
-                        LocalDate start = convertStringIntoLocalDate(stringBeginningDate);
-                        LocalDate end = convertStringIntoLocalDate(stringEndDate);
-                        Double price = Double.parseDouble(pricesData[3]);
-                        List<Price> list = new ArrayList<>();
-                        if (result.get(numberPricingList) == null) {
-                            list.add(new Price(product, start, end, BigDecimal.valueOf(price)));
-                            result.put(numberPricingList, list);
-                        } else {
-                            result.get(numberPricingList).add(new Price(product, start, end, BigDecimal.valueOf(price)));
+                            LocalDate start = convertStringIntoLocalDate(stringBeginningDate);
+                            LocalDate end = convertStringIntoLocalDate(stringEndDate);
+                            BigDecimal price = BigDecimal.valueOf(Long.parseLong(pricesData[3]));
+                            //FIXME !!!!!!!!!!!!!!!!!!!!!!!!!!
+                            List<Price> list = new ArrayList<>();
+                            if (result.get(numberPricingList) == null) {
+                                list.add(new Price(product, start, end, price));
+                                result.put(numberPricingList, list);
+                            } else {
+                                result.get(numberPricingList).add(new Price(product, start, end, price));
+                            }
                         }
-
-
-
-
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
                 }
             }
-        }
+
 
         return result;
     }
@@ -64,16 +64,11 @@ public class PricesFileReader implements PricesReader {
     /**Parsing String into LocalDate in format yyyy-MM-dd*/
     private LocalDate convertStringIntoLocalDate(String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate stringToLD = LocalDate.parse(date, formatter);
-        return stringToLD;
+
+        return LocalDate.parse(date, formatter);
+
     }
-    /**Splitting the file name to get the number of pricing list*/
-    private int getNumberPricingListFromFile(String fileName) {
-        String[] arr = fileName.split("prices.");
-        String[] arr2 = arr[1].split(".csv");
-        int numberPricingList = Integer.parseInt(arr2[0]);
-        return numberPricingList;
-    }
+
 
 }
 

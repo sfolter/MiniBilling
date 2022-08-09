@@ -1,29 +1,33 @@
 package com.github.methodia.minibilling;
 
-import com.github.methodia.minibilling.InvoiceLine;
+
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 public class Invoice {
 
     private static long idContour= 10000;
 
-    private String documentNumber;
-    private String consumer;
-    private String reference;
-    private BigDecimal totalAmount;
+    private final String documentNumber;
+    private final String consumer;
+    private final String reference;
+    private final BigDecimal totalAmount;
+    private final BigDecimal totalAmountWithVat;
     private List<InvoiceLine> lines;
+    private List<Vat> vat;
 
 
-    public Invoice( String documentNumber, String consumer, String reference, BigDecimal totalAmount, List<InvoiceLine> lines) {
+    public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount, BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.reference=reference;
         this.totalAmount = totalAmount;
+        this.totalAmountWithVat=totalAmountWithVat;
         this.lines = lines;
+        this.vat=null;
     }
 
     public String getDocNumber() {

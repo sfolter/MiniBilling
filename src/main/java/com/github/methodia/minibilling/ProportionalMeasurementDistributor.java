@@ -5,11 +5,9 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,8 +17,8 @@ import java.util.List;
  */
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
 
-    private Collection<Measurement> measurements;
-    private Collection<Price> prices;
+    final private Collection<Measurement> measurements;
+   final private Collection<Price> prices;
 
     public ProportionalMeasurementDistributor(Collection<Measurement> measurements, Collection<Price> prices) {
         this.measurements = measurements;
@@ -66,7 +64,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
 
                 final LocalDateTime qppStart = lastDateTime;
 
-
+                String qppProduct=price.getProduct();
 
                 final BigDecimal qppPrice = price.getValue();
                 final long measurementDays = measurement.getStart().until(measurement.getEnd(), ChronoUnit.DAYS);
@@ -74,7 +72,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 if (priceEnd.compareTo(measurementEnd) >= 0) {
                     final LocalDateTime qppEnd = measurement.getEnd();
                     final BigDecimal qppQuantity = measurement.getValue().subtract(currentQuantitySum);
-                    final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(qppStart, qppEnd, qppPrice,
+                    final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(qppStart, qppEnd, qppPrice,qppProduct,
                             qppQuantity);
                     quantityPricePeriods.add(quantityPricePeriod);
                 } else {
@@ -85,7 +83,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                     final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays),3, RoundingMode.HALF_UP)
                             .multiply(measurement.getValue());
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(lastDateTime, qppEnd,
-                            qppPrice, qppQuantity);
+                            qppPrice,qppProduct, qppQuantity);
                     quantityPricePeriods.add(quantityPricePeriod);
                     lastDateTime = qppEnd.plusSeconds(1);
                     currentQuantitySum = currentQuantitySum.add(qppQuantity);

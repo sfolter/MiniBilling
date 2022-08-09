@@ -1,7 +1,7 @@
 package com.github.methodia.minibilling;
 
 import java.util.List;
-import java.util.Objects;
+
 
 /**
  * @author Miroslav Kovachev
@@ -9,10 +9,10 @@ import java.util.Objects;
  * Methodia Inc.
  */
 public class User {
-    private String name;
-    private String ref;
-    private int numberPricingList;
-    private List<Price> price;
+    private final String name;
+    private final String ref;
+    private final int numberPricingList;
+    private final List<Price> price;
 
 
     public User(String name, String ref, int numberPricingList, List<Price> price) {

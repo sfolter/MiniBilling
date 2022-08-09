@@ -19,7 +19,7 @@ public class UserFileReader  implements UsersReader {
     public List<User> read() throws IOException {
         PricesFileReader pricesFileReader=new PricesFileReader(usersReadingPath);
         pricesFileReader.read();
-        String line = "";
+        String line;
         List<User> usersList=new LinkedList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(usersReadingPath+"\\users.csv"));

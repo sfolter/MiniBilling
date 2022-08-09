@@ -10,15 +10,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Miroslav Kovachev
@@ -27,39 +27,39 @@ import java.util.stream.Collectors;
  */
 public class Main {
 
-    public static void main(String[] args) throws IOException, NoSuchFieldException, IllegalAccessException {
-            String dateReportingTo = args[0];
-            LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
-            String inputPath = args[1];
-            String outputPath = args[2];
-            ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
+    public static void main(String[] args) throws IOException {
+        String dateReportingTo = args[0];
+        LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
+        String inputPath = args[1];
+        String outputPath = args[2];
+        ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
 
-            Collection<Reading> readingCollection = readingsFR.read().stream()
-                    .sorted(Comparator.comparing(Reading::getTime))
-                    .toList();
+        Collection<Reading> allReadings = readingsFR.read().stream()
+                .sorted(Comparator.comparing(Reading::getTime))
+                .toList();
 
-            // Looping through users and sort them by their referent number*/
-            UserFileReader userFR = new UserFileReader(inputPath);
-            List<User>listOfUsers=userFR.read().stream().sorted(Comparator.comparing(User::getRef)).toList();
+        // Looping through users and sort them by their referent number*/
+        UserFileReader userFR = new UserFileReader(inputPath);
+        List<User> users = userFR.read().stream().sorted(Comparator.comparing(User::getRef)).toList();
 //            Looping through every user and check their Measurements, and based on them and price, the algorithm below
 //            creates invoices and based on price periods, create individual lines if there is a change of prices.
-            for (User user:listOfUsers) {
-                Collection<Reading> filteredReadings = readingCollection.stream()
-                        .filter(reading -> reading.getUser().getRef()
-                        .equals(user.getRef())).toList();
+        for (User user : users) {
+            Collection<Reading> userReadings = allReadings.stream()
+                    .filter(reading -> reading.getUser().getRef()
+                            .equals(user.getRef())).toList();
 
-                MeasurementGenerator mmGenerator = new MeasurementGenerator(user, filteredReadings);
-                Collection<Measurement> mmCollector = mmGenerator.generate();
+            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, userReadings);
+            Collection<Measurement> userMeasurements = measurementGenerator.generate();
 
-                InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, mmCollector, user.getPrice());
-                Invoice invoice = invoiceGenerator.generate(dateReportingToLDT);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, userMeasurements);
+            Invoice invoice = invoiceGenerator.generate(dateReportingToLDT);
 
-                try {
-                    savingFiles(outputPath, dateReportingToLDT, invoice, user, invoiceGenerator);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+            try {
+                saveToFile(invoice,outputPath,user);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
+        }
     }
 
     private static final class LocalDateAdapter extends TypeAdapter<LocalDateTime> {
@@ -77,7 +77,7 @@ public class Main {
         }
     }
 
-    private static void savingFiles(String outputPath, LocalDateTime dateReportToLDT, Invoice invoice, User user, InvoiceGenerator invoiceGenerator) throws ParseException, IOException {
+    private static void saveToFile(Invoice invoice, String outputPath,  User user) throws ParseException, IOException {
 
         //Parsing Invoice class into Json format using GSON library
         Gson gson = new GsonBuilder().setPrettyPrinting()
@@ -101,32 +101,35 @@ public class Main {
         creatingJsonFIle(json, jsonFilePath);
     }
 
-    /**Checking if JsonFile by the exists with the format documentNumber-Month(translated to bulgarian language),
-            and the last two numbers of the year on Last reporting date, in case not,
-            the following algorithm will create the JsonFiles in the format below.
-     *@returns void */
+    /**
+     * Checking if JsonFile by the exists with the format documentNumber-Month(translated to bulgarian language),
+     * and the last two numbers of the year on Last reporting date, in case not,
+     * the following algorithm will create the JsonFiles in the format below.
+     */
     private static void creatingJsonFIle(String json, String jsonFilePath) throws IOException {
         File creatingFiles = new File(jsonFilePath);
         creatingFiles.createNewFile();
         try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
             out.write(json);
         } catch (DateTimeParseException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //FIXME
         }
     }
 
-    /** Checking if folders by the following format - username-referent number, in case the folders doesn't exist
-         the following algorithm will create the folders in the format below.
-     @returns void*/
+    /**
+     * Checking if folders by the following format - username-referent number, in case the folders doesn't exist
+     * the following algorithm will create the folders in the format below.
+     */
     private static void createFolder(String folderPath) {
         File creatingFolders = new File(folderPath);
         boolean bool2 = creatingFolders.mkdirs();
     }
 
-      /** Converting the border time we would like to report as it is in format "yy-MM,
-       * into LocalDateTime as the zone is
-     *GMT
-       @returns LocalDateTime */
+    /**
+     * Converting the border time we would like to report as it is in format "yy-MM,
+     * into LocalDateTime as the zone is
+     * GMT
+     */
     private static LocalDateTime convertingBorderTimeIntoLDT(String borderDateString) {
         final YearMonth yearMonth = YearMonth.parse(borderDateString, DateTimeFormatter.ofPattern("yy-MM"));
         DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
@@ -135,8 +138,9 @@ public class Main {
     }
 
 
-    /** Converting the Month of last Invoice to Bulgarian language String
-     * @returns String*/
+    /**
+     * Converting the Month of last Invoice to Bulgarian language String
+     */
     private static String getMonthOfLastInvoiceToBulgarian(LocalDate lastInvoiceDate) {
         String lastInvoiceDateInBG = lastInvoiceDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("Bg"));
         return lastInvoiceDateInBG.substring(0, 1).toUpperCase() + lastInvoiceDateInBG.substring(1);

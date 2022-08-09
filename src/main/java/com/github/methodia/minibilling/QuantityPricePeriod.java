@@ -12,12 +12,15 @@ public class QuantityPricePeriod {
     private final LocalDateTime start;
     private final LocalDateTime end;
     private final BigDecimal price;
+
+    private final String product;
     private final BigDecimal quantity;
 
-    public QuantityPricePeriod(LocalDateTime start, LocalDateTime end, BigDecimal price, BigDecimal quantity) {
+    public QuantityPricePeriod(LocalDateTime start, LocalDateTime end,BigDecimal price,String product, BigDecimal quantity) {
         this.start = start;
         this.end = end;
         this.price = price;
+        this.product=product;
         this.quantity = quantity;
     }
 
@@ -27,6 +30,10 @@ public class QuantityPricePeriod {
 
     public BigDecimal getPrice() {
         return price;
+    }
+
+    public String getProduct() {
+        return product;
     }
 
     public BigDecimal getQuantity() {
