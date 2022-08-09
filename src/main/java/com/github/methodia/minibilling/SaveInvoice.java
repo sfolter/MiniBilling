@@ -16,18 +16,16 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
 import java.util.Locale;
 
 public class SaveInvoice {
-    public static void savingFiles(String outputPath, String dateToReporting, Invoice invoice, User user) throws ParseException, IOException {
+    public static void saveToFile(Invoice invoice, User user, String outputPath, String dateToReporting) throws ParseException, IOException {
 
         LocalDate borderTime = Formatter.parseBorder(dateToReporting);
 
-        Gson gson = new GsonBuilder()
+        Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new SaveInvoice.LocalDateAdapter()).create();
         String json = gson.toJson(invoice);
 
@@ -38,7 +36,7 @@ public class SaveInvoice {
         String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
         createFolder(folderPath);
 
-        String jsonFilePath = folderPath + "\\" + invoice.getDocumentNum() + "-" + month1 + "-" + outputOfTheYear + ".json";
+        String jsonFilePath = folderPath + "\\" + invoice.getDocumentNumber() + "-" + month1 + "-" + outputOfTheYear + ".json";
         creatingJsonFIle(json, jsonFilePath);
     }
 
@@ -50,10 +48,10 @@ public class SaveInvoice {
     private static void creatingJsonFIle(String json, String jsonFilePath) {
         File creatingFiles = new File(jsonFilePath);
         try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
-            creatingFiles.createNewFile();
-            out.write(json.toString());
+            boolean newFile = creatingFiles.createNewFile();
+            out.write(json);
         } catch (DateTimeParseException | IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 

@@ -3,10 +3,10 @@ package com.github.methodia.minibilling;
 import java.util.List;
 
 public class User {
-    private String name;
-    private String ref;
-    private int priceListNumber;
-    private List<Price> price;
+    private final String name;
+    private final String ref;
+    private final int priceListNumber;
+    private final List<Price> price;
 
     public User(String name, String ref, int priceListNumber, List<Price> price) {
         this.name = name;
@@ -31,5 +31,13 @@ public class User {
         return price;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", ref='" + ref + '\'' +
+                ", priceListNumber=" + priceListNumber +
+                ", price=" + price +
+                '}';
+    }
 }

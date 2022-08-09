@@ -1,14 +1,13 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class Measurement {
-    private ZonedDateTime start;
-    private ZonedDateTime end;
-    private BigDecimal value;
-    private User user;
+    private final ZonedDateTime start;
+    private final ZonedDateTime end;
+    private final BigDecimal value;
+    private final User user;
 
     public Measurement(ZonedDateTime start, ZonedDateTime end, BigDecimal value, User user) {
         this.start = start;

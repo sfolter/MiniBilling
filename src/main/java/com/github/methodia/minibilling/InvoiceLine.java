@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class InvoiceLine {
-    private int index;
-    private BigDecimal quantity;
-    private LocalDateTime lineStart;
-    private LocalDateTime lineEnd;
-    private String product;
-    private BigDecimal price;
-    private int priceList;
-    private BigDecimal amount;
+    private final int index;
+    private final BigDecimal quantity;
+    private final LocalDateTime lineStart;
+    private final LocalDateTime lineEnd;
+    private final String product;
+    private final BigDecimal price;
+    private final int priceList;
+    private final BigDecimal amount;
 
     public InvoiceLine(int index, BigDecimal quantity, LocalDateTime lineStart, LocalDateTime lineEnd, String product,
                        BigDecimal price, int priceList, BigDecimal amount) {

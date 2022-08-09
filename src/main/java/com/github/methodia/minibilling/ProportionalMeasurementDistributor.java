@@ -2,8 +2,6 @@ package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -11,8 +9,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
-    private Collection<Measurement> measurements;
-    private Collection<Price> prices;
+    private final Collection<Measurement> measurements;
+    private final Collection<Price> prices;
 
     public ProportionalMeasurementDistributor(Collection<Measurement> measurements, Collection<Price> prices) {
         this.measurements = measurements;

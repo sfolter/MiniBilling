@@ -1,14 +1,13 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 public class Price {
-    private String product;
-    private ZonedDateTime start;
-    private ZonedDateTime end;
-    private BigDecimal value;
+    private final String product;
+    private final ZonedDateTime start;
+    private final ZonedDateTime end;
+    private final BigDecimal value;
 
     public Price(String product, ZonedDateTime start, ZonedDateTime end, BigDecimal value) {
         this.product = product;

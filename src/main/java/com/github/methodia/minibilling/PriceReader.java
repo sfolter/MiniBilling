@@ -5,41 +5,32 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.github.methodia.minibilling.Main.ZONE_ID;
 
 public class PriceReader implements PricesReader {
-
     @Override
     public List<Price> read(String directory, int priceListNumber) {
-        String line = "";
-        List<Price> result = new ArrayList<>();
+
         String path = directory + "prices-" + priceListNumber + ".csv";
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
 
+            return br.lines()
+                    .map(l -> l.split(","))
+                    .map(this::createPrice).toList();
 
-                String product = data[0];
-                ZonedDateTime start = Formatter.parsePriceStart(data[1]);
-                ZonedDateTime end =Formatter.parsePriceEnd(data[2]);
-                BigDecimal price = new BigDecimal(data[3]);
-
-                result.add(new Price(product, start, end, price));
-            }
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return result;
+    }
+    private Price createPrice(String[] dataPrice) {
+
+        String product = dataPrice[0];
+        ZonedDateTime start = Formatter.parsePriceStart(dataPrice[1]);
+        ZonedDateTime end = Formatter.parsePriceEnd(dataPrice[2]);
+        BigDecimal price = new BigDecimal(dataPrice[3]);
+
+        return new Price(product, start, end, price);
     }
 }

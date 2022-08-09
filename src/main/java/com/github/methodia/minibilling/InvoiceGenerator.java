@@ -1,17 +1,16 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class InvoiceGenerator {
-    private User user;
-    private Collection<Measurement> measurements;
-    private Collection<Price> prices;
+    private final User user;
+    private final Collection<Measurement> measurements;
+    private final Collection<Price> prices;
 
     public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices) {
         this.user = user;
@@ -19,14 +18,12 @@ public class InvoiceGenerator {
         this.prices = prices;
     }
 
-    public Invoice generate() {
+    public Invoice generate(long documentNumber,String borderTime) {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         int counter = 1;
-        double total = 0;
         BigDecimal totalBigDecimal = BigDecimal.ZERO;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             int index = counter++;
@@ -38,13 +35,16 @@ public class InvoiceGenerator {
             int priceList = user.getPriceListNumber();
             BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
             totalBigDecimal = totalBigDecimal.add(amount);
-            invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
+            LocalDate borderDate = Formatter.parseBorder(borderTime);
+            if (qpp.getEnd().toLocalDate().isBefore(borderDate)) {
+                invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
+            }
         }
         LocalDateTime documentDate = LocalDateTime.now();
-        String documentNumber = Invoice.getDocumentNumber();
+        String docNumber=String.valueOf(documentNumber);
         String consumer = user.getName();
         String reference = user.getRef();
-        return new Invoice(documentDate, documentNumber, consumer, reference, totalBigDecimal, invoiceLines);
+        return new Invoice(documentDate, docNumber, consumer, reference, totalBigDecimal, invoiceLines);
     }
 
 }

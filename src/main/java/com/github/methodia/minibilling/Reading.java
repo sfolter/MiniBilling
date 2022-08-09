@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class Reading {
-    private ZonedDateTime time;
-    private BigDecimal value;
-    private User user;
+    private final ZonedDateTime time;
+    private final BigDecimal value;
+    private final User user;
 
     public Reading(ZonedDateTime time, BigDecimal value, User user) {
         this.time = time;

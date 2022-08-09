@@ -6,14 +6,12 @@ import java.util.List;
 
 public class Invoice {
 
-    private static long idContour = 10000;
-    private LocalDateTime documentDate;
-    private String documentNumber;
-    private String consumer;
-
-    private String reference;
-    private BigDecimal totalAmount;
-    private List<InvoiceLine> lines;
+    private final LocalDateTime documentDate;
+    private final String documentNumber;
+    private final String consumer;
+    private final String reference;
+    private final BigDecimal totalAmount;
+    private final List<InvoiceLine> lines;
 
 
     public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, String reference, BigDecimal totalAmount, List<InvoiceLine> lines) {
@@ -29,11 +27,7 @@ public class Invoice {
         return documentDate;
     }
 
-    public static synchronized String getDocumentNumber() {
-        return String.valueOf(idContour++);
-    }
-
-    public String getDocumentNum() {
+    public String getDocumentNumber() {
         return documentNumber;
     }
 

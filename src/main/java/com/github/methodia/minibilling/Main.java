@@ -1,50 +1,34 @@
 package com.github.methodia.minibilling;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Main {
     public static final String ZONE_ID = "GMT";
 
     public static void main(String[] args) {
-
         String resourceDirectory = args[1];
         String outputDirectory = args[2];
         String dateToReporting = args[0];
+        AtomicLong documentNumberId = new AtomicLong(10000);
 
         final UserReader userReader = new UserReader();
         final ReadingReader readingReader = new ReadingReader();
-        List<User> userList = userReader.readToList(resourceDirectory);
-        List<Reading> readingCollection = readingReader.read(resourceDirectory,dateToReporting);
+        Map<String, User> users = userReader.read(resourceDirectory);
+        List<Reading> readingCollection = readingReader.read(resourceDirectory);
 
-        for (User user : userList) {
-
+        for (int i = 1; i <= users.size(); i++) {
+            User user = users.get(String.valueOf(i));
             List<Price> priceList = user.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingCollection);
             Collection<Measurement> measurementCollection = measurementGenerator.generate();
             InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurementCollection, priceList);
-            Invoice invoice = invoiceGenerator.generate();
+            Invoice invoice = invoiceGenerator.generate(documentNumberId.getAndIncrement(),dateToReporting);
 
             try {
-                SaveInvoice.savingFiles(outputDirectory, dateToReporting, invoice, user);
+                SaveInvoice.saveToFile(invoice, user, outputDirectory, dateToReporting);
             } catch (IOException | ParseException e) {
                 throw new RuntimeException(e);
             }
