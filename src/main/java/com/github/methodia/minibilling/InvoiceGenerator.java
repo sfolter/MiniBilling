@@ -43,7 +43,7 @@ public class InvoiceGenerator {
             LocalDateTime end = qpp.getEnd();
             String product = qpp.getPrice().getProduct();
             BigDecimal price = qpp.getPrice().getValue();
-            int priceList = user.getPriceList();
+            int priceList = user.getPriceListNumber();
             BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
             totalAmount = totalAmount.add(amount);
             if (yearMonthLocalDate.compareTo(end) >= 0) {

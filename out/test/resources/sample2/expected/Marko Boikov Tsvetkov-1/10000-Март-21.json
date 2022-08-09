@@ -7,7 +7,7 @@
     {
       "index": 1,
       "quantity": 67.51,
-      "lineStart": "2021-01-01Т09:00:00Z",
+      "lineStart": "2021-01-01T09:00:00Z",
       "lineEnd": "2021-02-28T20:59:59Z",
       "product": "gas",
       "price": 0.7,

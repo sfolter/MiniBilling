@@ -15,6 +15,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class JSONGenerator {
@@ -27,53 +28,64 @@ public class JSONGenerator {
     }
 
     JSONObject json = new JSONObject();
-    JSONObject newLine = new JSONObject();
+
+    JSONArray lines = new JSONArray();
     String documentNumber = Invoice.getDocumentNumber();
 
     public void generateJSON() throws ParseException, IOException {
         Invoice invoice1 = invoice;
         User user = invoice1.getConsumer();
         String folderPath = folder;
-
-        try {
-
-            Field changeMap = json.getClass().getDeclaredField("map");
-            changeMap.setAccessible(true);
-            changeMap.set(json, new LinkedHashMap<>());
-            changeMap.setAccessible(false);
-            Field changeMapForArray = newLine.getClass().getDeclaredField("map");
-            changeMapForArray.setAccessible(true);
-            changeMapForArray.set(newLine, new LinkedHashMap<>());
-            changeMapForArray.setAccessible(false);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            System.out.println((e.getMessage()));
-        }
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
-        json.put("documentDate", invoice1.getDocumentDate());
-        json.put("documentNumber", documentNumber);
-        json.put("consumer", user.getName());
-        json.put("reference", user.getRef());
-        json.put("totalAmount", invoice1.getTotalAmount());
-        int index = invoice1.getLines().get(0).getIndex();
-        newLine.put("index", index);
-        BigDecimal quantity = invoice1.getLines().get(0).getQuantity();
-        newLine.put("quantity", quantity);
-        String lineStart = invoice1.getLines().get(0).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-        newLine.put("lineStart", lineStart);
-        String lineEnd = invoice1.getLines().get(0).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-        newLine.put("lineEnd", lineEnd);
-        String product = invoice.getLines().get(0).getProduct();
-        newLine.put("product", product);
-        BigDecimal price = invoice1.getLines().get(0).getPrice();
-        newLine.put("price", price);
-        int priceList = invoice1.getLines().get(0).getPriceList();
-        newLine.put("priceList", priceList);
-        BigDecimal amount = invoice1.getLines().get(0).getAmount();
-        newLine.put("amount", amount);
-        JSONArray lines = new JSONArray();
-        lines.put(newLine);
+        LocalDateTime end = invoice1.getLines().get(invoice1.getLines().size() - 1).getEnd();
+        List<Price> prices = CSVPricesReader.getResult().get(String.valueOf(user.getPriceListNumber()));
+        for (int i = 0; i < CSVPricesReader.getCountPrice(); i++) {
+            JSONObject newLine = new JSONObject();
+            try {
+                Field changeMap = json.getClass().getDeclaredField("map");
+                changeMap.setAccessible(true);
+                changeMap.set(json, new LinkedHashMap<>());
+                changeMap.setAccessible(false);
+                Field changeMapForArray = newLine.getClass().getDeclaredField("map");
+                changeMapForArray.setAccessible(true);
+                changeMapForArray.set(newLine, new LinkedHashMap<>());
+                changeMapForArray.setAccessible(false);
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                System.out.println((e.getMessage()));
+            }
+            json.put("documentDate", invoice1.getDocumentDate());
+            json.put("documentNumber", documentNumber);
+            json.put("consumer", user.getName());
+            json.put("reference", user.getRef());
+            json.put("totalAmount", invoice1.getTotalAmount());
+
+
+            int index = invoice1.getLines().get(i).getIndex();
+            newLine.put("index", index);
+            BigDecimal quantity = invoice1.getLines().get(i).getQuantity();
+            newLine.put("quantity", quantity);
+            String lineStart = invoice1.getLines().get(i).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+            newLine.put("lineStart", lineStart);
+
+            String lineEnd = invoice1.getLines().get(i).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+            newLine.put("lineEnd", lineEnd);
+            String product = invoice.getLines().get(i).getProduct();
+            newLine.put("product", product);
+            BigDecimal price = invoice1.getLines().get(i).getPrice();
+            newLine.put("price", price);
+            int priceList = invoice1.getLines().get(i).getPriceList();
+            newLine.put("priceList", priceList);
+            BigDecimal amount = invoice1.getLines().get(i).getAmount();
+            newLine.put("amount", amount);
+
+            lines.put(newLine);
+
+
+        }
         json.put("lines", lines);
-        Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(lineEnd));
+
+
+        Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(end));
         String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
         String[] splitDate = month.split("\\s+");
         String monthInCyrilic = splitDate[1];

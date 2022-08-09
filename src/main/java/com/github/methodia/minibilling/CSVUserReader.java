@@ -10,12 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CSVUserReader implements UsersReader {
-    final String path;
-
-    public CSVUserReader(String path) {
-        this.path = path;
-    }
-
     static Map<String, User> userMap = new LinkedHashMap<>();
     static List<User> userList = new ArrayList<>();
 
@@ -29,13 +23,16 @@ public class CSVUserReader implements UsersReader {
 
 
     @Override
-    public List<User> read() {
-        List<Price> priceList = CSVPricesReader.getPrices();
+    public List<User> read(String path) {
+
         String[] line;
         int counter = 0;
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\users.csv"))) {
             while ((line = reader.readNext()) != null) {
-                userList.add(new User(line[0], line[1], Integer.parseInt(line[2]), priceList));
+                CSVPricesReader price = new CSVPricesReader();
+                List<Price> priceList = price.read(Integer.parseInt(line[2]), path);
+
+                userList.add(new User(line[0], line[1],priceList, Integer.parseInt(line[2])));
                 userMap.put(line[1], userList.get(counter));
                 counter++;
 

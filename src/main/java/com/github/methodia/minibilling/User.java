@@ -2,26 +2,17 @@ package com.github.methodia.minibilling;
 
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
-public class User{
+public class User {
     private String name;
     private String ref;
+    private static int priceListNumber;
     private List<Price> price;
-    private int priceList;
 
-
-    public User(String name, String ref, int priceList, List<Price> price) {
+    public User(String name, String ref, List<Price> price,int priceListNumber) {
         this.name = name;
         this.ref = ref;
         this.price = price;
-        this.priceList = priceList;
-    }
-
-    public User(String test_testovv, String ref, List<Object> emptyList) {
+        this.priceListNumber = priceListNumber;
     }
 
     public String getName() {
@@ -32,11 +23,11 @@ public class User{
         return ref;
     }
 
-    public List<Price> getPrice() {
+    public static int  getPriceListNumber() {
+        return priceListNumber;
+    }
+    public  List<Price> getPrice() {
         return price;
     }
 
-    public int getPriceList() {
-        return priceList;
-    }
 }

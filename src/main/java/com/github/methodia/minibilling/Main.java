@@ -17,29 +17,31 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
-
-        Scanner scanner = new Scanner(System.in);
-        String inPath = scanner.nextLine();
-        String yearMonth = "21-03";
-        //String resourceDirectory = args[1];
-        //String outputDirectory = args[2];
-        //String yearMonth = args[0];
+        //String inPath = args[1];
+        String inPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
+        String outputDirectory = args[2];
+        String yearMonth = args[0];
 
 
+        CSVUserReader user = new CSVUserReader();
+        List<User> users = user.read(inPath);
 
-        CSVPricesReader price = new CSVPricesReader(inPath);
-        price.read();
-        CSVUserReader user = new CSVUserReader(inPath);
-        List<User> users = user.read();
+        Map<String, User> userMap = CSVUserReader.getUserMap();
         CSVReadingsReader readings = new CSVReadingsReader(inPath);
         Collection<Reading> readingCollection = readings.read();
-        for (int i = 0; i < users.size(); i++) {
-            MeasurementGenerator measurementGenerator = new MeasurementGenerator(users.get(i), readingCollection);
+
+
+
+        for (int i = 1; i <= users.size(); i++) {
+
+            User user1 = userMap.get(String.valueOf(i));
+            List<Price> price1 = user1.getPrice();
+            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user1, readingCollection);
             Collection<Measurement> measurements = measurementGenerator.generate();
-            List<Price> prices = CSVPricesReader.getPrices();
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(users.get(i), measurements, prices, yearMonth);
+            List<Price> prices = CSVPricesReader.getPriceList();
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user1, measurements, price1, yearMonth);
             Invoice invoice = invoiceGenerator.generate();
-            FolderGenerator folderGenerator = new FolderGenerator(users.get(i));
+            FolderGenerator folderGenerator = new FolderGenerator(user1, outputDirectory);
             String folderPath = folderGenerator.folderGenerate();
             JSONGenerator jsonGenerator = new JSONGenerator(invoice, folderPath);
             jsonGenerator.generateJSON();
@@ -47,4 +49,7 @@ public class Main {
         }
     }
 }
+
+
+
 

@@ -9,5 +9,6 @@ import java.util.List;
  * Methodia Inc.
  */
 public interface UsersReader {
-    List<User> read();
+
+    List<User> read(String path);
 }
