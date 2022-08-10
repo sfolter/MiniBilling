@@ -38,7 +38,7 @@ public class CSVUserReader implements UsersReader {
                 CSVPricesReader price = new CSVPricesReader(path, Integer.parseInt(line[2]));
                 List<Price> priceList = price.read();
                 userList.add(new User(line[0], line[1], Integer.parseInt(line[2]), priceList));
-                userMap.put(line[1], userList.get(counter));
+//                userMap.put(line[1], userList.get(counter));
                 counter++;
 
             }

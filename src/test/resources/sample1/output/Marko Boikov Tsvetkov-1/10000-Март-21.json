@@ -1,9 +1,10 @@
 {
-  "documentDate": "2022-08-10T13:58:26.020469",
+  "documentDate": "2022-08-10T15:42:36.547698",
   "documentNumber": "10000",
   "consumer": "Marko Boikov Tsvetkov",
   "reference": "1",
   "totalAmount": 156.6,
+  "totalAmountWithVat": 187.92,
   "lines": [
     {
       "index": 1,
@@ -20,7 +21,7 @@
     {
       "index": 1,
       "lines": [
-        0
+        1
       ],
       "percentage": 20,
       "amount": 31.32

@@ -30,6 +30,7 @@ public class InvoiceGenerator {
         List<VAT> vatLines =new ArrayList<>();
         List<Integer> vatList = new ArrayList<>();
         BigDecimal totalAmount = BigDecimal.ZERO;
+        BigDecimal totalAmountWithVat = BigDecimal.ZERO;
         int counter = 1;
         for (QuantityPricePeriod qpp : distribute) {
             LocalDateTime end = qpp.getEnd();
@@ -43,10 +44,11 @@ public class InvoiceGenerator {
             BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
             totalAmount = totalAmount.add(amount);
             int indexInVat = counter;
-            vatList.add(invoiceLines.size());
+            vatList.add(invoiceLines.size()+1);
             int percentage = 20;
             BigDecimal amountInVat = amount.multiply(new BigDecimal(20).divide(new BigDecimal(100)));
-            BigDecimal totalAmountWithWat;
+            BigDecimal amountForLineAndVat = amountInVat.add(amount);
+            totalAmountWithVat = totalAmountWithVat.add(amountForLineAndVat);
 
                 invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
                 vatLines.add(new VAT(indexInVat, vatList, percentage, amountInVat));
@@ -55,8 +57,7 @@ public class InvoiceGenerator {
         }
         LocalDateTime documentDate = LocalDateTime.now();
         String documentNumber = Invoice.getDocumentNumber();
-        User consumer = user;
 
-        return new Invoice(documentDate, documentNumber, consumer, totalAmount, invoiceLines,vatLines);
+        return new Invoice(documentDate, documentNumber, user, totalAmount, totalAmountWithVat, invoiceLines,vatLines);
     }
 }

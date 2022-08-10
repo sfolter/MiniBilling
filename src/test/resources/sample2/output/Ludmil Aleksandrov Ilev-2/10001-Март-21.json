@@ -1,9 +1,10 @@
 {
-    "documentDate": "2022-08-10T11:10:11.710700500",
+    "documentDate": "2022-08-10T15:56:29.488431200",
     "documentNumber": "10001",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
     "totalAmount": 243.2,
+    "totalAmountWithVat": 291.84,
     "lines": [
         {
             "index": 1,
@@ -24,6 +25,26 @@
             "price": 4.4,
             "priceList": 2,
             "amount": 200.64
+        }
+    ],
+    "vat": [
+        {
+            "index": 1,
+            "lines": [
+                1,
+                2
+            ],
+            "percentage": 20,
+            "amount": 8.512
+        },
+        {
+            "index": 2,
+            "lines": [
+                1,
+                2
+            ],
+            "percentage": 20,
+            "amount": 40.128
         }
     ]
 }
