@@ -41,7 +41,7 @@ public class JSONGenerator {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
 
         LocalDateTime end = invoice.getLines().get(invoice.getLines().size() - 1).getEnd();
-        List<Price> prices = CSVPricesReader.getPriceCollection().get(String.valueOf(user.getPriceListNumber()));
+        List<Price> prices = user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
             JSONObject newLine = new JSONObject();
             JSONObject newVatLine = new JSONObject();

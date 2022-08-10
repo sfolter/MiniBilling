@@ -10,10 +10,8 @@ public class Invoice {
     private String documentNumber;
     private User consumer;
     private BigDecimal totalAmount;
-
     private BigDecimal totalAmountWithVat;
     private List<InvoiceLine> lines;
-
     private List<VAT> vatsLines;
     private static long counter = 9999;
 

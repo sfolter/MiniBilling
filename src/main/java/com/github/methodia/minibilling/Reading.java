@@ -17,7 +17,6 @@ public class Reading {
         this.product = product;
     }
 
-
     public ZonedDateTime getTime() {
         return time;
     }

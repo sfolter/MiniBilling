@@ -27,7 +27,6 @@ public class User {
     public List<Price> getPrice() {
         return price;
     }
-
     public int getPriceListNumber() {
         return priceListNumber;
     }

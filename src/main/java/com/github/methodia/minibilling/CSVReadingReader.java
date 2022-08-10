@@ -16,17 +16,11 @@ public class CSVReadingReader implements ReadingsReader {
         this.path = path;
     }
 
-    static List<Reading> readingsList = new ArrayList<Reading>();
-
-    public static List<Reading> getReadingsList() {
-        return readingsList;
-    }
-
     @Override
     public Collection<Reading> read() {
 
         String[] line;
-
+        List<Reading> readingsList = new ArrayList<Reading>();
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\readings.csv"))) {
 
             while ((line = reader.readNext()) != null) {
@@ -35,7 +29,6 @@ public class CSVReadingReader implements ReadingsReader {
                 ZonedDateTime parsedZonedDateTime = ZonedDateTime.parse(time, DateTimeFormatter.ISO_ZONED_DATE_TIME)
                         .withZoneSameInstant(ZoneId.of("GMT"));
                 readingsList.add(new Reading(parsedZonedDateTime, new BigDecimal(line[3]), userMap.get(line[0]), line[1]));
-
             }
 
         } catch (CsvValidationException | IOException e) {

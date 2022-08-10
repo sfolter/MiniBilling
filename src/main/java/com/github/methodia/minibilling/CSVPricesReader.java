@@ -19,21 +19,10 @@ public class CSVPricesReader implements PricesReader {
         this.priceListNumber = priceListNumber;
     }
 
-    static Map<String, List<Price>> priceCollection = new HashMap<>();
-
-    public static Map<String, List<Price>> getPriceCollection() {
-        return priceCollection;
-    }
-
-    List<Price> prices = new LinkedList<>();
-
-    public List<Price> getPrices() {
-        return prices;
-    }
-
     @Override
     public List<Price> read() {
         String[] line;
+        List<Price> prices = new LinkedList<>();
         String directory = path + "prices-" + priceListNumber + ".csv";
 
         try (CSVReader reader = new CSVReader(new java.io.FileReader(directory))) {
@@ -43,7 +32,6 @@ public class CSVPricesReader implements PricesReader {
                 LocalDate endDate = LocalDate.parse(line[2]);
                 BigDecimal value = new BigDecimal(line[3]);
                 prices.add(new Price(product, startDate, endDate, value));
-                priceCollection.put((String.valueOf(priceListNumber)), prices);
             }
 
         } catch (CsvValidationException | IOException e) {
