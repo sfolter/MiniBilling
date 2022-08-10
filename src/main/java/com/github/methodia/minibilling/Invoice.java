@@ -38,7 +38,9 @@ public class Invoice {
         return totalAmount;
     }
 
-    public List<InvoiceLine> getLines() {
+    public List<InvoiceLine>
+
+    getLines() {
         return lines;
     }
 }

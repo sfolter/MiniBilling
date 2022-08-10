@@ -1,0 +1,29 @@
+{
+    "documentDate": "2022-08-10T11:09:25.081105",
+    "documentNumber": "10001",
+    "consumer": "Ludmil Aleksandrov Ilev",
+    "reference": "2",
+    "totalAmount": 243.2,
+    "lines": [
+        {
+            "index": 1,
+            "quantity": 106.4,
+            "lineStart": "2021-01-01T08:00:00Z",
+            "lineEnd": "2021-02-28T23:59:59Z",
+            "product": "gas",
+            "price": 0.4,
+            "priceList": 2,
+            "amount": 42.56
+        },
+        {
+            "index": 2,
+            "quantity": 45.6,
+            "lineStart": "2021-03-01T00:00:00Z",
+            "lineEnd": "2021-03-25T13:40:00Z",
+            "product": "gas",
+            "price": 4.4,
+            "priceList": 2,
+            "amount": 200.64
+        }
+    ]
+}

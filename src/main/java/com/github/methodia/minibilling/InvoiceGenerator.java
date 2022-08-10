@@ -33,16 +33,18 @@ public class InvoiceGenerator {
         BigDecimal totalAmount = new BigDecimal(0);
         int counter = 1;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
+            LocalDateTime end = qpp.getEnd();
+            if (yearMonthLocalDate.compareTo(end)>=0) {
             int index = counter++;
             BigDecimal quantity = qpp.getQuantity();
             LocalDateTime start = qpp.getStart();
-            LocalDateTime end = qpp.getEnd();
+
             String product = qpp.getPrice().getProduct();
             BigDecimal price = qpp.getPrice().getValue();
             int priceList = user.getPriceListNumber();
             BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
             totalAmount=totalAmount.add(amount);
-            if (yearMonthLocalDate.compareTo(end)>=0) {
+
                 invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
             }
         }
