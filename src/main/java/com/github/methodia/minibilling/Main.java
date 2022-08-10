@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
+    public static void main(String[] args) throws ParseException, IOException {
 
         String yearMonthStr = args[0];
         String resourceDir = args[1];
@@ -29,14 +29,14 @@ public class Main {
             User user = userMap.get(String.valueOf(i));
             List<Price> priceList = user.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
-            Collection<Measurement> measurmentGenerated = measurementGenerator.generate();
+            Collection<Measurement> measurementGenerated = measurementGenerator.generate();
 
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurmentGenerated, priceList, yearMonthStr);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurementGenerated, priceList, yearMonthStr);
             Invoice invoice = invoiceGenerator.generate();
             FolderGenerator folderGenerator = new FolderGenerator();
             String folder = folderGenerator.generate(user, outputDir);
             JsonGenerator jsonGenerator = new JsonGenerator(invoice, folder);
-            jsonGenerator.generate();
+            jsonGenerator.generateJSON();
 
         }
     }

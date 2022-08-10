@@ -6,21 +6,27 @@ import java.util.List;
 
 public class Invoice {
 
-    private static long idContour = 9999;
     private LocalDateTime documentDate;
     private String documentNumber;
     private User consumer;
     private BigDecimal totalAmount;
+
+    private BigDecimal totalAmountWithVat;
     private List<InvoiceLine> lines;
 
+    private List<VatLine> vatsLines;
+    private static long counter = 9999;
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
+    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, BigDecimal totalAmountWithVat,
+                   List<InvoiceLine> lines, List<VatLine> vatsLines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.totalAmount = totalAmount;
+        this.totalAmountWithVat = totalAmountWithVat;
         this.lines = lines;
-        idContour++;
+        this.vatsLines = vatsLines;
+        counter++;
     }
 
     public LocalDateTime getDocumentDate() {
@@ -28,7 +34,7 @@ public class Invoice {
     }
 
     public static synchronized String getDocumentNumber() {
-        return String.valueOf(idContour);
+        return String.valueOf(counter);
     }
 
     public User getConsumer() {
@@ -39,9 +45,15 @@ public class Invoice {
         return totalAmount;
     }
 
-    public List<InvoiceLine>
+    public BigDecimal getTotalAmountWithVat() {
+        return totalAmountWithVat;
+    }
 
-    getLines() {
+    public List<InvoiceLine> getLines() {
         return lines;
+    }
+
+    public List<VatLine> getVatsLines() {
+        return vatsLines;
     }
 }
