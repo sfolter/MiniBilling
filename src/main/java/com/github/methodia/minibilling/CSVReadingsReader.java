@@ -11,14 +11,16 @@ import java.util.*;
 
 public class CSVReadingsReader implements ReadingsReader{
     String path;
+    static int readingsCount = 0;
     public CSVReadingsReader(String path) {
         this.path = path;
     }
-
     static List<Reading> readingsList = new ArrayList<Reading>() ;
-
     public static List<Reading> getReadingsList() {
         return readingsList;
+    }
+    public static Integer getReadingsCount(){
+        return readingsCount;
     }
 
     @Override
@@ -31,14 +33,12 @@ public class CSVReadingsReader implements ReadingsReader{
             while ((line = reader.readNext()) != null) {
                 Map<String, User> userMap = CSVUserReader.getUserMap();
 
-                //ZonedDateTime zonedDateTime = ZonedDateTime.parse(line[2]);
-
                 String  time = line[2];
-
                 ZonedDateTime parsedZonedDateTime = ZonedDateTime.parse(time, DateTimeFormatter.ISO_ZONED_DATE_TIME)
                         .withZoneSameInstant(ZoneOffset.UTC);
 
                 readingsList.add(new Reading(parsedZonedDateTime,new BigDecimal(line[3]), userMap.get(line[0]), line[1]));
+                readingsCount++;
             }
 
         } catch (CsvValidationException | IOException e) {

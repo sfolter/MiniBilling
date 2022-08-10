@@ -35,6 +35,7 @@ public class InvoiceGenerator {
         List<InvoiceLine> invoiceLines = new ArrayList<>();
         BigDecimal totalAmount = new BigDecimal(0);
         int counter = 1;
+        //BigDecimal amount = BigDecimal.valueOf(0)
 
         for (QuantityPricePeriod qpp : distribute) {
             int index = counter;
@@ -51,6 +52,7 @@ public class InvoiceGenerator {
                 counter++;
             }
         }
+
         LocalDateTime documentDate = LocalDateTime.now();
         String documentNumber = Invoice.getDocumentNumber();
         User consumer = user;

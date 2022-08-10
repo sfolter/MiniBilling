@@ -13,7 +13,6 @@ import java.util.List;
  * Methodia Inc.
  */
 public class MeasurementGenerator {
-
     private User user;
     private Collection<Reading> readings;
 

@@ -16,12 +16,12 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
-        //String inPath = args[1];
-        String inPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
+    public static void main(String[] args) throws ParseException, IOException {
+
+        String inPath = args[1];
+        //String inPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
         String outputDirectory = args[2];
         String yearMonth = args[0];
-
 
         CSVUserReader user = new CSVUserReader();
         List<User> users = user.read(inPath);
@@ -30,15 +30,14 @@ public class Main {
         CSVReadingsReader readings = new CSVReadingsReader(inPath);
         Collection<Reading> readingCollection = readings.read();
 
-
-
+        //Generating JSON
         for (int i = 1; i <= users.size(); i++) {
 
             User user1 = userMap.get(String.valueOf(i));
             List<Price> price1 = user1.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user1, readingCollection);
             Collection<Measurement> measurements = measurementGenerator.generate();
-            List<Price> prices = CSVPricesReader.getPriceList();
+            //List<Price> prices = CSVPricesReader.getPriceList();
             InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user1, measurements, price1, yearMonth);
             Invoice invoice = invoiceGenerator.generate();
             FolderGenerator folderGenerator = new FolderGenerator(user1, outputDirectory);

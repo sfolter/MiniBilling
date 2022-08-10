@@ -10,29 +10,22 @@ import java.util.*;
 
 public class CSVPricesReader implements PricesReader {
 
-    final String path = new String();
-    static int priceCount = 0;
     final static Map<String, List<Price>> result = new HashMap<>();
-    final static ArrayList<Price> priceList = new ArrayList<>();
-
-    public static final  ArrayList<Price> getPriceList() {
+    final ArrayList<Price> priceList = new ArrayList<>();
+    public  final  ArrayList<Price> getPriceList() {
         return priceList;
     }
-
-
     public static Map<String, List<Price>> getResult() {
         return result;
     }
-   public static Integer getCountPrice(){
-        return priceCount/3;
-   }
+
 
     @Override
     public List<Price> read(int priceListNum, String path) throws IOException {
-        String[] line;
 
-        //String directory=path+"prices-1"+ priceListNum +".csv";
-        String directory=path+"prices-1.csv";
+        String[] line;
+        String directory=path+"prices-"+ priceListNum +".csv";
+        //String directory=path+"prices-1.csv";
 
         try (CSVReader reader = new CSVReader(new java.io.FileReader(directory))) {
             while ((line = reader.readNext()) != null) {
@@ -43,7 +36,6 @@ public class CSVPricesReader implements PricesReader {
 
                 priceList.add(new Price(product, startDate, endDate, value));
                 result.put(String.valueOf(priceListNum), priceList);
-                priceCount++;
             }
 
         } catch(CsvValidationException | IOException e){

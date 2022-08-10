@@ -55,7 +55,7 @@ public class InvoiceLine {
         return price;
     }
 
-    public int getPriceList() {
+    public Integer getPriceList() {
         return priceList;
     }
 

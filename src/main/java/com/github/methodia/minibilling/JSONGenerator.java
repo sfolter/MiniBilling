@@ -28,7 +28,6 @@ public class JSONGenerator {
     }
 
     JSONObject json = new JSONObject();
-
     JSONArray lines = new JSONArray();
     String documentNumber = Invoice.getDocumentNumber();
 
@@ -39,7 +38,7 @@ public class JSONGenerator {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
         LocalDateTime end = invoice1.getLines().get(invoice1.getLines().size() - 1).getEnd();
         List<Price> prices = CSVPricesReader.getResult().get(String.valueOf(user.getPriceListNumber()));
-        for (int i = 0; i < CSVPricesReader.getCountPrice(); i++) {
+        for (int i = 0; i < prices.size(); i++) {
             JSONObject newLine = new JSONObject();
             try {
                 Field changeMap = json.getClass().getDeclaredField("map");
@@ -79,11 +78,8 @@ public class JSONGenerator {
             newLine.put("amount", amount);
 
             lines.put(newLine);
-
-
         }
         json.put("lines", lines);
-
 
         Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(end));
         String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);

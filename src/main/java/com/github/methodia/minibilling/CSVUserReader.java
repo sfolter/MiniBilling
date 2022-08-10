@@ -12,11 +12,9 @@ import java.util.Map;
 public class CSVUserReader implements UsersReader {
     static Map<String, User> userMap = new LinkedHashMap<>();
     static List<User> userList = new ArrayList<>();
-
     public static List<User> getUserList() {
         return userList;
     }
-
     public static Map<String, User> getUserMap() {
         return userMap;
     }
