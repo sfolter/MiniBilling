@@ -35,6 +35,11 @@ public class InvoiceLine {
         return price;
     }
 
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-
+    public int getIndex() {
+        return index;
+    }
 }

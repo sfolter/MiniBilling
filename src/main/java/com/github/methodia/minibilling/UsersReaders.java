@@ -15,7 +15,7 @@ public class UsersReaders implements UsersReader {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path+"\\" + "users.csv")))) {
 
            return br.lines().map(l->l.split(","))
-                   .map(this::createGraph).collect(Collectors.toMap(User::getRef,u->u));
+                   .map(this::createUser).collect(Collectors.toMap(User::getRef, u->u));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -23,7 +23,7 @@ public class UsersReaders implements UsersReader {
 
     }
 
-    private User createGraph(String[] client) {
+    private User createUser(String[] client) {
         PricesReader pricesReader = new PriceReader(path);
         String clientName = client[0];
         String referenceNumber = client[1];

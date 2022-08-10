@@ -1,28 +1,28 @@
 {
-  "documentNumber": "10000",
-  "consumer": "Marko Boikov Tsvetkov",
-  "reference": "1",
-  "totalAmount": 74.55,
+  "documentNumber": "10001",
+  "consumer": "Ludmil Aleksandrov Ilev",
+  "reference": "2",
+  "totalAmount": 243.81,
   "lines": [
     {
       "index": 1,
-      "quantity": 67.51,
-      "lineStart": "2021-01-01Т09:00:00Z",
+      "quantity": 106.25,
+      "lineStart": "2021-01-01T08:00:00Z",
       "lineEnd": "2021-02-28T21:59:59Z",
       "product": "gas",
-      "price": 0.7,
-      "priceList": 1,
-      "amount": 47.26
+      "price": 0.4,
+      "priceList": 2,
+      "amount": 42.5
     },
     {
       "index": 2,
-      "quantity": 19.49,
+      "quantity": 45.75,
       "lineStart": "2021-02-28T22:00:00Z",
-      "lineEnd": "2021-03-17T10:20:00Z",
+      "lineEnd": "2021-03-25T13:40:00Z",
       "product": "gas",
-      "price": 1.4,
-      "priceList": 1,
-      "amount": 27.29
+      "price": 4.4,
+      "priceList": 2,
+      "amount": 201.31
     }
   ]
 }
