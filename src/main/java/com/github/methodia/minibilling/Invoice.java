@@ -11,16 +11,20 @@ public class Invoice {
     private final String consumer;
     private final String reference;
     private final BigDecimal totalAmount;
+    private final BigDecimal totalAmountWithVat;
     private final List<InvoiceLine> lines;
+    private final List<Vat> vat;
 
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, String reference, BigDecimal totalAmount, List<InvoiceLine> lines) {
+    public Invoice(LocalDateTime documentDate, String documentNumber, String consumer, String reference, BigDecimal totalAmount, BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.reference = reference;
         this.totalAmount = totalAmount;
+        this.totalAmountWithVat = totalAmountWithVat;
         this.lines = lines;
+        this.vat = vat;
     }
 
     public LocalDateTime getDocumentDate() {
