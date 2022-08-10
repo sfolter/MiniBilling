@@ -17,7 +17,7 @@ public class CSVUserReader implements UsersReader {
     }
 
     static Map<String, User> userMap = new LinkedHashMap<>();
-     List<User> userList = new ArrayList<>();
+    List<User> userList = new ArrayList<>();
 
     public List<User> getUserList() {
         return userList;

@@ -7,11 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class MeasurementGenerator {
 
     private User user;
@@ -24,7 +19,7 @@ public class MeasurementGenerator {
 
     Collection<Measurement> generate() {
         List<Measurement> measurements = new ArrayList<>();
-        User user1=user;
+        User user1 = user;
         List<Reading> previous = new ArrayList<>();
         for (Reading reading : readings)
             if (user1.getRef().equals(reading.getUser().getRef())) {

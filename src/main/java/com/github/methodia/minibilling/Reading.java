@@ -4,11 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class Reading {
     private ZonedDateTime time;
     private BigDecimal value;
@@ -35,5 +30,7 @@ public class Reading {
         return user;
     }
 
-    public String getProduct() { return product;}
+    public String getProduct() {
+        return product;
+    }
 }

@@ -4,27 +4,28 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class Invoice {
 
     private LocalDateTime documentDate;
     private String documentNumber;
     private User consumer;
     private BigDecimal totalAmount;
-    private List<InvoiceLine> lines;
-    private static long counter=9999;
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount,
-                   List<InvoiceLine> lines) {
+    private BigDecimal totalAmountWithVat;
+    private List<InvoiceLine> lines;
+
+    private List<VAT> vatsLines;
+    private static long counter = 9999;
+
+    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, BigDecimal totalAmountWithVat,
+                   List<InvoiceLine> lines, List<VAT> vatsLines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.totalAmount = totalAmount;
+        this.totalAmountWithVat = totalAmountWithVat;
         this.lines = lines;
+        this.vatsLines = vatsLines;
         counter++;
     }
 
@@ -44,7 +45,15 @@ public class Invoice {
         return totalAmount;
     }
 
+    public BigDecimal getTotalAmountWithVat() {
+        return totalAmountWithVat;
+    }
+
     public List<InvoiceLine> getLines() {
         return lines;
+    }
+
+    public List<VAT> getVatsLines() {
+        return vatsLines;
     }
 }

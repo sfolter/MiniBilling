@@ -21,20 +21,20 @@ public class CSVPricesReader implements PricesReader {
 
     static Map<String, List<Price>> priceCollection = new HashMap<>();
 
-    public static Map<String , List<Price>> getPriceCollection() {
+    public static Map<String, List<Price>> getPriceCollection() {
         return priceCollection;
     }
 
-   List<Price> prices = new LinkedList<>();
+    List<Price> prices = new LinkedList<>();
 
-    public  List<Price> getPrices() {
+    public List<Price> getPrices() {
         return prices;
     }
 
     @Override
     public List<Price> read() {
         String[] line;
-        String directory=path+"prices-"+ priceListNumber +".csv";
+        String directory = path + "prices-" + priceListNumber + ".csv";
 
         try (CSVReader reader = new CSVReader(new java.io.FileReader(directory))) {
             while ((line = reader.readNext()) != null) {
@@ -42,11 +42,11 @@ public class CSVPricesReader implements PricesReader {
                 LocalDate startDate = LocalDate.parse(line[1]);
                 LocalDate endDate = LocalDate.parse(line[2]);
                 BigDecimal value = new BigDecimal(line[3]);
-                    prices.add(new Price(product, startDate, endDate, value));
-                    priceCollection.put((String.valueOf(priceListNumber)), prices);
+                prices.add(new Price(product, startDate, endDate, value));
+                priceCollection.put((String.valueOf(priceListNumber)), prices);
             }
 
-        } catch(CsvValidationException | IOException e){
+        } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);
         }
         return prices;

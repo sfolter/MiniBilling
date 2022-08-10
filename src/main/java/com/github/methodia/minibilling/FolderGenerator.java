@@ -11,7 +11,7 @@ public class FolderGenerator {
         this.folderPath = folderPath;
     }
 
-    public String folderGenerate(){
+    public String folderGenerate() {
         User userForFolder = user;
         String name = userForFolder.getName();
         String refNum = userForFolder.getRef();
