@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 
 public class InvoiceGenerator {
@@ -52,7 +52,7 @@ public class InvoiceGenerator {
         int counter=0;
         counter+=1;
         BigDecimal  amount=invoiceLines.stream().map(InvoiceLine::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal(0.2))
+                .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal("0.2"))
                 .setScale(2,RoundingMode.HALF_UP).stripTrailingZeros();
         return new Vat(counter,vattedLines,amount);
     }

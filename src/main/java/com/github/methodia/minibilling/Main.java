@@ -88,20 +88,23 @@ public class Main {
 
         List<InvoiceLine> invoiceLinesList = invoice.getLines().stream()
                 .sorted(Comparator.comparing(InvoiceLine::getEnd).reversed()).toList();
-        LocalDate lastInvoiceDate = invoiceLinesList.get(0).getEnd().toLocalDate();
-        String monthToBulgarian = getMonthOfLastInvoiceToBulgarian(lastInvoiceDate);
-        int outputOfTheYear = lastInvoiceDate.getYear() % 100;
+        if (!invoiceLinesList.isEmpty()) {
+            LocalDate lastInvoiceDate = invoiceLinesList.get(0).getEnd().toLocalDate();
+            String monthToBulgarian = getMonthOfLastInvoiceToBulgarian(lastInvoiceDate);
+            int outputOfTheYear = lastInvoiceDate.getYear() % 100;
 
-        //Creating folder in the following path
-        String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
-        createFolder(folderPath);
+            //Creating folder in the following path
+            String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
+            createFolder(folderPath);
 
 
-        String jsonFilePath = folderPath + "\\" + invoice.getDocNumber() + "-" + monthToBulgarian + "-" + outputOfTheYear + ".json";
-        creatingJsonFIle(json, jsonFilePath);
+            String jsonFilePath = folderPath + "\\" + invoice.getDocNumber() + "-" + monthToBulgarian + "-" + outputOfTheYear + ".json";
+            creatingJsonFIle(json, jsonFilePath);
 
+        }else{
+            System.out.println("There is no invoices");
         }
-
+    }
     /**
      * Checking if JsonFile by the exists with the format documentNumber-Month(translated to bulgarian language),
      * and the last two numbers of the year on Last reporting date, in case not,

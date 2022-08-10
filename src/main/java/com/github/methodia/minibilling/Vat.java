@@ -9,8 +9,6 @@ public class Vat {
     private final int percentage;
     private final BigDecimal amount;
 
-
-
     public Vat(int index, List<Integer> lines, BigDecimal amount) {
         this.index = index;
         this.lines = lines;
@@ -18,17 +16,10 @@ public class Vat {
         this.amount = amount;
     }
 
-    public int getIndex() {
-        return index;
-    }
-
-    public int getPercentage() {
-        return percentage;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
+
     public List<Integer> getLines() {
         return lines;
     }
