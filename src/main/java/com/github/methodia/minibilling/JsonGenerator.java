@@ -27,19 +27,16 @@ public class JsonGenerator {
         this.folder = folder;
     }
 
-    JSONObject json = new JSONObject();
-
-    JSONArray lines = new JSONArray();
-    String documentNumber = Invoice.getDocumentNumber();
-
-    public void generate() throws ParseException, IOException {
+    public JSONObject generate() throws ParseException, IOException {
         Invoice invoice1 = invoice;
         User user = invoice1.getConsumer();
         String folderPath = folder;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
         LocalDateTime end = invoice1.getLines().get(invoice1.getLines().size() - 1).getEnd();
-
-        List<Price> prices =user.getPrice();
+        JSONObject json = new JSONObject();
+        JSONArray lines = new JSONArray();
+        String documentNumber = Invoice.getDocumentNumber();
+        List<Price> prices = user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
             JSONObject newLine = new JSONObject();
             try {
@@ -78,10 +75,7 @@ public class JsonGenerator {
             newLine.put("priceList", priceList);
             BigDecimal amount = invoice1.getLines().get(i).getAmount();
             newLine.put("amount", amount);
-
             lines.put(newLine);
-
-
         }
         json.put("lines", lines);
 
@@ -98,5 +92,6 @@ public class JsonGenerator {
         file.flush();
         file.close();
 
+        return json;
     }
 }

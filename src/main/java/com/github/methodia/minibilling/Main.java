@@ -33,10 +33,11 @@ public class Main {
 
             InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurmentGenerated, priceList, yearMonthStr);
             Invoice invoice = invoiceGenerator.generate();
-            FolderGenerator folderGenerator = new FolderGenerator(user, outputDir);
-            String folder = folderGenerator.generate();
+            FolderGenerator folderGenerator = new FolderGenerator();
+            String folder = folderGenerator.generate(user, outputDir);
             JsonGenerator jsonGenerator = new JsonGenerator(invoice, folder);
             jsonGenerator.generate();
+
 
         }
     }
