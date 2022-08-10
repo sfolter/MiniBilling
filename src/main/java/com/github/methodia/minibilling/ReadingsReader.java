@@ -1,7 +1,6 @@
 package com.github.methodia.minibilling;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * @author Miroslav Kovachev

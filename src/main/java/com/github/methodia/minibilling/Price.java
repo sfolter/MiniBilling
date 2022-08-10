@@ -21,19 +21,19 @@ public class Price {
         this.value = value;
     }
 
-    public  String getProduct() {
+    public String getProduct() {
         return product;
     }
 
-    public  LocalDate getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public  LocalDate getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public  BigDecimal getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 

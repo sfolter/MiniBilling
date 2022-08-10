@@ -32,7 +32,7 @@ public class CsvFileUserReader implements UsersReader {
                 CsvFilePriceReader price = new CsvFilePriceReader();
                 List<Price> priceList = price.read(Integer.parseInt(line[2]), path);
 
-                userList.add(new User(line[0], line[1],priceList, Integer.parseInt(line[2])));
+                userList.add(new User(line[0], line[1], priceList, Integer.parseInt(line[2])));
                 userMap.put(line[1], userList.get(counter));
                 counter++;
 

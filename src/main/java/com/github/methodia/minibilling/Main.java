@@ -25,7 +25,6 @@ public class Main {
         Collection<Reading> readings = reading.read(resourceDir);
 
 
-
         for (int i = 1; i <= users.size(); i++) {
             User user = userMap.get(String.valueOf(i));
             List<Price> priceList = user.getPrice();

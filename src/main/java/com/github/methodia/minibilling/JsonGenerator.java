@@ -38,26 +38,27 @@ public class JsonGenerator {
         String folderPath = folder;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
         LocalDateTime end = invoice1.getLines().get(invoice1.getLines().size() - 1).getEnd();
-        List<Price> prices = CsvFilePriceReader.getResult().get(String.valueOf(user.getPriceListNumber()));
+
+        List<Price> prices =user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
             JSONObject newLine = new JSONObject();
-        try {
-            Field changeMap = json.getClass().getDeclaredField("map");
-            changeMap.setAccessible(true);
-            changeMap.set(json, new LinkedHashMap<>());
-            changeMap.setAccessible(false);
-            Field changeMapForArray = newLine.getClass().getDeclaredField("map");
-            changeMapForArray.setAccessible(true);
-            changeMapForArray.set(newLine, new LinkedHashMap<>());
-            changeMapForArray.setAccessible(false);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            System.out.println((e.getMessage()));
-        }
-        json.put("documentDate", invoice1.getDocumentDate());
-        json.put("documentNumber", documentNumber);
-        json.put("consumer", user.getName());
-        json.put("reference", user.getRef());
-        json.put("totalAmount", invoice1.getTotalAmount());
+            try {
+                Field changeMap = json.getClass().getDeclaredField("map");
+                changeMap.setAccessible(true);
+                changeMap.set(json, new LinkedHashMap<>());
+                changeMap.setAccessible(false);
+                Field changeMapForArray = newLine.getClass().getDeclaredField("map");
+                changeMapForArray.setAccessible(true);
+                changeMapForArray.set(newLine, new LinkedHashMap<>());
+                changeMapForArray.setAccessible(false);
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                System.out.println((e.getMessage()));
+            }
+            json.put("documentDate", invoice1.getDocumentDate());
+            json.put("documentNumber", documentNumber);
+            json.put("consumer", user.getName());
+            json.put("reference", user.getRef());
+            json.put("totalAmount", invoice1.getTotalAmount());
 
 
             int index = invoice1.getLines().get(i).getIndex();

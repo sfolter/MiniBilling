@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class FolderCreatorTodor {
-    public ArrayList<String> folderPath=new ArrayList<>();
+    public ArrayList<String> folderPath = new ArrayList<>();
 
 
     public ArrayList<String> getFolderPath() {
@@ -19,7 +19,7 @@ public class FolderCreatorTodor {
 
 
         for (int m = 0; m < userNames.size(); m++) {
-            folderPath.add( path + userNames.get(m) + "-" + userRef.get(m));
+            folderPath.add(path + userNames.get(m) + "-" + userRef.get(m));
             File newFolder = new File(folderPath.get(m));
             boolean bool2 = newFolder.mkdirs();
 

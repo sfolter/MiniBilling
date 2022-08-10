@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Invoice {
 
-    private static long idContour= 9999;
+    private static long idContour = 9999;
     private LocalDateTime documentDate;
     private String documentNumber;
     private User consumer;
@@ -26,6 +26,7 @@ public class Invoice {
     public LocalDateTime getDocumentDate() {
         return documentDate;
     }
+
     public static synchronized String getDocumentNumber() {
         return String.valueOf(idContour);
     }

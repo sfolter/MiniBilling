@@ -7,13 +7,13 @@ public class FolderGenerator {
 
     private String folderPathStr;
 
-    public FolderGenerator(User user,String folderPath) {
+    public FolderGenerator(User user, String folderPath) {
         this.user = user;
-        this.folderPathStr=folderPath;
+        this.folderPathStr = folderPath;
     }
 
     public String generate() {
-        String folderPath=folderPathStr;
+        String folderPath = folderPathStr;
         User consumer = user;
         String name = consumer.getName();
         String refNum = consumer.getRef();

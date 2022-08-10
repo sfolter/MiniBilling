@@ -1,7 +1,6 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 /**

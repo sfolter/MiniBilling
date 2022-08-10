@@ -27,7 +27,7 @@ public class PricesTodor implements FileReaderTodor {
         return parsedEndDate;
     }
 
-    public  ArrayList<Float> getPrice() {
+    public ArrayList<Float> getPrice() {
         return price;
     }
 

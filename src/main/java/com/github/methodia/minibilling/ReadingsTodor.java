@@ -15,9 +15,11 @@ public class ReadingsTodor implements FileReaderTodor {
     private ArrayList<ZonedDateTime> startDateParsed = new ArrayList<>();
     private ArrayList<ZonedDateTime> endDateParsed = new ArrayList<>();
     static ArrayList<String> dateString = new ArrayList<>();
+
     public static ArrayList<String> getEndDateString() {
         return endDateString;
     }
+
     static ArrayList<String> startDateString = new ArrayList<>();
     static ArrayList<String> endDateString = new ArrayList<>();
     static ArrayList<Integer> pokazanie = new ArrayList<>();
@@ -30,7 +32,6 @@ public class ReadingsTodor implements FileReaderTodor {
     public ArrayList<String> getProduct() {
         return product;
     }
-
 
 
     ArrayList<String> refList = usersTodor.getUserRefList();

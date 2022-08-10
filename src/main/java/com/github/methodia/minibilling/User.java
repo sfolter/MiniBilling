@@ -8,7 +8,7 @@ public class User {
     private static int priceListNumber;
     private List<Price> price;
 
-    public User(String name, String ref, List<Price> price,int priceListNumber) {
+    public User(String name, String ref, List<Price> price, int priceListNumber) {
         this.name = name;
         this.ref = ref;
         this.price = price;
@@ -23,10 +23,11 @@ public class User {
         return ref;
     }
 
-    public static int  getPriceListNumber() {
+    public static int getPriceListNumber() {
         return priceListNumber;
     }
-    public  List<Price> getPrice() {
+
+    public List<Price> getPrice() {
         return price;
     }
 
