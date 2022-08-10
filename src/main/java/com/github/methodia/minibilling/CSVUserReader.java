@@ -15,16 +15,9 @@ public class CSVUserReader implements UsersReader {
     public CSVUserReader(String path) {
         this.path = path;
     }
-
-    static Map<String, User> userMap = new LinkedHashMap<>();
-
-    public static Map<String, User> getUserMap() {
-        return userMap;
-    }
-
     @Override
-    public List<User> read() {
-
+    public Map<String, User> read() {
+        Map<String, User> userMap = new LinkedHashMap<>();
         String[] line;
         List<User> userList = new ArrayList<>();
         int counter = 0;
@@ -40,6 +33,6 @@ public class CSVUserReader implements UsersReader {
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);
         }
-        return userList;
+        return userMap;
     }
 }

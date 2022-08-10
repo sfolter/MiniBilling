@@ -2,7 +2,8 @@ package com.github.methodia.minibilling;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface UsersReader {
-    List<User> read();
+    Map<String, User> read();
 }

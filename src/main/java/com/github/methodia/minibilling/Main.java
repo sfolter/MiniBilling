@@ -22,12 +22,11 @@ public class Main {
         String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample2\\output\\";
 
         CSVUserReader userReader = new CSVUserReader(inPath);
-        List<User> users = userReader.read();
-        Map<String, User> userMap = CSVUserReader.getUserMap();
+        Map<String, User> userMap = userReader.read();
         CSVReadingReader readingReader = new CSVReadingReader(inPath);
         Collection<Reading> readingCollection = readingReader.read();
 
-        for (int i = 1; i <= users.size(); i++) {
+        for (int i = 1; i <= userMap.size(); i++) {
             User user = userMap.get(String.valueOf(i));
             List<Price> price = user.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingCollection);

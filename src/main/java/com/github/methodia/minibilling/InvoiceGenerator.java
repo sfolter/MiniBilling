@@ -1,6 +1,7 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -41,14 +42,14 @@ public class InvoiceGenerator {
             String product = qpp.getPrice().getProduct();
             BigDecimal price = qpp.getPrice().getValue();
             int priceList = user.getPriceListNumber();
-            BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
-            totalAmount = totalAmount.add(amount);
+            BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue()).setScale(2, RoundingMode.HALF_UP);
+            totalAmount = totalAmount.add(amount).setScale(2, RoundingMode.HALF_UP);
             int indexInVat = counter;
             vatList.add(invoiceLines.size()+1);
             int percentage = 20;
-            BigDecimal amountInVat = amount.multiply(new BigDecimal(20).divide(new BigDecimal(100)));
+            BigDecimal amountInVat = amount.multiply(new BigDecimal(20).divide(new BigDecimal(100))).setScale(2, RoundingMode.HALF_UP);
             BigDecimal amountForLineAndVat = amountInVat.add(amount);
-            totalAmountWithVat = totalAmountWithVat.add(amountForLineAndVat);
+            totalAmountWithVat = totalAmountWithVat.add(amountForLineAndVat).setScale(2, RoundingMode.HALF_UP);
 
                 invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
                 vatLines.add(new VAT(indexInVat, vatList, percentage, amountInVat));

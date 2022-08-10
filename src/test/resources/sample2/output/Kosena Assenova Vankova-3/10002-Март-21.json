@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-10T16:37:26.990156600",
+    "documentDate": "2022-08-10T17:51:47.849013800",
     "documentNumber": "10002",
     "consumer": "Kosena Assenova Vankova",
     "reference": "3",
     "totalAmount": 335.72,
-    "totalAmountWithVat": 402.864,
+    "totalAmountWithVat": 402.87,
     "lines": [
         {
             "index": 1,
@@ -35,7 +35,7 @@
                 2
             ],
             "percentage": 20,
-            "amount": 54.936
+            "amount": 54.94
         },
         {
             "index": 2,
@@ -44,7 +44,7 @@
                 2
             ],
             "percentage": 20,
-            "amount": 12.208
+            "amount": 12.21
         }
     ]
 }

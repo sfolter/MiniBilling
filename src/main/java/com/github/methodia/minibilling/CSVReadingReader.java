@@ -22,9 +22,9 @@ public class CSVReadingReader implements ReadingsReader {
         String[] line;
         List<Reading> readingsList = new ArrayList<Reading>();
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\readings.csv"))) {
-
             while ((line = reader.readNext()) != null) {
-                Map<String, User> userMap = CSVUserReader.getUserMap();
+                CSVUserReader userReader = new CSVUserReader(path);
+                Map<String, User> userMap = userReader.read();
                 String time = line[2];
                 ZonedDateTime parsedZonedDateTime = ZonedDateTime.parse(time, DateTimeFormatter.ISO_ZONED_DATE_TIME)
                         .withZoneSameInstant(ZoneId.of("GMT"));

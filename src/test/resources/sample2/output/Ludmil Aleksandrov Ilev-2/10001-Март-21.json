@@ -1,5 +1,5 @@
 {
-    "documentDate": "2022-08-10T16:37:26.986158800",
+    "documentDate": "2022-08-10T17:51:47.844015800",
     "documentNumber": "10001",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
@@ -35,7 +35,7 @@
                 2
             ],
             "percentage": 20,
-            "amount": 8.512
+            "amount": 8.51
         },
         {
             "index": 2,
@@ -44,7 +44,7 @@
                 2
             ],
             "percentage": 20,
-            "amount": 40.128
+            "amount": 40.13
         }
     ]
 }
