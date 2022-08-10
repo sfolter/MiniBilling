@@ -36,5 +36,6 @@ public class Price {
     public BigDecimal getValue() {
         return value;
     }
+
 }
 

@@ -1,7 +1,6 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 /**
@@ -12,14 +11,14 @@ import java.time.ZonedDateTime;
 public class Reading {
     private ZonedDateTime time;
     private BigDecimal value;
-    private User user;
     private String product;
+    private User user;
 
-    public Reading(ZonedDateTime time, BigDecimal value, User user, String product) {
+    public Reading(User user, String product, ZonedDateTime time, BigDecimal value) {
         this.time = time;
         this.value = value;
-        this.user = user;
         this.product = product;
+        this.user = user;
     }
 
 
@@ -34,6 +33,4 @@ public class Reading {
     public User getUser() {
         return user;
     }
-
-    public String getProduct() { return product;}
 }

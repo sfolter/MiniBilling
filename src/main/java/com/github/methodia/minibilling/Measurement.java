@@ -20,7 +20,6 @@ public class Measurement {
         this.value = value;
         this.user = user;
     }
-
     public LocalDateTime getStart() {
         return start;
     }
@@ -32,7 +31,6 @@ public class Measurement {
     public BigDecimal getValue() {
         return value;
     }
-
     public User getUser() {
         return user;
     }

@@ -4,28 +4,23 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class Invoice {
 
+    private static long idContour = 9999;
     private LocalDateTime documentDate;
     private String documentNumber;
     private User consumer;
     private BigDecimal totalAmount;
     private List<InvoiceLine> lines;
-    private static long counter=9999;
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount,
-                   List<InvoiceLine> lines) {
+
+    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.totalAmount = totalAmount;
         this.lines = lines;
-        counter++;
+        idContour++;
     }
 
     public LocalDateTime getDocumentDate() {
@@ -33,7 +28,7 @@ public class Invoice {
     }
 
     public static synchronized String getDocumentNumber() {
-        return String.valueOf(counter);
+        return String.valueOf(idContour);
     }
 
     public User getConsumer() {
@@ -42,7 +37,11 @@ public class Invoice {
 
     public BigDecimal getTotalAmount() {
         return totalAmount;
-    }public List<InvoiceLine> getLines() {
+    }
+
+    public List<InvoiceLine>
+
+    getLines() {
         return lines;
     }
 }

@@ -1,54 +1,43 @@
 package com.github.methodia.minibilling;
 
-import org.json.simple.JSONArray;
-import org.json.*;
-import org.json.JSONObject;
-
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
+    public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
 
-    public static void main(String[] args) throws ParseException, IOException {
+        String yearMonthStr = args[0];
+        String resourceDir = args[1];
+        String outputDir = args[2];
+//        String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
+//        String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
+//        String yearMonthStr = "21-03";
 
-        String inPath = args[1];
-        //String inPath = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
-        String outputDirectory = args[2];
-        String yearMonth = args[0];
 
-        CSVUserReader user = new CSVUserReader();
-        List<User> users = user.read(inPath);
-
+        CSVUserReader userFileRead = new CSVUserReader();
+        List<User> users = userFileRead.read(resourceDir);
         Map<String, User> userMap = CSVUserReader.getUserMap();
-        CSVReadingsReader readings = new CSVReadingsReader(inPath);
-        Collection<Reading> readingCollection = readings.read();
+        //readings.csv
+        CSVReadingsReader reading = new CSVReadingsReader();
+        Collection<Reading> readings = reading.read(resourceDir);
 
-        //Generating JSON
+
         for (int i = 1; i <= users.size(); i++) {
+            User user = userMap.get(String.valueOf(i));
+            List<Price> priceList = user.getPrice();
+            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
+            Collection<Measurement> measurmentGenerated = measurementGenerator.generate();
 
-            User user1 = userMap.get(String.valueOf(i));
-            List<Price> price1 = user1.getPrice();
-            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user1, readingCollection);
-            Collection<Measurement> measurements = measurementGenerator.generate();
-            //List<Price> prices = CSVPricesReader.getPriceList();
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user1, measurements, price1, yearMonth);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurmentGenerated, priceList, yearMonthStr);
             Invoice invoice = invoiceGenerator.generate();
-            FolderGenerator folderGenerator = new FolderGenerator(user1, outputDirectory);
-            String folderPath = folderGenerator.folderGenerate();
-            JSONGenerator jsonGenerator = new JSONGenerator(invoice, folderPath);
-            jsonGenerator.generateJSON();
+            FolderGenerator folderGenerator = new FolderGenerator();
+            String folder = folderGenerator.generate(user, outputDir);
+            JsonGenerator jsonGenerator = new JsonGenerator(invoice, folder);
+            jsonGenerator.generate();
 
         }
     }
 }
-
-
-
-
