@@ -11,15 +11,20 @@ public class Invoice {
     private String documentNumber;
     private User consumer;
     private BigDecimal totalAmount;
+    private BigDecimal totalAmountWithVat;
     private List<InvoiceLine> lines;
+    private List<VatLine> vatLines;
 
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, List<InvoiceLine> lines) {
+    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer,
+                   BigDecimal totalAmount, BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<VatLine> vatLines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.totalAmount = totalAmount;
+        this.totalAmountWithVat = totalAmountWithVat;
         this.lines = lines;
+        this.vatLines = vatLines;
         idContour++;
     }
 
@@ -43,5 +48,13 @@ public class Invoice {
 
     getLines() {
         return lines;
+    }
+
+    public List<VatLine> getVatLines() {
+        return vatLines;
+    }
+
+    public BigDecimal getTotalAmountWithVat() {
+        return totalAmountWithVat;
     }
 }

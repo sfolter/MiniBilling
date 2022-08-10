@@ -1,5 +1,7 @@
 package com.github.methodia.minibilling;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Collection;
@@ -7,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) throws ParseException, IOException, IllegalAccessException, NoSuchFieldException {
+    public static void main(String[] args) throws ParseException, IOException {
 //
 //        String yearMonthStr = args[0];
 //        String resourceDir = args[1];
@@ -36,7 +38,9 @@ public class Main {
             FolderGenerator folderGenerator = new FolderGenerator();
             String folder = folderGenerator.generate(user, outputDir);
             JsonGenerator jsonGenerator = new JsonGenerator(invoice, folder);
-            jsonGenerator.generate();
+            JSONObject jsonInvoiceObject = jsonGenerator.generate();
+            JsonFileGenerator jsonFileGenerator = new JsonFileGenerator();
+            jsonFileGenerator.generateJsonFile(jsonInvoiceObject, folder);
 
 
         }

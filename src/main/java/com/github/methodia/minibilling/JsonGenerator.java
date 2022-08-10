@@ -3,20 +3,15 @@ package com.github.methodia.minibilling;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 
 public class JsonGenerator {
     Invoice invoice;
@@ -28,70 +23,72 @@ public class JsonGenerator {
     }
 
     public JSONObject generate() throws ParseException, IOException {
-        Invoice invoice1 = invoice;
-        User user = invoice1.getConsumer();
-        String folderPath = folder;
+
+        User user = invoice.getConsumer();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
-        LocalDateTime end = invoice1.getLines().get(invoice1.getLines().size() - 1).getEnd();
+        List<InvoiceLine> invoiceLines = invoice.getLines();
+        List<VatLine> vatLines = invoice.getVatLines();
+        LocalDateTime end = invoiceLines.get(invoiceLines.size() - 1).getEnd();
         JSONObject json = new JSONObject();
         JSONArray lines = new JSONArray();
+        JSONArray vatArrayJson = new JSONArray();
+        orderedJsonObj(json);
         String documentNumber = Invoice.getDocumentNumber();
+        json.put("documentDate", invoice.getDocumentDate());
+        json.put("documentNumber", documentNumber);
+        json.put("consumer", user.getName());
+        json.put("reference", user.getRef());
+        json.put("totalAmount", invoice.getTotalAmount());
+        json.put("totalAmountWithVat", invoice.getTotalAmountWithVat());
+
+
         List<Price> prices = user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
-            JSONObject newLine = new JSONObject();
-            try {
-                Field changeMap = json.getClass().getDeclaredField("map");
-                changeMap.setAccessible(true);
-                changeMap.set(json, new LinkedHashMap<>());
-                changeMap.setAccessible(false);
-                Field changeMapForArray = newLine.getClass().getDeclaredField("map");
-                changeMapForArray.setAccessible(true);
-                changeMapForArray.set(newLine, new LinkedHashMap<>());
-                changeMapForArray.setAccessible(false);
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                System.out.println((e.getMessage()));
-            }
-            json.put("documentDate", invoice1.getDocumentDate());
-            json.put("documentNumber", documentNumber);
-            json.put("consumer", user.getName());
-            json.put("reference", user.getRef());
-            json.put("totalAmount", invoice1.getTotalAmount());
+            JSONObject invoiceLine = new JSONObject();
+            JSONObject vatJsonObj = new JSONObject();
+
+            orderedJsonObj(invoiceLine);
+            orderedJsonObj(vatJsonObj);
 
 
-            int index = invoice1.getLines().get(i).getIndex();
-            newLine.put("index", index);
-            BigDecimal quantity = invoice1.getLines().get(i).getQuantity();
-            newLine.put("quantity", quantity);
-            String lineStart = invoice1.getLines().get(i).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-            newLine.put("lineStart", lineStart);
+            int index = invoiceLines.get(i).getIndex();
+            invoiceLine.put("index", index);
+            BigDecimal quantity = invoiceLines.get(i).getQuantity();
+            invoiceLine.put("quantity", quantity);
+            String lineStart = invoiceLines.get(i).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+            invoiceLine.put("lineStart", lineStart);
+            String lineEnd = invoiceLines.get(i).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+            invoiceLine.put("lineEnd", lineEnd);
+            String product = invoiceLines.get(i).getProduct();
+            invoiceLine.put("product", product);
+            BigDecimal price = invoiceLines.get(i).getPrice();
+            invoiceLine.put("price", price);
+            int priceList = invoiceLines.get(i).getPriceList();
+            invoiceLine.put("priceList", priceList);
+            BigDecimal amount = invoiceLines.get(i).getAmount();
+            invoiceLine.put("amount", amount);
+            lines.put(invoiceLine);
 
-            String lineEnd = invoice1.getLines().get(i).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
-            newLine.put("lineEnd", lineEnd);
-            String product = invoice.getLines().get(i).getProduct();
-            newLine.put("product", product);
-            BigDecimal price = invoice1.getLines().get(i).getPrice();
-            newLine.put("price", price);
-            int priceList = invoice1.getLines().get(i).getPriceList();
-            newLine.put("priceList", priceList);
-            BigDecimal amount = invoice1.getLines().get(i).getAmount();
-            newLine.put("amount", amount);
-            lines.put(newLine);
+            vatJsonObj.put("index", vatLines.get(i).getIndex());
+            vatJsonObj.put("lineIndex", index);
+            vatJsonObj.put("percentage", vatLines.get(i).getVatPercentage());
+            vatJsonObj.put("amount", vatLines.get(i).getAmount());
+            vatArrayJson.put(vatJsonObj);
+
         }
         json.put("lines", lines);
-
-
-        Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(end));
-        String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
-        String[] splitDate = month.split("\\s+");
-        String monthInCyrilic = splitDate[1];
-        int year = Integer.parseInt(splitDate[2]) % 100;
-        String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
-        String fileWriter = documentNumber + "-" + monthInUpperCase + "-" + year;
-        FileWriter file = new FileWriter(folderPath + "//" + fileWriter + ".json");
-        file.write(json.toString(4));
-        file.flush();
-        file.close();
-
+        json.put("vat", vatArrayJson);
         return json;
+    }
+
+    private void orderedJsonObj(JSONObject json) {
+        try {
+            Field changeMap = json.getClass().getDeclaredField("map");
+            changeMap.setAccessible(true);
+            changeMap.set(json, new LinkedHashMap<>());
+            changeMap.setAccessible(false);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            System.out.println((e.getMessage()));
+        }
     }
 }

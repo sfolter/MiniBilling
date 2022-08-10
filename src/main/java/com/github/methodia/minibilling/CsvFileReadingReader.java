@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CsvFileReadingReader implements ReadingsReader {
-
-
     @Override
     public Collection<Reading> read(String path) {
         String[] line;
