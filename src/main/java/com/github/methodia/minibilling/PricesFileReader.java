@@ -41,7 +41,7 @@ public class PricesFileReader implements PricesReader {
 
                             LocalDate start = convertStringIntoLocalDate(stringBeginningDate);
                             LocalDate end = convertStringIntoLocalDate(stringEndDate);
-                            BigDecimal price = BigDecimal.valueOf(Long.parseLong(pricesData[3]));
+                            BigDecimal price = new BigDecimal(pricesData[3]);
                             //FIXME !!!!!!!!!!!!!!!!!!!!!!!!!!
                             List<Price> list = new ArrayList<>();
                             if (result.get(numberPricingList) == null) {

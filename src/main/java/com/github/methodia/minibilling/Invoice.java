@@ -27,7 +27,7 @@ public class Invoice {
         this.totalAmount = totalAmount;
         this.totalAmountWithVat=totalAmountWithVat;
         this.lines = lines;
-        this.vat=null;
+        this.vat=vat;
     }
 
     public String getDocNumber() {

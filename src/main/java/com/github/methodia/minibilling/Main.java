@@ -85,9 +85,9 @@ public class Main {
         String json = gson.toJson(invoice);
 
         //Sorting InvoiceLine list as we would like to get the last invoice end date
+
         List<InvoiceLine> invoiceLinesList = invoice.getLines().stream()
                 .sorted(Comparator.comparing(InvoiceLine::getEnd).reversed()).toList();
-
         LocalDate lastInvoiceDate = invoiceLinesList.get(0).getEnd().toLocalDate();
         String monthToBulgarian = getMonthOfLastInvoiceToBulgarian(lastInvoiceDate);
         int outputOfTheYear = lastInvoiceDate.getYear() % 100;
@@ -99,7 +99,8 @@ public class Main {
 
         String jsonFilePath = folderPath + "\\" + invoice.getDocNumber() + "-" + monthToBulgarian + "-" + outputOfTheYear + ".json";
         creatingJsonFIle(json, jsonFilePath);
-    }
+
+        }
 
     /**
      * Checking if JsonFile by the exists with the format documentNumber-Month(translated to bulgarian language),
