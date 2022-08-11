@@ -17,7 +17,7 @@ public class CurrencyConverter {
         try {
             String getRequest= httpGetRequest(user);
             JSONObject obj=new JSONObject(getRequest);
-            return new BigDecimal(obj.getJSONObject("info").getString("rate"))
+            return new BigDecimal(obj.getJSONObject("info").getString("quote"))
                     .setScale(2, RoundingMode.HALF_UP);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -28,11 +28,11 @@ public class CurrencyConverter {
     }
     private static String httpGetRequest(User user) {
         try {
-            String urlLink = "https://api.apilayer.com/fixer/convert?to="+user.getCyrrency()+"&from=BGN&amount=1";
 
+            String urlLink = "https://api.apilayer.com/currency_data/convert?to="+user.getCyrrency()+"&from=BGN&amount=1";
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(urlLink)).header("apiKey", "GtSaOVN01I9qY015hvRRdhJpX7vBtHze")
+                    .uri(URI.create(urlLink)).header("apiKey", "CudLhAGhr1knV5HnZTqPGVRG8gqCOWUP")
                     .build();
             client.send(request, HttpResponse.BodyHandlers.ofString());
             HttpResponse<String> response =
