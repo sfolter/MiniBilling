@@ -14,12 +14,16 @@ public class User {
     private final int numberPricingList;
     private final List<Price> price;
 
+    private final String cyrrency;
 
-    public User(String name, String ref, int numberPricingList, List<Price> price) {
+
+
+    public User(String name, String ref, int numberPricingList, List<Price> price, String cyrrency) {
         this.name = name;
         this.ref = ref;
         this.price = price;
         this.numberPricingList=numberPricingList;
+        this.cyrrency =cyrrency;
     }
 
     public int getNumberPricingList() {
@@ -37,6 +41,8 @@ public class User {
     public List<Price> getPrice() {
         return price;
     }
-
+    public String getCyrrency() {
+        return cyrrency;
+    }
 
 }

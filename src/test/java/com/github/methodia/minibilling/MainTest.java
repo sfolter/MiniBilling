@@ -1,6 +1,7 @@
 package com.github.methodia.minibilling;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -64,7 +65,7 @@ public class MainTest {
         }
     }
 
-    private void assertInvoiceJsonFilesEqual(File sampleJson, File outputJson, int sampleNumber) throws IOException {
+    private void assertInvoiceJsonFilesEqual(File sampleJson, File outputJson, int sampleNumber) throws IOException, JSONException {
         final String sampleJsonStr = Files.readString(sampleJson.toPath());
         final String outputJsonStr = Files.readString(outputJson.toPath());
         final JSONObject sampleJsonObject = new JSONObject(sampleJsonStr);
@@ -76,7 +77,7 @@ public class MainTest {
     }
 
     private void assertPropertiesEqual(JSONObject sampleJsonObject, JSONObject outputJsonObject, String key,
-                                       int sampleNumber) {
+                                       int sampleNumber) throws JSONException {
         final Object sampleInputProp = sampleJsonObject.get(key);
         final Object outputProp = outputJsonObject.get(key);
 

@@ -28,10 +28,10 @@ import java.util.Locale;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String dateReportingTo = args[0];
+        String dateReportingTo = "21-03";
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
-        String inputPath = args[1];
-        String outputPath = args[2];
+        String inputPath = "C:\\Users\\user\\Desktop\\projectFolder\\MiniBilling\\src\\test\\resources\\sample2\\input";
+        String outputPath = "C:\\Users\\user\\Desktop\\projectFolder\\MiniBilling\\src\\test\\resources\\sample2\\input";
         ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
 
         Collection<Reading> allReadings = readingsFR.read().stream()

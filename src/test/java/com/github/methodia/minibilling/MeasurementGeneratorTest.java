@@ -14,7 +14,7 @@ class MeasurementGeneratorTest {
     @Test
     void generateOneMeasurement(){
 
-        User test=new User("Test Testov", "ref", 1, Collections.emptyList());
+        User test=new User("Test Testov", "ref", 1, Collections.emptyList(), cyrrencyPref);
         List<Reading> readings= new ArrayList<>();
         Reading reading1=new Reading(LocalDateTime.of(2021, 3, 6, 13, 23),new BigDecimal("100"),test);
         Reading reading2=new Reading(LocalDateTime.of(2021, 5, 6, 13, 23),new BigDecimal("200"),test);
@@ -42,7 +42,7 @@ class MeasurementGeneratorTest {
 
     @Test
     void generateTwoMeasurements(){
-        User test=new User("Test Testov", "ref",1, Collections.emptyList());
+        User test=new User("Test Testov", "ref",1, Collections.emptyList(), cyrrencyPref);
         List<Reading> readings= new ArrayList<>();
         Reading reading1=new Reading(LocalDateTime.of(2021, 3, 6, 13, 23),new BigDecimal("100"),test);
         Reading reading2=new Reading(LocalDateTime.of(2021, 5, 6, 13, 23),new BigDecimal("200"),test);

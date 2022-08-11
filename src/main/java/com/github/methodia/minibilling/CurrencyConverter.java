@@ -1,6 +1,11 @@
 package com.github.methodia.minibilling;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -8,9 +13,24 @@ import java.net.http.HttpResponse;
 
 public class CurrencyConverter {
 
-    private static String makeGetRequest() {
+    protected static BigDecimal getCurrencyValue(User user) {
         try {
-            String urlLink = "https://api.apilayer.com/fixer/convert?to=GBP&from=Eur&amount=15";
+            String getRequest= makeGetRequest(user);
+            JSONObject obj=new JSONObject(getRequest);
+            System.out.println(obj);
+            JSONObject result= obj.getJSONObject("info");
+            return new BigDecimal( String.valueOf(result.getString("rate")))
+                    .setScale(2, RoundingMode.HALF_UP);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+    }
+    private static String makeGetRequest(User user) {
+        try {
+            String urlLink = "https://api.apilayer.com/fixer/convert?to=BGN&from="+user.getCyrrency()+"&amount=1";
 
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -21,11 +41,10 @@ public class CurrencyConverter {
                     client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw  new RuntimeException(e);
         }
-        return "";
     }
     /*{
     "success": true,
@@ -42,5 +61,7 @@ public class CurrencyConverter {
     "result": 12.679365
 }
 */
+
+
 
 }

@@ -43,7 +43,9 @@ public class InvoiceGenerator {
         String userName = getUser().getName();
 
         List<Vat> vat= productSet.stream().map(a -> createVat(invoiceLines)).toList();
-        BigDecimal totalAmount=invoiceLines.stream().map(InvoiceLine::getAmount).reduce(new BigDecimal(0),BigDecimal::add);
+
+        BigDecimal totalAmount=invoiceLines.stream().map(InvoiceLine::getAmount).reduce(new BigDecimal(0)
+                ,BigDecimal::add);
         BigDecimal totalAmountWithVat=vat.stream().map(Vat::getAmount).reduce(totalAmount,BigDecimal::add);
         return new Invoice(documentNumber, userName, getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines,vat);
     }
@@ -53,6 +55,7 @@ public class InvoiceGenerator {
         counter+=1;
         BigDecimal  amount=invoiceLines.stream().map(InvoiceLine::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal("0.2"))
+                .multiply(CurrencyConverter.getCurrencyValue(user))
                 .setScale(2,RoundingMode.HALF_UP).stripTrailingZeros();
         return new Vat(counter,vattedLines,amount);
     }
@@ -63,6 +66,7 @@ public class InvoiceGenerator {
         LocalDateTime end = qpp.getEnd();
         BigDecimal price = qpp.getPrice();
         BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice())
+                .multiply(CurrencyConverter.getCurrencyValue(user))
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         //TODO add product to qpp; remove the following code
         String product = qpp.getProduct();

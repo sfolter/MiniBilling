@@ -29,7 +29,7 @@ public class UserFileReader  implements UsersReader {
                 String name=client[0];
                 String referentNumber=client[1];
 
-                usersList.add(new User(name,referentNumber,Integer.parseInt(client[2]), pricesFileReader.read().get(Integer.valueOf(client[2]))));
+                usersList.add(new User(name,referentNumber,Integer.parseInt(client[2]), pricesFileReader.read().get(Integer.valueOf(client[2])), client[3]));
             }
             br.close();
         } catch (IOException e) {
