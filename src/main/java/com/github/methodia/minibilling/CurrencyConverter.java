@@ -17,9 +17,7 @@ public class CurrencyConverter {
         try {
             String getRequest= httpGetRequest(user);
             JSONObject obj=new JSONObject(getRequest);
-            System.out.println(obj);
-            JSONObject result= obj.getJSONObject("info");
-            return new BigDecimal( String.valueOf(result.getString("rate")))
+            return new BigDecimal(obj.getJSONObject("info").getString("rate"))
                     .setScale(2, RoundingMode.HALF_UP);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -30,7 +28,7 @@ public class CurrencyConverter {
     }
     private static String httpGetRequest(User user) {
         try {
-            String urlLink = "https://api.apilayer.com/fixer/convert?to=BGN&from="+user.getCyrrency()+"&amount=1";
+            String urlLink = "https://api.apilayer.com/fixer/convert?to="+user.getCyrrency()+"&from=BGN&amount=1";
 
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -49,16 +47,16 @@ public class CurrencyConverter {
     /*{
     "success": true,
     "query": {
-        "from": "EUR",
-        "to": "GBP",
-        "amount": 15
+        "from": "BGN",
+        "to": "EUR",
+        "amount":1
     },
     "info": {
         "timestamp": 1660115344,
-        "rate": 0.845291
+        "rate": 0.51...
     },
     "date": "2022-08-10",
-    "result": 12.679365
+    "result": 0.51
 }
 */
 
