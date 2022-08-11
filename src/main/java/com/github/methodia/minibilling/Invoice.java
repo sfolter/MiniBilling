@@ -7,17 +7,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Invoice {
-
     private static long idContour= 10000;
-
     private final String documentNumber;
     private final String consumer;
     private final String reference;
     private final BigDecimal totalAmount;
     private final BigDecimal totalAmountWithVat;
-    private List<InvoiceLine> lines;
-    private List<Vat> vat;
-
+    private final List<InvoiceLine> lines;
+    private final List<Vat> vat;
 
     public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount, BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat) {
 
@@ -52,6 +49,7 @@ public class Invoice {
     public String getReference() {
         return reference;
     }
-
-
+    public BigDecimal getTotalAmountWithVat() {
+        return totalAmountWithVat;
+    }
 }

@@ -23,20 +23,20 @@ import java.util.stream.Collectors;
 public class MainTest {
 
     @Test
-    void testSample1() throws IOException, NoSuchFieldException, IllegalAccessException {
+    void testSample1() throws IOException, JSONException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
     @Test
-    void testSample2() throws IOException, NoSuchFieldException, IllegalAccessException {
+    void testSample2() throws IOException, JSONException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, NoSuchFieldException, IllegalAccessException {
+    private void testSample(int sampleNumber, String yearMonth) throws IOException, JSONException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
@@ -45,7 +45,7 @@ public class MainTest {
         final File output = new File(outputDir);
         checkDirectories(expectedFiles, output, sampleNumber);
     }
-    private void checkDirectories(File sampleDir, File outputDir, int sampleNumber) throws IOException {
+    private void checkDirectories(File sampleDir, File outputDir, int sampleNumber) throws IOException, JSONException {
         final File[] sampleInputFiles = sampleDir.listFiles();
         final File[] outputFiles = outputDir.listFiles();
         final Map<String, File> outputFilesByName = Arrays.stream(outputFiles)
