@@ -14,15 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class JsonGenerator {
-    Invoice invoice;
-    String folder;
 
-    public JsonGenerator(Invoice invoice, String folder) {
-        this.invoice = invoice;
-        this.folder = folder;
-    }
-
-    public JSONObject generate() throws ParseException, IOException {
+    public JSONObject generate(Invoice invoice, String currency) throws ParseException, IOException {
 
         User user = invoice.getConsumer();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
@@ -38,8 +31,10 @@ public class JsonGenerator {
         json.put("documentNumber", documentNumber);
         json.put("consumer", user.getName());
         json.put("reference", user.getRef());
-        json.put("totalAmount", invoice.getTotalAmount());
-        json.put("totalAmountWithVat", invoice.getTotalAmountWithVat());
+        String totalAmount = invoice.getTotalAmount().toString()+currency;
+        json.put("totalAmount", totalAmount);
+        String totalAmountWithVat = invoice.getTotalAmountWithVat().toString()+currency;
+        json.put("totalAmountWithVat", totalAmountWithVat);
 
 
         List<Price> prices = user.getPrice();
@@ -65,14 +60,15 @@ public class JsonGenerator {
             invoiceLine.put("price", price);
             int priceList = invoiceLines.get(i).getPriceList();
             invoiceLine.put("priceList", priceList);
-            BigDecimal amount = invoiceLines.get(i).getAmount();
+            String amount = invoiceLines.get(i).getAmount().toString()+currency;
             invoiceLine.put("amount", amount);
             lines.put(invoiceLine);
 
             vatJsonObj.put("index", vatLines.get(i).getIndex());
             vatJsonObj.put("lineIndex", index);
             vatJsonObj.put("percentage", vatLines.get(i).getVatPercentage());
-            vatJsonObj.put("amount", vatLines.get(i).getAmount());
+            String vatAmount = vatLines.get(i).getAmount().toString()+currency;
+            vatJsonObj.put("amount", vatAmount);
             vatArrayJson.put(vatJsonObj);
 
         }

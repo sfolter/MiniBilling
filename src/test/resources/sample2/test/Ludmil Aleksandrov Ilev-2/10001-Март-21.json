@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-11T09:58:56.242814700",
+    "documentDate": "2022-08-11T11:40:32.764726",
     "documentNumber": "10001",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
-    "totalAmount": 127.78,
-    "totalAmountWithVat": 153.33,
+    "totalAmount": "124.35EUR",
+    "totalAmountWithVat": "149.22EUR",
     "lines": [
         {
             "index": 1,
@@ -12,9 +12,9 @@
             "lineStart": "2021-01-01T08:00:00Z",
             "lineEnd": "2021-02-28T23:59:59Z",
             "product": "gas",
-            "price": 0.21,
+            "price": 0.2,
             "priceList": 2,
-            "amount": 22.36
+            "amount": "21.76EUR"
         },
         {
             "index": 2,
@@ -22,9 +22,9 @@
             "lineStart": "2021-03-01T00:00:00Z",
             "lineEnd": "2021-03-25T13:40:00Z",
             "product": "gas",
-            "price": 2.31,
+            "price": 2.25,
             "priceList": 2,
-            "amount": 105.42
+            "amount": "102.59EUR"
         }
     ],
     "vat": [
@@ -32,13 +32,13 @@
             "index": 1,
             "lineIndex": 1,
             "percentage": 20,
-            "amount": 4.47
+            "amount": "4.35EUR"
         },
         {
             "index": 2,
             "lineIndex": 2,
             "percentage": 20,
-            "amount": 21.08
+            "amount": "20.52EUR"
         }
     ]
 }

@@ -14,10 +14,10 @@ public class Main {
 //        String yearMonthStr = args[0];
 //        String resourceDir = args[1];
 //        String outputDir = args[2];
-        String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
-        String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
-        String yearMonthStr = "21-03";
-        String currency = "USD";
+        final String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
+        final String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
+        final String yearMonthStr = "21-03";
+        final String currency = "EUR";
 
 
         CsvFileUserReader userFileRead = new CsvFileUserReader();
@@ -34,12 +34,12 @@ public class Main {
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
             Collection<Measurement> measurmentGenerated = measurementGenerator.generate();
 
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurmentGenerated, priceList, yearMonthStr, currency);
-            Invoice invoice = invoiceGenerator.generate();
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(new CurrencyConvertor());
+            Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, currency);
             FolderGenerator folderGenerator = new FolderGenerator();
             String folder = folderGenerator.generate(user, outputDir);
-            JsonGenerator jsonGenerator = new JsonGenerator(invoice, folder);
-            JSONObject jsonInvoiceObject = jsonGenerator.generate();
+            JsonGenerator jsonGenerator = new JsonGenerator();
+            JSONObject jsonInvoiceObject = jsonGenerator.generate(invoice,currency);
             JsonFileGenerator jsonFileGenerator = new JsonFileGenerator();
             jsonFileGenerator.generateJsonFile(jsonInvoiceObject, folder);
 

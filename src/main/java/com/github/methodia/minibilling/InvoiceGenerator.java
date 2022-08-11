@@ -13,24 +13,18 @@ import java.util.Collection;
 import java.util.List;
 
 public class InvoiceGenerator {
-    private final User user;
-    private final Collection<Measurement> measurements;
-    private final Collection<Price> prices;
-    private final String yearMonthStr;
-    private final String currency;
+    private CurrencyConvertor currencyConvertor = new CurrencyConvertor();
+    private final BigDecimal percentage = BigDecimal.valueOf(20);
 
-    public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr, String currency) {
-        this.user = user;
-        this.measurements = measurements;
-        this.prices = prices;
-        this.yearMonthStr = yearMonthStr;
-        this.currency = currency;
+    public InvoiceGenerator(CurrencyConvertor currencyConvertor) {
+        this.currencyConvertor=currencyConvertor;
+
     }
 
-    CurrencyConvertor currencyConvertor = new CurrencyConvertor();
 
 
-    public Invoice generate() throws IOException, ParseException {
+
+    public Invoice generate(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr, String currency) throws IOException, ParseException {
         BigDecimal currencyRate = currencyConvertor.convertCurrency(currency);
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
@@ -55,7 +49,7 @@ public class InvoiceGenerator {
                 BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
                 amount = amount.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
                 totalAmount = totalAmount.add(amount);
-                BigDecimal percentage = BigDecimal.valueOf(20);
+
                 BigDecimal vatAmount = (amount.multiply(percentage)).divide(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_EVEN);
                 BigDecimal amountWithVat = vatAmount.add(amount);
                 totalAmountWithVat = totalAmountWithVat.add(amountWithVat);
