@@ -13,16 +13,19 @@ public class Invoice {
     private BigDecimal totalAmountWithVat;
     private List<InvoiceLine> lines;
     private List<VAT> vatsLines;
+
+    private List<Taxes> taxesLines;
     private static long counter = 9999;
 
     public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, BigDecimal totalAmountWithVat,
-                   List<InvoiceLine> lines, List<VAT> vatsLines) {
+                   List<InvoiceLine> lines, List<VAT> vatsLines, List<Taxes> taxesLines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.totalAmount = totalAmount;
         this.totalAmountWithVat = totalAmountWithVat;
         this.lines = lines;
+        this.taxesLines = taxesLines;
         this.vatsLines = vatsLines;
         counter++;
     }
@@ -49,6 +52,10 @@ public class Invoice {
 
     public List<InvoiceLine> getLines() {
         return lines;
+    }
+
+    public List<Taxes> getTaxesLines() {
+        return taxesLines;
     }
 
     public List<VAT> getVatsLines() {

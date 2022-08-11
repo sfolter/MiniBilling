@@ -29,9 +29,8 @@ public class Main {
         Map<String, User> userMap = userReader.read();
         CSVReadingReader readingReader = new CSVReadingReader(inPath);
         Collection<Reading> readingCollection = readingReader.read();
-
-        for (int i = 1; i <= userMap.size(); i++) {
-            User user = userMap.get(String.valueOf(i));
+        for (Map.Entry<String, User> userFromMap : userMap.entrySet()) {
+            User user = userFromMap.getValue();
             List<Price> price = user.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingCollection);
             Collection<Measurement> measurements = measurementGenerator.generate();
@@ -41,7 +40,6 @@ public class Main {
             String folderPath = folderGenerator.folderGenerate();
             JSONGenerator jsonGenerator = new JSONGenerator(invoice, folderPath, currency);
             jsonGenerator.generateJSON();
-
         }
     }
 }

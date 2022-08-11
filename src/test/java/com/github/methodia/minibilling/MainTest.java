@@ -18,20 +18,20 @@ import java.util.stream.Collectors;
 public class MainTest {
 
     @Test
-    void testSample1() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException {
+    void testSample1() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException, org.json.simple.parser.ParseException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
     @Test
-    void testSample2() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException {
+    void testSample2() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException, org.json.simple.parser.ParseException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, NoSuchFieldException, IllegalAccessException, ParseException {
+    private void testSample(int sampleNumber, String yearMonth) throws IOException, NoSuchFieldException, IllegalAccessException, ParseException, org.json.simple.parser.ParseException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};

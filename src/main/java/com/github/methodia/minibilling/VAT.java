@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class VAT {
-    int index;
-    int lines;
-    int percentage;
-    BigDecimal amount;
+    private int index;
+    private int lines;
+    private int percentage;
+    private BigDecimal amount;
 
     public VAT(int index, int lines, int percentage, BigDecimal amount) {
         this.index = index;
