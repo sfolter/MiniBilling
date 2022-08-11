@@ -19,10 +19,9 @@ public class MeasurementGenerator {
 
     Collection<Measurement> generate() {
         List<Measurement> measurements = new ArrayList<>();
-        User user1 = user;
         List<Reading> previous = new ArrayList<>();
         for (Reading reading : readings)
-            if (user1.getRef().equals(reading.getUser().getRef())) {
+            if (user.getRef().equals(reading.getUser().getRef())) {
                 if (previous.isEmpty()) {
                     previous.add(reading);
                 } else {

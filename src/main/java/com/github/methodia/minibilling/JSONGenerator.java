@@ -22,9 +22,12 @@ public class JSONGenerator {
     Invoice invoice;
     String folderPath;
 
-    public JSONGenerator(Invoice invoice, String folderPath) {
+    String currency;
+
+    public JSONGenerator(Invoice invoice, String folderPath, String currency) {
         this.invoice = invoice;
         this.folderPath = folderPath;
+        this.currency = currency;
     }
 
     JSONObject json = new JSONObject();
@@ -34,6 +37,7 @@ public class JSONGenerator {
     JSONArray vatLines = new JSONArray();
 
     String documentNumber = Invoice.getDocumentNumber();
+
 
     public void generateJSON() throws ParseException, IOException {
         User user = invoice.getConsumer();
@@ -65,8 +69,8 @@ public class JSONGenerator {
             json.put("documentNumber", documentNumber);
             json.put("consumer", user.getName());
             json.put("reference", user.getRef());
-            json.put("totalAmount", invoice.getTotalAmount());
-            json.put("totalAmountWithVat", invoice.getTotalAmountWithVat());
+            json.put("totalAmount", invoice.getTotalAmount().toString() + " " + currency);
+            json.put("totalAmountWithVat", invoice.getTotalAmountWithVat().toString() + " " + currency);
 
 
             int index = invoice.getLines().get(i).getIndex();
@@ -84,16 +88,16 @@ public class JSONGenerator {
             int priceList = invoice.getLines().get(i).getPriceList();
             newLine.put("priceList", priceList);
             BigDecimal amount = invoice.getLines().get(i).getAmount();
-            newLine.put("amount", amount);
+            newLine.put("amount", amount.toString() + " " + currency);
             lines.put(newLine);
             int indexInVat = invoice.getVatsLines().get(i).getIndex();
             newVatLine.put("index", indexInVat);
-            List<Integer> linesInVat = invoice.getVatsLines().get(i).getLines();
+            int linesInVat = invoice.getVatsLines().get(i).getLines();
             newVatLine.put("lines", linesInVat);
             int percentage = invoice.getVatsLines().get(i).getPercentage();
             newVatLine.put("percentage", percentage);
             BigDecimal amountInVat = invoice.getVatsLines().get(i).getAmount();
-            newVatLine.put("amount", amountInVat);
+            newVatLine.put("amount", amountInVat.toString() + " " + currency);
             vatLines.put(newVatLine);
 
         }

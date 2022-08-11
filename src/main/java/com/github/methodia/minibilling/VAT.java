@@ -5,11 +5,11 @@ import java.util.List;
 
 public class VAT {
     int index;
-    List<Integer> lines;
+    int lines;
     int percentage;
     BigDecimal amount;
 
-    public VAT(int index, List<Integer> lines, int percentage, BigDecimal amount) {
+    public VAT(int index, int lines, int percentage, BigDecimal amount) {
         this.index = index;
         this.lines = lines;
         this.percentage = percentage;
@@ -20,7 +20,7 @@ public class VAT {
         return index;
     }
 
-    public List<Integer> getLines() {
+    public int getLines() {
         return lines;
     }
 

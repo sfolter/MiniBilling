@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-10T17:51:47.752067900",
+    "documentDate": "2022-08-11T14:42:24.553055200",
     "documentNumber": "10000",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
-    "totalAmount": 73.08,
-    "totalAmountWithVat": 87.69,
+    "totalAmount": "37.37 EUR",
+    "totalAmountWithVat": "44.84 EUR",
     "lines": [
         {
             "index": 1,
@@ -14,7 +14,7 @@
             "product": "gas",
             "price": 0.7,
             "priceList": 1,
-            "amount": 48.72
+            "amount": "24.91 EUR"
         },
         {
             "index": 2,
@@ -24,27 +24,21 @@
             "product": "gas",
             "price": 1.4,
             "priceList": 1,
-            "amount": 24.36
+            "amount": "12.46 EUR"
         }
     ],
     "vat": [
         {
             "index": 1,
-            "lines": [
-                1,
-                2
-            ],
+            "lines": 1,
             "percentage": 20,
-            "amount": 9.74
+            "amount": "4.98 EUR"
         },
         {
             "index": 2,
-            "lines": [
-                1,
-                2
-            ],
+            "lines": 2,
             "percentage": 20,
-            "amount": 4.87
+            "amount": "2.49 EUR"
         }
     ]
 }

@@ -15,6 +15,7 @@ public class CSVUserReader implements UsersReader {
     public CSVUserReader(String path) {
         this.path = path;
     }
+
     @Override
     public Map<String, User> read() {
         Map<String, User> userMap = new LinkedHashMap<>();
