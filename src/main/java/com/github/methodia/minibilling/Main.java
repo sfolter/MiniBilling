@@ -16,11 +16,11 @@ public class Main {
 
         final UserReader userReader = new UserReader(new PriceReader());
 
-        final ReadingReader readingReader = new ReadingReader();
         Map<String, User> users = userReader.read(resourceDirectory);
+        final ReadingReader readingReader = new ReadingReader(users);
         List<Reading> readingCollection = readingReader.read(resourceDirectory);
-
         for (int i = 1; i <= users.size(); i++) {
+
             User user = users.get(String.valueOf(i));
             List<Price> priceList = user.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingCollection);
@@ -29,7 +29,7 @@ public class Main {
             Invoice invoice = invoiceGenerator.generate(documentNumberId.getAndIncrement(), dateToReporting);
 
             try {
-                SaveInvoice.saveToFile(invoice, user, outputDirectory, dateToReporting);
+                SaveInvoice.saveToFile(invoice, outputDirectory, dateToReporting);
             } catch (IOException | ParseException e) {
                 throw new RuntimeException(e);
             }

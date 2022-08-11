@@ -7,7 +7,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
     private final Collection<Measurement> measurements;

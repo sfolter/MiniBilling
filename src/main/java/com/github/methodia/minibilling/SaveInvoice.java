@@ -21,7 +21,7 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 public class SaveInvoice {
-    public static void saveToFile(Invoice invoice, User user, String outputPath, String dateToReporting) throws ParseException, IOException {
+    public static void saveToFile(Invoice invoice, String outputPath, String dateToReporting) throws ParseException, IOException {
 
         LocalDate borderTime = Formatter.parseBorder(dateToReporting);
 
@@ -33,7 +33,7 @@ public class SaveInvoice {
         String month1 = month.substring(0, 1).toUpperCase() + month.substring(1);
         int outputOfTheYear = borderTime.getYear() % 100;
 
-        String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
+        String folderPath = outputPath + "\\" + invoice.getConsumer() + "-" + invoice.getReference();
         createFolder(folderPath);
 
         String jsonFilePath = folderPath + "\\" + invoice.getDocumentNumber() + "-" + month1 + "-" + outputOfTheYear + ".json";
