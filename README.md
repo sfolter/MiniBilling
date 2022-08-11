@@ -138,7 +138,7 @@ Mini Billing
       "lines": [
         1
       ],
-      "percentage": 20,
+      "percentage": 20,1
       "amount": 156.96
     }
   ]
@@ -185,7 +185,9 @@ Mini Billing
     {
       "index": 1,
       "lines": [
-        1
+        
+        
+        
       ],
       "taxes": [],
       "taxedAmountPercentage": 60,

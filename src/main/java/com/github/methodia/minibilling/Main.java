@@ -31,8 +31,8 @@ public class Main {
         for (int i = 1; i <= users.size(); i++) {
             User user = userMap.get(String.valueOf(i));
             List<Price> priceList = user.getPrice();
-            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
-            Collection<Measurement> measurmentGenerated = measurementGenerator.generate();
+            MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+            Collection<Measurement> measurmentGenerated = measurementGenerator.generate(user, readings);
 
             InvoiceGenerator invoiceGenerator = new InvoiceGenerator(new CurrencyConvertor());
             Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, currency);

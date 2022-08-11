@@ -11,8 +11,8 @@ public class CurrencyConvertor {
     public BigDecimal convertCurrency(String currency) throws IOException, ParseException {
         JSONObject json = CurrencyExchangeRate.currencyExchangeRate();
         JSONObject conversion_rates = (JSONObject) json.get("conversion_rates");
-        Double currencyRateInDouble = (Double) conversion_rates.get(currency);
-        BigDecimal currencyRate = BigDecimal.valueOf(currencyRateInDouble);
+        String currencyRateStr =  conversion_rates.get(currency).toString();
+        BigDecimal currencyRate=new BigDecimal(currencyRateStr);
         return currencyRate;
 
     }

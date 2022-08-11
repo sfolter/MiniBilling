@@ -11,26 +11,20 @@ import java.util.List;
  * Methodia Inc.
  */
 public class MeasurementGenerator {
-    private User user;
-    private Collection<Reading> readings;
 
-    public MeasurementGenerator(User user, Collection<Reading> readings) {
-        this.user = user;
-        this.readings = readings;
-    }
 
-    Collection<Measurement> generate() {
+    Collection<Measurement> generate(User user, Collection<Reading> readings) {
 
         List<Measurement> measurements = new ArrayList<>();
-        List<Reading> previous = new ArrayList<>();
+        Reading previous =null;
         for (Reading reading : readings)
             if (user.getRef().equals(reading.getUser().getRef())) {
-                if (previous.isEmpty()) {
-                    previous.add(reading);
+                if (previous==null) {
+                    previous=reading;
                 } else {
-                    BigDecimal value = reading.getValue().subtract(previous.get(0).getValue());
-                    measurements.add(new Measurement(previous.get(0).getTime().toLocalDateTime(), reading.getTime().toLocalDateTime(), value, user));
-                    previous.set(0, reading);
+                    BigDecimal value = reading.getValue().subtract(previous.getValue());
+                    measurements.add(new Measurement(previous.getTime().toLocalDateTime(), reading.getTime().toLocalDateTime(), value, user));
+                    previous = reading;
                 }
 
 

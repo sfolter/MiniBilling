@@ -14,7 +14,7 @@ import java.util.List;
 
 public class InvoiceGenerator {
     private CurrencyConvertor currencyConvertor = new CurrencyConvertor();
-    private final BigDecimal percentage = BigDecimal.valueOf(20);
+    private final BigDecimal VAT_PERCENTAGE = BigDecimal.valueOf(20);
 
     public InvoiceGenerator(CurrencyConvertor currencyConvertor) {
         this.currencyConvertor=currencyConvertor;
@@ -50,11 +50,11 @@ public class InvoiceGenerator {
                 amount = amount.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
                 totalAmount = totalAmount.add(amount);
 
-                BigDecimal vatAmount = (amount.multiply(percentage)).divide(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal vatAmount = (amount.multiply(VAT_PERCENTAGE)).divide(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_EVEN);
                 BigDecimal amountWithVat = vatAmount.add(amount);
                 totalAmountWithVat = totalAmountWithVat.add(amountWithVat);
                 invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
-                vatLines.add(new VatLine(index, index, percentage, vatAmount));
+                vatLines.add(new VatLine(index, index, VAT_PERCENTAGE, vatAmount));
             }
         }
 
