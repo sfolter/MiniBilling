@@ -5,22 +5,16 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 public class CsvFileUserReader implements UsersReader {
 
-    static Map<String, User> userMap = new LinkedHashMap<>();
-
-    public static Map<String, User> getUserMap() {
-        return userMap;
-    }
-
     @Override
-    public List<User> read(String path) {
+    public TreeMap<String, User> read(String path) {
         String[] line;
         CsvFilePriceReader price = new CsvFilePriceReader();
+        final TreeMap<String, User> userMap = new TreeMap<>();
         final List<User> userList = new ArrayList<>();
         int counter = 0;
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\users.csv"))) {
@@ -30,9 +24,10 @@ public class CsvFileUserReader implements UsersReader {
                 userMap.put(line[1], userList.get(counter));
                 counter++;
             }
+            return userMap;
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);
         }
-        return userList;
+
     }
 }

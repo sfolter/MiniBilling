@@ -16,11 +16,11 @@ public class MeasurementGenerator {
     Collection<Measurement> generate(User user, Collection<Reading> readings) {
 
         List<Measurement> measurements = new ArrayList<>();
-        Reading previous =null;
+        Reading previous = null;
         for (Reading reading : readings)
             if (user.getRef().equals(reading.getUser().getRef())) {
-                if (previous==null) {
-                    previous=reading;
+                if (previous == null) {
+                    previous = reading;
                 } else {
                     BigDecimal value = reading.getValue().subtract(previous.getValue());
                     measurements.add(new Measurement(previous.getTime().toLocalDateTime(), reading.getTime().toLocalDateTime(), value, user));

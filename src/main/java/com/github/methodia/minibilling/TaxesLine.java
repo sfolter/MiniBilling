@@ -11,12 +11,12 @@ public class TaxesLine {
     private final int index;
     private final int linesIndex;
     private final String name;
-    private final int daysQuantity;
+    private final long daysQuantity;
     private final String unit;
     private final BigDecimal price;
     private final BigDecimal amount;
 
-    public TaxesLine(int index, int linesIndex, String name, int daysQuantity, String unit, BigDecimal price, BigDecimal amount) {
+    public TaxesLine(int index, int linesIndex, String name, long daysQuantity, String unit, BigDecimal price, BigDecimal amount) {
         this.index = index;
         this.linesIndex = linesIndex;
         this.name = name;
@@ -38,7 +38,7 @@ public class TaxesLine {
         return name;
     }
 
-    public int getDaysQuantity() {
+    public long getDaysQuantity() {
         return daysQuantity;
     }
 

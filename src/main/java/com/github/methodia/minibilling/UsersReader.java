@@ -1,6 +1,6 @@
 package com.github.methodia.minibilling;
 
-import java.util.List;
+import java.util.TreeMap;
 
 /**
  * @author Miroslav Kovachev
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface UsersReader {
 
-    List<User> read(String path);
+    TreeMap<String, User> read(String path);
 
 
 }

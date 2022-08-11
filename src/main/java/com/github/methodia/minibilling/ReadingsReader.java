@@ -1,6 +1,7 @@
 package com.github.methodia.minibilling;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author Miroslav Kovachev
@@ -9,5 +10,5 @@ import java.util.Collection;
  */
 public interface ReadingsReader {
 
-    Collection<Reading> read(String path);
+    Collection<Reading> read(Map<String, User> userMap, String path);
 }

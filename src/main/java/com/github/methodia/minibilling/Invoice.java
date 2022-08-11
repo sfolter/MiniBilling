@@ -7,17 +7,18 @@ import java.util.List;
 public class Invoice {
 
     private static long idContour = 9999;
-    private LocalDateTime documentDate;
-    private String documentNumber;
-    private User consumer;
-    private BigDecimal totalAmount;
-    private BigDecimal totalAmountWithVat;
-    private List<InvoiceLine> lines;
-    private List<VatLine> vatLines;
+    private final LocalDateTime documentDate;
+    private final String documentNumber;
+    private final User consumer;
+    private final BigDecimal totalAmount;
+    private final BigDecimal totalAmountWithVat;
+    private final List<InvoiceLine> lines;
+    private final List<VatLine> vatLines;
+    private final List<TaxesLine> taxesLines;
 
 
     public Invoice(LocalDateTime documentDate, String documentNumber, User consumer,
-                   BigDecimal totalAmount, BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<VatLine> vatLines) {
+                   BigDecimal totalAmount, BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<VatLine> vatLines, List<TaxesLine> taxesLines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -26,6 +27,7 @@ public class Invoice {
         this.lines = lines;
         this.vatLines = vatLines;
         idContour++;
+        this.taxesLines = taxesLines;
     }
 
     public LocalDateTime getDocumentDate() {
@@ -56,5 +58,9 @@ public class Invoice {
 
     public BigDecimal getTotalAmountWithVat() {
         return totalAmountWithVat;
+    }
+
+    public List<TaxesLine> getTaxesLines() {
+        return taxesLines;
     }
 }

@@ -3,11 +3,8 @@ package com.github.methodia.minibilling;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -15,25 +12,26 @@ import java.util.List;
 
 public class JsonGenerator {
 
-    public JSONObject generate(Invoice invoice, String currency) throws ParseException, IOException {
+    public JSONObject generate(Invoice invoice, String currency) {
 
         User user = invoice.getConsumer();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
         List<InvoiceLine> invoiceLines = invoice.getLines();
         List<VatLine> vatLines = invoice.getVatLines();
-        LocalDateTime end = invoiceLines.get(invoiceLines.size() - 1).getEnd();
+        List<TaxesLine> taxesLines = invoice.getTaxesLines();
         JSONObject json = new JSONObject();
         JSONArray lines = new JSONArray();
         JSONArray vatArrayJson = new JSONArray();
+        JSONArray taxesArray = new JSONArray();
         orderedJsonObj(json);
         String documentNumber = Invoice.getDocumentNumber();
         json.put("documentDate", invoice.getDocumentDate());
         json.put("documentNumber", documentNumber);
         json.put("consumer", user.getName());
         json.put("reference", user.getRef());
-        String totalAmount = invoice.getTotalAmount().toString()+currency;
+        String totalAmount = invoice.getTotalAmount().toString() + currency;
         json.put("totalAmount", totalAmount);
-        String totalAmountWithVat = invoice.getTotalAmountWithVat().toString()+currency;
+        String totalAmountWithVat = invoice.getTotalAmountWithVat().toString() + currency;
         json.put("totalAmountWithVat", totalAmountWithVat);
 
 
@@ -41,10 +39,11 @@ public class JsonGenerator {
         for (int i = 0; i < prices.size(); i++) {
             JSONObject invoiceLine = new JSONObject();
             JSONObject vatJsonObj = new JSONObject();
+            JSONObject taxesJsonObj = new JSONObject();
 
             orderedJsonObj(invoiceLine);
             orderedJsonObj(vatJsonObj);
-
+            orderedJsonObj(taxesJsonObj);
 
             int index = invoiceLines.get(i).getIndex();
             invoiceLine.put("index", index);
@@ -60,19 +59,34 @@ public class JsonGenerator {
             invoiceLine.put("price", price);
             int priceList = invoiceLines.get(i).getPriceList();
             invoiceLine.put("priceList", priceList);
-            String amount = invoiceLines.get(i).getAmount().toString()+currency;
+            String amount = invoiceLines.get(i).getAmount().toString() + currency;
             invoiceLine.put("amount", amount);
             lines.put(invoiceLine);
 
             vatJsonObj.put("index", vatLines.get(i).getIndex());
             vatJsonObj.put("lineIndex", index);
             vatJsonObj.put("percentage", vatLines.get(i).getVatPercentage());
-            String vatAmount = vatLines.get(i).getAmount().toString()+currency;
+            String vatAmount = vatLines.get(i).getAmount().toString() + currency;
             vatJsonObj.put("amount", vatAmount);
             vatArrayJson.put(vatJsonObj);
 
+            taxesJsonObj.put("index", index);
+            taxesJsonObj.put("linesIndex", index);
+            String nameForTaxes = taxesLines.get(i).getName();
+            taxesJsonObj.put("name", nameForTaxes);
+            long daysQuantity = taxesLines.get(i).getDaysQuantity();
+            taxesJsonObj.put("quantity", daysQuantity);
+            String unit = taxesLines.get(i).getUnit();
+            taxesJsonObj.put("unit", unit);
+            String priceForTaxes = taxesLines.get(i).getPrice().toString() + currency;
+            taxesJsonObj.put("price", priceForTaxes);
+            String amountForTaxes = taxesLines.get(i).getAmount().toString() + currency;
+            taxesJsonObj.put("amount", amountForTaxes);
+            taxesArray.put(taxesJsonObj);
+
         }
         json.put("lines", lines);
+        json.put("taxes", taxesArray);
         json.put("vat", vatArrayJson);
         return json;
     }

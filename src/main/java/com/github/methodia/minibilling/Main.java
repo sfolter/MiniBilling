@@ -6,41 +6,41 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException {
-//
 //        String yearMonthStr = args[0];
 //        String resourceDir = args[1];
 //        String outputDir = args[2];
+
         final String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
         final String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
         final String yearMonthStr = "21-03";
-        final String currency = "EUR";
+        final String currency = "BGN";
 
-
+        //user.csv
         CsvFileUserReader userFileRead = new CsvFileUserReader();
-        List<User> users = userFileRead.read(resourceDir);
-        Map<String, User> userMap = CsvFileUserReader.getUserMap();
+        TreeMap<String, User> userMap = userFileRead.read(resourceDir);
+
         //readings.csv
         CsvFileReadingReader reading = new CsvFileReadingReader();
-        Collection<Reading> readings = reading.read(resourceDir);
+        Collection<Reading> readings = reading.read(userMap, resourceDir);
 
+        //Creating objects
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(new CurrencyConvertor());
+        FolderGenerator folderGenerator = new FolderGenerator();
+        JsonGenerator jsonGenerator = new JsonGenerator();
+        JsonFileGenerator jsonFileGenerator = new JsonFileGenerator();
 
-        for (int i = 1; i <= users.size(); i++) {
-            User user = userMap.get(String.valueOf(i));
+        for (String refNumb : userMap.keySet()) {
+            User user = userMap.get(refNumb);
             List<Price> priceList = user.getPrice();
-            MeasurementGenerator measurementGenerator = new MeasurementGenerator();
             Collection<Measurement> measurmentGenerated = measurementGenerator.generate(user, readings);
-
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(new CurrencyConvertor());
             Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, currency);
-            FolderGenerator folderGenerator = new FolderGenerator();
             String folder = folderGenerator.generate(user, outputDir);
-            JsonGenerator jsonGenerator = new JsonGenerator();
-            JSONObject jsonInvoiceObject = jsonGenerator.generate(invoice,currency);
-            JsonFileGenerator jsonFileGenerator = new JsonFileGenerator();
+            JSONObject jsonInvoiceObject = jsonGenerator.generate(invoice, currency);
             jsonFileGenerator.generateJsonFile(jsonInvoiceObject, folder);
 
 
