@@ -15,7 +15,7 @@ public class CurrencyConverter {
 
     protected static BigDecimal getCurrencyValue(User user) {
         try {
-            String getRequest= makeGetRequest(user);
+            String getRequest= httpGetRequest(user);
             JSONObject obj=new JSONObject(getRequest);
             System.out.println(obj);
             JSONObject result= obj.getJSONObject("info");
@@ -28,7 +28,7 @@ public class CurrencyConverter {
 
 
     }
-    private static String makeGetRequest(User user) {
+    private static String httpGetRequest(User user) {
         try {
             String urlLink = "https://api.apilayer.com/fixer/convert?to=BGN&from="+user.getCyrrency()+"&amount=1";
 
