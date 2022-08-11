@@ -1,30 +1,28 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class VatLine {
-    int index;
-    List<Integer> lines;
-    int percentage;
-    BigDecimal amount;
+    private final int index;
+    private final int lines;
+    private final BigDecimal percentage;
+    private final BigDecimal amount;
 
-    public VatLine(int index, List<Integer> lines, int percentage, BigDecimal amount) {
+    public VatLine(int index, int lineIndex, BigDecimal percentage, BigDecimal amount) {
         this.index = index;
-        this.lines = lines;
+        this.lines = lineIndex;
         this.percentage = percentage;
         this.amount = amount;
     }
-
     public int getIndex() {
         return index;
     }
 
-    public List<Integer> getLines() {
+    public Integer getLines() {
         return lines;
     }
 
-    public int getPercentage() {
+    public BigDecimal getPercentage() {
         return percentage;
     }
 
