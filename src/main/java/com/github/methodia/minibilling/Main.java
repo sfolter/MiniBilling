@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) throws ParseException, IOException {
+    public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException {
 //
 //        String yearMonthStr = args[0];
 //        String resourceDir = args[1];
@@ -17,6 +17,7 @@ public class Main {
         String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
         String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
         String yearMonthStr = "21-03";
+        String currency = "USD";
 
 
         CsvFileUserReader userFileRead = new CsvFileUserReader();
@@ -33,7 +34,7 @@ public class Main {
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
             Collection<Measurement> measurmentGenerated = measurementGenerator.generate();
 
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurmentGenerated, priceList, yearMonthStr);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurmentGenerated, priceList, yearMonthStr, currency);
             Invoice invoice = invoiceGenerator.generate();
             FolderGenerator folderGenerator = new FolderGenerator();
             String folder = folderGenerator.generate(user, outputDir);

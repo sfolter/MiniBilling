@@ -1,5 +1,8 @@
 package com.github.methodia.minibilling;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -14,16 +17,21 @@ public class InvoiceGenerator {
     private final Collection<Measurement> measurements;
     private final Collection<Price> prices;
     private final String yearMonthStr;
+    private final String currency;
 
-    public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr) {
+    public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr, String currency) {
         this.user = user;
         this.measurements = measurements;
         this.prices = prices;
         this.yearMonthStr = yearMonthStr;
+        this.currency = currency;
     }
 
+    CurrencyConvertor currencyConvertor = new CurrencyConvertor();
 
-    public Invoice generate() {
+
+    public Invoice generate() throws IOException, ParseException {
+        BigDecimal currencyRate = currencyConvertor.convertCurrency(currency);
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
         YearMonth yearMonth = YearMonth.parse(yearMonthStr, DateTimeFormatter.ofPattern("yy-MM"));
@@ -42,8 +50,10 @@ public class InvoiceGenerator {
 
                 String product = qpp.getPrice().getProduct();
                 BigDecimal price = qpp.getPrice().getValue();
+                price = price.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
                 int priceList = user.getPriceListNumber();
                 BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
+                amount = amount.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
                 totalAmount = totalAmount.add(amount);
                 BigDecimal percentage = BigDecimal.valueOf(20);
                 BigDecimal vatAmount = (amount.multiply(percentage)).divide(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_EVEN);
