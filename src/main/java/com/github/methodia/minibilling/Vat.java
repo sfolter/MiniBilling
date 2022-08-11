@@ -21,4 +21,7 @@ public class Vat {
         return lines;
     }
 
+    public BigDecimal getAmount() {
+        return amount;
+    }
 }

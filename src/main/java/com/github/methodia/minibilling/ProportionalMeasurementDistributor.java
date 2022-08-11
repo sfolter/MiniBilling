@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
     private final Collection<Measurement> measurements;
@@ -78,17 +79,9 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
     }
 
     private List<Price> filterPricesByMeasurementIntersection(Measurement measurement) {
-        final ArrayList<Price> filteredPrices = new ArrayList<>();
-        final ZonedDateTime measurementStart = measurement.getStart();
-        final ZonedDateTime measurementEnd = measurement.getEnd();
-        for (Price price : prices) {
-            final ZonedDateTime priceStart = price.getStart();
-            final ZonedDateTime priceEnd = price.getEnd();
-            if (measurementStart.isBefore(priceEnd.plusDays(1)) && measurementEnd.isAfter(
-                    priceStart.plusDays(1))) {
-                filteredPrices.add(price);
-            }
-        }
-        return filteredPrices;
+        return prices.stream()
+                .filter(price -> measurement.getStart().isBefore(price.getEnd().plusDays(1)) && measurement.getEnd().isAfter(
+                        price.getStart().plusDays(1)))
+                .toList();
     }
 }

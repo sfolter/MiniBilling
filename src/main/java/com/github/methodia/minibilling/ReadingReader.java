@@ -37,7 +37,7 @@ public class ReadingReader implements ReadingsReader {
         String referentNumber = dataReading[0];
         ZonedDateTime date = Formatter.parseReading(dataReading[2]);
         BigDecimal value = BigDecimal.valueOf(Long.parseLong(dataReading[3]));
-        UserReader userReader = new UserReader();
+        UserReader userReader = new UserReader(new PriceReader());
         Map<String, User> users = userReader.read(directory);
 
         return new Reading(date, value, users.get(referentNumber));

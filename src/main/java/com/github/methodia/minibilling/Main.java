@@ -14,7 +14,8 @@ public class Main {
         String dateToReporting = args[0];
         AtomicLong documentNumberId = new AtomicLong(10000);
 
-        final UserReader userReader = new UserReader();
+        final UserReader userReader = new UserReader(new PriceReader());
+
         final ReadingReader readingReader = new ReadingReader();
         Map<String, User> users = userReader.read(resourceDirectory);
         List<Reading> readingCollection = readingReader.read(resourceDirectory);
@@ -25,7 +26,7 @@ public class Main {
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingCollection);
             Collection<Measurement> measurementCollection = measurementGenerator.generate();
             InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurementCollection, priceList);
-            Invoice invoice = invoiceGenerator.generate(documentNumberId.getAndIncrement(),dateToReporting);
+            Invoice invoice = invoiceGenerator.generate(documentNumberId.getAndIncrement(), dateToReporting);
 
             try {
                 SaveInvoice.saveToFile(invoice, user, outputDirectory, dateToReporting);

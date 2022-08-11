@@ -7,6 +7,11 @@ import java.util.stream.Collectors;
 import static java.lang.Integer.parseInt;
 
 public class UserReader implements UsersReader {
+    private final PriceReader pricesReader;
+
+    public UserReader(PriceReader pricesReader) {
+        this.pricesReader = pricesReader;
+    }
 
     @Override
     public Map<String, User> read(String directory) {
@@ -31,7 +36,6 @@ public class UserReader implements UsersReader {
         String name = dataForUser[0];
         String referentNumber = dataForUser[1];
         int priceList = parseInt(dataForUser[2]);
-        PricesReader pricesReader = new PriceReader();
         List<Price> pricesReader1 = pricesReader.read(directory, priceList);
 
         return new User(name, referentNumber, priceList, pricesReader1);
