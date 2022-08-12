@@ -15,7 +15,7 @@ public class CurrencyConverter {
 
     String key=Main.ApiKey;
 
-    public CurrencyConverter() {
+    private CurrencyConverter() {
         this.key = Main.ApiKey;
     }
 
