@@ -26,14 +26,14 @@ import java.util.Locale;
  * Methodia Inc.
  */
 public class Main {
-
+    public static String ApiKey="CudLhAGhr1knV5HnZTqPGVRG8gqCOWUP";
     public static void main(String[] args) throws IOException {
         String dateReportingTo = "21-03";
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
-        String inputPath = "C:\\Users\\user\\Desktop\\projectFolder\\MiniBilling\\src\\test\\resources\\sample2\\input";
-        String outputPath = "C:\\Users\\user\\Desktop\\projectFolder\\MiniBilling\\src\\test\\resources\\sample2\\output";
+        String inputPath = "C:\\Users\\user\\Desktop\\New folder\\MiniBilling\\src\\test\\resources\\sample2\\input";
+        String outputPath = "C:\\Users\\user\\Desktop\\New folder\\MiniBilling\\src\\test\\resources\\sample2\\output";
         ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
-
+        readingsFR.read();
         Collection<Reading> allReadings = readingsFR.read().stream()
                 .sorted(Comparator.comparing(Reading::getTime))
                 .toList();

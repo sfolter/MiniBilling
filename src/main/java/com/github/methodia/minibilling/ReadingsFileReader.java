@@ -36,7 +36,7 @@ public class ReadingsFileReader implements ReadingsReader {
                 String time = data[2];
                 ZonedDateTime timeZDT = ZonedDateTime.parse(time).withZoneSameInstant(ZoneId.of("GMT"));
                 LocalDateTime instant = LocalDateTime.from(timeZDT);
-                BigDecimal price = BigDecimal.valueOf(Long.parseLong(data[3]));
+                BigDecimal price =new BigDecimal(data[3]);
 
                 User user = userFileReader.read().stream().filter(user1 -> user1.getRef()
                         .equals(referentNumber)).findFirst().orElse(null);

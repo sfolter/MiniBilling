@@ -63,7 +63,7 @@ public class InvoiceGenerator {
         LocalDateTime end = qpp.getEnd();
         BigDecimal price = qpp.getPrice();
         BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice())
-                .multiply(CurrencyConverter.getCurrencyValue(user))
+                .multiply(CurrencyConverter.getCurrencyValue(user.getCyrrency()))
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         //TODO add product to qpp; remove the following code
         String product = qpp.getProduct();
