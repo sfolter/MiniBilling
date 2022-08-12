@@ -14,10 +14,10 @@ public class Main {
         String dateToReporting = args[0];
         AtomicLong documentNumberId = new AtomicLong(10000);
 
-        final UserReader userReader = new UserReader(new PriceReader());
+        final UserFileReader userReader = new UserFileReader(new PriceFileReader());
 
         Map<String, User> users = userReader.read(resourceDirectory);
-        final ReadingReader readingReader = new ReadingReader(users);
+        final ReadingFileReader readingReader = new ReadingFileReader(users);
         List<Reading> readingCollection = readingReader.read(resourceDirectory);
         for (int i = 1; i <= users.size(); i++) {
 

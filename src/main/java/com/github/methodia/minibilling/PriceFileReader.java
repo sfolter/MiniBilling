@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 
-public class PriceReader implements PricesFileReader {
+public class PriceFileReader implements PricesReader {
     @Override
     public List<Price> read(String directory, int priceListNumber) {
 

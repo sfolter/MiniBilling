@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 
-public class UserReader implements UsersReader {
-    private final PriceReader pricesReader;
+public class UserFileReader implements UsersReader {
+    private final PriceFileReader pricesReader;
 
-    public UserReader(PriceReader pricesReader) {
+    public UserFileReader(PriceFileReader pricesReader) {
         this.pricesReader = pricesReader;
     }
 

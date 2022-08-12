@@ -4,13 +4,12 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
-public class ReadingReader implements ReadingsReader {
+public class ReadingFileReader implements ReadingsReader {
      private final  Map<String, User>users;
 
-    public ReadingReader(Map<String, User> users) {
+    public ReadingFileReader(Map<String, User> users) {
         this.users = users;
     }
 
