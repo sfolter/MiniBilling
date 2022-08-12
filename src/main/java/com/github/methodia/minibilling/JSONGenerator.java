@@ -89,7 +89,7 @@ public class JSONGenerator {
             BigDecimal priceInTaxes = invoice.getTaxesLines().get(i).getPrice();
             newTaxesLine.put("price", priceInTaxes);
             BigDecimal amountInTaxes = invoice.getTaxesLines().get(i).getAmount();
-            newTaxesLine.put("amount", amountInTaxes);
+            newTaxesLine.put("amount", amountInTaxes.toString() + " " + currency);
             taxesLines.put(newTaxesLine);
             int indexInVat = invoice.getVatsLines().get(i).getIndex();
             newVatLine.put("index", indexInVat);

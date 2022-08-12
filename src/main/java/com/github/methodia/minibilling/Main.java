@@ -27,7 +27,7 @@ public class Main {
 
         CSVUserReader userReader = new CSVUserReader(inPath);
         Map<String, User> userMap = userReader.read();
-        CSVReadingReader readingReader = new CSVReadingReader(inPath);
+        CSVReadingReader readingReader = new CSVReadingReader(inPath, userMap);
         Collection<Reading> readingCollection = readingReader.read();
         for (Map.Entry<String, User> userFromMap : userMap.entrySet()) {
             User user = userFromMap.getValue();

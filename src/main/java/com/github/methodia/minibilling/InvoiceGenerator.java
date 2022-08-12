@@ -38,8 +38,8 @@ public class InvoiceGenerator {
         List<Taxes> taxesLines = new ArrayList<>();
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal totalAmountWithVat = BigDecimal.ZERO;
-        CurrencyCoverter currencyCoverter = new CurrencyCoverter(currency);
-        BigDecimal currencyValue = currencyCoverter.currencyConvertor();
+        CurrencyGenerator currencyGenerator = new CurrencyGenerator(currency);
+        BigDecimal currencyValue = currencyGenerator.generateCurrency();
         int counter = 1;
         for (QuantityPricePeriod qpp : distribute) {
             LocalDateTime end = qpp.getEnd();
@@ -62,8 +62,9 @@ public class InvoiceGenerator {
                 String name = "Standing charge";
                 int quantityinTaxes = (int) ChronoUnit.DAYS.between(start, end);
                 String unit = "days";
-                BigDecimal priceinTaxes = new BigDecimal(1.6);
-                BigDecimal amountInTaxes = priceinTaxes.multiply(BigDecimal.valueOf(quantityinTaxes));
+                BigDecimal priceinTaxes = new BigDecimal(1.6).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal amountInTaxes = priceinTaxes.multiply(BigDecimal.valueOf(quantityinTaxes)).setScale(2, RoundingMode.HALF_UP);
+                amountInTaxes=amountInTaxes.multiply(currencyValue).setScale(2, RoundingMode.HALF_UP);
 
                 invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
                 taxesLines.add(new Taxes(indexInTaxes, index, name, quantityinTaxes, unit, priceinTaxes, amountInTaxes));

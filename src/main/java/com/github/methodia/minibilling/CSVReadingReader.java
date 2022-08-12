@@ -12,8 +12,11 @@ import java.util.*;
 public class CSVReadingReader implements ReadingsReader {
     String path;
 
-    public CSVReadingReader(String path) {
+    Map<String, User> userMap;
+
+    public CSVReadingReader(String path, Map<String, User> userMap) {
         this.path = path;
+        this.userMap = userMap;
     }
 
     @Override
@@ -23,8 +26,6 @@ public class CSVReadingReader implements ReadingsReader {
         List<Reading> readingsList = new ArrayList<Reading>();
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\readings.csv"))) {
             while ((line = reader.readNext()) != null) {
-                CSVUserReader userReader = new CSVUserReader(path);
-                Map<String, User> userMap = userReader.read();
                 String time = line[2];
                 ZonedDateTime parsedZonedDateTime = ZonedDateTime.parse(time, DateTimeFormatter.ISO_ZONED_DATE_TIME)
                         .withZoneSameInstant(ZoneId.of("GMT"));
