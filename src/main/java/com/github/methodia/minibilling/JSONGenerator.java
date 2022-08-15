@@ -2,14 +2,8 @@ package com.github.methodia.minibilling;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -24,15 +18,7 @@ public class JsonGenerator {
         this.folderPath = folderPath;
     }
 
-    JSONObject json = new JSONObject();
-
-    JSONArray lines = new JSONArray();
-
-    JSONArray vatLines = new JSONArray();
-
-    String documentNumber = Invoice.getDocumentNumber();
-
-    public JSONObject generateJSON(Invoice invoice, String currency) throws ParseException, IOException {
+    public JSONObject generateJSON(Invoice invoice, String currency)  {
 
             User user = invoice.getConsumer();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
@@ -42,7 +28,7 @@ public class JsonGenerator {
             JSONObject json = new JSONObject();
             JSONArray lines = new JSONArray();
             JSONArray vatArrayJson = new JSONArray();
-            orderedJsonObj(json);
+            new orderedJsonObj(json);
             String documentNumber = Invoice.getDocumentNumber();
             json.put("documentDate", invoice.getDocumentDate());
             json.put("documentNumber", documentNumber);
@@ -59,8 +45,8 @@ public class JsonGenerator {
                 JSONObject invoiceLine = new JSONObject();
                 JSONObject vatJsonObj = new JSONObject();
 
-                orderedJsonObj(invoiceLine);
-                orderedJsonObj(vatJsonObj);
+                new orderedJsonObj(invoiceLine);
+                new orderedJsonObj(vatJsonObj);
 
 
                 int index = invoiceLines.get(i).getIndex();
@@ -82,7 +68,7 @@ public class JsonGenerator {
                 lines.put(invoiceLine);
 
                 vatJsonObj.put("index", vatLines.get(i).getIndex());
-                vatJsonObj.put("lineIndex", index);
+                vatJsonObj.put("lines", index);
                 vatJsonObj.put("percentage", vatLines.get(i).getPercentage());
                 String vatAmount = vatLines.get(i).getAmount().toString()+currency;
                 vatJsonObj.put("amount", vatAmount);
@@ -94,16 +80,7 @@ public class JsonGenerator {
 
 return json;
             }
-    private void orderedJsonObj(JSONObject json) {
-        try {
-            Field changeMap = json.getClass().getDeclaredField("map");
-            changeMap.setAccessible(true);
-            changeMap.set(json, new LinkedHashMap<>());
-            changeMap.setAccessible(false);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            System.out.println((e.getMessage()));
-        }
-    }
+
 }
 
 

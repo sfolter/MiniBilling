@@ -17,7 +17,6 @@ public class JsonFileGenerator {
         JSONArray jsonArray = (JSONArray) json.get("lines");
         HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList().get(1);
         String lineEnd = (String) jsonLines.get("lineEnd");
-//        String lineEnd = lineEndJson.toString();
         Date jud = new SimpleDateFormat("yy-MM").parse(lineEnd);
         String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
         String[] splitDate = month.split("\\s+");

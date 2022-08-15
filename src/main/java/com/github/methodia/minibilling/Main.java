@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+public static final String API_KEY = "1f16554ded67538b17b5bc97";
     public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException {
 
         String yearMonthStr = args[0];
         String resourceDir = args[1];
         String outputDir = args[2];
-        final String currency = "EUR";
+        final String currency = "USD";
 //        String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
 //        String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample2\\test\\";
 //        String yearMonthStr = "21-03";
@@ -33,10 +34,10 @@ public class Main {
             User user = userMap.get(String.valueOf(i));
             List<Price> priceList = user.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
-            Collection<Measurement> measurmentGenerated = measurementGenerator.generate();
+            Collection<Measurement> measurementGenerated = measurementGenerator.generate();
 
             InvoiceGenerator invoiceGenerator = new InvoiceGenerator(new CurrencyConvertor());
-            Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, currency);
+            Invoice invoice = invoiceGenerator.generate(user, measurementGenerated, priceList, yearMonthStr, currency);
             FolderGenerator folderGenerator = new FolderGenerator();
             String folder = folderGenerator.generate(user, outputDir);
             JsonGenerator jsonGenerator = new JsonGenerator(invoice, outputDir);

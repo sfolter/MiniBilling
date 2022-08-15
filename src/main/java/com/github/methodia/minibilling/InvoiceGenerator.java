@@ -21,10 +21,8 @@ public class InvoiceGenerator {
 
     }
 
-
-
-
-    public Invoice generate(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr, String currency) throws IOException, ParseException {
+    public Invoice generate(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr, String currency)
+            throws IOException, ParseException {
         BigDecimal currencyRate = currencyConvertor.convertCurrency(currency);
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();

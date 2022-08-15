@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-11T15:27:54.497650500",
+    "documentDate": "2022-08-15T17:17:24.271044300",
     "documentNumber": "10002",
     "consumer": "Kosena Assenova Vankova",
     "reference": "3",
-    "totalAmount": "171.65EUR",
-    "totalAmountWithVat": "205.98EUR",
+    "totalAmount": "176.09USD",
+    "totalAmountWithVat": "211.30USD",
     "lines": [
         {
             "index": 1,
@@ -12,9 +12,9 @@
             "lineStart": "2021-01-01T14:40:00Z",
             "lineEnd": "2021-02-28T23:59:59Z",
             "product": "gas",
-            "price": 0.36,
+            "price": 0.37,
             "priceList": 2,
-            "amount": "140.44EUR"
+            "amount": "144.07USD"
         },
         {
             "index": 2,
@@ -22,23 +22,23 @@
             "lineStart": "2021-03-01T00:00:00Z",
             "lineEnd": "2021-03-11T07:00:00Z",
             "product": "gas",
-            "price": 0.72,
+            "price": 0.73,
             "priceList": 2,
-            "amount": "31.21EUR"
+            "amount": "32.02USD"
         }
     ],
     "vat": [
         {
             "index": 1,
-            "lineIndex": 1,
+            "lines": 1,
             "percentage": 20,
-            "amount": "28.09EUR"
+            "amount": "28.81USD"
         },
         {
             "index": 2,
-            "lineIndex": 2,
+            "lines": 2,
             "percentage": 20,
-            "amount": "6.24EUR"
+            "amount": "6.40USD"
         }
     ]
 }
