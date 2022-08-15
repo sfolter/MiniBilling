@@ -111,7 +111,7 @@ public class Main {
         try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
             out.write(json);
         } catch (DateTimeParseException e) {
-            throw new IOException(e); //FIXME
+            throw new IOException(e);
         }
     }
 
