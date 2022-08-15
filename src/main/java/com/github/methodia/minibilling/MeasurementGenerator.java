@@ -12,18 +12,17 @@ import java.util.List;
  */
 public class MeasurementGenerator {
 
-   final private User user;
-    final private List<Reading> readings;
-
-    public MeasurementGenerator(User user, Collection<Reading> readings) {
-        this.user = user;
-        this.readings = readings.stream().toList();
-    }
+//   final private User user;
+//    final private
+//    public MeasurementGenerator(User user, Collection<Reading> readings) {
+//        this.user = user;
+//        this.readings = readings.stream().toList();
+//    }
 
     /**
      * Calculating the quantity between every reading and adding it to list
      */
-    public Collection<Measurement> generate() {
+    public Collection<Measurement> generate(User user,List<Reading> readings){
         List<Measurement> measurements = new ArrayList<>();
         if (readings.size() >= 2) {
             for (int i = 0; i < readings.size() - 1; i++) {

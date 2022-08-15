@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -29,6 +28,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        String apiKey = "xSjvqqK3AgQPI3PPKGCiDrC2q06e41xt";
+        CurrencyConverter currencyConverter = new CurrencyConverter(apiKey);
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyConverter);
         String dateReportingTo = "21-03";
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
         String inputPath = "C:\\Users\\user\\Desktop\\New folder\\MiniBilling\\src\\test\\resources\\sample2\\input";
@@ -38,29 +41,18 @@ public class Main {
         Collection<Reading> allReadings = readingsFR.read().stream()
                 .sorted(Comparator.comparing(Reading::getTime))
                 .toList();
-
-        // Looping through users and sort them by their referent number*/
+        // Looping through users and sort them by their referent number
         UserFileReader userFR = new UserFileReader(inputPath);
         List<User> users = userFR.read().stream().sorted(Comparator.comparing(User::getRef)).toList();
 //            Looping through every user and check their Measurements, and based on them and price, the algorithm below
 //            creates invoices and based on price periods, create individual lines if there is a change of prices.
         for (User user : users) {
-            Collection<Reading> userReadings = allReadings.stream()
+            List<Reading> userReadings = allReadings.stream()
                     .filter(reading -> reading.getUser().getRef()
                             .equals(user.getRef())).toList();
-
-            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, userReadings);
-            Collection<Measurement> userMeasurements = measurementGenerator.generate();
-            String apiKey="CudLhAGhr1knV5HnZTqPGVRG8gqCOWUP";
-            CurrencyConverter currencyConverter=new CurrencyConverter(apiKey);
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, userMeasurements,currencyConverter);
-            Invoice invoice = invoiceGenerator.generate(dateReportingToLDT);
-
-            try {
-                saveToFile(invoice,outputPath,user);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+            Collection<Measurement> userMeasurements = measurementGenerator.generate(user, userReadings);
+            Invoice invoice = invoiceGenerator.generate(user, userMeasurements, dateReportingToLDT);
+            saveToFile(invoice, outputPath, user);
         }
     }
 
@@ -79,7 +71,7 @@ public class Main {
         }
     }
 
-    private static void saveToFile(Invoice invoice, String outputPath,  User user) throws ParseException, IOException {
+    private static void saveToFile(Invoice invoice, String outputPath, User user) throws IOException {
 
         //Parsing Invoice class into Json format using GSON library
         Gson gson = new GsonBuilder().setPrettyPrinting()
@@ -103,10 +95,11 @@ public class Main {
             String jsonFilePath = folderPath + "\\" + invoice.getDocNumber() + "-" + monthToBulgarian + "-" + outputOfTheYear + ".json";
             creatingJsonFIle(json, jsonFilePath);
 
-        }else{
+        } else {
             System.out.println("There is no invoices");
         }
     }
+
     /**
      * Checking if JsonFile by the exists with the format documentNumber-Month(translated to bulgarian language),
      * and the last two numbers of the year on Last reporting date, in case not,

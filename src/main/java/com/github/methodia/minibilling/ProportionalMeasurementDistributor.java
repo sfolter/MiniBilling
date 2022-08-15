@@ -16,7 +16,6 @@ import java.util.List;
  * Methodia Inc.
  */
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
-
     final private Collection<Measurement> measurements;
    final private Collection<Price> prices;
 
