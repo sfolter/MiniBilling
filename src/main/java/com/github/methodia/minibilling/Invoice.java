@@ -3,25 +3,19 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
+
 public class Invoice {
-
-
     private final String documentNumber;
     private final String consumer;
     private final String reference;
     private final BigDecimal totalAmount;
     private final BigDecimal totalAmountWIthVat;
     private final List<InvoiceLine> lines;
-    private  final  List<Vat> vat;
+    private final List<Vat> vat;
+    private final List<Tax> tax;
     private static long id = 10000;
 
-
-    public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount, BigDecimal totalAmountWIthVat, List<InvoiceLine> invoiceLines, List<Vat> vat) {
+    public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount, BigDecimal totalAmountWIthVat, List<InvoiceLine> invoiceLines, List<Vat> vat, List<Tax> tax) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -32,17 +26,14 @@ public class Invoice {
         this.lines = invoiceLines;
 
         this.vat = vat;
-    }
-
-    public String getReference() {
-        return reference;
+        this.tax = tax;
     }
 
     public static synchronized String getDocumentNumber() {
         return String.valueOf(id++);
     }
 
-    public  String getDocNumber() {
+    public String getDocNumber() {
         return documentNumber;
     }
 

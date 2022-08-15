@@ -3,15 +3,12 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
+
 public class InvoiceGenerator {
     private final User user;
     private final Collection<Measurement> measurements;
@@ -30,48 +27,33 @@ public class InvoiceGenerator {
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
         List<Vat> vat = new ArrayList<>();
+        List<Tax> taxes = new ArrayList<>();
 
-
-        BigDecimal amount = BigDecimal.ZERO;
+        int index;
         BigDecimal totalAmount = BigDecimal.ZERO;
+        List<Integer> vatInvoiceLine = new ArrayList<>();
         BigDecimal totalAmountWithVat = BigDecimal.ZERO;
-
-        List<Integer> vattedInvoiceLines = new ArrayList<>();
-        String documentNumber = null;
-        int index = 0;
-        BigDecimal sum = BigDecimal.ZERO;
-        BigDecimal vatAmount = BigDecimal.ZERO;
-        BigDecimal totalAmountWIthVat = BigDecimal.ZERO;
 
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
-                index = invoiceLines.size() + 1;
 
+                index = invoiceLines.size() + 1;
                 InvoiceLine invoiceLine = createInvoiceLine(index, qpp);
                 invoiceLines.add(invoiceLine);
                 totalAmount = totalAmount.add(invoiceLine.getAmount()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
 
-                vattedInvoiceLines.add(index);
-
-
-
+                vatInvoiceLine.add(index);
                 Vat v = createVat(invoiceLine);
                 vat.add(v);
-                totalAmountWIthVat = invoiceLine.getAmount().add(totalAmountWithVat).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+                totalAmountWithVat = totalAmountWithVat.add(v.getAmount().add(invoiceLine.getAmount())).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
 
+                Tax tax = createTaxes(invoiceLine);
+                taxes.add(tax);
 
-            } else {
-                continue;
             }
-
         }
-        //    vat.add(new Vat(vat.size()+1,vattedInvoiceLines,percentage,vatAmount));
-        documentNumber = Invoice.getDocumentNumber();
 
-        String consumer = user.getName();
-        BigDecimal totalAmountWIthVat1 = BigDecimal.ZERO;
-
-        return new Invoice(documentNumber, consumer, user.getRef(), totalAmount, totalAmountWIthVat1.add(sum).setScale(2, RoundingMode.HALF_UP), invoiceLines, vat);
+        return new Invoice(Invoice.getDocumentNumber(), user.getName(), user.getRef(), totalAmount, totalAmountWithVat, invoiceLines, vat, taxes);
 
     }
 
@@ -83,18 +65,29 @@ public class InvoiceGenerator {
         BigDecimal price = qpp.getPrice().getValue();
         int priceList = user.getNumberPricingList();
         BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+
         return new InvoiceLine(index, quantity, lineStart, lineEnd, product, price, priceList, amount);
     }
 
     private Vat createVat(InvoiceLine invoiceLine) {
         List<Integer> linesOfVat = new ArrayList<>();
         linesOfVat.add(invoiceLine.getIndex());
-        BigDecimal vatAmount = invoiceLine.getAmount().multiply(BigDecimal.valueOf(0.2)).setScale(2, RoundingMode.HALF_UP)
-                .stripTrailingZeros();
-        int percentage = 20;
 
+        int percentage = 20;
+        BigDecimal vatAmount = invoiceLine.getAmount().multiply(BigDecimal.valueOf(percentage).multiply(BigDecimal.valueOf(0.1))).setScale(2, RoundingMode.HALF_UP)
+                .stripTrailingZeros();
 
         return new Vat(invoiceLine.getIndex(), linesOfVat, percentage, vatAmount);
+    }
+
+    private Tax createTaxes(InvoiceLine invoiceLine) {
+        List<Integer> linesOFTax = new ArrayList<>();
+        linesOFTax.add(invoiceLine.getIndex());
+
+        BigDecimal quantity = BigDecimal.valueOf(invoiceLine.getLineStart().until(invoiceLine.getLineEnd(), ChronoUnit.DAYS) + 1);
+        BigDecimal taxAmount = quantity.multiply(BigDecimal.valueOf(1.6));
+
+        return new Tax(invoiceLine.getIndex(), linesOFTax, "", quantity, "", BigDecimal.valueOf(1.6), taxAmount);
     }
 
 

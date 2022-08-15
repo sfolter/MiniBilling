@@ -6,9 +6,10 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 
-public class ReadingsReader implements ReadingsReaderInterface {
+public class ReadingReader implements ReadingReaderInterface {
     private final String path;
-    public ReadingsReader(String path) {
+
+    public ReadingReader(String path) {
         this.path = path;
     }
 
@@ -25,16 +26,17 @@ public class ReadingsReader implements ReadingsReaderInterface {
         }
 
     }
-    private Reading createReading(String[] readingTokens) {
 
-        String date = readingTokens[2];
+    private Reading createReading(String[] readingLine) {
+
+        String date = readingLine[2];
         ZonedDateTime ZDTTime = ZonedDateTime.parse(date).withZoneSameInstant(ZoneId.of("GMT"));
         LocalDateTime dateWithZone = LocalDateTime.from(ZDTTime);
 
-        BigDecimal price = new BigDecimal(readingTokens[3]);
-        String referenceNumber = readingTokens[0];
+        BigDecimal price = new BigDecimal(readingLine[3]);
+        String referenceNumber = readingLine[0];
 
-        UsersReaders userReader = new UsersReaders(path);
+        UserReader userReader = new UserReader(path);
         User userRefNumber = userReader.read().get(referenceNumber);
 
         return new Reading(dateWithZone, price, userRefNumber);

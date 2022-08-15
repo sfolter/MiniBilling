@@ -1,25 +1,18 @@
 package com.github.methodia.minibilling;
 
 import java.util.List;
-import java.util.Map;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class User {
-    private String name;
-    private String ref;
-    private int numberPricingList;
-    private List<Price> price;
-
+    private final String name;
+    private final String ref;
+    private final int numberPricingList;
+    private final List<Price> price;
 
     public User(String name, String ref, int numberPricingList, List<Price> price) {
         this.name = name;
         this.ref = ref;
         this.price = price;
-        this.numberPricingList=numberPricingList;
+        this.numberPricingList = numberPricingList;
     }
 
     public int getNumberPricingList() {

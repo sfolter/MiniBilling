@@ -1,7 +1,6 @@
 package com.github.methodia.minibilling;
 
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -11,9 +10,6 @@ import com.google.gson.stream.JsonWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -22,85 +18,80 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
 
-
-
-/**
- * @author Miroslav Kovachev
- * 21.07.2022
- * Methodia Inc.
- */
 public class Main {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        //WELCOME TO MINI BILLING!
-        //check args and print an error to the user if there are no arguments
+    public static void main(String[] args) throws IOException {
 
+        String dateReporting = args[0];
+        String inputDir = args[1];
+        LocalDateTime parseReportingDate = getReportingDate(dateReporting);
+        String outputDir = args[2];
 
-        String inputDIR=args[1];
-        String dateReporting=args[0];
-        final YearMonth yearMonth = YearMonth.parse(dateReporting,DateTimeFormatter.ofPattern("yy-MM"));
-        DateTimeFormatter fm =  DateTimeFormatter.ISO_ZONED_DATE_TIME;
-        ZonedDateTime btz = yearMonth.atEndOfMonth().atTime(23,59,59).atZone(ZoneId.of("Z"));
-        LocalDateTime parseReportingDate = LocalDateTime.parse(String.valueOf(btz), fm);
-        String outputDIR =args[2];
-        UsersReader ur = new UsersReaders(inputDIR);
+        UserReaderInterface userReader = new UserReader(inputDir);
+        ReadingReader readingReader = new ReadingReader(inputDir);
+        List<Reading> readingList = readingReader.read();
+        Map<String, User> userMap = userReader.read();
 
-        ReadingsReader rr = new ReadingsReader(inputDIR);
-        List<Reading> readingList = rr.read();
+        for (User user : userMap.values()) {
 
-        Map<String, User> ll = ur.read();
-        for (int i = 0; i < ll.size(); i++) {
+            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingList);
+            Collection<Measurement> measurementCollection = measurementGenerator.generate();
 
-            int k = i + 1;
-
-            User user = ll.get(String.valueOf(k));
-
-
-            MeasurementGenerator mmGenerator = new MeasurementGenerator(user, readingList);
-            Collection<Measurement> mmCollector = mmGenerator.generate();
-
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, mmCollector, user.getPrice());
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurementCollection, user.getPrice());
             Invoice invoice = invoiceGenerator.generate(parseReportingDate);
 
-
-
-            Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter()).create();
-            String json = gson.toJson(invoice);
-            String folderPath = outputDIR + "\\" + user.getName() + "-" + user.getRef();
-            File creatingFolders = new File(folderPath);
-
-
-            String month = parseReportingDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
-            String Month = month.substring(0,1).toUpperCase()+ month.substring(1);
-            String lastNumbers = String.valueOf(parseReportingDate.getYear()).substring(2,4);
-
-            String fName = folderPath + "\\" + invoice.getDocNumber() + "-" + Month+ "-" + lastNumbers + ".json";
-            try {
-                File directory = new File(String.valueOf(creatingFolders));
-                directory.mkdirs();
-                FileWriter myWriter = new FileWriter(fName);
-                myWriter.write(json);
-                myWriter.close();
-
-
-            } catch (Exception e) {
-                e.getStackTrace();
-
-
-            }
-
+            String folderPath = createFolder(outputDir, user);
+            createJsonFile(parseReportingDate, invoice, folderPath);
         }
 
 
+//        MeasurementGenerator mmGenerator = new MeasurementGenerator();
+//        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+//        userMap.values().stream()
+//                .map(user -> mmGenerator.generate(user, readingList))
+//                .map(measurements -> invoiceGenerator.generate(measurements, parseReportingDate))
+//                .forEach(invoice -> createJsonFile(parseReportingDate, outputDir, invoice));
+
+    }
+
+    private static LocalDateTime getReportingDate(String dateReporting) {
+        final YearMonth yearMonth = YearMonth.parse(dateReporting, DateTimeFormatter.ofPattern("yy-MM"));
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+        ZonedDateTime time = yearMonth.atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.of("Z"));
+        return LocalDateTime.parse(String.valueOf(time), formatter);
+    }
+
+
+    private static void createJsonFile(LocalDateTime parseReportingDate, Invoice invoice, String folderPath) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter()).create();
+        String json = gson.toJson(invoice);
+
+        String monthInCyrillic = parseReportingDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
+        String month = monthInCyrillic.substring(0, 1).toUpperCase() + monthInCyrillic.substring(1);
+        String year = String.valueOf(parseReportingDate.getYear()).substring(2, 4);
+
+        String fileName = folderPath + "\\" + invoice.getDocNumber() + "-" + month + "-" + year + ".json";
+
+        FileWriter myWriter = new FileWriter(fileName);
+        myWriter.write(json);
+        myWriter.close();
+    }
+
+    private static String createFolder(String outputDir, User user) {
+        String folderPath = outputDir + "\\" + user.getName() + "-" + user.getRef();
+        File creatingFolder = new File(folderPath);
+        File directory = new File(String.valueOf(creatingFolder));
+        directory.mkdirs();
+        return folderPath;
     }
 
     private static final class LocalDateAdapter extends TypeAdapter<LocalDateTime> {
         @Override
         public void write(final JsonWriter jsonWriter, final LocalDateTime localDate) throws IOException {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-            ZonedDateTime gmt = localDate.atZone(ZoneId.of("Z"));
-            String formattedLD = gmt.format(formatter);
-            jsonWriter.value(formattedLD);
+            ZonedDateTime GMT = localDate.atZone(ZoneId.of("Z"));
+            String fm = GMT.format(formatter);
+            jsonWriter.value(fm);
         }
 
         @Override

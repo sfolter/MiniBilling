@@ -1,14 +1,9 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
+
 public class Measurement {
     private final LocalDateTime start;
     private final LocalDateTime end;

@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
-public class PriceReader implements PricesReader {
+public class PriceReader implements PriceReaderInterface {
     String path;
 
     public PriceReader(String path) {
@@ -18,12 +18,12 @@ public class PriceReader implements PricesReader {
     public Map<Integer, List<Price>> read() {
 
         File directory = new File(path);
-        String[] filesList = directory.list();
+        String[] fileList = directory.list();
 
         Map<Integer, List<Price>> informationForPrices = new LinkedHashMap<>();
 
-        assert filesList != null;
-        for (String file : filesList) {
+        assert fileList != null;
+        for (String file : fileList) {
 
             try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\" + file)))) {
                 if (file.contains("prices-")) {
@@ -32,8 +32,8 @@ public class PriceReader implements PricesReader {
                             .map(l -> l.split(","))
                             .map(this::createPrice).toList();
 
-                    String[] arr2 = file.split("[\\\\a-z-.]+");
-                    int numPricingList = Integer.parseInt(arr2[1]);
+                    String[] arr = file.split("[\\\\a-z-.]+");
+                    int numPricingList = Integer.parseInt(arr[1]);
 
                     informationForPrices.put(numPricingList, prices);
                 }
@@ -45,15 +45,16 @@ public class PriceReader implements PricesReader {
         return informationForPrices;
 
     }
-    private Price createPrice(String[] price) {
+
+    private Price createPrice(String[] priceLine) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String product = price[0];
-        LocalDate startDate = LocalDate.parse(price[1], formatter);
-        LocalDate endDate = LocalDate.parse(price[2], formatter);
-        double price1 = Double.parseDouble(price[3]);
+        String product = priceLine[0];
+        LocalDate startDate = LocalDate.parse(priceLine[1], formatter);
+        LocalDate endDate = LocalDate.parse(priceLine[2], formatter);
+        double price = Double.parseDouble(priceLine[3]);
 
-        return new Price(product, startDate, endDate, BigDecimal.valueOf(price1));
+        return new Price(product, startDate, endDate, BigDecimal.valueOf(price));
     }
 }
 

@@ -12,11 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
+
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
 
     private Collection<Measurement> measurements;
@@ -61,8 +57,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 final LocalDate priceEnd = price.getEnd();
                 final LocalDate measurementEnd = measurement.getEnd().toLocalDate();
                 final LocalDateTime qppStart = lastDateTime;
-                ZoneId zoneId = ZoneId.of( "GMT" );
-                ZonedDateTime zdt = qppStart.atZone( zoneId );
+                ZoneId zoneId = ZoneId.of("GMT");
                 final Price qppPrice = price;
                 final long measurementDays = measurement.getStart().until(measurement.getEnd(), ChronoUnit.DAYS);
 
@@ -76,7 +71,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 } else {
                     final LocalDateTime qppEnd = LocalDateTime.from(price.getEnd().atTime(23, 59, 59).atZone(ZoneId.of("Europe/Sofia")).withZoneSameInstant(ZoneId.of("Z")));
                     final long qppPeriodDays = lastDateTime.until(qppEnd, ChronoUnit.DAYS);
-                    BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays),3, RoundingMode.HALF_UP)
+                    BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays), 3, RoundingMode.HALF_UP)
                             .multiply(measurement.getValue());
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(lastDateTime, qppEnd,
                             qppPrice, qppQuantity);

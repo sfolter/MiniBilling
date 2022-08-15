@@ -3,11 +3,7 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
+
 public class InvoiceLine {
 
     private final int index;
@@ -42,4 +38,21 @@ public class InvoiceLine {
     public int getIndex() {
         return index;
     }
+
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    public LocalDateTime getLineStart() {
+        return lineStart;
+    }
+
+    public LocalDateTime getLineEnd() {
+        return lineEnd;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
 }
