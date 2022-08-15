@@ -26,8 +26,9 @@ import java.util.Locale;
  * Methodia Inc.
  */
 public class Main {
-    public static String ApiKey="CudLhAGhr1knV5HnZTqPGVRG8gqCOWUP";
+
     public static void main(String[] args) throws IOException {
+
         String dateReportingTo = "21-03";
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
         String inputPath = "C:\\Users\\user\\Desktop\\New folder\\MiniBilling\\src\\test\\resources\\sample2\\input";
@@ -50,8 +51,9 @@ public class Main {
 
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, userReadings);
             Collection<Measurement> userMeasurements = measurementGenerator.generate();
-
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, userMeasurements);
+            String apiKey="CudLhAGhr1knV5HnZTqPGVRG8gqCOWUP";
+            CurrencyConverter currencyConverter=new CurrencyConverter(apiKey);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, userMeasurements,currencyConverter);
             Invoice invoice = invoiceGenerator.generate(dateReportingToLDT);
 
             try {
@@ -116,7 +118,7 @@ public class Main {
         try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
             out.write(json);
         } catch (DateTimeParseException e) {
-            e.printStackTrace(); //FIXME
+            throw new IOException(e); //FIXME
         }
     }
 

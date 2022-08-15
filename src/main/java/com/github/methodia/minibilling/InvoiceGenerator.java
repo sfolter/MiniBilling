@@ -11,9 +11,11 @@ public class InvoiceGenerator {
     final private User user;
     final private Collection<Measurement> measurements;
 
-    public InvoiceGenerator(User user, Collection<Measurement> measurements) {
+    final private CurrencyConverter currencyConverter;
+    public InvoiceGenerator(User user, Collection<Measurement> measurements, CurrencyConverter currencyConverter) {
         this.user = user;
         this.measurements = measurements;
+        this.currencyConverter=currencyConverter;
     }
     /**Looping through MMs and Prices and comparing the end date of measurements dates with pricing dates and if
      * its needed, dividing them into different lines,also geting the data(,quantity,price,start of the line,
@@ -63,7 +65,7 @@ public class InvoiceGenerator {
         LocalDateTime end = qpp.getEnd();
         BigDecimal price = qpp.getPrice();
         BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice())
-                .multiply(CurrencyConverter.getCurrencyValue(user.getCyrrency()))
+                .multiply(currencyConverter.getCurrencyValue(user.getCyrrency()))
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         //TODO add product to qpp; remove the following code
         String product = qpp.getProduct();

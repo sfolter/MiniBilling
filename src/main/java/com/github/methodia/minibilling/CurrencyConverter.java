@@ -13,13 +13,13 @@ import java.net.http.HttpResponse;
 
 public class CurrencyConverter {
 
-    String key=Main.ApiKey;
+    private String key;
 
-    private CurrencyConverter() {
-        this.key = Main.ApiKey;
+    public CurrencyConverter (String key){
+        this.key=key;
     }
 
-    public static BigDecimal getCurrencyValue(String currency) {
+    public  BigDecimal getCurrencyValue(String currency) {
         try {
             String getRequest= httpGetRequest(currency);
             JSONObject obj=new JSONObject(getRequest);
@@ -32,25 +32,26 @@ public class CurrencyConverter {
 
 
     }
-    private static String httpGetRequest(String currency) {
+    private  String httpGetRequest(String currency) {
         try {
 
             String urlLink = "https://api.apilayer.com/currency_data/convert?to="+currency+"&from=BGN&amount=1";
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(urlLink)).header("apiKey",new CurrencyConverter().key )
+                    .uri(URI.create(urlLink)).header("apiKey",key)
                     .build();
             client.send(request, HttpResponse.BodyHandlers.ofString());
             HttpResponse<String> response =
                     client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw  new RuntimeException(e);
         }
     }
-    /*{
+
+
+
+/*{
     "success": true,
     "query": {
         "from": "BGN",

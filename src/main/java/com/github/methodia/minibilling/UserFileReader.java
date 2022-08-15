@@ -33,7 +33,7 @@ public class UserFileReader  implements UsersReader {
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException(e) ;
         }
         return usersList;
     }
