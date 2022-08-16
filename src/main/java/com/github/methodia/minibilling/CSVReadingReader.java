@@ -10,9 +10,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CSVReadingReader implements ReadingsReader {
-    String path;
+    private String path;
 
-    Map<String, User> userMap;
+    private Map<String, User> userMap;
 
     public CSVReadingReader(String path, Map<String, User> userMap) {
         this.path = path;

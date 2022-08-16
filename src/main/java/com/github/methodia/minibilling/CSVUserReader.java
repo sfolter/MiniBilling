@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CSVUserReader implements UsersReader {
-    final String path;
+    private final String path;
 
     public CSVUserReader(String path) {
         this.path = path;

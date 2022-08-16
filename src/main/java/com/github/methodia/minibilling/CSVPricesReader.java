@@ -10,9 +10,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class CSVPricesReader implements PricesReader {
-    String path;
+    private String path;
 
-    int priceListNumber;
+    private int priceListNumber;
 
     public CSVPricesReader(String path, int priceListNumber) {
         this.path = path;

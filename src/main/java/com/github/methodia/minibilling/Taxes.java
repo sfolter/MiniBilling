@@ -6,7 +6,7 @@ public class Taxes {
     private int index;
     private int lines;
     private String name;
-    int quantity;
+    private int quantity;
     private String unit;
     private BigDecimal price;
     private BigDecimal amount;

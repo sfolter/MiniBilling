@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class JSONGenerator {
-    Invoice invoice;
-    String folderPath;
+    private Invoice invoice;
+    private String folderPath;
 
-    String currency;
+    private String currency;
 
     public JSONGenerator(Invoice invoice, String folderPath, String currency) {
         this.invoice = invoice;

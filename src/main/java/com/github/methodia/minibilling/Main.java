@@ -24,6 +24,7 @@ public class Main {
         String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
         String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample2\\output\\";
         String currency = "EUR";
+        String key = "3b14c37cbcca1d0ff2fca003";
 
         CSVUserReader userReader = new CSVUserReader(inPath);
         Map<String, User> userMap = userReader.read();
@@ -34,7 +35,7 @@ public class Main {
             List<Price> price = user.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingCollection);
             Collection<Measurement> measurements = measurementGenerator.generate();
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurements, price, reportDate, currency);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurements, price, reportDate, currency, key);
             Invoice invoice = invoiceGenerator.generate();
             FolderGenerator folderGenerator = new FolderGenerator(user, outPath);
             String folderPath = folderGenerator.folderGenerate();

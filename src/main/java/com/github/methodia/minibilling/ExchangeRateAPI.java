@@ -12,8 +12,14 @@ import java.net.URL;
 
 public class ExchangeRateAPI {
 
+    private String key;
+
+    public ExchangeRateAPI(String key) {
+        this.key = key;
+    }
+
     public JSONObject exchange() throws IOException, ParseException {
-        String url_str = "https://v6.exchangerate-api.com/v6/3b14c37cbcca1d0ff2fca003/latest/BGN";
+        String url_str = "https://v6.exchangerate-api.com/v6/" + key + "/latest/BGN";
         URL url = new URL(url_str);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
         JSONParser jp = new JSONParser();
