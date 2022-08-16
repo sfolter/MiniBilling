@@ -18,7 +18,7 @@ public class InvoiceGenerator {
     private final CurrencyConvertor currencyConvertor;
     private final String name = "Standing charge";
     private final String unitDays = "days";
-    private BigDecimal priceForTaxes = BigDecimal.valueOf(1.6);
+    private BigDecimal priceForTaxes = new BigDecimal("1.6");
 
     public InvoiceGenerator(CurrencyConvertor currencyConvertor) {
         this.currencyConvertor = currencyConvertor;
