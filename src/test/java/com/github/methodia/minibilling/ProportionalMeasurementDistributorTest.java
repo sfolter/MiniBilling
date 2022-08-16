@@ -26,7 +26,7 @@ class ProportionalMeasurementDistributorTest {
                 ZonedDateTime.of(2021, 5, 1,23,59,59,0,ZoneId.of("GMT")), priceValue);
 
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
-                Collections.singleton(measurement1), Collections.singleton(price));
+                Collections.singleton(measurement1));
 
         final Collection<QuantityPricePeriod> qppCollection = proportionalMeasurementDistributor.distribute();
         Assertions.assertEquals(1, qppCollection.size(),
@@ -72,7 +72,7 @@ class ProportionalMeasurementDistributorTest {
         prices.add(price1);
         prices.add(price2);
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
-                Collections.singleton(measurement1), prices);
+                Collections.singleton(measurement1));
 
         final List<QuantityPricePeriod> qppList = proportionalMeasurementDistributor.distribute();
 
@@ -150,7 +150,7 @@ class ProportionalMeasurementDistributorTest {
         prices.add(price2);
         prices.add(price3);
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
-                Collections.singleton(measurement1), prices);
+                Collections.singleton(measurement1));
 
         final List<QuantityPricePeriod> qppList = proportionalMeasurementDistributor.distribute();
 
@@ -225,7 +225,7 @@ class ProportionalMeasurementDistributorTest {
         measurements.add(measurement1);
         measurements.add(measurement2);
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
-                measurements, prices);
+                measurements);
 
         final List<QuantityPricePeriod> qppList = proportionalMeasurementDistributor.distribute();
 
@@ -281,7 +281,7 @@ class ProportionalMeasurementDistributorTest {
                 ZonedDateTime.of(2021, 5, 1,23,59,59,0,ZoneId.of("GMT")), priceValue);
 
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
-                Collections.singleton(measurement1), Collections.singleton(price));
+                Collections.singleton(measurement1));
 
         final Collection<QuantityPricePeriod> qppCollection = proportionalMeasurementDistributor.distribute();
         Assertions.assertEquals(1, qppCollection.size(),
@@ -326,7 +326,7 @@ class ProportionalMeasurementDistributorTest {
         measurements.add(measurement1);
         measurements.add(measurement2);
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
-                measurements, prices);
+                measurements);
 
         final List<QuantityPricePeriod> qppList = proportionalMeasurementDistributor.distribute();
 

@@ -21,7 +21,7 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 public class SaveInvoice {
-    public static void saveToFile(Invoice invoice, String outputPath, String dateToReporting) throws ParseException, IOException {
+    public static void saveToFile(Invoice invoice, String outputPath, String dateToReporting)  {
 
         LocalDate borderTime = Formatter.parseBorder(dateToReporting);
 

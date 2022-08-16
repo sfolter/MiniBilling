@@ -14,7 +14,7 @@ public class MeasurementGenerator {
         this.readings = readings;
     }
 
-    public Collection<Measurement> generate() {
+    public List<Measurement> generate() {
         List<Measurement> measurements = new ArrayList<>();
         Reading previous = null;
         for (Reading reading : readings) {

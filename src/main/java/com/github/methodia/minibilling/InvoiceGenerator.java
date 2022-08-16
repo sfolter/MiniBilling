@@ -11,20 +11,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class InvoiceGenerator {
-    private final User user;
-    private final Collection<Measurement> measurements;
-    private final Collection<Price> prices;
+    private final List<Measurement> measurements;
     //private final String currency;
 
-    public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices) {
-        this.user = user;
+    public InvoiceGenerator( List<Measurement> measurements) {
         this.measurements = measurements;
-        this.prices = prices;
        // this.currency = currency;
     }
 
     public Invoice generate(long documentNumber, String borderTime) {
-        ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
+        ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
@@ -53,8 +49,8 @@ public class InvoiceGenerator {
 
         LocalDateTime documentDate = LocalDateTime.now();
         String docNumber = String.valueOf(documentNumber);
-        String consumer = user.getName();
-        String reference = user.getRef();
+        String consumer = measurements.get(0).getUser().getName();
+        String reference = measurements.get(0).getUser().getRef();
 
         // CurrencyCalculator currencyCalculator=new CurrencyCalculator("u4hHXxTZJcijFYOGD3M2DPintFpugci8");
         // BigDecimal totalAmountCurrency = currencyCalculator.calculateTo(currency, totalAmount.get());
@@ -69,7 +65,7 @@ public class InvoiceGenerator {
         LocalDateTime end = qpp.getEnd().toLocalDateTime();
         String product = qpp.getPrice().getProduct();
         BigDecimal price = qpp.getPrice().getValue();
-        int priceList = user.getPriceListNumber();
+        int priceList = qpp.getUser().getPriceListNumber();
         BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
 
         return new InvoiceLine(lineIndex, quantity, start, end,
