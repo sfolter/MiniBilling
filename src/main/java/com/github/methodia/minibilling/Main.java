@@ -31,19 +31,16 @@ public class Main {
         ReadingReader readingReader = new ReadingReader(inputDir);
         List<Reading> readingList = readingReader.read();
         Map<String, User> userMap = userReader.read();
-
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
         for (User user : userMap.values()) {
 
-            MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingList);
-            Collection<Measurement> measurementCollection = measurementGenerator.generate();
-
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurementCollection, user.getPrice());
-            Invoice invoice = invoiceGenerator.generate(parseReportingDate);
+            Collection<Measurement> measurementCollection = measurementGenerator.generate(user, readingList);
+            Invoice invoice = invoiceGenerator.generate(parseReportingDate,user, measurementCollection, user.getPrice());
 
             String folderPath = createFolder(outputDir, user);
             createJsonFile(parseReportingDate, invoice, folderPath);
         }
-
 
 //        MeasurementGenerator mmGenerator = new MeasurementGenerator();
 //        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();

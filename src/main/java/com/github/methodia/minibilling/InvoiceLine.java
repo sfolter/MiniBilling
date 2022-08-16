@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 
 public class InvoiceLine {
-
     private final int index;
     private final BigDecimal quantity;
     private final LocalDateTime lineStart;

@@ -10,17 +10,17 @@ import java.util.List;
 
 
 public class InvoiceGenerator {
-    private final User user;
-    private final Collection<Measurement> measurements;
-    private final Collection<Price> prices;
+//    private final User user;
+//    private final Collection<Measurement> measurements;
+//    private final Collection<Price> prices;
 
-    public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices) {
-        this.user = user;
-        this.measurements = measurements;
-        this.prices = prices;
+    public InvoiceGenerator() {
+//        this.user = user;
+//        this.measurements = measurements;
+//        this.prices = prices;
     }
 
-    public Invoice generate(LocalDateTime dateReportingTo) {
+    public Invoice generate(LocalDateTime dateReportingTo, User user, Collection<Measurement> measurements, List<Price> prices) {
 
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
@@ -38,7 +38,7 @@ public class InvoiceGenerator {
             if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
 
                 index = invoiceLines.size() + 1;
-                InvoiceLine invoiceLine = createInvoiceLine(index, qpp);
+                InvoiceLine invoiceLine = createInvoiceLine(index, qpp,user);
                 invoiceLines.add(invoiceLine);
                 totalAmount = totalAmount.add(invoiceLine.getAmount()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
 
@@ -57,7 +57,7 @@ public class InvoiceGenerator {
 
     }
 
-    private InvoiceLine createInvoiceLine(int index, QuantityPricePeriod qpp) {
+    private InvoiceLine createInvoiceLine(int index, QuantityPricePeriod qpp,User user) {
         BigDecimal quantity = qpp.getQuantity().setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         LocalDateTime lineStart = qpp.getStart();
         LocalDateTime lineEnd = qpp.getEnd();
