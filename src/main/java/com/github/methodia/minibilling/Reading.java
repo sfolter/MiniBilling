@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 
 public class Reading {
-    private LocalDateTime time;
-    private BigDecimal value;
-    private User user;
+    private final LocalDateTime time;
+    private final BigDecimal value;
+    private final User user;
 
     public Reading(LocalDateTime time, BigDecimal value, User user) {
         this.time = time;

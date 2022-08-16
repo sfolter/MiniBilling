@@ -10,19 +10,9 @@ import java.util.List;
 
 
 public class InvoiceGenerator {
-//    private final User user;
-//    private final Collection<Measurement> measurements;
-//    private final Collection<Price> prices;
+    public Invoice generate(LocalDateTime dateReportingTo, List<Measurement> measurements) {
 
-    public InvoiceGenerator() {
-//        this.user = user;
-//        this.measurements = measurements;
-//        this.prices = prices;
-    }
-
-    public Invoice generate(LocalDateTime dateReportingTo, User user, Collection<Measurement> measurements, List<Price> prices) {
-
-        ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
+        ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
@@ -38,7 +28,7 @@ public class InvoiceGenerator {
             if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
 
                 index = invoiceLines.size() + 1;
-                InvoiceLine invoiceLine = createInvoiceLine(index, qpp,user);
+                InvoiceLine invoiceLine = createInvoiceLine(index, qpp,qpp.getUser());
                 invoiceLines.add(invoiceLine);
                 totalAmount = totalAmount.add(invoiceLine.getAmount()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
 
@@ -53,11 +43,12 @@ public class InvoiceGenerator {
             }
         }
 
-        return new Invoice(Invoice.getDocumentNumber(), user.getName(), user.getRef(), totalAmount, totalAmountWithVat, invoiceLines, vat, taxes);
+        return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(), measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines, vat, taxes);
 
     }
 
     private InvoiceLine createInvoiceLine(int index, QuantityPricePeriod qpp,User user) {
+
         BigDecimal quantity = qpp.getQuantity().setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         LocalDateTime lineStart = qpp.getStart();
         LocalDateTime lineEnd = qpp.getEnd();

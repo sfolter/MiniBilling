@@ -37,5 +37,11 @@ public class Invoice {
         return documentNumber;
     }
 
+    public String getConsumer() {
+        return consumer;
+    }
 
+    public String getReference() {
+        return reference;
+    }
 }
