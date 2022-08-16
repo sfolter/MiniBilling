@@ -10,8 +10,16 @@ import java.util.List;
 
 
 public class PriceFileReader implements PricesReader {
+    private final String directory;
+    private final int priceListNumber;
+
+    public PriceFileReader(String directory, int priceListNumber) {
+        this.directory = directory;
+        this.priceListNumber = priceListNumber;
+    }
+
     @Override
-    public List<Price> read(String directory, int priceListNumber) {
+    public List<Price> read() {
 
         String path = directory + "prices-" + priceListNumber + ".csv";
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
@@ -24,6 +32,7 @@ public class PriceFileReader implements PricesReader {
             throw new RuntimeException(e);
         }
     }
+
     private Price createPrice(String[] dataPrice) {
 
         String product = dataPrice[0];

@@ -14,11 +14,13 @@ public class InvoiceGenerator {
     private final User user;
     private final Collection<Measurement> measurements;
     private final Collection<Price> prices;
+    //private final String currency;
 
     public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices) {
         this.user = user;
         this.measurements = measurements;
         this.prices = prices;
+       // this.currency = currency;
     }
 
     public Invoice generate(long documentNumber, String borderTime) {
@@ -54,7 +56,9 @@ public class InvoiceGenerator {
         String consumer = user.getName();
         String reference = user.getRef();
 
-
+        // CurrencyCalculator currencyCalculator=new CurrencyCalculator("u4hHXxTZJcijFYOGD3M2DPintFpugci8");
+        // BigDecimal totalAmountCurrency = currencyCalculator.calculateTo(currency, totalAmount.get());
+        // PRIMER: String total =totalAmountCurrency+currency;
         return new Invoice(documentDate, docNumber, consumer, reference, totalAmount.get(), totalAmountWithVat.get(), invoiceLines, taxes, vat);
     }
 

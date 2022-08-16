@@ -7,14 +7,16 @@ import java.util.*;
 
 
 public class ReadingFileReader implements ReadingsReader {
-     private final  Map<String, User>users;
+    private final Map<String, User> users;
+    private final String directory;
 
-    public ReadingFileReader(Map<String, User> users) {
+    public ReadingFileReader(Map<String, User> users, String directory) {
         this.users = users;
+        this.directory = directory;
     }
 
     @Override
-    public List<Reading> read(String directory) {
+    public List<Reading> read() {
 
         String path = directory + "readings.csv";
 
