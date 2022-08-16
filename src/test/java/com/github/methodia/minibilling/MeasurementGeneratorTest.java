@@ -21,8 +21,8 @@ class MeasurementGeneratorTest {
         Reading reading2 = new Reading("ref", ZonedDateTime.of(2021, 5, 6, 13, 23, 0, 0, ZoneId.of("GMT")), new BigDecimal("200"), test);
         readings.add(reading1);
         readings.add(reading2);
-        final MeasurementGenerator measurementGenerator = new MeasurementGenerator(test, readings);
-        Collection<Measurement> measurementCollections = measurementGenerator.generate();
+        final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        Collection<Measurement> measurementCollections = measurementGenerator.generate(test, readings);
         final Measurement singleMeasurement = measurementCollections.iterator().next();
         ZonedDateTime measurementStart = singleMeasurement.getStart();
         ZonedDateTime measurementEnd = singleMeasurement.getEnd();
@@ -47,8 +47,8 @@ class MeasurementGeneratorTest {
         readings.add(reading2);
         readings.add(reading3);
         readings.add(reading4);
-        final MeasurementGenerator measurementGenerator = new MeasurementGenerator(test, readings);
-        List<Measurement> measurementCollections = measurementGenerator.generate().stream().toList();
+        final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        List<Measurement> measurementCollections = measurementGenerator.generate(test, readings).stream().toList();
 
         Assertions.assertEquals(reading1.getTime(), measurementCollections.get(0).getStart(),
                 "Start time of measurement2 doesn't match with time of reading");

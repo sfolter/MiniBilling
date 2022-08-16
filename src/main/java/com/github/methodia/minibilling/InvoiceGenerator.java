@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class InvoiceGenerator {
-    private final List<Measurement> measurements;
+//    private final List<Measurement> measurements;
     //private final String currency;
 
-    public InvoiceGenerator( List<Measurement> measurements) {
-        this.measurements = measurements;
+//    public InvoiceGenerator( List<Measurement> measurements) {
+//        this.measurements = measurements;
        // this.currency = currency;
-    }
+//    }
 
-    public Invoice generate(long documentNumber, String borderTime) {
+    public Invoice generate(List<Measurement> measurements,long documentNumber, String borderTime) {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 

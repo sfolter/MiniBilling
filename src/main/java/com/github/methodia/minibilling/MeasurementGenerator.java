@@ -6,15 +6,15 @@ import java.util.Collection;
 import java.util.List;
 
 public class MeasurementGenerator {
-    private final User user;
-    private final List<Reading> readings;
+//    private final User user;
+//    private final List<Reading> readings;
+//
+//    public MeasurementGenerator(User user, List<Reading> readings) {
+//        this.user = user;
+//        this.readings = readings;
+//    }
 
-    public MeasurementGenerator(User user, List<Reading> readings) {
-        this.user = user;
-        this.readings = readings;
-    }
-
-    public List<Measurement> generate() {
+    public List<Measurement> generate(User user, List<Reading> readings) {
         List<Measurement> measurements = new ArrayList<>();
         Reading previous = null;
         for (Reading reading : readings) {

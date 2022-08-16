@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -39,6 +38,7 @@ public class SaveInvoice {
         String jsonFilePath = folderPath + "\\" + invoice.getDocumentNumber() + "-" + month1 + "-" + outputOfTheYear + ".json";
         creatingJsonFIle(json, jsonFilePath);
     }
+
 
     private static void createFolder(String folderPath) {
         File creatingFolders = new File(folderPath);

@@ -2,17 +2,13 @@ package com.github.methodia.minibilling;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 
 class ProportionalMeasurementDistributorTest {
 
@@ -68,9 +64,7 @@ class ProportionalMeasurementDistributorTest {
         BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
         BigDecimal secondQuantity = measurement1.getValue().subtract(firstQuantity);
-        final ArrayList<Price> prices = new ArrayList<>();
-        prices.add(price1);
-        prices.add(price2);
+
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
                 Collections.singleton(measurement1));
 
@@ -145,10 +139,7 @@ class ProportionalMeasurementDistributorTest {
                 .multiply(measurement1.getValue());
 
         BigDecimal thirdQuantity = measurement1.getValue().subtract(firstQuantity.add(secondQuantity));
-        final ArrayList<Price> prices = new ArrayList<>();
-        prices.add(price1);
-        prices.add(price2);
-        prices.add(price3);
+
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
                 Collections.singleton(measurement1));
 
