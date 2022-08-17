@@ -9,10 +9,10 @@ import java.time.ZonedDateTime;
  * Methodia Inc.
  */
 public class Reading {
-    private ZonedDateTime time;
-    private BigDecimal value;
-    private String product;
-    private User user;
+    private final ZonedDateTime time;
+    private final BigDecimal value;
+    private final String product;
+    private final User user;
 
     public Reading(User user, String product, ZonedDateTime time, BigDecimal value) {
         this.time = time;
@@ -32,5 +32,9 @@ public class Reading {
 
     public User getUser() {
         return user;
+    }
+
+    public String getProduct() {
+        return product;
     }
 }

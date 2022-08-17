@@ -14,20 +14,15 @@ public class MeasurementGenerator {
 
 
     Collection<Measurement> generate(User user, Collection<Reading> readings) {
-
         List<Measurement> measurements = new ArrayList<>();
         Reading previous = null;
         for (Reading reading : readings)
             if (user.getRef().equals(reading.getUser().getRef())) {
-                if (previous == null) {
-                    previous = reading;
-                } else {
+                if (previous != null) {
                     BigDecimal value = reading.getValue().subtract(previous.getValue());
                     measurements.add(new Measurement(previous.getTime().toLocalDateTime(), reading.getTime().toLocalDateTime(), value, user));
-                    previous = reading;
                 }
-
-
+                previous = reading;
             }
         return measurements;
     }

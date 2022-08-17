@@ -24,7 +24,7 @@ public class JsonFileGenerator {
         String monthInCyrilic = splitDate[1];
         int year = Integer.parseInt(splitDate[2]) % 100;
         String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
-        String fileWriter = (String) json.get("documentNumber") + "-" + monthInUpperCase + "-" + year;
+        String fileWriter = json.get("documentNumber") + "-" + monthInUpperCase + "-" + year;
         FileWriter file = new FileWriter(folderPath + "//" + fileWriter + ".json");
         file.write(json.toString(4));
         file.flush();

@@ -12,7 +12,7 @@ import java.util.List;
 public class CsvFilePriceReader implements PricesReader {
 
     @Override
-    public List<Price> read(int priceListNum, String path) throws IOException {
+    public List<Price> read(int priceListNum, String path) {
         String[] line;
         final ArrayList<Price> priceList = new ArrayList<>();
         String directory = path + "prices-" + priceListNum + ".csv";

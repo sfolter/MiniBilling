@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface PricesReader {
 
-    List<Price> read(int priceListNum, String path) throws IOException;
+    List<Price> read(int priceListNum, String path) ;
 }

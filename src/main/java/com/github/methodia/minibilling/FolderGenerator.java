@@ -5,13 +5,12 @@ import java.io.File;
 public class FolderGenerator {
 
     public String generate(User user, String folderPathStr) {
-        String folderPath = folderPathStr;
-        User consumer = user;
-        String name = consumer.getName();
-        String refNum = consumer.getRef();
-        String pathname = folderPath + name + "-" + refNum;
+
+        String name = user.getName();
+        String refNum = user.getRef();
+        String pathname = folderPathStr + name + "-" + refNum;
         File newFolder = new File(pathname);
-        boolean bool2 = newFolder.mkdirs();
+        newFolder.mkdirs();
         return pathname;
     }
 }

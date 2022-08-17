@@ -3,10 +3,10 @@ package com.github.methodia.minibilling;
 import java.util.List;
 
 public class User {
-    private String name;
-    private String ref;
-    private int priceListNumber;
-    private List<Price> price;
+    private final String name;
+    private final String ref;
+    private final int priceListNumber;
+    private final List<Price> price;
 
     public User(String name, String ref, List<Price> price, int priceListNumber) {
         this.name = name;

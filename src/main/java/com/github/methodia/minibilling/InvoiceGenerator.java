@@ -53,13 +53,13 @@ public class InvoiceGenerator {
                 amount = (amount.multiply(currencyRate)).setScale(2, RoundingMode.HALF_EVEN);
                 totalAmount = totalAmount.add(amount);
 
-                BigDecimal vatAmount = (amount.multiply(VAT_PERCENTAGE)).divide(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal vatAmount = (amount.multiply(VAT_PERCENTAGE)).divide(BigDecimal.valueOf(100),RoundingMode.HALF_EVEN);
                 BigDecimal amountWithVat = vatAmount.add(amount);
                 totalAmountWithVat = totalAmountWithVat.add(amountWithVat);
 
                 long daysQuantity = start.until(end, ChronoUnit.DAYS);
                 priceForTaxes = priceForTaxes.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
-                BigDecimal amountForTaxes = priceForTaxes.multiply(BigDecimal.valueOf(daysQuantity)).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal amountForTaxes = priceForTaxes.multiply(BigDecimal.valueOf(daysQuantity).setScale(2, RoundingMode.HALF_EVEN));
 
 
                 invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
@@ -71,8 +71,7 @@ public class InvoiceGenerator {
 
         LocalDateTime documentDate = LocalDateTime.now();
         String documentNumber = Invoice.getDocumentNumber();
-        User consumer = user;
 
-        return new Invoice(documentDate, documentNumber, consumer, totalAmount, totalAmountWithVat, invoiceLines, vatLines, taxesLines);
+        return new Invoice(documentDate, documentNumber, user, totalAmount, totalAmountWithVat, invoiceLines, vatLines, taxesLines);
     }
 }
