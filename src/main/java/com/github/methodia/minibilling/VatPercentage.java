@@ -1,19 +1,21 @@
 package com.github.methodia.minibilling;
 
-public class VatPercentage {
-    private  final int taxedAmountPercentage;
-    private final int percentage;
+import java.math.BigDecimal;
 
-    public VatPercentage(int taxedAmountPercentage, int percentage) {
+public class VatPercentage {
+    private final BigDecimal taxedAmountPercentage;
+    private final BigDecimal percentage;
+
+    public VatPercentage(BigDecimal taxedAmountPercentage, BigDecimal percentage) {
         this.taxedAmountPercentage = taxedAmountPercentage;
         this.percentage = percentage;
     }
 
-    public int getTaxedAmountPercentage() {
+    public BigDecimal getTaxedAmountPercentage() {
         return taxedAmountPercentage;
     }
 
-    public int getPercentage() {
+    public BigDecimal getPercentage() {
         return percentage;
     }
 }

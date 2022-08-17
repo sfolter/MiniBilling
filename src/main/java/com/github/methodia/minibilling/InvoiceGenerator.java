@@ -11,15 +11,14 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class InvoiceGenerator {
-//    private final List<Measurement> measurements;
-    //private final String currency;
 
-//    public InvoiceGenerator( List<Measurement> measurements) {
-//        this.measurements = measurements;
-       // this.currency = currency;
+//    private final String currency;
+//
+//    public InvoiceGenerator(String currency) {
+//        this.currency = currency;
 //    }
 
-    public Invoice generate(List<Measurement> measurements,long documentNumber, String borderTime) {
+    public Invoice generate(List<Measurement> measurements, long documentNumber, String borderTime) {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
@@ -29,24 +28,23 @@ public class InvoiceGenerator {
         AtomicReference<BigDecimal> totalAmount = new AtomicReference<>(BigDecimal.ZERO);
         AtomicReference<BigDecimal> totalAmountWithVat = new AtomicReference<>(BigDecimal.ZERO);
         LocalDate borderDate = Formatter.parseBorder(borderTime);
+        VatGenerator vatGenerator = new VatGenerator(ExampleInputInformation.vatPercentages());
+        for (QuantityPricePeriod qpp : quantityPricePeriods) {
+            if (qpp.getEnd().toLocalDate().isBefore(borderDate)) {
+                InvoiceLine invoiceLine = createInvoiceLine(invoiceLines.size() + 1, qpp);
+                invoiceLines.add(invoiceLine);
+                totalAmount.set(totalAmount.get().add(invoiceLine.getAmount()).stripTrailingZeros());
 
-
-        quantityPricePeriods.stream()
-                .filter(qpp -> qpp.getEnd().toLocalDate().isBefore(borderDate))
-                .forEach(q -> {
-                    InvoiceLine invoiceLine = createInvoiceLine(invoiceLines.size() + 1, q);
-                    invoiceLines.add(invoiceLine);
-                    totalAmount.set(totalAmount.get().add(invoiceLine.getAmount()).stripTrailingZeros());
-
-                    Tax tax = createTax(taxes.size() + 1, invoiceLine);
-                    taxes.add(tax);
-
-                    Vat vat1 = createVat(vat.size() + 1, invoiceLine);
-                    vat.add(vat1);
-
-                    totalAmountWithVat.set(totalAmount.get().add(vat1.getAmount()).stripTrailingZeros());
-                });
-
+                Tax tax = createTax(taxes.size() + 1, invoiceLine);
+                taxes.add(tax);
+                totalAmount.set(totalAmount.get().add(tax.getAmount()).stripTrailingZeros());
+                vat = vatGenerator.generate(invoiceLine.getIndex(), invoiceLine.getAmount(), tax.getAmount());
+            }
+            BigDecimal vatAmount = vat.stream()
+                    .map(Vat::getAmount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            totalAmountWithVat.set(totalAmount.get().add(vatAmount));
+        }
         LocalDateTime documentDate = LocalDateTime.now();
         String docNumber = String.valueOf(documentNumber);
         String consumer = measurements.get(0).getUser().getName();
@@ -72,15 +70,6 @@ public class InvoiceGenerator {
                 product, price, priceList, amount);
     }
 
-    private Vat createVat(int index, InvoiceLine invoiceLine) {
-
-        List<Integer> vattedLines = new ArrayList<>();
-        vattedLines.add(invoiceLine.getIndex());
-        BigDecimal vatAmount = invoiceLine.getAmount().multiply(BigDecimal.valueOf(0.2)).setScale(2, RoundingMode.HALF_UP)
-                .stripTrailingZeros();
-
-        return new Vat(index, vattedLines, vatAmount);
-    }
 
     private Tax createTax(int index, InvoiceLine invoiceLine) {
 

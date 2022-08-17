@@ -13,7 +13,7 @@ public class Invoice {
     private final BigDecimal totalAmount;
     private final BigDecimal totalAmountWithVat;
     private final List<InvoiceLine> lines;
-    private final List<Tax>taxes;
+    private final List<Tax> taxes;
     private final List<Vat> vat;
 
 

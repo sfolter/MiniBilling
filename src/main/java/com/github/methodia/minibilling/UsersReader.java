@@ -4,6 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 
 public interface UsersReader {
-    Map<String,User> read();
+    Map<String, User> read();
 
 }

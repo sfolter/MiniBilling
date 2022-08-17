@@ -19,10 +19,12 @@ public class Formatter {
         return LocalDate.parse(date, formatterBorderTime);
 
     }
-    public static ZonedDateTime parseReading(String date){
-         return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME).withZoneSameInstant(ZoneId.of(ZONE_ID));
+
+    public static ZonedDateTime parseReading(String date) {
+        return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME).withZoneSameInstant(ZoneId.of(ZONE_ID));
     }
-    public static ZonedDateTime parsePriceStart(String date){
+
+    public static ZonedDateTime parsePriceStart(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDateStart = LocalDate.parse(date, formatter);
         int yearStart = localDateStart.getYear();
@@ -31,7 +33,8 @@ public class Formatter {
         return ZonedDateTime.of(yearStart, monthValueStart, dayOfMonthStart,
                 0, 0, 0, 0, ZoneId.of(ZONE_ID));
     }
-    public static ZonedDateTime parsePriceEnd(String date){
+
+    public static ZonedDateTime parsePriceEnd(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDateEnd = LocalDate.parse(date, formatter);
         int yearEnd = localDateEnd.getYear();

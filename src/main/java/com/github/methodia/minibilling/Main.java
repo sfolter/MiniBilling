@@ -18,13 +18,14 @@ public class Main {
         Map<String, User> users = userReader.read();
 
         final ReadingFileReader readingReader = new ReadingFileReader(users, resourceDirectory);
-        List<Reading> readingCollection = readingReader.read();
-        MeasurementGenerator measurementGenerator=new MeasurementGenerator();
-        InvoiceGenerator invoiceGenerator =new InvoiceGenerator();
+        List<Reading> readings = readingReader.read();
+
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
 
         users.values().stream()
-                .map(user -> measurementGenerator.generate(user, readingCollection))
-                .map(measurement -> invoiceGenerator.generate(measurement,documentNumberId.getAndIncrement(), dateToReporting))
+                .map(user -> measurementGenerator.generate(user, readings))
+                .map(measurement -> invoiceGenerator.generate(measurement, documentNumberId.getAndIncrement(), dateToReporting))
                 .forEach(invoice -> SaveInvoice.saveToFile(invoice, outputDirectory, dateToReporting));
     }
 }

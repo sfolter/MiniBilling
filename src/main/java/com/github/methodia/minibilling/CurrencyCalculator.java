@@ -18,8 +18,8 @@ public class CurrencyCalculator {
         this.key = key;
     }
 
-    public BigDecimal calculateTo(String currency, BigDecimal amount){
-        BigDecimal result=BigDecimal.ZERO;
+    public BigDecimal calculateTo(String currency, BigDecimal amount) {
+        BigDecimal result = BigDecimal.ZERO;
         if (!currency.equals("EUR")) {
 
             String urlLink = "https://api.apilayer.com/currency_data/convert?to=" + currency + "&from=EUR&amount=" + amount;
@@ -31,8 +31,8 @@ public class CurrencyCalculator {
                 client.send(request, HttpResponse.BodyHandlers.ofString());
                 HttpResponse<String> response =
                         client.send(request, HttpResponse.BodyHandlers.ofString());
-                String responceBody = response.body();
-                JSONObject obj = new JSONObject(responceBody);
+                String body = response.body();
+                JSONObject obj = new JSONObject(body);
                 result = obj.getBigDecimal("result");
                 return result;
             } catch (IOException | InterruptedException e) {
