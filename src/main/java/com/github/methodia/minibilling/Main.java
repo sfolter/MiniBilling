@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
         String dateReporting = args[0];
         String inputDir = args[1];
@@ -19,16 +19,15 @@ public class Main {
 
         UserReaderInterface userReader = new UserReader(inputDir);
         ReadingReader readingReader = new ReadingReader(inputDir);
-        List<Reading> readingList = readingReader.read();
         Map<String, User> userMap = userReader.read();
-
+        HashMap<String, List<Reading>> readingsList = readingReader.read();
 
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
         userMap.values().stream()
-                .map(user -> measurementGenerator.generate(user, readingList))
-                .map(measurements -> invoiceGenerator.generate( parseReportingDate,measurements))
-                .forEach(invoice -> FileMaker.FileSaver(invoice,outputDir,parseReportingDate));
+                .map(user -> measurementGenerator.generate(user, readingsList.get(user.getRef())))
+                .map(measurements -> invoiceGenerator.generate(parseReportingDate, measurements))
+                .forEach(invoice -> FileMaker.FileSaver(invoice, outputDir, parseReportingDate));
 
     }
 
@@ -38,7 +37,6 @@ public class Main {
         ZonedDateTime time = yearMonth.atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.of("Z"));
         return LocalDateTime.parse(String.valueOf(time), formatter);
     }
-
 
 
 }

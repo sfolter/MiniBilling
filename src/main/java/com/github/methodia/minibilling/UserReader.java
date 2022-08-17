@@ -15,14 +15,15 @@ public class UserReader implements UserReaderInterface {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\" + "users.csv")))) {
 
-            return br.lines().map(l -> l.split(",")).map(this::createUser).collect(Collectors.toMap(User::getRef, u -> u));
+            return br.lines().map(l -> l.split(","))
+                    .map(this::createUser)
+                    .collect(Collectors.toMap(User::getRef, u -> u));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
-
     private User createUser(String[] userLine) {
         PriceReaderInterface pricesReader = new PriceReader(path);
         String userName = userLine[0];

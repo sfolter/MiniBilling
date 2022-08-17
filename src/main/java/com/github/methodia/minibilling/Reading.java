@@ -3,8 +3,7 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
-public class Reading {
+public class Reading  {
     private final LocalDateTime time;
     private final BigDecimal value;
     private final User user;
