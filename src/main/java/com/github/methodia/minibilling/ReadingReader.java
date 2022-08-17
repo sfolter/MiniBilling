@@ -17,21 +17,17 @@ public class ReadingReader implements ReadingReaderInterface {
 
     @Override
     public Map<String, List<Reading>> read() {
-        Map<String, List<Reading>> readings;
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\" + "readings.csv")))) {
 
-            List<Reading> readings1 = br.lines()
+            return br.lines()
                     .map(l -> l.split(","))
-                    .map(this::createReadings).toList();
-
-            readings = readings1.stream()
+                    .map(this::createReadings)
                     .collect(Collectors.groupingBy(reading -> reading.getUser().getRef()));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return readings;
 
     }
 
