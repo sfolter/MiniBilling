@@ -20,7 +20,7 @@ public class Main {
         UserReaderInterface userReader = new UserReader(inputDir);
         ReadingReader readingReader = new ReadingReader(inputDir);
         Map<String, User> userMap = userReader.read();
-        HashMap<String, List<Reading>> readingsList = readingReader.read();
+        Map<String, List<Reading>> readingsList = readingReader.read();
 
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
