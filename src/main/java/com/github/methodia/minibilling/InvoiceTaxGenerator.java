@@ -5,8 +5,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaxGenerator {
-    public Tax createTaxes(InvoiceLine invoiceLine) {
+public class InvoiceTaxGenerator implements TaxGenerator {
+    public Tax generateTaxes(InvoiceLine invoiceLine) {
         List<Integer> linesOFTax = new ArrayList<>();
         linesOFTax.add(invoiceLine.getIndex());
 

@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
-public class InvoiceLineGenerator {
+public class InvoiceLineGenerator implements LineGenerator {
 
-    public InvoiceLine createInvoiceLine(int index, QuantityPricePeriod qpp, User user) {
+    public InvoiceLine generateInvoiceLine(int index, QuantityPricePeriod qpp, User user) {
 
         BigDecimal quantity = qpp.getQuantity().setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         LocalDateTime lineStart = qpp.getStart();
