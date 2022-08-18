@@ -3,11 +3,6 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class Price {
     private String product;
     private LocalDate start;
@@ -36,6 +31,5 @@ public class Price {
     public BigDecimal getValue() {
         return value;
     }
-
 }
 

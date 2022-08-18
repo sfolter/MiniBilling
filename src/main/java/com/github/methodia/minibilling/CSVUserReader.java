@@ -10,29 +10,30 @@ import java.util.List;
 import java.util.Map;
 
 public class CSVUserReader implements UsersReader {
+    private final String path;
 
-    static Map<String, User> userMap = new LinkedHashMap<>();
-
-    public static Map<String, User> getUserMap() {
-        return userMap;
+    public CSVUserReader(String path) {
+        this.path = path;
     }
 
     @Override
-    public List<User> read(String path) {
+    public Map<String, User> read() {
+        Map<String, User> userMap = new LinkedHashMap<>();
         String[] line;
-        CSVPricesReader price = new CSVPricesReader();
-        final List<User> userList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
         int counter = 0;
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\users.csv"))) {
             while ((line = reader.readNext()) != null) {
-                List<Price> priceList = price.read(Integer.parseInt(line[2]), path);
-                userList.add(new User(line[0], line[1], priceList, Integer.parseInt(line[2])));
+                CSVPricesReader price = new CSVPricesReader(path, Integer.parseInt(line[2]));
+                List<Price> priceList = price.read();
+                userList.add(new User(line[0], line[1], Integer.parseInt(line[2]), priceList));
                 userMap.put(line[1], userList.get(counter));
                 counter++;
+
             }
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);
         }
-        return userList;
+        return userMap;
     }
 }

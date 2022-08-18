@@ -3,26 +3,27 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 
 public class VatLine {
-    private final int index;
-    private final int lines;
-    private final BigDecimal percentage;
-    private final BigDecimal amount;
+    private int index;
+    private int lines;
+    private int percentage;
+    private BigDecimal amount;
 
-    public VatLine(int index, int lineIndex, BigDecimal percentage, BigDecimal amount) {
+    public VatLine(int index, int lines, int percentage, BigDecimal amount) {
         this.index = index;
-        this.lines = lineIndex;
+        this.lines = lines;
         this.percentage = percentage;
         this.amount = amount;
     }
+
     public int getIndex() {
         return index;
     }
 
-    public Integer getLines() {
+    public int getLines() {
         return lines;
     }
 
-    public BigDecimal getPercentage() {
+    public int getPercentage() {
         return percentage;
     }
 

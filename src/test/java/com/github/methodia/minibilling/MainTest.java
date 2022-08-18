@@ -15,11 +15,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * @author Miroslav Kovachev
- * 21.07.2022
- * Methodia Inc.
- */
 public class MainTest {
 
     @Test
@@ -119,6 +114,4 @@ public class MainTest {
         return inputDir.getPath();
     }
 }
-
-
 

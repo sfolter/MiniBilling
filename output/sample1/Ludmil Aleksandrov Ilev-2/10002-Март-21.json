@@ -1,0 +1,33 @@
+{
+    "documentDate": "2022-08-18T16:34:16.956880100",
+    "documentNumber": "10002",
+    "consumer": "Ludmil Aleksandrov Ilev",
+    "reference": "2",
+    "totalAmount": "273.60 BGN",
+    "totalAmountWithVat": "328.32 BGN",
+    "lines": [{
+        "index": 1,
+        "quantity": 152,
+        "lineStart": "2021-01-01T08:00:00Z",
+        "lineEnd": "2021-03-25T13:40:00Z",
+        "product": "gas",
+        "price": 1.8,
+        "priceList": 1,
+        "amount": "273.60 BGN"
+    }],
+    "taxes": [{
+        "index": 1,
+        "lines": 1,
+        "name": "Standing charge",
+        "quantity": 83,
+        "unit": "days",
+        "price": 1.6,
+        "amount": "132.80 BGN"
+    }],
+    "vat": [{
+        "index": 1,
+        "lines": 1,
+        "percentage": 20,
+        "amount": "54.72 BGN"
+    }]
+}

@@ -1,9 +1,10 @@
 {
-    "documentDate": "2022-08-09T10:26:48.694833",
+    "documentDate": "2022-08-18T16:34:16.681053200",
     "documentNumber": "10000",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
-    "totalAmount": 156.6,
+    "totalAmount": "156.60 BGN",
+    "totalAmountWithVat": "187.92 BGN",
     "lines": [{
         "index": 1,
         "quantity": 87,
@@ -12,6 +13,21 @@
         "product": "gas",
         "price": 1.8,
         "priceList": 1,
-        "amount": 156.6
+        "amount": "156.60 BGN"
+    }],
+    "taxes": [{
+        "index": 1,
+        "lines": 1,
+        "name": "Standing charge",
+        "quantity": 75,
+        "unit": "days",
+        "price": 1.6,
+        "amount": "120.00 BGN"
+    }],
+    "vat": [{
+        "index": 1,
+        "lines": 1,
+        "percentage": 20,
+        "amount": "31.32 BGN"
     }]
 }

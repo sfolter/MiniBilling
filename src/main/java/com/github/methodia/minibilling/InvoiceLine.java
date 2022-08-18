@@ -4,16 +4,17 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class InvoiceLine {
+
     private int index;
     private BigDecimal quantity;
-    private java.time.LocalDateTime start;
+    private LocalDateTime start;
     private LocalDateTime end;
     private String product;
     private BigDecimal price;
     private int priceList;
     private BigDecimal amount;
 
-    public InvoiceLine(int index, BigDecimal quantity, java.time.LocalDateTime start, java.time.LocalDateTime end, String product,
+    public InvoiceLine(int index, BigDecimal quantity, LocalDateTime start, LocalDateTime end, String product,
                        BigDecimal price, int priceList, BigDecimal amount) {
         this.index = index;
         this.quantity = quantity;
@@ -33,11 +34,11 @@ public class InvoiceLine {
         return quantity;
     }
 
-    public java.time.LocalDateTime getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public java.time.LocalDateTime getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 

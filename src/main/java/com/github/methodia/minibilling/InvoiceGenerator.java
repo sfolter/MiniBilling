@@ -8,58 +8,84 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.github.methodia.minibilling.Main.API_KEY;
+
 public class InvoiceGenerator {
-    private CurrencyConvertor currencyConvertor = new CurrencyConvertor();
-    private final BigDecimal percentage = BigDecimal.valueOf(20);
+    private User user;
+    private Collection<Measurement> measurements;
+    private Collection<Price> prices;
+    private String yearMonthStr;
 
-    public InvoiceGenerator(CurrencyConvertor currencyConvertor) {
-        this.currencyConvertor=currencyConvertor;
+    private String currency;
 
+
+    public InvoiceGenerator(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr, String currency) {
+        this.user = user;
+        this.measurements = measurements;
+        this.prices = prices;
+        this.yearMonthStr = yearMonthStr;
+        this.currency = currency;
     }
 
-    public Invoice generate(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr, String currency)
-            throws IOException, ParseException {
-        BigDecimal currencyRate = currencyConvertor.convertCurrency(currency);
+    public Invoice generate() throws IOException, ParseException {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
-        Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
-        YearMonth yearMonth = YearMonth.parse(yearMonthStr, DateTimeFormatter.ofPattern("yy-MM"));
-        final LocalDateTime yearMonthLocalDate = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+        List<QuantityPricePeriod> distribute = proportionalMeasurementDistributor.distribute();
+        LocalDateTime yearMonthLocalDate = localDateTimeToReport();
         List<InvoiceLine> invoiceLines = new ArrayList<>();
         List<VatLine> vatLines = new ArrayList<>();
+        List<TaxLines> taxesLines = new ArrayList<>();
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal totalAmountWithVat = BigDecimal.ZERO;
-        int counter = 1;
-        for (QuantityPricePeriod qpp : quantityPricePeriods) {
+        CurrencyConvertor currencyConvertor = new CurrencyConvertor(currency, API_KEY);
+        BigDecimal currencyValue = currencyConvertor.generateCurrency();
+
+        int percentage = 20;
+        String name = "Standing charge";
+        String unit = "days";
+
+        int index = 1;
+
+        for (QuantityPricePeriod qpp : distribute) {
             LocalDateTime end = qpp.getEnd();
             if (yearMonthLocalDate.compareTo(end) >= 0) {
-                int index = counter++;
                 BigDecimal quantity = qpp.getQuantity();
                 LocalDateTime start = qpp.getStart();
-
                 String product = qpp.getPrice().getProduct();
                 BigDecimal price = qpp.getPrice().getValue();
-                price = price.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
                 int priceList = user.getPriceListNumber();
-                BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
-                amount = amount.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue()).setScale(2, RoundingMode.HALF_UP);
+                amount = amount.multiply(currencyValue).setScale(2, RoundingMode.HALF_UP);
                 totalAmount = totalAmount.add(amount);
+                int indexInVat = index;
+                BigDecimal amountInVat = amount.multiply(new BigDecimal(20).divide(new BigDecimal(100))).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal amountForLineAndVat = amountInVat.add(amount);
+                totalAmountWithVat = totalAmountWithVat.add(amountForLineAndVat);
+                int indexInTaxes = index;
+                int quantityInTaxes = (int) ChronoUnit.DAYS.between(start, end);
+                BigDecimal priceInTaxes = new BigDecimal("1.6").setScale(2, RoundingMode.HALF_UP);
+                BigDecimal amountInTaxes = priceInTaxes.multiply(BigDecimal.valueOf(quantityInTaxes)).setScale(2, RoundingMode.HALF_UP);
+                amountInTaxes=amountInTaxes.multiply(currencyValue).setScale(2, RoundingMode.HALF_UP);
 
-                BigDecimal vatAmount = (amount.multiply(percentage)).divide(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_EVEN);
-                BigDecimal amountWithVat = vatAmount.add(amount);
-                totalAmountWithVat = totalAmountWithVat.add(amountWithVat);
                 invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
-                vatLines.add(new VatLine(index, index, percentage, vatAmount));
+                taxesLines.add(new TaxLines(indexInTaxes, index, name, quantityInTaxes, unit, priceInTaxes, amountInTaxes));
+                vatLines.add(new VatLine(indexInVat, index, percentage, amountInVat));
+                index++;
             }
         }
-
         LocalDateTime documentDate = LocalDateTime.now();
         String documentNumber = Invoice.getDocumentNumber();
-        User consumer = user;
 
-        return new Invoice(documentDate, documentNumber, consumer, totalAmount, totalAmountWithVat, invoiceLines, vatLines);
+        return new Invoice(documentDate, documentNumber, user, totalAmount, totalAmountWithVat, invoiceLines, vatLines, taxesLines);
+    }
+
+    public LocalDateTime localDateTimeToReport(){
+        YearMonth yearMonth = YearMonth.parse(yearMonthStr, DateTimeFormatter.ofPattern("yy-MM"));
+        final LocalDateTime yearMonthLocalDate = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+        return yearMonthLocalDate;
     }
 }

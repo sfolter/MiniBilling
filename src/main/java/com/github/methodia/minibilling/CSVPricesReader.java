@@ -3,19 +3,27 @@ package com.github.methodia.minibilling;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CSVPricesReader implements PricesReader {
+    private String path;
+
+    private int priceListNumber;
+
+    public CSVPricesReader(String path, int priceListNumber) {
+        this.path = path;
+        this.priceListNumber = priceListNumber;
+    }
 
     @Override
-    public List<Price> read(int priceListNum, String path) throws IOException {
+    public List<Price> read() {
         String[] line;
-        final ArrayList<Price> priceList = new ArrayList<>();
-        String directory = path + "prices-" + priceListNum + ".csv";
+        List<Price> prices = new LinkedList<>();
+        String directory = path + "prices-" + priceListNumber + ".csv";
 
         try (CSVReader reader = new CSVReader(new java.io.FileReader(directory))) {
             while ((line = reader.readNext()) != null) {
@@ -23,12 +31,12 @@ public class CSVPricesReader implements PricesReader {
                 LocalDate startDate = LocalDate.parse(line[1]);
                 LocalDate endDate = LocalDate.parse(line[2]);
                 BigDecimal value = new BigDecimal(line[3]);
-                priceList.add(new Price(product, startDate, endDate, value));
+                prices.add(new Price(product, startDate, endDate, value));
             }
-            return priceList;
+
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);
         }
+        return prices;
     }
 }
-

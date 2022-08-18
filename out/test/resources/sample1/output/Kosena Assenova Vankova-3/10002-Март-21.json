@@ -1,9 +1,10 @@
 {
-    "documentDate": "2022-08-09T10:26:48.748830700",
+    "documentDate": "2022-08-10T15:42:36.659636200",
     "documentNumber": "10002",
     "consumer": "Kosena Assenova Vankova",
     "reference": "3",
     "totalAmount": 784.8,
+    "totalAmountWithVat": 941.76,
     "lines": [{
         "index": 1,
         "quantity": 436,
@@ -13,5 +14,11 @@
         "price": 1.8,
         "priceList": 1,
         "amount": 784.8
+    }],
+    "vat": [{
+        "index": 1,
+        "lines": [1],
+        "percentage": 20,
+        "amount": 156.96
     }]
 }

@@ -1,26 +1,21 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class Reading {
     private ZonedDateTime time;
     private BigDecimal value;
-    private String product;
     private User user;
+    private String product;
 
-    public Reading(User user, String product, ZonedDateTime time, BigDecimal value) {
+    public Reading(ZonedDateTime time, BigDecimal value, User user, String product) {
         this.time = time;
         this.value = value;
-        this.product = product;
         this.user = user;
+        this.product = product;
     }
-
 
     public ZonedDateTime getTime() {
         return time;
@@ -32,5 +27,9 @@ public class Reading {
 
     public User getUser() {
         return user;
+    }
+
+    public String getProduct() {
+        return product;
     }
 }

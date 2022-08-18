@@ -5,10 +5,11 @@ import java.util.List;
 public class User {
     private String name;
     private String ref;
-    private static int priceListNumber;
     private List<Price> price;
+    private int priceListNumber;
 
-    public User(String name, String ref, List<Price> price, int priceListNumber) {
+
+    public User(String name, String ref, int priceListNumber, List<Price> price) {
         this.name = name;
         this.ref = ref;
         this.price = price;
@@ -23,12 +24,10 @@ public class User {
         return ref;
     }
 
-    public static int getPriceListNumber() {
-        return priceListNumber;
-    }
-
     public List<Price> getPrice() {
         return price;
     }
-
+    public int getPriceListNumber() {
+        return priceListNumber;
+    }
 }

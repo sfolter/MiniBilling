@@ -3,11 +3,6 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class Measurement {
     private LocalDateTime start;
     private LocalDateTime end;
@@ -20,6 +15,7 @@ public class Measurement {
         this.value = value;
         this.user = user;
     }
+
     public LocalDateTime getStart() {
         return start;
     }
@@ -31,6 +27,7 @@ public class Measurement {
     public BigDecimal getValue() {
         return value;
     }
+
     public User getUser() {
         return user;
     }
