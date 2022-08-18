@@ -2,7 +2,6 @@ package com.github.methodia.minibilling;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Miroslav Kovachev

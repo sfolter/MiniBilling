@@ -9,6 +9,7 @@ import java.time.LocalDate;
  * Methodia Inc.
  */
 public class Price {
+
     private final String product;
     private final LocalDate start;
     private final LocalDate end;

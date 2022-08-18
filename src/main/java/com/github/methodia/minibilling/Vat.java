@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Vat {
+
     private final int index;
     private final List<Integer> lines;
     private final int percentage;

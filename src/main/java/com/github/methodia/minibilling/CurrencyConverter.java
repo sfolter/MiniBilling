@@ -15,37 +15,37 @@ public class CurrencyConverter {
 
     private String key;
 
-    public CurrencyConverter (String key){
-        this.key=key;
+    public CurrencyConverter(String key) {
+        this.key = key;
     }
 
-    public  BigDecimal getCurrencyValue(String currency) {
+    public BigDecimal getCurrencyValue(String currency) {
         try {
-            String getRequest= httpGetRequest(currency);
-            JSONObject obj=new JSONObject(getRequest);
-            return new BigDecimal(obj.getJSONObject("info").getString("rate"))
-                    .setScale(2, RoundingMode.HALF_UP);
+            String getRequest = httpGetRequest (currency);
+            JSONObject obj = new JSONObject (getRequest);
+            return new BigDecimal (obj.getJSONObject ("info").getString ("rate"))
+                    .setScale (2, RoundingMode.HALF_UP);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException (e);
         }
 
 
 
     }
-    private  String httpGetRequest(String currency) {
-        try {
 
-            String urlLink = "https://api.apilayer.com/fixer/convert?to="+currency+"&from=BGN&amount=1";
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(urlLink)).header("apiKey",key)
-                    .build();
-            client.send(request, HttpResponse.BodyHandlers.ofString());
+    private String httpGetRequest(String currency) {
+        try {
+            String urlLink = "https://api.apilayer.com/fixer/convert?to=" + currency + "&from=BGN&amount=1";
+            HttpClient client = HttpClient.newHttpClient ();
+            HttpRequest request = HttpRequest.newBuilder ()
+                    .uri (URI.create (urlLink)).header ("apiKey", key)
+                    .build ();
+            client.send (request, HttpResponse.BodyHandlers.ofString ());
             HttpResponse<String> response =
-                    client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
+                    client.send (request, HttpResponse.BodyHandlers.ofString ());
+            return response.body ();
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException (e);
         }
     }
 

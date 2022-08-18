@@ -3,11 +3,11 @@ package com.github.methodia.minibilling;
 
 
 import java.math.BigDecimal;
-
 import java.util.List;
 
 public class Invoice {
-    private static long idContour= 10000;
+
+    private static long idContour = 10000;
     private final String documentNumber;
     private final String consumer;
     private final String reference;
@@ -16,22 +16,24 @@ public class Invoice {
     private final List<InvoiceLine> lines;
     private final List<Vat> vat;
 
-    public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount, BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat) {
+    public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount,
+                   BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
-        this.reference=reference;
+        this.reference = reference;
         this.totalAmount = totalAmount;
-        this.totalAmountWithVat=totalAmountWithVat;
+        this.totalAmountWithVat = totalAmountWithVat;
         this.lines = lines;
-        this.vat=vat;
+        this.vat = vat;
     }
 
     public String getDocNumber() {
         return documentNumber;
     }
-    public static  String getDocumentNumber() {
-        return String.valueOf(idContour++);
+
+    public static String getDocumentNumber() {
+        return String.valueOf (idContour++);
     }
 
     public String getConsumer() {
@@ -49,6 +51,7 @@ public class Invoice {
     public String getReference() {
         return reference;
     }
+
     public BigDecimal getTotalAmountWithVat() {
         return totalAmountWithVat;
     }

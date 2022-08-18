@@ -10,33 +10,28 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * @author Miroslav Kovachev
- * 21.07.2022
- * Methodia Inc.
- */
 public class MainTest {
-
     @Test
-    void testSample1() throws IOException, JSONException {
+    void testSample1() throws IOException, ParseException, JSONException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
     @Test
-    void testSample2() throws IOException, JSONException {
+    void testSample2() throws IOException, ParseException, JSONException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, JSONException {
+    private void testSample(int sampleNumber, String yearMonth) throws IOException, ParseException, JSONException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
@@ -45,6 +40,7 @@ public class MainTest {
         final File output = new File(outputDir);
         checkDirectories(expectedFiles, output, sampleNumber);
     }
+
     private void checkDirectories(File sampleDir, File outputDir, int sampleNumber) throws IOException, JSONException {
         final File[] sampleInputFiles = sampleDir.listFiles();
         final File[] outputFiles = outputDir.listFiles();
@@ -117,6 +113,4 @@ public class MainTest {
                 .getResource(String.format("sample%s/expected/", sampleNumber));
         return inputDir.getPath();
     }
-
-
 }

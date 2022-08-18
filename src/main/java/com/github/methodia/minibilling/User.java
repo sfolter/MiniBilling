@@ -9,6 +9,7 @@ import java.util.List;
  * Methodia Inc.
  */
 public class User {
+
     private final String name;
     private final String ref;
     private final int numberPricingList;
@@ -22,8 +23,8 @@ public class User {
         this.name = name;
         this.ref = ref;
         this.price = price;
-        this.numberPricingList=numberPricingList;
-        this.cyrrency =cyrrency;
+        this.numberPricingList = numberPricingList;
+        this.cyrrency = cyrrency;
     }
 
     public int getNumberPricingList() {
@@ -41,6 +42,7 @@ public class User {
     public List<Price> getPrice() {
         return price;
     }
+
     public String getCyrrency() {
         return cyrrency;
     }
