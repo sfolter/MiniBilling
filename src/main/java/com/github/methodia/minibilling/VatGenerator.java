@@ -34,6 +34,7 @@ public class VatGenerator {
                 linesVats.add(new Vat(linesVats.size() + 1, vattedLines, taxes, percentages.getTaxedAmountPercentage(), percentages.getPercentage(), vatAmount));
             }
         }
+
         return linesVats;
     }
 

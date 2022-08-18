@@ -1,7 +1,8 @@
 package com.github.methodia.minibilling;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReadingsReader {
-    List<Reading> read();
+    Map<String,List<Reading>> read();
 }

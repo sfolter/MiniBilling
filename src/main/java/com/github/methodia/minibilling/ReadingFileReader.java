@@ -4,6 +4,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class ReadingFileReader implements ReadingsReader {
@@ -16,23 +17,22 @@ public class ReadingFileReader implements ReadingsReader {
     }
 
     @Override
-    public List<Reading> read() {
+    public Map<String, List<Reading>> read() {
 
-        String path = directory + "readings.csv";
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(directory + "\\" + "readings.csv")))) {
 
             return br.lines()
                     .map(l -> l.split(","))
-                    .map(a -> createReading(a, directory)).toList();
+                    .map(this::createReading)
+                    .collect(Collectors.groupingBy(reading -> reading.getUser().getRef()));
 
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
 
     }
 
-    private Reading createReading(String[] dataReading, String directory) {
+    private Reading createReading(String[] dataReading) {
 
         String referentNumber = dataReading[0];
         ZonedDateTime date = Formatter.parseReading(dataReading[2]);
