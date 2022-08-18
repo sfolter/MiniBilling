@@ -5,8 +5,8 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -18,12 +18,13 @@ public class Main {
         String outputDir = args[2];
 
         UserReaderInterface userReader = new UserReader(inputDir);
-        ReadingReader readingReader = new ReadingReader(inputDir);
+        ReadingReaderInterface readingReader = new ReadingReader(inputDir);
         Map<String, User> userMap = userReader.read();
-        Map<String, List<Reading>> readingsList = readingReader.read();
 
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        Map<String, List<Reading>> readingsList = readingReader.read();
+
         userMap.values().stream()
                 .map(user -> measurementGenerator.generate(user, readingsList.get(user.getRef())))
                 .map(measurements -> invoiceGenerator.generate(parseReportingDate, measurements))

@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 public class UserReader implements UserReaderInterface {
     private final String path;
 
-    public UserReader(String inputPath) {
-        this.path = inputPath;
+    public UserReader(String path) {
+        this.path = path;
     }
 
     public Map<String, User> read() {
@@ -24,6 +24,7 @@ public class UserReader implements UserReaderInterface {
         }
 
     }
+
     private User createUser(String[] userLine) {
         PriceReaderInterface pricesReader = new PriceReader(path);
         String userName = userLine[0];

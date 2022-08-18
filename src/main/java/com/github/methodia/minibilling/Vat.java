@@ -9,13 +9,12 @@ public class Vat {
     private final int percentage;
     private final BigDecimal amount;
 
-    public Vat(int index, List<Integer> lines, int percentage, BigDecimal amount) {
+    public Vat(int index, List<Integer> lines, BigDecimal amount) {
         this.index = index;
         this.lines = lines;
-        this.percentage = percentage;
+        this.percentage = 20;
         this.amount = amount;
     }
-
 
     public List<Integer> getLines() {
         return lines;

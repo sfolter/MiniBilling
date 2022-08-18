@@ -10,14 +10,13 @@ public class MeasurementGenerator {
         List<Measurement> measurements = new ArrayList<>();
         final List<Reading> previous = new ArrayList<>();
 
-        readings.forEach(r -> {
-            if (previous.isEmpty()) {
-                previous.add(r);
-            } else {
-                BigDecimal value = r.getValue().subtract(previous.get(0).getValue());
-                measurements.add(new Measurement(previous.get(0).getTime(), r.getTime(), value, user));
-                previous.set(0, r);
+        readings.forEach(reading -> {
+            if (!previous.isEmpty()) {
+                BigDecimal value = reading.getValue().subtract(previous.get(0).getValue());
+                measurements.add(new Measurement(previous.get(0).getTime(), reading.getTime(), value, user));
+                previous.set(0, reading);
             }
+            previous.add(reading);
 
         });
 
