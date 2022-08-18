@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class Reading {
-    private ZonedDateTime time;
-    private BigDecimal value;
-    private User user;
-    private String product;
+    private final ZonedDateTime time;
+    private final BigDecimal value;
+    private final User user;
+    private final String product;
 
     public Reading(ZonedDateTime time, BigDecimal value, User user, String product) {
         this.time = time;

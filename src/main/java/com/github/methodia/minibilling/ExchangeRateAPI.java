@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class ExchangeRateAPI {
 
-    private String key;
+    private final String key;
 
     public ExchangeRateAPI(String key) {
         this.key = key;

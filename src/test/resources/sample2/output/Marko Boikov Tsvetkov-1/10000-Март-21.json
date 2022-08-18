@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-16T09:32:19.136598300",
+    "documentDate": "2022-08-18T16:36:15.631117900",
     "documentNumber": "10000",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
     "totalAmount": "37.37 EUR",
-    "totalAmountWithVat": "44.84 EUR",
+    "totalAmountWithVat": "44.8440 EUR",
     "lines": [
         {
             "index": 1,
@@ -51,14 +51,26 @@
         {
             "index": 1,
             "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "4.98 EUR"
+            "amount": "4.9820 EUR"
         },
         {
-            "index": 2,
-            "lines": 2,
+            "index": 1,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "2.49 EUR"
+            "amount": "4.9820 EUR"
+        },
+        {
+            "index": 1,
+            "lines": 1,
+            "taxes": 1,
+            "taxedAmountPercentage": 60,
+            "percentage": 20,
+            "amount": "4.9820 EUR"
         }
     ]
 }

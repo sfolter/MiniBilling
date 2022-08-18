@@ -3,13 +3,13 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 
 public class Taxes {
-    private int index;
-    private int lines;
-    private String name;
-    private int quantity;
-    private String unit;
-    private BigDecimal price;
-    private BigDecimal amount;
+    private final int index;
+    private final int lines;
+    private final String name;
+    private final int quantity;
+    private final String unit;
+    private final BigDecimal price;
+    private final BigDecimal amount;
 
     public Taxes(int index, int lines, String name, int quantity, String unit, BigDecimal price, BigDecimal amount) {
         this.index = index;

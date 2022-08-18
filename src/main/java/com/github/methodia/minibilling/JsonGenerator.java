@@ -18,13 +18,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class JSONGenerator {
-    private Invoice invoice;
-    private String folderPath;
+public class JsonGenerator {
+    private final Invoice invoice;
+    private final String folderPath;
 
-    private String currency;
+    private final String currency;
 
-    public JSONGenerator(Invoice invoice, String folderPath, String currency) {
+    public JsonGenerator(Invoice invoice, String folderPath, String currency) {
         this.invoice = invoice;
         this.folderPath = folderPath;
         this.currency = currency;
@@ -47,18 +47,19 @@ public class JSONGenerator {
         List<Price> prices = user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
             JSONObject newLine = new JSONObject();
-            JSONObject newVatLine = new JSONObject();
+
             JSONObject newTaxesLine = new JSONObject();
             orderJSON(json);
             orderJSON(newLine);
             orderJSON(newTaxesLine);
-            orderJSON(newVatLine);
+
             json.put("documentDate", invoice.getDocumentDate());
             json.put("documentNumber", documentNumber);
             json.put("consumer", user.getName());
             json.put("reference", user.getRef());
             json.put("totalAmount", invoice.getTotalAmount().toString() + " " + currency);
             json.put("totalAmountWithVat", invoice.getTotalAmountWithVat().toString() + " " + currency);
+//          Invoice new line
             int index = invoice.getLines().get(i).getIndex();
             newLine.put("index", index);
             BigDecimal quantity = invoice.getLines().get(i).getQuantity();
@@ -76,6 +77,7 @@ public class JSONGenerator {
             BigDecimal amount = invoice.getLines().get(i).getAmount();
             newLine.put("amount", amount.toString() + " " + currency);
             lines.put(newLine);
+//          Line in taxes
             int indexInTaxes = invoice.getTaxesLines().get(i).getIndex();
             newTaxesLine.put("index", indexInTaxes);
             int linesInTaxes = invoice.getTaxesLines().get(i).getLines();
@@ -91,13 +93,22 @@ public class JSONGenerator {
             BigDecimal amountInTaxes = invoice.getTaxesLines().get(i).getAmount();
             newTaxesLine.put("amount", amountInTaxes.toString() + " " + currency);
             taxesLines.put(newTaxesLine);
-            int indexInVat = invoice.getVatsLines().get(i).getIndex();
+        }
+//          Line in vat
+        for (int j = 0; j < invoice.getVatsLines().size(); j++) {
+            JSONObject newVatLine = new JSONObject();
+            orderJSON(newVatLine);
+            int indexInVat = invoice.getVatsLines().get(j).getIndex();
             newVatLine.put("index", indexInVat);
-            int linesInVat = invoice.getVatsLines().get(i).getLines();
+            int linesInVat = invoice.getVatsLines().get(j).getLines();
             newVatLine.put("lines", linesInVat);
-            int percentage = invoice.getVatsLines().get(i).getPercentage();
+            int taxesInVat = invoice.getVatsLines().get(j).getTaxes();
+            newVatLine.put("taxes", taxesInVat);
+            int taxedAmountPercentage = invoice.getVatsLines().get(j).getTaxedAmountPercentage();
+            newVatLine.put("taxedAmountPercentage", taxedAmountPercentage);
+            int percentage = invoice.getVatsLines().get(j).getPercentage();
             newVatLine.put("percentage", percentage);
-            BigDecimal amountInVat = invoice.getVatsLines().get(i).getAmount();
+            BigDecimal amountInVat = invoice.getVatsLines().get(j).getAmount();
             newVatLine.put("amount", amountInVat.toString() + " " + currency);
             vatLines.put(newVatLine);
         }

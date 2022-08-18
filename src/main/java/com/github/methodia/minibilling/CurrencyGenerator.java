@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 
 public class CurrencyGenerator {
 
-    private String currency;
+    private final String currency;
 
-    private String key;
+    private final String key;
 
     public CurrencyGenerator(String currency, String key) {
         this.currency = currency;
@@ -21,9 +21,7 @@ public class CurrencyGenerator {
         ExchangeRateAPI exchangeRateAPI = new ExchangeRateAPI(key);
         JSONObject exchange = exchangeRateAPI.exchange();
         JSONObject conversion_rates = (JSONObject) exchange.get(("conversion_rates"));
-        String currencyString = String.valueOf(conversion_rates.get(currency));
-        BigDecimal currencyValue = new BigDecimal(currencyString);
-
+        BigDecimal currencyValue = new BigDecimal(String.valueOf(conversion_rates.get(currency)));
         return currencyValue;
     }
 }

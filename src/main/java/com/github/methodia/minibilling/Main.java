@@ -1,9 +1,6 @@
 package com.github.methodia.minibilling;
 
-import org.json.simple.JSONObject;
-
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.*;
 
@@ -21,25 +18,25 @@ public class Main {
 //        String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
 //        String outPath="C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";
 //        main sample2
-        String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample2\\input\\";
-        String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample2\\output\\";
-        String currency = "EUR";
-        String key = "3b14c37cbcca1d0ff2fca003";
+        String INPUT_PATH = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        String OUTPUT_PATH = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";
+        String CURRENCY = "EUR";
+        String KEY = "3b14c37cbcca1d0ff2fca003";
 
-        CSVUserReader userReader = new CSVUserReader(inPath);
+        CsvUserReader userReader = new CsvUserReader(INPUT_PATH);
         Map<String, User> userMap = userReader.read();
-        CSVReadingReader readingReader = new CSVReadingReader(inPath, userMap);
+        CsvReadingReader readingReader = new CsvReadingReader(INPUT_PATH, userMap);
         Collection<Reading> readingCollection = readingReader.read();
         for (Map.Entry<String, User> userFromMap : userMap.entrySet()) {
             User user = userFromMap.getValue();
             List<Price> price = user.getPrice();
             MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readingCollection);
             Collection<Measurement> measurements = measurementGenerator.generate();
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurements, price, reportDate, currency, key);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurements, price, reportDate, CURRENCY, KEY);
             Invoice invoice = invoiceGenerator.generate();
-            FolderGenerator folderGenerator = new FolderGenerator(user, outPath);
+            FolderGenerator folderGenerator = new FolderGenerator(user, OUTPUT_PATH);
             String folderPath = folderGenerator.folderGenerate();
-            JSONGenerator jsonGenerator = new JSONGenerator(invoice, folderPath, currency);
+            JsonGenerator jsonGenerator = new JsonGenerator(invoice, folderPath, CURRENCY);
             jsonGenerator.generateJSON();
         }
     }

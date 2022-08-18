@@ -9,20 +9,20 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class CSVReadingReader implements ReadingsReader {
-    private String path;
+public class CsvReadingReader implements ReadingsReader {
+    private final String path;
 
-    private Map<String, User> userMap;
+    private final Map<String, User> userMap;
 
-    public CSVReadingReader(String path, Map<String, User> userMap) {
+    public CsvReadingReader(String path, Map<String, User> userMap) {
         this.path = path;
         this.userMap = userMap;
     }
 
+    String[] line;
+
     @Override
     public Collection<Reading> read() {
-
-        String[] line;
         List<Reading> readingsList = new ArrayList<Reading>();
         try (CSVReader reader = new CSVReader(new java.io.FileReader(path + "\\readings.csv"))) {
             while ((line = reader.readNext()) != null) {
@@ -31,7 +31,6 @@ public class CSVReadingReader implements ReadingsReader {
                         .withZoneSameInstant(ZoneId.of("GMT"));
                 readingsList.add(new Reading(parsedZonedDateTime, new BigDecimal(line[3]), userMap.get(line[0]), line[1]));
             }
-
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);
         }

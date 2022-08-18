@@ -3,8 +3,8 @@ package com.github.methodia.minibilling;
 import java.io.File;
 
 public class FolderGenerator {
-    private User user;
-    private String folderPath;
+    private final User user;
+    private final String folderPath;
 
     public FolderGenerator(User user, String folderPath) {
         this.user = user;

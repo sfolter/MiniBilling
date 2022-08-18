@@ -12,8 +12,8 @@ import java.util.List;
 
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
 
-    private Collection<Measurement> measurements;
-    private Collection<Price> prices;
+    private final Collection<Measurement> measurements;
+    private final Collection<Price> prices;
 
     public ProportionalMeasurementDistributor(Collection<Measurement> measurements, Collection<Price> prices) {
         this.measurements = measurements;

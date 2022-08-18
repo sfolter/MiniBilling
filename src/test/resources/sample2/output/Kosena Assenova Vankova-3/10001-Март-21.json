@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-16T09:32:19.296513200",
+    "documentDate": "2022-08-18T16:36:15.824007600",
     "documentNumber": "10001",
     "consumer": "Kosena Assenova Vankova",
     "reference": "3",
     "totalAmount": "171.65 EUR",
-    "totalAmountWithVat": "205.98 EUR",
+    "totalAmountWithVat": "205.9800 EUR",
     "lines": [
         {
             "index": 1,
@@ -51,14 +51,26 @@
         {
             "index": 1,
             "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "28.09 EUR"
+            "amount": "28.0880 EUR"
         },
         {
-            "index": 2,
-            "lines": 2,
+            "index": 1,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "6.24 EUR"
+            "amount": "28.0880 EUR"
+        },
+        {
+            "index": 1,
+            "lines": 1,
+            "taxes": 1,
+            "taxedAmountPercentage": 60,
+            "percentage": 20,
+            "amount": "28.0880 EUR"
         }
     ]
 }

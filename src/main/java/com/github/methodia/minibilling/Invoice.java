@@ -6,19 +6,19 @@ import java.util.List;
 
 public class Invoice {
 
-    private LocalDateTime documentDate;
-    private String documentNumber;
-    private User consumer;
-    private BigDecimal totalAmount;
-    private BigDecimal totalAmountWithVat;
-    private List<InvoiceLine> lines;
-    private List<VAT> vatsLines;
+    private final LocalDateTime documentDate;
+    private final String documentNumber;
+    private final User consumer;
+    private final BigDecimal totalAmount;
+    private final BigDecimal totalAmountWithVat;
+    private final List<InvoiceLine> lines;
+    private final List<Vat> vatsLines;
 
-    private List<Taxes> taxesLines;
+    private final List<Taxes> taxesLines;
     private static long counter = 9999;
 
     public Invoice(LocalDateTime documentDate, String documentNumber, User consumer, BigDecimal totalAmount, BigDecimal totalAmountWithVat,
-                   List<InvoiceLine> lines, List<VAT> vatsLines, List<Taxes> taxesLines) {
+                   List<InvoiceLine> lines, List<Vat> vatsLines, List<Taxes> taxesLines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -58,7 +58,8 @@ public class Invoice {
         return taxesLines;
     }
 
-    public List<VAT> getVatsLines() {
+    public List<Vat> getVatsLines() {
         return vatsLines;
     }
+
 }
