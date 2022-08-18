@@ -28,7 +28,7 @@ public class JsonGenerator {
             JSONObject json = new JSONObject();
             JSONArray lines = new JSONArray();
             JSONArray vatArrayJson = new JSONArray();
-            new orderedJsonObj(json);
+            orderedJsonObj(json);
             String documentNumber = Invoice.getDocumentNumber();
             json.put("documentDate", invoice.getDocumentDate());
             json.put("documentNumber", documentNumber);
@@ -45,8 +45,8 @@ public class JsonGenerator {
                 JSONObject invoiceLine = new JSONObject();
                 JSONObject vatJsonObj = new JSONObject();
 
-                new orderedJsonObj(invoiceLine);
-                new orderedJsonObj(vatJsonObj);
+                orderedJsonObj(invoiceLine);
+                orderedJsonObj(vatJsonObj);
 
 
                 int index = invoiceLines.get(i).getIndex();
@@ -80,6 +80,16 @@ public class JsonGenerator {
 
 return json;
             }
+    private void orderedJsonObj(JSONObject json) {
+        try {
+            Field changeMap = json.getClass().getDeclaredField("map");
+            changeMap.setAccessible(true);
+            changeMap.set(json, new LinkedHashMap<>());
+            changeMap.setAccessible(false);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            System.out.println((e.getMessage()));
+        }
+    }
 
 }
 
