@@ -9,7 +9,7 @@ public class VatGenerator {
     private final List<VatPercentage> percentageList;
 
     public VatGenerator(List<VatPercentage> percentageList) {
-        this.percentageList = ExampleInputInformation.vatPercentages();
+        this.percentageList = percentageList;
     }
 
     List<Vat> generate(int lineIndex, BigDecimal lineAmount, BigDecimal taxAmount) {
@@ -19,7 +19,7 @@ public class VatGenerator {
         List<Integer> taxes = new ArrayList<>();
         for (VatPercentage percentages : percentageList) {
 
-            BigDecimal vatAmount = (lineAmount.multiply(percentages.getTaxedAmountPercentage())).setScale(2, RoundingMode.HALF_UP)
+            BigDecimal vatAmount = (lineAmount.multiply(percentages.getTaxedAmountPercentage()))
                     .multiply(percentages.getPercentage()).setScale(2, RoundingMode.HALF_UP)
                     .stripTrailingZeros();
             vat.add(new Vat(vat.size() + 1, vattedLines, taxes, percentages.getTaxedAmountPercentage(), percentages.getPercentage(), vatAmount));

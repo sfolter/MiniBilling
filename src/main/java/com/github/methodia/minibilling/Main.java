@@ -1,5 +1,6 @@
 package com.github.methodia.minibilling;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -11,7 +12,7 @@ public class Main {
         String resourceDirectory = args[1];
         String outputDirectory = args[2];
         String dateToReporting = args[0];
-
+        LocalDate borderDate = Formatter.parseBorder(dateToReporting);
         AtomicLong documentNumberId = new AtomicLong(10000);
 
         final UserFileReader userReader = new UserFileReader(resourceDirectory);
@@ -25,7 +26,7 @@ public class Main {
 
         users.values().stream()
                 .map(user -> measurementGenerator.generate(user, readings))
-                .map(measurement -> invoiceGenerator.generate(measurement, documentNumberId.getAndIncrement(), dateToReporting))
+                .map(measurement -> invoiceGenerator.generate(measurement, documentNumberId.getAndIncrement(), borderDate))
                 .forEach(invoice -> SaveInvoice.saveToFile(invoice, outputDirectory, dateToReporting));
     }
 }
