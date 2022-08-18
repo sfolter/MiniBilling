@@ -9,6 +9,11 @@ import java.util.Collection;
 import java.util.List;
 
 public class InvoiceLineGenerator {
+    private BigDecimal totalAmountLines = BigDecimal.ZERO;
+
+    public BigDecimal getTotalAmountLines() {
+        return totalAmountLines;
+    }
 
     public List<InvoiceLine> createInvoiceLine(List<Measurement> measurements, LocalDate borderDate) {
 
@@ -25,7 +30,7 @@ public class InvoiceLineGenerator {
                 BigDecimal price = qpp.getPrice().getValue();
                 int priceList = qpp.getUser().getPriceListNumber();
                 BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
-
+                totalAmountLines = totalAmountLines.add(amount);
                 invoiceLines.add(new InvoiceLine(invoiceLines.size() + 1, quantity, start, end,
                         product, price, priceList, amount));
             }

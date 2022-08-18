@@ -26,4 +26,8 @@ public class Tax {
     public BigDecimal getAmount() {
         return amount;
     }
+
+    public List<Integer> getLineIndex() {
+        return lineIndex;
+    }
 }
