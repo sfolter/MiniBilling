@@ -18,7 +18,7 @@ public class Main {
         final String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         final String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\test\\";
         final String yearMonthStr = "21-03";
-        final String currency = "BGN";
+        final String toCurrency = "BGN";
 
         //user.csv
         final CsvFileUserReader userFileRead = new CsvFileUserReader();
@@ -39,9 +39,9 @@ public class Main {
             final User user = userMap.get(refNumb);
             final List<Price> priceList = user.price();
             final Collection<Measurement> measurmentGenerated = measurementGenerator.generate(user, readings);
-            final Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, currency);
+            final Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, toCurrency);
             final String folder = folderGenerator.generate(user, outputDir);
-            final JSONObject jsonInvoiceObject = jsonGenerator.generate(invoice, currency);
+            final JSONObject jsonInvoiceObject = jsonGenerator.generate(invoice, toCurrency);
             jsonFileGenerator.generateJsonFile(jsonInvoiceObject, folder);
 
 
