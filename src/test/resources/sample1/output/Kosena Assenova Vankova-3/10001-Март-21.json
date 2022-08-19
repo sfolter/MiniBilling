@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-19T13:32:21.230395700",
+    "documentDate": "2022-08-19T15:07:20.880873300",
     "documentNumber": "10001",
     "consumer": "Kosena Assenova Vankova",
     "reference": "3",
-    "totalAmount": "895.20 EUR",
-    "totalAmountWithVat": "1042.85 EUR",
+    "totalAmount": "511.67 EUR",
+    "totalAmountWithVat": "1014.7340 EUR",
     "lines": [{
         "index": 1,
         "quantity": 436,
@@ -13,7 +13,7 @@
         "product": "gas",
         "price": 1.8,
         "priceList": 1,
-        "amount": "784.80 EUR"
+        "amount": "401.27 EUR"
     }],
     "taxes": [{
         "index": 1,
@@ -22,7 +22,7 @@
         "quantity": 69,
         "unit": "days",
         "price": 1.6,
-        "amount": "110.40 EUR"
+        "amount": "56.45 EUR"
     }],
     "vat": [
         {
@@ -31,7 +31,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "94.18 EUR"
+            "amount": "48.15 EUR"
         },
         {
             "index": 2,
@@ -39,7 +39,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "31.39 EUR"
+            "amount": "16.05 EUR"
         },
         {
             "index": 3,
@@ -47,7 +47,7 @@
             "taxes": 1,
             "taxedAmountPercentage": 100,
             "percentage": 20,
-            "amount": "22.08 EUR"
+            "amount": "11.29 EUR"
         }
     ]
 }

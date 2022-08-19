@@ -24,6 +24,7 @@ public class JsonFileGenerator {
 
     public void generateFile() throws IOException, ParseException {
         final JSONArray jsonArray = (JSONArray) json.get("lines");
+        //noinspection unchecked
         final HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList().get(jsonArray.toList().size()-1);
         final String lineEnd = (String) jsonLines.get("lineEnd");
                 final Date jud = new SimpleDateFormat("yy-MM").parse(String.valueOf(lineEnd));
