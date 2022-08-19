@@ -1,28 +1,28 @@
 {
-    "documentDate": "2022-08-19T13:32:21.140447700",
-    "documentNumber": "10000",
-    "consumer": "Marko Boikov Tsvetkov",
-    "reference": "1",
-    "totalAmount": "276.60 EUR",
-    "totalAmountWithVat": "325.65 EUR",
+    "documentDate": "2022-08-19T13:32:21.233394300",
+    "documentNumber": "10002",
+    "consumer": "Ludmil Aleksandrov Ilev",
+    "reference": "2",
+    "totalAmount": "406.40 EUR",
+    "totalAmountWithVat": "476.73 EUR",
     "lines": [{
         "index": 1,
-        "quantity": 87,
-        "lineStart": "2021-01-01T09:00:00Z",
-        "lineEnd": "2021-03-17T10:20:00Z",
+        "quantity": 152,
+        "lineStart": "2021-01-01T08:00:00Z",
+        "lineEnd": "2021-03-25T13:40:00Z",
         "product": "gas",
         "price": 1.8,
         "priceList": 1,
-        "amount": "156.60 EUR"
+        "amount": "273.60 EUR"
     }],
     "taxes": [{
         "index": 1,
         "lines": 1,
         "name": "Standing charge",
-        "quantity": 75,
+        "quantity": 83,
         "unit": "days",
         "price": 1.6,
-        "amount": "120.00 EUR"
+        "amount": "132.80 EUR"
     }],
     "vat": [
         {
@@ -31,7 +31,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "18.79 EUR"
+            "amount": "32.83 EUR"
         },
         {
             "index": 2,
@@ -39,7 +39,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "6.26 EUR"
+            "amount": "10.94 EUR"
         },
         {
             "index": 3,
@@ -47,7 +47,7 @@
             "taxes": 1,
             "taxedAmountPercentage": 100,
             "percentage": 20,
-            "amount": "24.00 EUR"
+            "amount": "26.56 EUR"
         }
     ]
 }

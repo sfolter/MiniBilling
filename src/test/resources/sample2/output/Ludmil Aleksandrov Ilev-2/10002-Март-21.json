@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-18T16:36:15.921472900",
+    "documentDate": "2022-08-19T13:16:32.040324100",
     "documentNumber": "10002",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
-    "totalAmount": "124.35 EUR",
-    "totalAmountWithVat": "149.2200 EUR",
+    "totalAmount": "243.20 EUR",
+    "totalAmountWithVat": "439.56 EUR",
     "lines": [
         {
             "index": 1,
@@ -14,7 +14,7 @@
             "product": "gas",
             "price": 0.4,
             "priceList": 2,
-            "amount": "21.76 EUR"
+            "amount": "42.56 EUR"
         },
         {
             "index": 2,
@@ -24,7 +24,7 @@
             "product": "gas",
             "price": 4.4,
             "priceList": 2,
-            "amount": "102.59 EUR"
+            "amount": "200.64 EUR"
         }
     ],
     "taxes": [
@@ -35,7 +35,7 @@
             "quantity": 58,
             "unit": "days",
             "price": 1.6,
-            "amount": "47.45 EUR"
+            "amount": "92.80 EUR"
         },
         {
             "index": 2,
@@ -44,7 +44,7 @@
             "quantity": 24,
             "unit": "days",
             "price": 1.6,
-            "amount": "19.63 EUR"
+            "amount": "38.40 EUR"
         }
     ],
     "vat": [
@@ -54,23 +54,47 @@
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "4.3520 EUR"
+            "amount": "5.11 EUR"
+        },
+        {
+            "index": 2,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "1.70 EUR"
+        },
+        {
+            "index": 3,
+            "lines": 0,
+            "taxes": 1,
+            "taxedAmountPercentage": 100,
+            "percentage": 20,
+            "amount": "18.56 EUR"
         },
         {
             "index": 1,
-            "lines": 1,
+            "lines": 2,
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "4.3520 EUR"
+            "amount": "24.08 EUR"
         },
         {
-            "index": 1,
-            "lines": 1,
-            "taxes": 1,
-            "taxedAmountPercentage": 60,
+            "index": 2,
+            "lines": 2,
+            "taxes": 0,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "8.03 EUR"
+        },
+        {
+            "index": 3,
+            "lines": 0,
+            "taxes": 2,
+            "taxedAmountPercentage": 100,
             "percentage": 20,
-            "amount": "4.3520 EUR"
+            "amount": "7.68 EUR"
         }
     ]
 }
