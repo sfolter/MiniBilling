@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class Main {
-    public static void main(String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException {
+    public static void main(final String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException {
 //        String yearMonthStr = args[0];
 //        String resourceDir = args[1];
 //        String outputDir = args[2];
@@ -35,13 +35,13 @@ public class Main {
         final JsonGenerator jsonGenerator = new JsonGenerator();
         final JsonFileGenerator jsonFileGenerator = new JsonFileGenerator();
 
-        for (String refNumb : userMap.keySet()) {
-            User user = userMap.get(refNumb);
-            List<Price> priceList = user.price();
-            Collection<Measurement> measurmentGenerated = measurementGenerator.generate(user, readings);
-            Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, currency);
-            String folder = folderGenerator.generate(user, outputDir);
-            JSONObject jsonInvoiceObject = jsonGenerator.generate(invoice, currency);
+        for (final String refNumb : userMap.keySet()) {
+            final User user = userMap.get(refNumb);
+            final List<Price> priceList = user.price();
+            final Collection<Measurement> measurmentGenerated = measurementGenerator.generate(user, readings);
+            final Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, currency);
+            final String folder = folderGenerator.generate(user, outputDir);
+            final JSONObject jsonInvoiceObject = jsonGenerator.generate(invoice, currency);
             jsonFileGenerator.generateJsonFile(jsonInvoiceObject, folder);
 
 
