@@ -38,11 +38,11 @@ public class JsonGenerator {
         List<Price> prices = user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
             JSONObject invoiceLine = new JSONObject();
-            JSONObject vatJsonObj = new JSONObject();
+
             JSONObject taxesJsonObj = new JSONObject();
 
             orderedJsonObj(invoiceLine);
-            orderedJsonObj(vatJsonObj);
+
             orderedJsonObj(taxesJsonObj);
 
             int index = invoiceLines.get(i).getIndex();
@@ -63,12 +63,7 @@ public class JsonGenerator {
             invoiceLine.put("amount", amount);
             lines.put(invoiceLine);
 
-            vatJsonObj.put("index", vatLines.get(i).getIndex());
-            vatJsonObj.put("lineIndex", index);
-            vatJsonObj.put("percentage", vatLines.get(i).getVatPercentage());
-            String vatAmount = vatLines.get(i).getAmount().toString() + currency;
-            vatJsonObj.put("amount", vatAmount);
-            vatArrayJson.put(vatJsonObj);
+
 
             taxesJsonObj.put("index", index);
             taxesJsonObj.put("linesIndex", index);
@@ -84,6 +79,17 @@ public class JsonGenerator {
             taxesJsonObj.put("amount", amountForTaxes);
             taxesArray.put(taxesJsonObj);
 
+        }
+        for (int j = 0; j <invoice.getVatLines().size() ; j++) {
+            JSONObject vatJsonObj = new JSONObject();
+            orderedJsonObj(vatJsonObj);
+            vatJsonObj.put("index", vatLines.get(j).getIndex());
+            vatJsonObj.put("lineIndex", vatLines.get(j).getLineIndex());
+            vatJsonObj.put("taxedAmountPercentage",vatLines.get(j).getTaxedAmountPercentage());
+            vatJsonObj.put("percentage", vatLines.get(j).getVatPercentage());
+            String vatAmount = vatLines.get(j).getAmount().toString() + currency;
+            vatJsonObj.put("amount", vatAmount);
+            vatArrayJson.put(vatJsonObj);
         }
         json.put("lines", lines);
         json.put("taxes", taxesArray);

@@ -14,11 +14,15 @@ import java.util.Collection;
 import java.util.List;
 
 public class InvoiceGenerator {
-    private final BigDecimal VAT_PERCENTAGE = BigDecimal.valueOf(20);
+    private final BigDecimal VAT_PERCENTAGE = new BigDecimal("20");
+    private final BigDecimal SECOND_VAT_PERCENTAGE=new BigDecimal("10");
+    BigDecimal taxedAmountPercentage1=new BigDecimal("60");
+    BigDecimal taxedAmountPercentage2=new BigDecimal("40");
+    BigDecimal taxedAmountPercentage3=new BigDecimal("100");
     private final CurrencyConvertor currencyConvertor;
-    private final String name = "Standing charge";
-    private final String unitDays = "days";
-    private BigDecimal priceForTaxes = new BigDecimal("1.6");
+    private final String NAME = "Standing charge";
+    private final String UNIT_DAYS = "days";
+    private BigDecimal PRICE_FOR_TAXES = new BigDecimal("1.6");
 
     public InvoiceGenerator(CurrencyConvertor currencyConvertor) {
         this.currencyConvertor = currencyConvertor;
@@ -26,6 +30,7 @@ public class InvoiceGenerator {
 
 
     public Invoice generate(User user, Collection<Measurement> measurements, Collection<Price> prices, String yearMonthStr, String currency) throws IOException, ParseException {
+
 
         BigDecimal currencyRate = currencyConvertor.convertCurrency(currency);
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
@@ -37,11 +42,13 @@ public class InvoiceGenerator {
         List<TaxesLine> taxesLines = new ArrayList<>();
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal totalAmountWithVat = BigDecimal.ZERO;
-        int counter = 1;
+        int lineIndex = 0;
+        int vatIndex=1;
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             LocalDateTime end = qpp.getEnd();
             if (yearMonthLocalDate.compareTo(end) >= 0) {
-                int index = counter++;
+                lineIndex++;
+
                 BigDecimal quantity = qpp.getQuantity();
                 LocalDateTime start = qpp.getStart();
 
@@ -51,21 +58,28 @@ public class InvoiceGenerator {
                 int priceList = user.getPriceListNumber();
                 BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue());
                 amount = (amount.multiply(currencyRate)).setScale(2, RoundingMode.HALF_EVEN);
-                totalAmount = totalAmount.add(amount);
-
-                BigDecimal vatAmount = (amount.multiply(VAT_PERCENTAGE)).divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_EVEN);
-                BigDecimal amountWithVat = vatAmount.add(amount);
-                totalAmountWithVat = totalAmountWithVat.add(amountWithVat);
-
-                long daysQuantity = start.until(end, ChronoUnit.DAYS);
-                priceForTaxes = priceForTaxes.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
-                BigDecimal amountForTaxes = (priceForTaxes.multiply(BigDecimal.valueOf(daysQuantity)).setScale(2, RoundingMode.HALF_EVEN));
 
 
-                invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
-                vatLines.add(new VatLine(index, index, VAT_PERCENTAGE, vatAmount));
-                taxesLines.add(new TaxesLine(index, index, name, daysQuantity, unitDays, priceForTaxes, amountForTaxes));
+                long daysQuantity = start.toLocalDate().atStartOfDay().until(end.toLocalDate().atTime(23,59), ChronoUnit.DAYS);
+                PRICE_FOR_TAXES = PRICE_FOR_TAXES.multiply(currencyRate).setScale(2, RoundingMode.HALF_EVEN);
+                BigDecimal amountForTaxes = (PRICE_FOR_TAXES.multiply(BigDecimal.valueOf(daysQuantity)).setScale(2, RoundingMode.HALF_EVEN));
 
+                BigDecimal vatAmount1 = (amount.multiply(taxedAmountPercentage1)).divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_EVEN);
+                vatAmount1 = (vatAmount1.multiply(VAT_PERCENTAGE)).divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_EVEN);
+                BigDecimal vatAmount2 = (amount.multiply(taxedAmountPercentage2)).divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_EVEN);
+                vatAmount2 = (vatAmount2.multiply(SECOND_VAT_PERCENTAGE)).divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_EVEN);
+                BigDecimal vatAmount3=(amountForTaxes.multiply(VAT_PERCENTAGE)).divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_EVEN);
+
+
+
+                totalAmount = totalAmount.add(amount).add(amountForTaxes);
+                totalAmountWithVat = totalAmountWithVat.add(vatAmount1).add(vatAmount2).add(vatAmount3).add(totalAmount);
+
+                invoiceLines.add(new InvoiceLine(lineIndex, quantity, start, end, product, price, priceList, amount));
+                taxesLines.add(new TaxesLine(lineIndex, lineIndex, NAME, daysQuantity, UNIT_DAYS, PRICE_FOR_TAXES, amountForTaxes));
+                vatLines.add(new VatLine(vatIndex, lineIndex, 0, taxedAmountPercentage1, VAT_PERCENTAGE, vatAmount1));
+                vatLines.add(new VatLine(vatIndex+++1, lineIndex, 0, taxedAmountPercentage2, SECOND_VAT_PERCENTAGE, vatAmount2));
+                vatLines.add(new VatLine(vatIndex+++1, lineIndex, 1, taxedAmountPercentage3, VAT_PERCENTAGE, vatAmount3));
             }
         }
 

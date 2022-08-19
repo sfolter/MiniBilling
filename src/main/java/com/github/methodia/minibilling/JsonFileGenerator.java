@@ -15,7 +15,7 @@ import java.util.Locale;
 public class JsonFileGenerator {
     public void generateJsonFile(JSONObject json, String folderPath) throws ParseException, IOException {
         JSONArray jsonArray = (JSONArray) json.get("lines");
-        HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList().get(1);
+        HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList().get(jsonArray.toList().size()-1);
         String lineEnd = (String) jsonLines.get("lineEnd");
 //        String lineEnd = lineEndJson.toString();
         Date jud = new SimpleDateFormat("yy-MM").parse(lineEnd);
