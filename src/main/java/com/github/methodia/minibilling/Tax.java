@@ -7,16 +7,22 @@ public class Tax {
 
     private final int index;
     private final List<Integer> lineIndex;
-    private final String name = "Standing charge";
+    private String name ;
     private final long quantity;
-    private final String unit = "days";
-    private final BigDecimal price = BigDecimal.valueOf(1.6);
+    private  String unit ;
+    private  BigDecimal price ;
     private final BigDecimal amount;
 
-    public Tax(final int index, final List<Integer> lineIndex, final long quantity, final BigDecimal amount) {
+
+
+    public Tax(final int index, final List<Integer> lineIndex, final String name, final long quantity, final String unit, final BigDecimal price,
+               final BigDecimal amount) {
         this.index = index;
         this.lineIndex = lineIndex;
+        this.name = name;
         this.quantity = quantity;
+        this.unit = unit;
+        this.price = price;
         this.amount = amount;
     }
 
