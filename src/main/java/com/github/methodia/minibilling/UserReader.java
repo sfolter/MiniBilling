@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserReader implements UserReaderInterface {
+
     private final String path;
 
     public UserReader(String path) {
@@ -13,7 +14,8 @@ public class UserReader implements UserReaderInterface {
 
     public Map<String, User> read() {
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\" + "users.csv")))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(path + "\\" + "users.csv")))) {
 
             return br.lines().map(l -> l.split(","))
                     .map(this::createUser)
@@ -29,6 +31,7 @@ public class UserReader implements UserReaderInterface {
         PriceReaderInterface pricesReader = new PriceReader(path);
         String userName = userLine[0];
         String referenceNumber = userLine[1];
-        return new User(userName, referenceNumber, Integer.parseInt(userLine[2]), pricesReader.read().get(Integer.valueOf(userLine[2])));
+        return new User(userName, referenceNumber, Integer.parseInt(userLine[2]),
+                pricesReader.read().get(Integer.valueOf(userLine[2])));
     }
 }

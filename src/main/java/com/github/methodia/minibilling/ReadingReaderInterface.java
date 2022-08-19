@@ -5,5 +5,6 @@ import java.util.Map;
 
 
 public interface ReadingReaderInterface {
+
     Map<String, List<Reading>> read();
 }

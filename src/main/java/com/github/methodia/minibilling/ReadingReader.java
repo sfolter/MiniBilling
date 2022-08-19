@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 
 public class ReadingReader implements ReadingReaderInterface {
+
     private final String path;
 
     public ReadingReader(String path) {
@@ -18,7 +19,8 @@ public class ReadingReader implements ReadingReaderInterface {
     @Override
     public Map<String, List<Reading>> read() {
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\" + "readings.csv")))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(path + "\\" + "readings.csv")))) {
 
             return br.lines()
                     .map(l -> l.split(","))

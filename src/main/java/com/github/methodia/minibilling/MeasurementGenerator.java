@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeasurementGenerator {
+
     public List<Measurement> generate(User user, List<Reading> readings) {
 
         List<Measurement> measurements = new ArrayList<>();

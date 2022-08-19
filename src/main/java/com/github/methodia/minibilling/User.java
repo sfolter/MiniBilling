@@ -3,6 +3,7 @@ package com.github.methodia.minibilling;
 import java.util.List;
 
 public class User {
+
     private final String name;
     private final String ref;
     private final int numberPricingList;

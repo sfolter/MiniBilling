@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Tax {
+
     private final int index;
     private final List<Integer> lines;
     private final String name;
@@ -12,12 +13,13 @@ public class Tax {
     private final BigDecimal price;
     private final BigDecimal amount;
 
-    public Tax(int index, List<Integer> lines, String name, BigDecimal quantity, String unit, BigDecimal price, BigDecimal amount) {
+    public Tax(int index, List<Integer> lines, BigDecimal quantity, BigDecimal price,
+               BigDecimal amount) {
         this.index = index;
         this.lines = lines;
-        this.name = name;
+        this.name = "Standing charge";
         this.quantity = quantity;
-        this.unit = unit;
+        this.unit = "days";
         this.price = price;
         this.amount = amount;
     }

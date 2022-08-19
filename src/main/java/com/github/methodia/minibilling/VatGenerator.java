@@ -1,5 +1,8 @@
 package com.github.methodia.minibilling;
 
+import java.util.List;
+
 public interface VatGenerator {
-    Vat generateVat(InvoiceLine invoiceLine);
+
+    List<Vat> generateVat(InvoiceLine invoiceLine);
 }

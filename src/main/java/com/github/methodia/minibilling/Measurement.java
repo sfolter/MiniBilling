@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 
 public class Measurement {
+
     private final LocalDateTime start;
     private final LocalDateTime end;
     private final BigDecimal value;

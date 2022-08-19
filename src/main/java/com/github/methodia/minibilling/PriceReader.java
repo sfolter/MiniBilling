@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class PriceReader implements PriceReaderInterface {
+
     String path;
 
     public PriceReader(String path) {
@@ -24,7 +25,8 @@ public class PriceReader implements PriceReaderInterface {
         assert fileList != null;
         for (String file : fileList) {
 
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\" + file)))) {
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(new FileInputStream(path + "\\" + file)))) {
 
 
                 if (file.contains("prices-")) {

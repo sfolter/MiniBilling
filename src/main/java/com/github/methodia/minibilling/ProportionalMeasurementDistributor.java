@@ -47,7 +47,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
 
         final ArrayList<QuantityPricePeriod> quantityPricePeriods = new ArrayList<>();
         for (Measurement measurement : measurements) {
-            final List<Price> pricesForMeasurement = filterPricesByMeasurementIntersection(measurement.getUser().getPrice(),measurement);
+            final List<Price> pricesForMeasurement = filterPricesByMeasurementIntersection(measurement.getUser().getPrice(), measurement);
             LocalDateTime lastDateTime = measurement.getStart();
             BigDecimal currentQuantitySum = BigDecimal.ZERO;
             for (Price price : pricesForMeasurement) {
@@ -81,7 +81,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
         return quantityPricePeriods;
     }
 
-    private List<Price> filterPricesByMeasurementIntersection(List<Price> prices,Measurement measurement) {
+    private List<Price> filterPricesByMeasurementIntersection(List<Price> prices, Measurement measurement) {
         final ArrayList<Price> filteredPrices = new ArrayList<>();
         final LocalDateTime measurementStart = measurement.getStart();
         final LocalDateTime measurementEnd = measurement.getEnd();

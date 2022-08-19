@@ -9,13 +9,14 @@ import java.util.List;
 
 
 public class InvoiceGenerator {
+
     public Invoice generate(LocalDateTime dateReportingTo, List<Measurement> measurements) {
 
-        ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements);
+        ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
+                measurements);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
-        List<Vat> vat = new ArrayList<>();
         List<Tax> taxes = new ArrayList<>();
 
         int index;
@@ -26,7 +27,8 @@ public class InvoiceGenerator {
         InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
         InvoiceVatGenerator vatGenerator = new InvoiceVatGenerator();
         InvoiceTaxGenerator taxGenerator = new InvoiceTaxGenerator();
-
+        List<Vat> vats = new ArrayList<>();
+      //  List<Vat> vats = new ArrayList<>();
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
 
@@ -35,20 +37,24 @@ public class InvoiceGenerator {
                 InvoiceLine invoiceLine = invoiceLineGenerator.generateInvoiceLine(index, qpp, qpp.getUser());
 
                 invoiceLines.add(invoiceLine);
-                totalAmount = totalAmount.add(invoiceLine.getAmount()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
-
-                vat.add(vatGenerator.generateVat(invoiceLine));
-                totalAmountWithVat = totalAmountWithVat.add(vat.get(0).getAmount().add(invoiceLine.getAmount())).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
-
                 Tax tax = taxGenerator.generateTaxes(invoiceLine);
                 taxes.add(tax);
+                totalAmount = totalAmount.add(invoiceLine.getAmount()).add(tax.getAmount()).setScale(2, RoundingMode.HALF_UP)
+                        .stripTrailingZeros();
 
+
+
+                vats.addAll( vatGenerator.generateVat(invoiceLine));
+                totalAmountWithVat = totalAmountWithVat.add(vats.get(0).getAmount().add(invoiceLine.getAmount()))
+                        .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
             }
         }
 
-        return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(), measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines, vat, taxes);
+        return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(), measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines, taxes, vats);
 
     }
 
 
 }
+
+

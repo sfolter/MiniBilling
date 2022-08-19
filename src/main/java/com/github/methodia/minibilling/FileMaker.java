@@ -17,6 +17,7 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 public class FileMaker {
+
     public static void FileSaver(Invoice invoice, String outputPath, LocalDateTime dateToReporting) {
 
         try {
@@ -28,8 +29,10 @@ public class FileMaker {
         }
     }
 
-    private static void createJsonFile(Invoice invoice, String folderPath, LocalDateTime parseReportingDate) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDateTime.class, new FileMaker.LocalDateAdapter()).create();
+    private static void createJsonFile(Invoice invoice, String folderPath, LocalDateTime parseReportingDate)
+            throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new FileMaker.LocalDateAdapter()).create();
         String json = gson.toJson(invoice);
 
         String monthInCyrillic = parseReportingDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
@@ -52,6 +55,7 @@ public class FileMaker {
     }
 
     private static final class LocalDateAdapter extends TypeAdapter<LocalDateTime> {
+
         @Override
         public void write(final JsonWriter jsonWriter, final LocalDateTime localDate) throws IOException {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;

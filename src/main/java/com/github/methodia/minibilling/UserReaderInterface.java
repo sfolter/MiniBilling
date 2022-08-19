@@ -4,6 +4,7 @@ import java.util.Map;
 
 
 public interface UserReaderInterface {
+
     Map<String, User> read();
 
 }

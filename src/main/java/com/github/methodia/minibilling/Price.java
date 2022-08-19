@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Price {
+
     private final String product;
     private final LocalDate start;
     private final LocalDate end;
