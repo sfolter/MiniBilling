@@ -7,13 +7,13 @@ public class Vat {
 
     private final int index;
     private final List<Integer> lines;
-    private final int percentage;
+    private final BigDecimal percentage;
     private final BigDecimal amount;
 
-    public Vat(int index, List<Integer> lines, BigDecimal amount) {
+    public Vat(int index, List<Integer> lines,String percentage, BigDecimal amount) {
         this.index = index;
         this.lines = lines;
-        this.percentage = 20;
+        this.percentage = new BigDecimal(String.valueOf(percentage)).divide(new BigDecimal("100"));
         this.amount = amount;
     }
 

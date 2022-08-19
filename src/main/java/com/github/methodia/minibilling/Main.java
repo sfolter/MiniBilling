@@ -37,7 +37,7 @@ public class Main {
 
         String dateReportingTo = "21-03";
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT (dateReportingTo);
-        String inputPath = "C:\\Users\\user\\Desktop\\New folder\\MiniBilling\\src\\test\\resources\\sample2\\input";
+        String inputPath =  "C:\\Users\\user\\Desktop\\New folder\\MiniBilling\\src\\test\\resources\\sample2\\input";
         String outputPath = "C:\\Users\\user\\Desktop\\New folder\\MiniBilling\\src\\test\\resources\\sample2\\output";
 
         ReadingsFileReader readingsFR = new ReadingsFileReader (inputPath);

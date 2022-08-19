@@ -16,8 +16,10 @@ public class Invoice {
     private final List<InvoiceLine> lines;
     private final List<Vat> vat;
 
+    private final List<Tax> taxes;
+
     public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount,
-                   BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat) {
+                   BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat, List<Tax>taxes) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -26,6 +28,7 @@ public class Invoice {
         this.totalAmountWithVat = totalAmountWithVat;
         this.lines = lines;
         this.vat = vat;
+        this.taxes=taxes;
     }
 
     public String getDocNumber() {
