@@ -10,10 +10,11 @@ import java.util.List;
 
 
 public class PriceFileReader implements PricesReader {
+
     private final String directory;
     private final int priceListNumber;
 
-    public PriceFileReader(String directory, int priceListNumber) {
+    public PriceFileReader(final String directory, final int priceListNumber) {
         this.directory = directory;
         this.priceListNumber = priceListNumber;
     }
@@ -21,8 +22,8 @@ public class PriceFileReader implements PricesReader {
     @Override
     public List<Price> read() {
 
-        String path = directory + "prices-" + priceListNumber + ".csv";
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
+        final String path = directory + "prices-" + priceListNumber + ".csv";
+        try (final BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
 
             return br.lines()
                     .map(l -> l.split(","))
@@ -33,12 +34,12 @@ public class PriceFileReader implements PricesReader {
         }
     }
 
-    private Price createPrice(String[] dataPrice) {
+    private Price createPrice(final String[] dataPrice) {
 
-        String product = dataPrice[0];
-        ZonedDateTime start = Formatter.parsePriceStart(dataPrice[1]);
-        ZonedDateTime end = Formatter.parsePriceEnd(dataPrice[2]);
-        BigDecimal price = new BigDecimal(dataPrice[3]);
+        final String product = dataPrice[0];
+        final ZonedDateTime start = Formatter.parsePriceStart(dataPrice[1]);
+        final ZonedDateTime end = Formatter.parsePriceEnd(dataPrice[2]);
+        final BigDecimal price = new BigDecimal(dataPrice[3]);
 
         return new Price(product, start, end, price);
     }

@@ -12,6 +12,7 @@ import java.net.http.HttpResponse;
 
 ////////////////////////////////////////////////////////////////////////
 public class CurrencyCalculator {
+
     private final String key;
 
     public CurrencyCalculator(String key) {
@@ -22,7 +23,8 @@ public class CurrencyCalculator {
         BigDecimal result = BigDecimal.ZERO;
         if (!currency.equals("EUR")) {
 
-            String urlLink = "https://api.apilayer.com/currency_data/convert?to=" + currency + "&from=EUR&amount=" + amount;
+            String urlLink =
+                    "https://api.apilayer.com/currency_data/convert?to=" + currency + "&from=EUR&amount=" + amount;
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(urlLink)).header("apiKey", key)

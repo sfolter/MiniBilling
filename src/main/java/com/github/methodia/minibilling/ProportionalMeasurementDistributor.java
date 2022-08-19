@@ -9,9 +9,10 @@ import java.util.Collection;
 import java.util.List;
 
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
+
     private final Collection<Measurement> measurements;
 
-    public ProportionalMeasurementDistributor(Collection<Measurement> measurements) {
+    public ProportionalMeasurementDistributor(final Collection<Measurement> measurements) {
         this.measurements = measurements;
     }
 
@@ -41,18 +42,19 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
         */
 
         final ArrayList<QuantityPricePeriod> quantityPricePeriods = new ArrayList<>();
-        for (Measurement measurement : measurements) {
-            final List<Price> pricesForMeasurement = filterPricesByMeasurementIntersection(measurement.getUser().getPrice(), measurement);
+        for (final Measurement measurement : measurements) {
+            final List<Price> pricesForMeasurement = filterPricesByMeasurementIntersection(
+                    measurement.getUser().getPrice(), measurement);
             ZonedDateTime lastDateTime = measurement.getStart();
             BigDecimal currentQuantitySum = BigDecimal.ZERO;
-            for (Price price : pricesForMeasurement) {
+            for (final Price price : pricesForMeasurement) {
                 final ZonedDateTime priceEnd = price.getEnd();
                 final ZonedDateTime measurementEnd = measurement.getEnd();
                 final ZonedDateTime qppStart = lastDateTime;
                 final Price qppPrice = price;
                 final long measurementDays = measurement.getStart().until(measurement.getEnd(), ChronoUnit.DAYS);
 
-                if (priceEnd.compareTo(measurementEnd) >= 0) {
+                if (0 <= priceEnd.compareTo(measurementEnd)) {
                     final ZonedDateTime qppEnd = measurement.getEnd();
                     final BigDecimal qppQuantity = measurement.getValue().subtract(currentQuantitySum);
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(qppStart, qppEnd, qppPrice,
@@ -61,7 +63,8 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                 } else {
                     final ZonedDateTime qppEnd = price.getEnd();
                     final long qppPeriodDays = lastDateTime.until(qppEnd, ChronoUnit.DAYS);
-                    final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
+                    final BigDecimal qppQuantity = BigDecimal.valueOf(qppPeriodDays)
+                            .divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                             .multiply(measurement.getValue());
                     final QuantityPricePeriod quantityPricePeriod = new QuantityPricePeriod(lastDateTime, qppEnd,
                             qppPrice, qppQuantity, measurement.getUser());
@@ -75,10 +78,11 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
         return quantityPricePeriods;
     }
 
-    private List<Price> filterPricesByMeasurementIntersection(List<Price> priceUser, Measurement measurement) {
+    private List<Price> filterPricesByMeasurementIntersection(final List<Price> priceUser, final Measurement measurement) {
         return priceUser.stream()
-                .filter(price -> measurement.getStart().isBefore(price.getEnd().plusDays(1)) && measurement.getEnd().isAfter(
-                        price.getStart().plusDays(1)))
+                .filter(price -> measurement.getStart().isBefore(price.getEnd().plusDays(1)) && measurement.getEnd()
+                        .isAfter(
+                                price.getStart().plusDays(1)))
                 .toList();
     }
 }

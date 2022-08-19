@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 public class Price {
+
     private final String product;
     private final ZonedDateTime start;
     private final ZonedDateTime end;
     private final BigDecimal value;
 
-    public Price(String product, ZonedDateTime start, ZonedDateTime end, BigDecimal value) {
+    public Price(final String product, final ZonedDateTime start, final ZonedDateTime end, final BigDecimal value) {
         this.product = product;
         this.start = start;
         this.end = end;

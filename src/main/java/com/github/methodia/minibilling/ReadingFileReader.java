@@ -1,17 +1,22 @@
 package com.github.methodia.minibilling;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
 public class ReadingFileReader implements ReadingsReader {
+
     private final Map<String, User> users;
     private final String directory;
 
-    public ReadingFileReader(Map<String, User> users, String directory) {
+    public ReadingFileReader(final Map<String, User> users, final String directory) {
         this.users = users;
         this.directory = directory;
     }
@@ -19,7 +24,8 @@ public class ReadingFileReader implements ReadingsReader {
     @Override
     public Map<String, List<Reading>> read() {
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(directory + "\\" + "readings.csv")))) {
+        try (final BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(directory + "\\" + "readings.csv")))) {
 
             return br.lines()
                     .map(l -> l.split(","))
@@ -32,11 +38,11 @@ public class ReadingFileReader implements ReadingsReader {
 
     }
 
-    private Reading createReading(String[] dataReading) {
+    private Reading createReading(final String[] dataReading) {
 
-        String referentNumber = dataReading[0];
-        ZonedDateTime date = Formatter.parseReading(dataReading[2]);
-        BigDecimal value = BigDecimal.valueOf(Long.parseLong(dataReading[3]));
+        final String referentNumber = dataReading[0];
+        final ZonedDateTime date = Formatter.parseReading(dataReading[2]);
+        final BigDecimal value = BigDecimal.valueOf(Long.parseLong(dataReading[3]));
 
         return new Reading(referentNumber, date, value, users.get(referentNumber));
     }

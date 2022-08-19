@@ -4,13 +4,14 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 public class QuantityPricePeriod {
+
     private final ZonedDateTime start;
     private final ZonedDateTime end;
     private final Price price;
     private final BigDecimal quantity;
     private final User user;
 
-    public QuantityPricePeriod(ZonedDateTime start, ZonedDateTime end, Price price, BigDecimal quantity, User user) {
+    public QuantityPricePeriod(final ZonedDateTime start, final ZonedDateTime end, final Price price, final BigDecimal quantity, final User user) {
         this.start = start;
         this.end = end;
         this.price = price;

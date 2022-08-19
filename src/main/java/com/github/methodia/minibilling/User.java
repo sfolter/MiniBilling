@@ -3,12 +3,13 @@ package com.github.methodia.minibilling;
 import java.util.List;
 
 public class User {
+
     private final String name;
     private final String ref;
     private final int priceListNumber;
     private final List<Price> price;
 
-    public User(String name, String ref, int priceListNumber, List<Price> price) {
+    public User(final String name, final String ref, final int priceListNumber, final List<Price> price) {
         this.name = name;
         this.ref = ref;
         this.priceListNumber = priceListNumber;

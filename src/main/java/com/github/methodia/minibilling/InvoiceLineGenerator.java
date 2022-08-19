@@ -9,27 +9,30 @@ import java.util.Collection;
 import java.util.List;
 
 public class InvoiceLineGenerator {
+
     private BigDecimal totalAmountLines = BigDecimal.ZERO;
 
     public BigDecimal getTotalAmountLines() {
         return totalAmountLines;
     }
 
-    public List<InvoiceLine> createInvoiceLine(List<Measurement> measurements, LocalDate borderDate) {
+    public List<InvoiceLine> createInvoiceLine(final List<Measurement> measurements, final LocalDate borderDate) {
 
-        ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements);
-        Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
+        final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
+                measurements);
+        final Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
-        List<InvoiceLine> invoiceLines = new ArrayList<>();
-        for (QuantityPricePeriod qpp : quantityPricePeriods) {
+        final List<InvoiceLine> invoiceLines = new ArrayList<>();
+        for (final QuantityPricePeriod qpp : quantityPricePeriods) {
             if (qpp.getEnd().toLocalDate().isBefore(borderDate)) {
-                BigDecimal quantity = qpp.getQuantity();
-                LocalDateTime start = qpp.getStart().toLocalDateTime();
-                LocalDateTime end = qpp.getEnd().toLocalDateTime();
-                String product = qpp.getPrice().getProduct();
-                BigDecimal price = qpp.getPrice().getValue();
-                int priceList = qpp.getUser().getPriceListNumber();
-                BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+                final BigDecimal quantity = qpp.getQuantity();
+                final LocalDateTime start = qpp.getStart().toLocalDateTime();
+                final LocalDateTime end = qpp.getEnd().toLocalDateTime();
+                final String product = qpp.getPrice().getProduct();
+                final BigDecimal price = qpp.getPrice().getValue();
+                final int priceList = qpp.getUser().getPriceListNumber();
+                final BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue())
+                        .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
                 totalAmountLines = totalAmountLines.add(amount);
                 invoiceLines.add(new InvoiceLine(invoiceLines.size() + 1, quantity, start, end,
                         product, price, priceList, amount));

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class InvoiceLine {
+
     private final int index;
     private final BigDecimal quantity;
     private final LocalDateTime lineStart;
@@ -13,8 +14,8 @@ public class InvoiceLine {
     private final int priceList;
     private final BigDecimal amount;
 
-    public InvoiceLine(int index, BigDecimal quantity, LocalDateTime lineStart, LocalDateTime lineEnd, String product,
-                       BigDecimal price, int priceList, BigDecimal amount) {
+    public InvoiceLine(final int index, final BigDecimal quantity, final LocalDateTime lineStart, final LocalDateTime lineEnd, final String product,
+                       final BigDecimal price, final int priceList, final BigDecimal amount) {
         this.index = index;
         this.quantity = quantity;
         this.lineStart = lineStart;

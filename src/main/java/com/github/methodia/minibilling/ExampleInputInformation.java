@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExampleInputInformation {
+
     public static List<VatPercentage> vatPercentages() {
         List<VatPercentage> vatPercentages = new ArrayList<>();
         VatPercentage percentage1 = new VatPercentage(BigDecimal.valueOf(0.6), BigDecimal.valueOf(0.2));

@@ -20,35 +20,37 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 public class SaveInvoice {
-    public static void saveToFile(Invoice invoice, String outputPath, String dateToReporting) {
 
-        LocalDate borderTime = Formatter.parseBorder(dateToReporting);
+    public static void saveToFile(final Invoice invoice, final String outputPath, final String dateToReporting) {
 
-        Gson gson = new GsonBuilder().setPrettyPrinting()
+        final LocalDate borderTime = Formatter.parseBorder(dateToReporting);
+
+        final Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new SaveInvoice.LocalDateAdapter()).create();
-        String json = gson.toJson(invoice);
+        final String json = gson.toJson(invoice);
 
-        String month = borderTime.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
-        String month1 = month.substring(0, 1).toUpperCase() + month.substring(1);
-        int outputOfTheYear = borderTime.getYear() % 100;
+        final String month = borderTime.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
+        final String month1 = month.substring(0, 1).toUpperCase() + month.substring(1);
+        final int outputOfTheYear = borderTime.getYear() % 100;
 
-        String folderPath = outputPath + "\\" + invoice.getConsumer() + "-" + invoice.getReference();
+        final String folderPath = outputPath + "\\" + invoice.getConsumer() + "-" + invoice.getReference();
         createFolder(folderPath);
 
-        String jsonFilePath = folderPath + "\\" + invoice.getDocumentNumber() + "-" + month1 + "-" + outputOfTheYear + ".json";
+        final String jsonFilePath =
+                folderPath + "\\" + invoice.getDocumentNumber() + "-" + month1 + "-" + outputOfTheYear + ".json";
         creatingJsonFIle(json, jsonFilePath);
     }
 
 
-    private static void createFolder(String folderPath) {
-        File creatingFolders = new File(folderPath);
-        boolean bool2 = creatingFolders.mkdirs();
+    private static void createFolder(final String folderPath) {
+        final File creatingFolders = new File(folderPath);
+        final boolean bool2 = creatingFolders.mkdirs();
     }
 
-    private static void creatingJsonFIle(String json, String jsonFilePath) {
-        File creatingFiles = new File(jsonFilePath);
-        try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
-            boolean newFile = creatingFiles.createNewFile();
+    private static void creatingJsonFIle(final String json, final String jsonFilePath) {
+        final File creatingFiles = new File(jsonFilePath);
+        try (final PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
+            final boolean newFile = creatingFiles.createNewFile();
             out.write(json);
         } catch (DateTimeParseException | IOException e) {
             throw new RuntimeException();
@@ -56,11 +58,12 @@ public class SaveInvoice {
     }
 
     private static final class LocalDateAdapter extends TypeAdapter<LocalDateTime> {
+
         @Override
         public void write(final JsonWriter jsonWriter, final LocalDateTime localDate) throws IOException {
-            DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-            ZonedDateTime gmt = localDate.atZone(ZoneId.of("Z"));
-            String formattedLD = gmt.format(formatter);
+            final DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+            final ZonedDateTime gmt = localDate.atZone(ZoneId.of("Z"));
+            final String formattedLD = gmt.format(formatter);
             jsonWriter.value(formattedLD);
         }
 

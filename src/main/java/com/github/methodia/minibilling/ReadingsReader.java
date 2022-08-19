@@ -4,5 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface ReadingsReader {
-    Map<String,List<Reading>> read();
+
+    Map<String, List<Reading>> read();
 }
