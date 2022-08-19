@@ -13,17 +13,18 @@ import java.util.List;
 public class MeasurementGenerator {
 
 
-    Collection<Measurement> generate(User user, Collection<Reading> readings) {
-        List<Measurement> measurements = new ArrayList<>();
+    Collection<Measurement> generate(final User user, final Collection<Reading> readings) {
+        final List<Measurement> measurements = new ArrayList<>();
         Reading previous = null;
-        for (Reading reading : readings)
-            if (user.getRef().equals(reading.getUser().getRef())) {
-                if (previous != null) {
-                    BigDecimal value = reading.getValue().subtract(previous.getValue());
-                    measurements.add(new Measurement(previous.getTime().toLocalDateTime(), reading.getTime().toLocalDateTime(), value, user));
+        for (final Reading reading : readings) {
+            if (user.ref().equals(reading.user().ref())) {
+                if (null != previous) {
+                    final BigDecimal value = reading.value().subtract(previous.value());
+                    measurements.add(new Measurement(previous.time().toLocalDateTime(), reading.time().toLocalDateTime(), value, user));
                 }
                 previous = reading;
             }
+        }
         return measurements;
     }
 }

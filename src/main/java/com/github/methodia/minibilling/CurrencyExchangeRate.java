@@ -12,15 +12,14 @@ import java.net.URL;
 
 public class CurrencyExchangeRate {
     public static JSONObject currencyExchangeRate() throws IOException, ParseException {
-        String url_str = "https://v6.exchangerate-api.com/v6/03049edfdad9865e25818961/latest/BGN";
+        final String urlStr = "https://v6.exchangerate-api.com/v6/03049edfdad9865e25818961/latest/BGN";
 
-        URL url = new URL(url_str);
-        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        final URL url = new URL(urlStr);
+        final HttpURLConnection request = (HttpURLConnection) url.openConnection();
 
-        JSONParser jp = new JSONParser();
-        JSONObject root = (JSONObject) jp.parse(new InputStreamReader((InputStream) request.getContent()));
-//        JsonObject jsonobj = root.getAsJsonObject();
+        final JSONParser jp = new JSONParser();
 
-        return root;
+
+        return (JSONObject) jp.parse(new InputStreamReader((InputStream) request.getContent()));
     }
 }

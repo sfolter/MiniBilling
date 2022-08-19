@@ -17,8 +17,8 @@ public class Invoice {
     private final List<TaxesLine> taxesLines;
 
 
-    public Invoice(LocalDateTime documentDate, String documentNumber, User consumer,
-                   BigDecimal totalAmount, BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<VatLine> vatLines, List<TaxesLine> taxesLines) {
+    public Invoice(final LocalDateTime documentDate, final String documentNumber, final User consumer,
+                   final BigDecimal totalAmount, final BigDecimal totalAmountWithVat, final List<InvoiceLine> lines, final List<VatLine> vatLines, final List<TaxesLine> taxesLines) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;
         this.consumer = consumer;

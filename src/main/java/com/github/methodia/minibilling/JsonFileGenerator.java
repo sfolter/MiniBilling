@@ -13,19 +13,19 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class JsonFileGenerator {
-    public void generateJsonFile(JSONObject json, String folderPath) throws ParseException, IOException {
-        JSONArray jsonArray = (JSONArray) json.get("lines");
-        HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList().get(jsonArray.toList().size()-1);
-        String lineEnd = (String) jsonLines.get("lineEnd");
+    public void generateJsonFile(final JSONObject json, final String folderPath) throws ParseException, IOException {
+        final JSONArray jsonArray = (JSONArray) json.get("lines");
+        final HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList().get(jsonArray.toList().size()-1);
+        final String lineEnd = (String) jsonLines.get("lineEnd");
 //        String lineEnd = lineEndJson.toString();
-        Date jud = new SimpleDateFormat("yy-MM").parse(lineEnd);
-        String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
-        String[] splitDate = month.split("\\s+");
-        String monthInCyrilic = splitDate[1];
-        int year = Integer.parseInt(splitDate[2]) % 100;
-        String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
-        String fileWriter = json.get("documentNumber") + "-" + monthInUpperCase + "-" + year;
-        FileWriter file = new FileWriter(folderPath + "//" + fileWriter + ".json");
+        final Date jud = new SimpleDateFormat("yy-MM").parse(lineEnd);
+        final String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
+        final String[] splitDate = month.split("\\s+");
+        final String monthInCyrilic = splitDate[1];
+        final int year = Integer.parseInt(splitDate[2]) % 100;
+        final String monthInUpperCase = monthInCyrilic.substring(0, 1).toUpperCase() + monthInCyrilic.substring(1);
+        final String fileWriter = json.get("documentNumber") + "-" + monthInUpperCase + "-" + year;
+        final FileWriter file = new FileWriter(folderPath + "//" + fileWriter + ".json");
         file.write(json.toString(4));
         file.flush();
         file.close();

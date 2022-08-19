@@ -21,23 +21,23 @@ public class Main {
         final String currency = "BGN";
 
         //user.csv
-        CsvFileUserReader userFileRead = new CsvFileUserReader();
-        TreeMap<String, User> userMap = userFileRead.read(resourceDir);
+        final CsvFileUserReader userFileRead = new CsvFileUserReader();
+        final TreeMap<String, User> userMap = userFileRead.read(resourceDir);
 
         //readings.csv
-        CsvFileReadingReader reading = new CsvFileReadingReader();
-        Collection<Reading> readings = reading.read(userMap, resourceDir);
+        final CsvFileReadingReader reading = new CsvFileReadingReader();
+        final Collection<Reading> readings = reading.read(userMap, resourceDir);
 
         //Creating objects
-        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
-        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(new CurrencyConvertor());
-        FolderGenerator folderGenerator = new FolderGenerator();
-        JsonGenerator jsonGenerator = new JsonGenerator();
-        JsonFileGenerator jsonFileGenerator = new JsonFileGenerator();
+        final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+        final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(new CurrencyConvertor());
+        final FolderGenerator folderGenerator = new FolderGenerator();
+        final JsonGenerator jsonGenerator = new JsonGenerator();
+        final JsonFileGenerator jsonFileGenerator = new JsonFileGenerator();
 
         for (String refNumb : userMap.keySet()) {
             User user = userMap.get(refNumb);
-            List<Price> priceList = user.getPrice();
+            List<Price> priceList = user.price();
             Collection<Measurement> measurmentGenerated = measurementGenerator.generate(user, readings);
             Invoice invoice = invoiceGenerator.generate(user, measurmentGenerated, priceList, yearMonthStr, currency);
             String folder = folderGenerator.generate(user, outputDir);

@@ -8,33 +8,5 @@ import java.time.ZonedDateTime;
  * 28.07.2022
  * Methodia Inc.
  */
-public class Reading {
-    private final ZonedDateTime time;
-    private final BigDecimal value;
-    private final String product;
-    private final User user;
-
-    public Reading(User user, String product, ZonedDateTime time, BigDecimal value) {
-        this.time = time;
-        this.value = value;
-        this.product = product;
-        this.user = user;
-    }
-
-
-    public ZonedDateTime getTime() {
-        return time;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public String getProduct() {
-        return product;
-    }
+public record Reading(User user, String product, ZonedDateTime time, BigDecimal value) {
 }
