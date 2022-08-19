@@ -3,6 +3,7 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 
 public class Vat {
+
     private final int index;
     private final int lines;
     private final int taxes;
@@ -10,7 +11,8 @@ public class Vat {
     private final int percentage;
     private final BigDecimal amount;
 
-    public Vat(int index, int lines, int taxes, int taxedAmountPercentage, int percentage, BigDecimal amount) {
+    public Vat(final int index, final int lines, final int taxes, final int taxedAmountPercentage, final int percentage,
+               final BigDecimal amount) {
         this.index = index;
         this.lines = lines;
         this.taxes = taxes;

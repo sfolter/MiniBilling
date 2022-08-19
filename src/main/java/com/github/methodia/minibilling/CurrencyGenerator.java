@@ -12,16 +12,16 @@ public class CurrencyGenerator {
 
     private final String key;
 
-    public CurrencyGenerator(String currency, String key) {
+    public CurrencyGenerator(final String currency, final String key) {
         this.currency = currency;
         this.key = key;
     }
 
     public BigDecimal generateCurrency() throws IOException, ParseException {
-        ExchangeRateAPI exchangeRateAPI = new ExchangeRateAPI(key);
-        JSONObject exchange = exchangeRateAPI.exchange();
-        JSONObject conversion_rates = (JSONObject) exchange.get(("conversion_rates"));
-        BigDecimal currencyValue = new BigDecimal(String.valueOf(conversion_rates.get(currency)));
+        final ExchangeRateAPI exchangeRateAPI = new ExchangeRateAPI(key);
+        final JSONObject exchange = exchangeRateAPI.exchange();
+        final JSONObject conversionRates = (JSONObject) exchange.get("conversion_rates");
+        final BigDecimal currencyValue = new BigDecimal(String.valueOf(conversionRates.get(currency)));
         return currencyValue;
     }
 }

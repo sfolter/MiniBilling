@@ -3,6 +3,7 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 
 public class Taxes {
+
     private final int index;
     private final int lines;
     private final String name;
@@ -11,7 +12,8 @@ public class Taxes {
     private final BigDecimal price;
     private final BigDecimal amount;
 
-    public Taxes(int index, int lines, String name, int quantity, String unit, BigDecimal price, BigDecimal amount) {
+    public Taxes(final int index, final int lines, final String name, final int quantity, final String unit,
+                 final BigDecimal price, final BigDecimal amount) {
         this.index = index;
         this.lines = lines;
         this.name = name;

@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-19T13:32:21.233394300",
+    "documentDate": "2022-08-19T15:07:31.375356100",
     "documentNumber": "10002",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
-    "totalAmount": "406.40 EUR",
-    "totalAmountWithVat": "476.73 EUR",
+    "totalAmount": "272.69 EUR",
+    "totalAmountWithVat": "411.6280 EUR",
     "lines": [{
         "index": 1,
         "quantity": 152,
@@ -13,7 +13,7 @@
         "product": "gas",
         "price": 1.8,
         "priceList": 1,
-        "amount": "273.60 EUR"
+        "amount": "139.89 EUR"
     }],
     "taxes": [{
         "index": 1,
@@ -22,7 +22,7 @@
         "quantity": 83,
         "unit": "days",
         "price": 1.6,
-        "amount": "132.80 EUR"
+        "amount": "67.90 EUR"
     }],
     "vat": [
         {
@@ -31,7 +31,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "32.83 EUR"
+            "amount": "16.79 EUR"
         },
         {
             "index": 2,
@@ -39,7 +39,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "10.94 EUR"
+            "amount": "5.60 EUR"
         },
         {
             "index": 3,
@@ -47,7 +47,7 @@
             "taxes": 1,
             "taxedAmountPercentage": 100,
             "percentage": 20,
-            "amount": "26.56 EUR"
+            "amount": "13.58 EUR"
         }
     ]
 }

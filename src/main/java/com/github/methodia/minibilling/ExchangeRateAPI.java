@@ -14,16 +14,16 @@ public class ExchangeRateAPI {
 
     private final String key;
 
-    public ExchangeRateAPI(String key) {
+    public ExchangeRateAPI(final String key) {
         this.key = key;
     }
 
     public JSONObject exchange() throws IOException, ParseException {
-        String url_str = "https://v6.exchangerate-api.com/v6/" + key + "/latest/BGN";
-        URL url = new URL(url_str);
-        HttpURLConnection request = (HttpURLConnection) url.openConnection();
-        JSONParser jp = new JSONParser();
-        JSONObject root = (JSONObject) jp.parse(new InputStreamReader((InputStream) request.getContent()));
+        final String urlStr = "https://v6.exchangerate-api.com/v6/" + key + "/latest/BGN";
+        final URL url = new URL(urlStr);
+        final HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        final JSONParser jp = new JSONParser();
+        final JSONObject root = (JSONObject) jp.parse(new InputStreamReader((InputStream) request.getContent()));
         return root;
     }
 }
