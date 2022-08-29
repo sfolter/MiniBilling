@@ -24,6 +24,7 @@ public class Tax {
         this.amount = amount;
     }
 
+
     public int getIndex() {
         return index;
     }
@@ -32,16 +33,8 @@ public class Tax {
         return lines;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public BigDecimal getQuantity() {
         return quantity;
-    }
-
-    public String getUnit() {
-        return unit;
     }
 
     public BigDecimal getPrice() {

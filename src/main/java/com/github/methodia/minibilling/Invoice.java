@@ -17,16 +17,14 @@ public class Invoice {
     private static long id = 10000;
 
     public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount,
-                   BigDecimal totalAmountWIthVat, List<InvoiceLine> invoiceLines,List<Tax> tax, List<Vat> vat) {
+                   BigDecimal totalAmountWIthVat, List<InvoiceLine> invoiceLines, List<Tax> tax, List<Vat> vat) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
         this.reference = reference;
-
         this.totalAmount = totalAmount;
         this.totalAmountWIthVat = totalAmountWIthVat;
         this.lines = invoiceLines;
-
         this.vat = vat;
         this.taxes = tax;
     }

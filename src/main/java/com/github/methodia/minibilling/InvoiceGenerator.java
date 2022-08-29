@@ -17,18 +17,18 @@ public class InvoiceGenerator {
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
-        List<Tax> taxes = new ArrayList<>();
 
         int index;
 
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal totalAmountWithVat = BigDecimal.ZERO;
+        List<Tax> taxes = new ArrayList<>();
 
         InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
         InvoiceVatGenerator vatGenerator = new InvoiceVatGenerator();
         InvoiceTaxGenerator taxGenerator = new InvoiceTaxGenerator();
         List<Vat> vats = new ArrayList<>();
-      //  List<Vat> vats = new ArrayList<>();
+
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
 
@@ -39,18 +39,24 @@ public class InvoiceGenerator {
                 invoiceLines.add(invoiceLine);
                 Tax tax = taxGenerator.generateTaxes(invoiceLine);
                 taxes.add(tax);
-                totalAmount = totalAmount.add(invoiceLine.getAmount()).add(tax.getAmount()).setScale(2, RoundingMode.HALF_UP)
+                List<Vat> vat = vatGenerator.generateVat(invoiceLine, taxes);
+
+                totalAmount = totalAmount.add(invoiceLine.getAmount()).add(tax.getAmount())
+                        .setScale(2, RoundingMode.HALF_UP)
                         .stripTrailingZeros();
 
 
-
-                vats.addAll( vatGenerator.generateVat(invoiceLine));
+                vats.addAll(vat);
                 totalAmountWithVat = totalAmountWithVat.add(vats.get(0).getAmount().add(invoiceLine.getAmount()))
                         .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
             }
-        }
 
-        return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(), measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines, taxes, vats);
+        }
+        vats.addAll(vatGenerator.taxWithVat(vats.size(), taxes));
+
+
+        return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(),
+                measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines, taxes, vats);
 
     }
 
