@@ -57,7 +57,7 @@ public class InvoiceGenerator {
 
         String documentNumber = Invoice.getDocumentNumber();
         String userName = user.getName();
-        List<Vat> vat = productMap.entrySet().stream().map(a -> createVat(a.getValue())).toList();
+        List<Vat> vat = productMap.entrySet().stream().map(a -> createVat(a.getValue(),a.getKey())).toList();
         //productMap.keySet().forEach(a ->  createVat(invoiceLines));
 
         BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(new BigDecimal(0)
@@ -76,17 +76,26 @@ public class InvoiceGenerator {
         return new Tax(taxListSize + 1, invoiceIndex, quantity, amount);
     }
 
-    private void createVat(List<Object> invoiceLines, String product) {
-        List<InvoiceLine> invoiceLines1=invoiceLines;
-        if(product.equals("gas")||product.equals("elec")){
-        }
-        List<Integer> vattedLines = invoiceLines.stream().map(InvoiceLine::getIndex).toList();
+    private void createVat(List<Object> lines, String product) {
         int counter = 0;
-        counter += 1;
-        BigDecimal amount = invoiceLines.stream().map(InvoiceLine::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal("0.2"))
-                .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
-        Vat vat=new Vat(counter, vattedLines, "20", amount);
+        if(product.equals("gas")||product.equals("elec")){
+            List<InvoiceLine> invoiceLines= Collections.singletonList((InvoiceLine) lines);
+            List<Integer> vattedLines = invoiceLines.stream().map(InvoiceLine::getIndex).toList();
+            counter += 1;
+            BigDecimal amount = invoiceLines.stream().map(InvoiceLine::getAmount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal("0.2"))
+                    .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+            Vat vat=new Vat(counter, vattedLines, "20", amount);
+        } else if (product.equals("Standing charge")) {
+            List<Tax>taxLines= Collections.singletonList((Tax) lines);
+            List<Integer> taxedLines=taxLines.stream().map(Tax::getIndex).toList();
+
+            counter += 1;
+            BigDecimal amount = taxLines.stream().map(Tax::getAmount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal("0.2"))
+                    .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+            Vat vat=new Vat(counter,"20",amount,taxedLines);
+        }
     }
 
     private InvoiceLine createInvoiceLine(int lineIndex, QuantityPricePeriod qpp, User user) {

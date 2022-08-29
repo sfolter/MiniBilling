@@ -22,4 +22,12 @@ public class Tax {
         this.price = new BigDecimal("1.6");
         this.amount = amount;
     }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 }
