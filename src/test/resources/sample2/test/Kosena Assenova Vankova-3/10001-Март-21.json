@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-18T16:34:58.336364800",
+    "documentDate": "2022-08-29T11:50:37.501053200",
     "documentNumber": "10001",
     "consumer": "Kosena Assenova Vankova",
     "reference": "3",
     "totalAmount": "335.72 BGN",
-    "totalAmountWithVat": "402.87 BGN",
+    "totalAmountWithVat": "922.86 BGN",
     "lines": [
         {
             "index": 1,
@@ -52,13 +52,13 @@
             "index": 1,
             "lines": 1,
             "percentage": 20,
-            "amount": "54.94 BGN"
+            "amount": "32.96 BGN"
         },
         {
             "index": 2,
-            "lines": 2,
-            "percentage": 20,
-            "amount": "12.21 BGN"
+            "lines": 1,
+            "percentage": 10,
+            "amount": "10.99 BGN"
         }
     ]
 }

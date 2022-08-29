@@ -7,12 +7,17 @@ public class VatLine {
     private int lines;
     private int percentage;
     private BigDecimal amount;
+    private final int taxedAmountPercentage;
+    private final int taxes;
 
-    public VatLine(int index, int lines, int percentage, BigDecimal amount) {
+
+    public VatLine(int index, int lines, int taxes, int taxedAmountPercentage, int percentage, BigDecimal amount) {
         this.index = index;
         this.lines = lines;
         this.percentage = percentage;
         this.amount = amount;
+        this.taxedAmountPercentage = taxedAmountPercentage;
+        this.taxes = taxes;
     }
 
     public int getIndex() {
