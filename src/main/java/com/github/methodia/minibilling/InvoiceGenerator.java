@@ -7,18 +7,18 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 public class InvoiceGenerator {
 
     final private CurrencyConverter currencyConverter;
 
-    public InvoiceGenerator(CurrencyConverter currencyConverter) {this.currencyConverter = currencyConverter;}
+    public InvoiceGenerator(CurrencyConverter currencyConverter) {
+        this.currencyConverter = currencyConverter;
+    }
 
     /**
      * Looping through MMs and Prices and comparing the end date of measurements dates with pricing dates and if
@@ -32,7 +32,7 @@ public class InvoiceGenerator {
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
 
-        Map<String, List<Object>> productSet = new LinkedHashMap<>();
+        Map<String, List<Object>> productMap = new LinkedHashMap<>();
 
 
         List<Tax> taxList = new ArrayList<>();
@@ -45,12 +45,11 @@ public class InvoiceGenerator {
                 InvoiceLine invoiceLine = createInvoiceLine(lineIndex, qpp, user);
                 invoiceLines.add(invoiceLine);
                 String product = qpp.getProduct();
-                productSet.put(product, Collections.singletonList(invoiceLines));
-
+                productMap.put(product, Collections.singletonList(invoiceLines));
                 int taxListSize = taxList.size();
                 taxList.add(createTax(invoiceLine, taxListSize));
-                product="Standing charge";
-                productSet.put(product, Collections.singletonList(taxList));
+                product = "Standing charge";
+                productMap.put(product, Collections.singletonList(taxList));
             } else {
                 break;
             }
@@ -58,8 +57,9 @@ public class InvoiceGenerator {
 
         String documentNumber = Invoice.getDocumentNumber();
         String userName = user.getName();
-        List<Vat> vat = productSet.values().stream().map(a -> createVat(invoiceLines)).toList();
-        productSet.values().stream().forEach(a -> createVat(invoiceLines));
+        List<Vat> vat = productMap.entrySet().stream().map(a -> createVat(a.getValue())).toList();
+        //productMap.keySet().forEach(a ->  createVat(invoiceLines));
+
         BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(new BigDecimal(0)
                 , BigDecimal::add);
         BigDecimal totalAmountWithVat = vat.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add);
@@ -73,17 +73,20 @@ public class InvoiceGenerator {
         invoiceIndex.add(invoiceLine.getIndex());
         BigDecimal quantity = new BigDecimal(ChronoUnit.DAYS.between(invoiceLine.getStart(), invoiceLine.getEnd()));
         BigDecimal amount = quantity.multiply(new BigDecimal("1.6"));
-        return new Tax(taxListSize+1, invoiceIndex, quantity, amount);
+        return new Tax(taxListSize + 1, invoiceIndex, quantity, amount);
     }
 
-    private Vat createVat(List<InvoiceLine> invoiceLines) {
+    private void createVat(List<Object> invoiceLines, String product) {
+        List<InvoiceLine> invoiceLines1=invoiceLines;
+        if(product.equals("gas")||product.equals("elec")){
+        }
         List<Integer> vattedLines = invoiceLines.stream().map(InvoiceLine::getIndex).toList();
         int counter = 0;
         counter += 1;
         BigDecimal amount = invoiceLines.stream().map(InvoiceLine::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal("0.2"))
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
-        return new Vat(counter, vattedLines, "20", amount);
+        Vat vat=new Vat(counter, vattedLines, "20", amount);
     }
 
     private InvoiceLine createInvoiceLine(int lineIndex, QuantityPricePeriod qpp, User user) {
@@ -94,7 +97,7 @@ public class InvoiceGenerator {
         BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice())
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         // add the following method in order to set up your currency converter
-        // .multiply(currencyConverter.getCurrencyValue(user.getCyrrency()))
+        // .multiply(currencyConverter.getCurrencyValue(user.getCurrency()))
         //TODO add product to qpp; remove the following code
         String product = qpp.getProduct();
         return new InvoiceLine(lineIndex, quantity, start, end,

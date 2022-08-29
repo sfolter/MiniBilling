@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Invoice {
-
     private static long idContour = 10000;
     private final String documentNumber;
     private final String consumer;

@@ -43,7 +43,7 @@ public class User {
         return price;
     }
 
-    public String getCyrrency() {
+    public String getCurrency() {
         return cyrrency;
     }
 
