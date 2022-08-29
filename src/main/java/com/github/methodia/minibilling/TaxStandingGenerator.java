@@ -6,18 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaxStandingGenerator implements TaxGenerator {
-
-    private BigDecimal totalAmountTaxes = BigDecimal.ZERO;
     private final List<InvoiceLine> invoiceLines;
-
     public TaxStandingGenerator(final List<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
     }
-
-    public BigDecimal getTotalAmountTaxes() {
-        return totalAmountTaxes;
-    }
-
     @Override
     public List<Tax> generate() {
         final List<Tax> taxes = new ArrayList<>();
@@ -29,7 +21,6 @@ public class TaxStandingGenerator implements TaxGenerator {
             taxedLines.add(invoiceLine.getIndex());
             final long quantityTax = invoiceLine.getLineStart().until(invoiceLine.getLineEnd(), ChronoUnit.DAYS) + 1;
             final BigDecimal amount = BigDecimal.valueOf(quantityTax).multiply(BigDecimal.valueOf(1.6));
-            totalAmountTaxes = totalAmountTaxes.add(amount);
             taxes.add(new Tax(taxes.size() + 1, taxedLines, "Standing charge", quantityTax, "days", price, amount));
         }
         return taxes;

@@ -78,7 +78,8 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
         return quantityPricePeriods;
     }
 
-    private List<Price> filterPricesByMeasurementIntersection(final List<Price> priceUser, final Measurement measurement) {
+    private List<Price> filterPricesByMeasurementIntersection(final List<Price> priceUser,
+                                                              final Measurement measurement) {
         return priceUser.stream()
                 .filter(price -> measurement.getStart().isBefore(price.getEnd().plusDays(1)) && measurement.getEnd()
                         .isAfter(

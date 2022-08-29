@@ -40,5 +40,4 @@ public class InvoiceLineGenerator {
         }
         return invoiceLines;
     }
-
 }

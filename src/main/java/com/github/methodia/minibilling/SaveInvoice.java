@@ -21,17 +21,15 @@ import java.util.Locale;
 
 public class SaveInvoice {
 
-    public static void saveToFile(final Invoice invoice, final String outputPath, final String dateToReporting) {
-
-        final LocalDate borderTime = Formatter.parseBorder(dateToReporting);
+    public static void saveToFile(final Invoice invoice, final String outputPath, final LocalDate borderDate) {
 
         final Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new SaveInvoice.LocalDateAdapter()).create();
         final String json = gson.toJson(invoice);
 
-        final String month = borderTime.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
+        final String month = borderDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("bg"));
         final String month1 = month.substring(0, 1).toUpperCase() + month.substring(1);
-        final int outputOfTheYear = borderTime.getYear() % 100;
+        final int outputOfTheYear = borderDate.getYear() % 100;
 
         final String folderPath = outputPath + "\\" + invoice.getConsumer() + "-" + invoice.getReference();
         createFolder(folderPath);

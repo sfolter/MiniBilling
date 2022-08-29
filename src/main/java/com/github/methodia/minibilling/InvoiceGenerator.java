@@ -24,12 +24,16 @@ public class InvoiceGenerator {
         final String reference = measurements.get(0).getUser().getRef();
 
         final List<InvoiceLine> invoiceLines = invoiceLineGenerator.createInvoiceLine(measurements, borderDate);
-        final TaxStandingGenerator taxGenerator = new TaxStandingGenerator(invoiceLines);
+        final TaxGenerator taxGenerator = new TaxStandingGenerator(invoiceLines);
         final List<Tax> taxes = taxGenerator.generate();
         final List<Vat> vat = vatGenerator.generate(invoiceLines, taxes);
 
+        final BigDecimal taxTotalAmount=taxes.stream()
+                .map(Tax::getAmount)
+                .reduce(BigDecimal.ZERO,BigDecimal::add);
         final BigDecimal totalAmount = invoiceLineGenerator.getTotalAmountLines()
-                .add(taxGenerator.getTotalAmountTaxes().stripTrailingZeros());
+                .add(taxTotalAmount.stripTrailingZeros());
+
         final BigDecimal vatAmount = vat.stream()
                 .map(Vat::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

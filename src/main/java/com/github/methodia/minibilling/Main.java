@@ -17,10 +17,10 @@ public class Main {
         final LocalDate borderDate = Formatter.parseBorder(dateToReporting);
         final AtomicLong documentNumberId = new AtomicLong(10000);
 
-        final UserFileReader userReader = new UserFileReader(resourceDirectory);
+        final UsersReader userReader = new UserFileReader(resourceDirectory);
         final Map<String, User> users = userReader.read();
 
-        final ReadingFileReader readingReader = new ReadingFileReader(users, resourceDirectory);
+        final ReadingsReader readingReader = new ReadingFileReader(users, resourceDirectory);
         final Map<String, List<Reading>> readings = readingReader.read();
 
         final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
@@ -30,7 +30,7 @@ public class Main {
                 .map(user -> measurementGenerator.generate(user, readings.get(user.getRef())))
                 .map(measurement -> invoiceGenerator.generate(measurement, documentNumberId.getAndIncrement(),
                         borderDate))
-                .forEach(invoice -> SaveInvoice.saveToFile(invoice, outputDirectory, dateToReporting));
+                .forEach(invoice -> SaveInvoice.saveToFile(invoice, outputDirectory, borderDate));
     }
 }
 

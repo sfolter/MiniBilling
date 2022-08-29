@@ -28,9 +28,10 @@ public class VatGenerator {
             final List<Integer> vattedLines = new ArrayList<>();
             vattedLines.add(invoiceLine.getIndex());
             for (final VatPercentage percentages : percentageList) {
-
-                final BigDecimal vatAmount = invoiceLine.getAmount().multiply(percentages.getTaxedAmountPercentage())
-                        .multiply(percentages.getPercentage()).setScale(2, RoundingMode.HALF_UP)
+                final BigDecimal vatAmount = invoiceLine.getAmount()
+                        .multiply(percentages.getTaxedAmountPercentage().divide(new BigDecimal("100")))
+                        .multiply(percentages.getPercentage().divide(new BigDecimal("100")))
+                        .setScale(2, RoundingMode.HALF_UP)
                         .stripTrailingZeros();
                 linesVats.add(new Vat(linesVats.size() + 1, vattedLines, taxes, percentages.getTaxedAmountPercentage(),
                         percentages.getPercentage(), vatAmount));
