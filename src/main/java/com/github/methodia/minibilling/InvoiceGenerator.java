@@ -15,7 +15,10 @@ import java.util.List;
 
 import static com.github.methodia.minibilling.Main.API_KEY;
 
+
 public class InvoiceGenerator {
+    public static final int taxedAmountPercentageVat1 = 60;
+    public static final int taxedAmountPercentageVat2 = 40;
     private User user;
     private Collection<Measurement> measurements;
     private Collection<Price> prices;
@@ -77,8 +80,6 @@ public class InvoiceGenerator {
                 totalAmountWithVat = totalAmountWithVat.add(amountForLineAndVat);
                 final int indexInTaxes = index;
                 final int quantityInTaxes = (int) ChronoUnit.DAYS.between(start, end);
-                final int taxedAmountPercentageVat1 = 60;
-                final int taxedAmountPercentageVat2 = 100 - taxedAmountPercentageVat1;
                 final  int taxedAmountPercentageVat3 = taxedAmountPercentageVat1 + taxedAmountPercentageVat2;
 
                 BigDecimal priceInTaxes = new BigDecimal("1.6").setScale(2, RoundingMode.HALF_UP);

@@ -18,6 +18,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static com.github.methodia.minibilling.InvoiceGenerator.taxedAmountPercentageVat1;
+
 public class JsonFileGenerator {
     private Invoice invoice;
     private String folderPath;
@@ -45,6 +47,7 @@ public class JsonFileGenerator {
         User user = invoice.getConsumer();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
         List<Price> prices = user.getPrice();
+        int percentageForVat2 = 0;
         for (int i = 0; i < prices.size(); i++) {
             JSONObject newLine = new JSONObject();
             JSONObject newVatLine = new JSONObject();
@@ -95,12 +98,16 @@ public class JsonFileGenerator {
             newVatLine.put("index", indexInVat);
             int linesInVat = invoice.getVatsLines().get(i).getLines();
             newVatLine.put("lines", linesInVat);
+
+            newVatLine.put("taxedAmountPercentage", taxedAmountPercentageVat1 - percentageForVat2);
+            percentageForVat2 += 20;
             int percentage = invoice.getVatsLines().get(i).getPercentage();
             newVatLine.put("percentage", percentage);
             BigDecimal amountInVat = invoice.getVatsLines().get(i).getAmount();
             newVatLine.put("amount", amountInVat.toString() + " " + currency);
             vatLines.put(newVatLine);
         }
+
         json.put("lines", lines);
         json.put("taxes", taxesLines);
         json.put("vat", vatLines);

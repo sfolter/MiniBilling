@@ -1,5 +1,5 @@
 {
-    "documentDate": "2022-08-29T11:50:37.592003300",
+    "documentDate": "2022-08-30T09:26:05.081419400",
     "documentNumber": "10002",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
@@ -51,12 +51,14 @@
         {
             "index": 1,
             "lines": 1,
+            "taxedAmountPercentage": 60,
             "percentage": 20,
             "amount": "5.11 BGN"
         },
         {
             "index": 2,
             "lines": 1,
+            "taxedAmountPercentage": 40,
             "percentage": 10,
             "amount": "1.70 BGN"
         }

@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-18T16:24:05.246161700",
+    "documentDate": "2022-08-30T15:10:26.766054700",
     "documentNumber": "10000",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
     "totalAmount": "73.08 BGN",
-    "totalAmountWithVat": "87.69 BGN",
+    "totalAmountWithVat": "314.54 BGN",
     "lines": [
         {
             "index": 1,
@@ -51,14 +51,16 @@
         {
             "index": 1,
             "lines": 1,
+            "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "9.74 BGN"
+            "amount": "5.85 BGN"
         },
         {
             "index": 2,
-            "lines": 2,
-            "percentage": 20,
-            "amount": "4.87 BGN"
+            "lines": 1,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "1.95 BGN"
         }
     ]
 }

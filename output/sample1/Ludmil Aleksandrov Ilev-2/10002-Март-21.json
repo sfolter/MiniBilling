@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-18T16:34:16.956880100",
+    "documentDate": "2022-08-30T15:10:20.330464200",
     "documentNumber": "10002",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
     "totalAmount": "273.60 BGN",
-    "totalAmountWithVat": "328.32 BGN",
+    "totalAmountWithVat": "805.05 BGN",
     "lines": [{
         "index": 1,
         "quantity": 152,
@@ -27,7 +27,8 @@
     "vat": [{
         "index": 1,
         "lines": 1,
+        "taxedAmountPercentage": 60,
         "percentage": 20,
-        "amount": "54.72 BGN"
+        "amount": "32.83 BGN"
     }]
 }
