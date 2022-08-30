@@ -20,17 +20,17 @@ public class InvoiceVatGenerator implements VatGenerator {
         Percentages percentage2 = new Percentages(BigDecimal.valueOf(0.4), BigDecimal.valueOf(0.1));
         vatPercentage.add(percentage1);
         vatPercentage.add(percentage2);
-
+        int index = 0;
         for (Percentages p : vatPercentage) {
+            index++;
             List<Integer> taxes1 = new ArrayList<>();
             BigDecimal taxedAmountPercentage = p.getTaxedAmountPercentage().multiply(BigDecimal.valueOf(100))
                     .setScale(0, RoundingMode.HALF_UP);
             BigDecimal percentage = p.getPercentage().multiply(BigDecimal.valueOf(100))
                     .setScale(0, RoundingMode.HALF_UP);
 
-            Vat vat = new Vat(invoiceLine.getIndex(), linesOfVat, taxes1, taxedAmountPercentage,
-                    percentage, vatAmount(invoiceLine, p));
-            vats.add(vat);
+            vats.add(new Vat(index + linesOfVat.size(), linesOfVat, taxes1, taxedAmountPercentage,
+                    percentage, vatAmount(invoiceLine, p)));
 
         }
         return vats;
@@ -50,8 +50,9 @@ public class InvoiceVatGenerator implements VatGenerator {
             BigDecimal amount = t.getAmount().multiply(percentage).multiply(taxedAmountPercentage)
                     .setScale(2, RoundingMode.HALF_UP);
             linesOfTax.add(t.getLines().get(0));
-            taxWithVat.add(new Vat(size + taxWithVat.size() + 1, linesOfVat, linesOfTax, taxedAmountPercentage,
-                    percentage, amount));
+            taxWithVat.add(new Vat(size + taxWithVat.size() + 1, linesOfVat, linesOfTax, taxedAmountPercentage.multiply(
+                    BigDecimal.valueOf(100)),
+                    percentage.multiply(BigDecimal.valueOf(100)).setScale(0, RoundingMode.HALF_UP), amount));
 
         }
 
