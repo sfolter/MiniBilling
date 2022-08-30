@@ -3,13 +3,9 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class InvoiceGenerator {
@@ -25,31 +21,26 @@ public class InvoiceGenerator {
      * its needed, dividing them into different lines,also geting the data(,quantity,price,start of the line,
      * end of the line etc.
      */
-    public Invoice generate(User user, Collection<Measurement> measurements, LocalDateTime dateReportingTo) {
+    public Invoice generate(User user, Collection<Measurement> measurements, LocalDateTime dateReportingTo,
+                            List<BigDecimal> vatPercentages) {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor =
                 new ProportionalMeasurementDistributor(measurements, user.getPrice());
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
 
-        Map<String, List<Object>> productMap = new LinkedHashMap<>();
 
 
         List<Tax> taxList = new ArrayList<>();
-
+        TaxGenerator taxGenerator = new TaxGenerator();
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
-
-
             if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
                 int lineIndex = invoiceLines.size() + 1;
                 InvoiceLine invoiceLine = createInvoiceLine(lineIndex, qpp, user);
                 invoiceLines.add(invoiceLine);
                 String product = qpp.getProduct();
-                productMap.put(product, Collections.singletonList(invoiceLines));
-                int taxListSize = taxList.size();
-                taxList.add(createTax(invoiceLine, taxListSize));
-                product = "Standing charge";
-                productMap.put(product, Collections.singletonList(taxList));
+
+                taxList.add(taxGenerator.generate(new BigDecimal("1.6"), invoiceLine, taxList.size()));
             } else {
                 break;
             }
@@ -57,45 +48,16 @@ public class InvoiceGenerator {
 
         String documentNumber = Invoice.getDocumentNumber();
         String userName = user.getName();
-        List<Vat> vat = productMap.entrySet().stream().map(a -> createVat(a.getValue(),a.getKey())).toList();
-        //productMap.keySet().forEach(a ->  createVat(invoiceLines));
+        List<Vat> vat = new VatGenerator().generate(vatPercentages, invoiceLines, taxList);
 
-        BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(new BigDecimal(0)
-                , BigDecimal::add);
+        BigDecimal taxAmount = taxList.stream().map(Tax::getAmount).reduce(new BigDecimal(0), BigDecimal::add);
+
+        BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(taxAmount, BigDecimal::add);
+
         BigDecimal totalAmountWithVat = vat.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add);
+
         return new Invoice(documentNumber, userName, user.getRef(), totalAmount, totalAmountWithVat, invoiceLines,
                 vat, taxList);
-    }
-
-    private Tax createTax(InvoiceLine invoiceLine, int taxListSize) {
-
-        List<Integer> invoiceIndex = new ArrayList<>();
-        invoiceIndex.add(invoiceLine.getIndex());
-        BigDecimal quantity = new BigDecimal(ChronoUnit.DAYS.between(invoiceLine.getStart(), invoiceLine.getEnd()));
-        BigDecimal amount = quantity.multiply(new BigDecimal("1.6"));
-        return new Tax(taxListSize + 1, invoiceIndex, quantity, amount);
-    }
-
-    private void createVat(List<Object> lines, String product) {
-        int counter = 0;
-        if(product.equals("gas")||product.equals("elec")){
-            List<InvoiceLine> invoiceLines= Collections.singletonList((InvoiceLine) lines);
-            List<Integer> vattedLines = invoiceLines.stream().map(InvoiceLine::getIndex).toList();
-            counter += 1;
-            BigDecimal amount = invoiceLines.stream().map(InvoiceLine::getAmount)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal("0.2"))
-                    .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
-            Vat vat=new Vat(counter, vattedLines, "20", amount);
-        } else if (product.equals("Standing charge")) {
-            List<Tax>taxLines= Collections.singletonList((Tax) lines);
-            List<Integer> taxedLines=taxLines.stream().map(Tax::getIndex).toList();
-
-            counter += 1;
-            BigDecimal amount = taxLines.stream().map(Tax::getAmount)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add).multiply(new BigDecimal("0.2"))
-                    .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
-            Vat vat=new Vat(counter,"20",amount,taxedLines);
-        }
     }
 
     private InvoiceLine createInvoiceLine(int lineIndex, QuantityPricePeriod qpp, User user) {
@@ -106,7 +68,7 @@ public class InvoiceGenerator {
         BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice())
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         // add the following method in order to set up your currency converter
-        // .multiply(currencyConverter.getCurrencyValue(user.getCurrency()))
+        // .multiply(currencyConverter.getCurrencyValue(user.getCyrrency()))
         //TODO add product to qpp; remove the following code
         String product = qpp.getProduct();
         return new InvoiceLine(lineIndex, quantity, start, end,

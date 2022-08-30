@@ -15,18 +15,19 @@ public class Vat {
 
 
 
-    public Vat(int index, List<Integer> lines,String percentage, BigDecimal amount) {
+    public Vat(int index, List<Integer> lines, String percentage, BigDecimal amount) {
         this.index = index;
         this.lines = lines;
-        this.taxes=null;
-        this.taxedAmountPercentage=new BigDecimal("100");
+        this.taxes = null;
+        this.taxedAmountPercentage = new BigDecimal("100");
         this.percentage = new BigDecimal(String.valueOf(percentage)).divide(new BigDecimal("100"));
         this.amount = amount;
 
     }
-    public Vat(int index,String percentage, BigDecimal amount,List<Integer>taxes){
-        this(index,null,percentage,amount);
-        this.taxes=taxes;
+
+    public Vat(int index, String percentage, BigDecimal amount, List<Integer> taxes) {
+        this(index, null, percentage, amount);
+        this.taxes = taxes;
     }
 
     public BigDecimal getAmount() {

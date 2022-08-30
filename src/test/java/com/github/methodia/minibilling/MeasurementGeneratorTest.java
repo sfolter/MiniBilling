@@ -14,14 +14,14 @@ class MeasurementGeneratorTest {
     @Test
     void generateOneMeasurement(){
 
-        User test=new User("Test Testov", "ref", 1, Collections.emptyList(), cyrrencyPref);
+        User test=new User("Test Testov", "ref", 1, Collections.emptyList(),"GBP");
         List<Reading> readings= new ArrayList<>();
         Reading reading1=new Reading(LocalDateTime.of(2021, 3, 6, 13, 23),new BigDecimal("100"),test);
         Reading reading2=new Reading(LocalDateTime.of(2021, 5, 6, 13, 23),new BigDecimal("200"),test);
         readings.add(reading1);
         readings.add(reading2);
-        final MeasurementGenerator measurementGenerator= new MeasurementGenerator(test,readings);
-        Collection<Measurement> measurementCollections=measurementGenerator.generate();
+        final MeasurementGenerator measurementGenerator= new MeasurementGenerator();
+        Collection<Measurement> measurementCollections=measurementGenerator.generate(test,readings);
         final Measurement singleMeasurement = measurementCollections.iterator().next();
         LocalDateTime measurementStart = singleMeasurement.getStart();
         LocalDateTime measurementEnd = singleMeasurement.getEnd();
@@ -42,7 +42,7 @@ class MeasurementGeneratorTest {
 
     @Test
     void generateTwoMeasurements(){
-        User test=new User("Test Testov", "ref",1, Collections.emptyList(), cyrrencyPref);
+        User test=new User("Test Testov", "ref",1, Collections.emptyList(), "GBP");
         List<Reading> readings= new ArrayList<>();
         Reading reading1=new Reading(LocalDateTime.of(2021, 3, 6, 13, 23),new BigDecimal("100"),test);
         Reading reading2=new Reading(LocalDateTime.of(2021, 5, 6, 13, 23),new BigDecimal("200"),test);
@@ -52,8 +52,8 @@ class MeasurementGeneratorTest {
         readings.add(reading2);
         readings.add(reading3);
         readings.add(reading4);
-        final MeasurementGenerator measurementGenerator= new MeasurementGenerator(test,readings);
-        List<Measurement> measurementCollections=measurementGenerator.generate().stream().toList();
+        final MeasurementGenerator measurementGenerator= new MeasurementGenerator();
+        List<Measurement> measurementCollections=measurementGenerator.generate(test,readings).stream().toList();
 
         Assertions.assertEquals(reading1.getTime(),measurementCollections.get(0).getStart(),
                 "Start time of measurement2 doesn't match with time of reading" );

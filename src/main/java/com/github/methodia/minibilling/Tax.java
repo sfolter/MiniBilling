@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Tax {
 
-  private int index;
-  private final List<Integer>lines;
-  private final String name;
-  private final BigDecimal quantity;
-  private final String unit;
-  private final BigDecimal price;
-  private final BigDecimal amount;
+    private int index;
+    private final List<Integer> lines;
+    private final String name;
+    private final BigDecimal quantity;
+    private final String unit;
+    private final BigDecimal price;
+    private final BigDecimal amount;
 
     public Tax(int index, List<Integer> lines, BigDecimal quantity, BigDecimal amount) {
         this.index = index;
@@ -29,5 +29,9 @@ public class Tax {
 
     public int getIndex() {
         return index;
+    }
+
+    public List<Integer> getLines() {
+        return lines;
     }
 }

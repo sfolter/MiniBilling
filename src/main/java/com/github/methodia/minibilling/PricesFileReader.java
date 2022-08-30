@@ -26,40 +26,40 @@ public class PricesFileReader implements PricesReader {
     @Override
     public Map<Integer, List<Price>> read() {
 
-        Map<Integer, List<Price>> result = new LinkedHashMap<> ();
-        File directoryPath = new File (path);
+        Map<Integer, List<Price>> result = new LinkedHashMap<>();
+        File directoryPath = new File(path);
         String line;
-        String[] contents = directoryPath.list ();
+        String[] contents = directoryPath.list();
         assert contents != null;
         for (String fileName : contents) {
-            Pattern p = Pattern.compile ("prices-(\\d+)\\.csv");
-            Matcher m = p.matcher (fileName);
+            Pattern p = Pattern.compile("prices-(\\d+)\\.csv");
+            Matcher m = p.matcher(fileName);
 
-            if (m.find ()) {
+            if (m.find()) {
                 BufferedReader br;
-                int numberPricingList = Integer.parseInt (m.group (1));
-                try (FileReader fileReader = new FileReader (path + "\\" + fileName)) {
-                    br = new BufferedReader (fileReader);
-                    while ((line = br.readLine ()) != null) {
-                        String[] pricesData = line.split (",");
+                int numberPricingList = Integer.parseInt(m.group(1));
+                try (FileReader fileReader = new FileReader(path + "\\" + fileName)) {
+                    br = new BufferedReader(fileReader);
+                    while ((line = br.readLine()) != null) {
+                        String[] pricesData = line.split(",");
                         String product = pricesData[0];
                         String stringBeginningDate = pricesData[1];
                         String stringEndDate = pricesData[2];
 
-                        LocalDate start = convertStringIntoLocalDate (stringBeginningDate);
-                        LocalDate end = convertStringIntoLocalDate (stringEndDate);
-                        BigDecimal price = new BigDecimal (pricesData[3]);
+                        LocalDate start = convertStringIntoLocalDate(stringBeginningDate);
+                        LocalDate end = convertStringIntoLocalDate(stringEndDate);
+                        BigDecimal price = new BigDecimal(pricesData[3]);
 
-                        List<Price> list = new ArrayList<> ();
-                        if (result.get (numberPricingList) == null) {
-                            list.add (new Price (product, start, end, price));
-                            result.put (numberPricingList, list);
+                        List<Price> list = new ArrayList<>();
+                        if (result.get(numberPricingList) == null) {
+                            list.add(new Price(product, start, end, price));
+                            result.put(numberPricingList, list);
                         } else {
-                            result.get (numberPricingList).add (new Price (product, start, end, price));
+                            result.get(numberPricingList).add(new Price(product, start, end, price));
                         }
                     }
                 } catch (IOException e) {
-                    throw new RuntimeException (e);
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -72,9 +72,9 @@ public class PricesFileReader implements PricesReader {
      * Parsing String into LocalDate in format yyyy-MM-dd
      */
     private LocalDate convertStringIntoLocalDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        return LocalDate.parse (date, formatter);
+        return LocalDate.parse(date, formatter);
 
     }
 

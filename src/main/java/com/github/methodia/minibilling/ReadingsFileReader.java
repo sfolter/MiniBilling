@@ -22,30 +22,30 @@ public class ReadingsFileReader implements ReadingsReader {
     @Override
     public List<Reading> read() {
         String line;
-        List<Reading> result = new ArrayList<> ();
-        UserFileReader userFileReader = new UserFileReader (path);
+        List<Reading> result = new ArrayList<>();
+        UserFileReader userFileReader = new UserFileReader(path);
         try {
-            userFileReader.read ();
+            userFileReader.read();
         } catch (IOException e) {
-            throw new RuntimeException (e);
+            throw new RuntimeException(e);
         }
         try {
-            BufferedReader br = new BufferedReader (new FileReader (path + "\\readings.csv"));
-            while ((line = br.readLine ()) != null) {
-                String[] data = line.split (",");
+            BufferedReader br = new BufferedReader(new FileReader(path + "\\readings.csv"));
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
                 String referentNumber = data[0];
                 String time = data[2];
-                ZonedDateTime timeZDT = ZonedDateTime.parse (time).withZoneSameInstant (ZoneId.of ("GMT"));
-                LocalDateTime instant = LocalDateTime.from (timeZDT);
-                BigDecimal price = new BigDecimal (data[3]);
+                ZonedDateTime timeZDT = ZonedDateTime.parse(time).withZoneSameInstant(ZoneId.of("GMT"));
+                LocalDateTime instant = LocalDateTime.from(timeZDT);
+                BigDecimal price = new BigDecimal(data[3]);
 
-                User user = userFileReader.read ().stream ().filter (user1 -> user1.getRef ()
-                        .equals (referentNumber)).findFirst ().orElse (null);
+                User user = userFileReader.read().stream().filter(user1 -> user1.getRef()
+                        .equals(referentNumber)).findFirst().orElse(null);
 
-                result.add (new Reading (instant, price, user));
+                result.add(new Reading(instant, price, user));
             }
         } catch (Exception e) {
-            throw new RuntimeException (e);
+            throw new RuntimeException(e);
         }
         return result;
     }
