@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaxStandingGenerator implements TaxGenerator {
+
     private final List<InvoiceLine> invoiceLines;
+
     public TaxStandingGenerator(final List<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
     }
+
     @Override
     public List<Tax> generate() {
         final List<Tax> taxes = new ArrayList<>();

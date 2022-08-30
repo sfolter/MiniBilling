@@ -44,6 +44,7 @@ public class MainTest {
         final File output = new File(outputDir);
         checkDirectories(expectedFiles, output, sampleNumber);
     }
+
     private void checkDirectories(File sampleDir, File outputDir, int sampleNumber) throws IOException {
         final File[] sampleInputFiles = sampleDir.listFiles();
         final File[] outputFiles = outputDir.listFiles();

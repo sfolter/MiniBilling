@@ -13,7 +13,8 @@ public class InvoiceGenerator {
     //        this.currency = currency;
     //    }
 
-    public Invoice generate(final List<Measurement> measurements, final long documentNumber, final LocalDate borderDate) {
+    public Invoice generate(final List<Measurement> measurements, final long documentNumber,
+                            final LocalDate borderDate) {
 
         final InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
         final VatGenerator vatGenerator = new VatGenerator(ExampleInputInformation.vatPercentages());
@@ -28,9 +29,9 @@ public class InvoiceGenerator {
         final List<Tax> taxes = taxGenerator.generate();
         final List<Vat> vat = vatGenerator.generate(invoiceLines, taxes);
 
-        final BigDecimal taxTotalAmount=taxes.stream()
+        final BigDecimal taxTotalAmount = taxes.stream()
                 .map(Tax::getAmount)
-                .reduce(BigDecimal.ZERO,BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         final BigDecimal totalAmount = invoiceLineGenerator.getTotalAmountLines()
                 .add(taxTotalAmount.stripTrailingZeros());
 

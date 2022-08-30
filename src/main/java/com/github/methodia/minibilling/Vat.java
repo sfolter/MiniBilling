@@ -12,7 +12,8 @@ public class Vat {
     private final BigDecimal percentage;
     private final BigDecimal amount;
 
-    public Vat(final int index, final List<Integer> lines, final List<Integer> taxes, final BigDecimal taxedAmountPercentage,
+    public Vat(final int index, final List<Integer> lines, final List<Integer> taxes,
+               final BigDecimal taxedAmountPercentage,
                final BigDecimal percentage, final BigDecimal amount) {
         this.index = index;
         this.lines = lines;

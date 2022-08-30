@@ -56,7 +56,7 @@ class ProportionalMeasurementDistributorTest {
     @Test
     void partialOverlapTwoPrices() {
 
-        final BigDecimal measurementValue=new BigDecimal("200");
+        final BigDecimal measurementValue = new BigDecimal("200");
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
         final Price price1 = new Price("gas", ZonedDateTime.of(2021, 3, 1, 0, 0, 0, 0, ZoneId.of("GMT")),
@@ -128,7 +128,7 @@ class ProportionalMeasurementDistributorTest {
     @Test
     void partialOverlapThreePrices() {
 
-        final BigDecimal measurementValue=new BigDecimal("200");
+        final BigDecimal measurementValue = new BigDecimal("200");
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
         final BigDecimal priceValue3 = new BigDecimal("2.50");
@@ -209,8 +209,8 @@ class ProportionalMeasurementDistributorTest {
     @Test
     void partialOverlapTwoMeasurments() {
 
-        final BigDecimal measurement1Value=new BigDecimal("200");
-        final BigDecimal measurement2Value=new BigDecimal("100");
+        final BigDecimal measurement1Value = new BigDecimal("200");
+        final BigDecimal measurement2Value = new BigDecimal("100");
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
         final Price price1 = new Price("gas", ZonedDateTime.of(2021, 3, 1, 0, 0, 0, 0, ZoneId.of("GMT")),
@@ -287,7 +287,7 @@ class ProportionalMeasurementDistributorTest {
     @Test
     void priceStartOverlapsMeasurementStart() {
 
-        final BigDecimal measurementValue=new BigDecimal("200");
+        final BigDecimal measurementValue = new BigDecimal("200");
         final BigDecimal priceValue = new BigDecimal("1.50");
         final Price price = new Price("gas", ZonedDateTime.of(2021, 3, 6, 0, 0, 0, 0, ZoneId.of("GMT")),
                 ZonedDateTime.of(2021, 5, 1, 23, 59, 59, 0, ZoneId.of("GMT")), priceValue);
@@ -336,8 +336,8 @@ class ProportionalMeasurementDistributorTest {
         final List<Price> prices = new ArrayList<>();
         prices.add(price1);
         prices.add(price2);
-        final Measurement measurement1 = getMeasurement(measurementValue1,prices);
-        final Measurement measurement2 =getSecondMeasurement(measurementValue2,prices);
+        final Measurement measurement1 = getMeasurement(measurementValue1, prices);
+        final Measurement measurement2 = getSecondMeasurement(measurementValue2, prices);
         final ArrayList<Measurement> measurements = new ArrayList<>();
         measurements.add(measurement1);
         measurements.add(measurement2);

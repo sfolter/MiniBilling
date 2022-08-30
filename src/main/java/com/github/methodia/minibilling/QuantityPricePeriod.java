@@ -11,7 +11,8 @@ public class QuantityPricePeriod {
     private final BigDecimal quantity;
     private final User user;
 
-    public QuantityPricePeriod(final ZonedDateTime start, final ZonedDateTime end, final Price price, final BigDecimal quantity, final User user) {
+    public QuantityPricePeriod(final ZonedDateTime start, final ZonedDateTime end, final Price price,
+                               final BigDecimal quantity, final User user) {
         this.start = start;
         this.end = end;
         this.price = price;

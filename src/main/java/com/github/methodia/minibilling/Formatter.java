@@ -28,21 +28,21 @@ public final class Formatter {
     }
 
     public static ZonedDateTime parsePriceStart(final String date) {
-      final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-      final  LocalDate localDateStart = LocalDate.parse(date, formatter);
-      final  int yearStart = localDateStart.getYear();
-      final  int monthValueStart = localDateStart.getMonthValue();
-      final  int dayOfMonthStart = localDateStart.getDayOfMonth();
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        final LocalDate localDateStart = LocalDate.parse(date, formatter);
+        final int yearStart = localDateStart.getYear();
+        final int monthValueStart = localDateStart.getMonthValue();
+        final int dayOfMonthStart = localDateStart.getDayOfMonth();
         return ZonedDateTime.of(yearStart, monthValueStart, dayOfMonthStart,
                 0, 0, 0, 0, ZoneId.of(ZONE_ID));
     }
 
     public static ZonedDateTime parsePriceEnd(final String date) {
-      final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-      final  LocalDate localDateEnd = LocalDate.parse(date, formatter);
-      final  int yearEnd = localDateEnd.getYear();
-      final  int monthValueEnd = localDateEnd.getMonthValue();
-      final  int dayOfMonthEnd = localDateEnd.getDayOfMonth();
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        final LocalDate localDateEnd = LocalDate.parse(date, formatter);
+        final int yearEnd = localDateEnd.getYear();
+        final int monthValueEnd = localDateEnd.getMonthValue();
+        final int dayOfMonthEnd = localDateEnd.getDayOfMonth();
         return ZonedDateTime.of(yearEnd, monthValueEnd, dayOfMonthEnd,
                 23, 59, 59, 0, ZoneId.of(ZONE_ID));
     }

@@ -17,8 +17,10 @@ public class Invoice {
     private final List<Vat> vat;
 
 
-    public Invoice(final LocalDateTime documentDate, final String documentNumber, final String consumer, final String reference,
-                   final BigDecimal totalAmount, final BigDecimal totalAmountWithVat, final List<InvoiceLine> lines, final List<Tax> taxes,
+    public Invoice(final LocalDateTime documentDate, final String documentNumber, final String consumer,
+                   final String reference,
+                   final BigDecimal totalAmount, final BigDecimal totalAmountWithVat, final List<InvoiceLine> lines,
+                   final List<Tax> taxes,
                    final List<Vat> vat) {
         this.documentDate = documentDate;
         this.documentNumber = documentNumber;

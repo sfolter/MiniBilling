@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExampleInputInformation {
+public final class ExampleInputInformation {
+
+    private ExampleInputInformation() {
+    }
 
     public static List<VatPercentage> vatPercentages() {
         final List<VatPercentage> vatPercentages = new ArrayList<>();
@@ -13,10 +16,5 @@ public class ExampleInputInformation {
         vatPercentages.add(percentage1);
         vatPercentages.add(percentage2);
         return vatPercentages;
-    }
-
-    public List<Vat> vatInfo(final List<VatPercentage> percentages) {
-        final List<Vat> vatInfo = new ArrayList<>();
-        return vatInfo;
     }
 }

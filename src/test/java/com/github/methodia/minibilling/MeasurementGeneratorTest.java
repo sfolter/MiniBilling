@@ -12,13 +12,16 @@ import java.util.Collections;
 import java.util.List;
 
 class MeasurementGeneratorTest {
+
     @Test
     void generateOneMeasurement() {
 
         User test = new User("Test Testov", "ref", 1, Collections.emptyList());
         List<Reading> readings = new ArrayList<>();
-        Reading reading1 = new Reading("ref", ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")), new BigDecimal("100"), test);
-        Reading reading2 = new Reading("ref", ZonedDateTime.of(2021, 5, 6, 13, 23, 0, 0, ZoneId.of("GMT")), new BigDecimal("200"), test);
+        Reading reading1 = new Reading("ref", ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
+                new BigDecimal("100"), test);
+        Reading reading2 = new Reading("ref", ZonedDateTime.of(2021, 5, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
+                new BigDecimal("200"), test);
         readings.add(reading1);
         readings.add(reading2);
         final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
@@ -39,10 +42,14 @@ class MeasurementGeneratorTest {
     void generateTwoMeasurements() {
         User test = new User("Test Testov", "ref", 1, Collections.emptyList());
         List<Reading> readings = new ArrayList<>();
-        Reading reading1 = new Reading("ref", ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")), new BigDecimal("100"), test);
-        Reading reading2 = new Reading("ref", ZonedDateTime.of(2021, 5, 6, 13, 23, 0, 0, ZoneId.of("GMT")), new BigDecimal("200"), test);
-        Reading reading3 = new Reading("ref", ZonedDateTime.of(2021, 7, 6, 13, 23, 0, 0, ZoneId.of("GMT")), new BigDecimal("270"), test);
-        Reading reading4 = new Reading("ref", ZonedDateTime.of(2021, 9, 6, 13, 23, 0, 0, ZoneId.of("GMT")), new BigDecimal("300"), test);
+        Reading reading1 = new Reading("ref", ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
+                new BigDecimal("100"), test);
+        Reading reading2 = new Reading("ref", ZonedDateTime.of(2021, 5, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
+                new BigDecimal("200"), test);
+        Reading reading3 = new Reading("ref", ZonedDateTime.of(2021, 7, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
+                new BigDecimal("270"), test);
+        Reading reading4 = new Reading("ref", ZonedDateTime.of(2021, 9, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
+                new BigDecimal("300"), test);
         readings.add(reading1);
         readings.add(reading2);
         readings.add(reading3);

@@ -7,15 +7,16 @@ public class Tax {
 
     private final int index;
     private final List<Integer> lineIndex;
-    private String name ;
+    private String name;
     private final long quantity;
-    private  String unit ;
-    private  BigDecimal price ;
+    private String unit;
+    private BigDecimal price;
     private final BigDecimal amount;
 
 
 
-    public Tax(final int index, final List<Integer> lineIndex, final String name, final long quantity, final String unit, final BigDecimal price,
+    public Tax(final int index, final List<Integer> lineIndex, final String name, final long quantity,
+               final String unit, final BigDecimal price,
                final BigDecimal amount) {
         this.index = index;
         this.lineIndex = lineIndex;
