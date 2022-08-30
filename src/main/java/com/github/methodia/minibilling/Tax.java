@@ -26,6 +26,14 @@ public class Tax {
         this.amount = amount;
     }
 
+    public List<Integer> getLineIndex() {
+        return lineIndex;
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -34,7 +42,4 @@ public class Tax {
         return amount;
     }
 
-    public List<Integer> getLineIndex() {
-        return lineIndex;
-    }
 }
