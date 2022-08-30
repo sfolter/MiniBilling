@@ -22,12 +22,12 @@ public class VatGenerator {
 
             for (VatPercentages percentage : vatPercentages) {
                 BigDecimal vatAmount = invoiceLine.getAmount()
-                        .multiply(percentage.getTaxedAmountPercentage().divide(new BigDecimal("100")))
-                        .multiply(percentage.getPercentage().divide(new BigDecimal("100")))
+                        .multiply(percentage.taxedAmountPercentage().divide(new BigDecimal("100")))
+                        .multiply(percentage.percentage().divide(new BigDecimal("100")))
                         .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
                 vatInvoiceLines.add(
-                        new Vat(vatInvoiceLines.size() + 1, vattedLines,percentage.getTaxedAmountPercentage(),
-                                String.valueOf(percentage.getPercentage()), vatAmount));
+                        new Vat(vatInvoiceLines.size() + 1, vattedLines,percentage.taxedAmountPercentage(),
+                                String.valueOf(percentage.percentage()), vatAmount));
             }
         }
         return vatInvoiceLines;

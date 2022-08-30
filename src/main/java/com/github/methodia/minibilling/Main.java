@@ -36,11 +36,10 @@ public class Main {
 
         String apiKey = "xSjvqqK3AgQPI3PPKGCiDrC2q06e41xt";
         CurrencyConverter currencyConverter = new CurrencyConverter(apiKey);
-
-        String dateReportingTo = "21-03";
+        String dateReportingTo = args[0];
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
-        String inputPath = "C:\\Users\\user\\Desktop\\peshkata\\MiniBilling\\src\\test\\resources\\sample2\\input";
-        String outputPath = "C:\\Users\\user\\Desktop\\peshkata\\MiniBilling\\src\\test\\resources\\sample2\\output";
+        String inputPath = args[1];
+        String outputPath = args[2];
 
         ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
         readingsFR.read();
