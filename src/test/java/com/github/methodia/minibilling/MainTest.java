@@ -21,7 +21,11 @@ public class MainTest {
     void testSample1() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException, org.json.simple.parser.ParseException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
+//        File file = new File("test.");
+//        for(final String fileNames : file.list())
+//            System.out.println(fileNames);
         testSample(sampleNumber, yearMonth);
+
     }
 
     @Test

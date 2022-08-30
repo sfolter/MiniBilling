@@ -13,9 +13,8 @@ public class FolderGenerator {
     }
 
     public String folderGenerate() {
-        final User userForFolder = user;
-        final String name = userForFolder.getName();
-        final String refNum = userForFolder.getRef();
+        final String name = user.getName();
+        final String refNum = user.getRef();
         final String nameForFolder = folderPath + name + "-" + refNum;
         final File newFolder = new File(nameForFolder);
         final boolean bool2 = newFolder.mkdirs();

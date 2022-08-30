@@ -24,6 +24,7 @@ public class InvoiceGenerator {
 
     private final String key;
 
+
     public InvoiceGenerator(final User user, final Collection<Measurement> measurements, final Collection<Price> prices, final String yearMonthStr, final String currency, final String key) {
         this.user = user;
         this.measurements = measurements;
@@ -40,7 +41,7 @@ public class InvoiceGenerator {
     static final String NAME = "Standing charge";
     static final String UNIT = "days";
 
-    public Invoice generate() throws IOException, ParseException {
+    public Invoice generate( final int taxedAmountPercentageVat1) throws IOException, ParseException {
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(measurements, prices);
         final List<QuantityPricePeriod> distribute = proportionalMeasurementDistributor.distribute();
         final LocalDateTime yearMonthLocalDate = localDateTimeToReport();
@@ -77,7 +78,7 @@ public class InvoiceGenerator {
                 final BigDecimal amountForLineAndVat = amountInVat.add(amount);
                 totalAmountWithVat = totalAmountWithVat.add(amountForLineAndVat);
                 final int taxesIndexForVat = index;
-                final int taxedAmountPercentageVat1 = 60;
+//                final int taxedAmountPercentageVat1 = 60;
                 final int taxedAmountPercentageVat2 = 100-taxedAmountPercentageVat1;
                 final int taxedAmountPercentageVat3 = taxedAmountPercentageVat1+taxedAmountPercentageVat2;
                 BigDecimal amountInVat1 = amount.multiply(new BigDecimal(taxedAmountPercentageVat1).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));

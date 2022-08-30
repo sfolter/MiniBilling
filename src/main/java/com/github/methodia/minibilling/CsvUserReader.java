@@ -18,13 +18,12 @@ public class CsvUserReader implements UsersReader {
         this.path = path;
     }
 
-    String[] line;
-    int counter;
-
     @Override
     public Map<String, User> read() {
         final Map<String, User> userMap = new LinkedHashMap<>();
         final List<User> userList = new ArrayList<>();
+        String[] line;
+        int counter = 0;
         try (final CSVReader reader = new CSVReader(new FileReader(path + "\\users.csv"))) {
             while (null != (line = reader.readNext())) {
                 final CsvPricesReader price = new CsvPricesReader(path, Integer.parseInt(line[2]));

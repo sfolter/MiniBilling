@@ -42,7 +42,7 @@ class ProportionalMeasurementDistributorTest {
         Assertions.assertEquals(measurementQuantity, qppQuantity,
                 "Measurement quantity and quantity price period quantity must match.");
         final BigDecimal expectedPrice = price.getValue();
-        final Price actualPrice = singleQpp.getPrice();
+        final BigDecimal actualPrice = singleQpp.getPrice().getValue();
         Assertions.assertEquals(expectedPrice, actualPrice,
                 "The quantity price period price must match the single price provided.");
 
@@ -86,7 +86,7 @@ class ProportionalMeasurementDistributorTest {
         final LocalDateTime qpp1End = qpp1.getEnd();
         Assertions.assertEquals(price1End, qpp1End,
                 "Quantity period end must match the period end of the price");
-        Assertions.assertEquals(price1.getValue(), qpp1.getPrice(),
+        Assertions.assertEquals(price1.getValue(), qpp1.getPrice().getValue(),
                 "Price for the first quantity must match the first price.");
         final QuantityPricePeriod qpp2 = qppList.get(1);
         Assertions.assertEquals(secondQuantity, qpp2.getQuantity(),
@@ -97,7 +97,7 @@ class ProportionalMeasurementDistributorTest {
 
         Assertions.assertEquals(measurement1.getEnd(), qpp2.getEnd(),
                 "Quantity period end must match the end of the measurement.");
-        Assertions.assertEquals(price2.getValue(), qpp2.getPrice(),
+        Assertions.assertEquals(price2.getValue(), qpp2.getPrice().getValue(),
                 "Price for the second quantity must match the second price.");
 
     }
@@ -143,7 +143,7 @@ class ProportionalMeasurementDistributorTest {
         final LocalDateTime qpp1End = qpp1.getEnd();
         Assertions.assertEquals(price1End, qpp1End,
                 "Quantity period end must match the period end of the price");
-        Assertions.assertEquals(price1.getValue(), qpp1.getPrice(),
+        Assertions.assertEquals(price1.getValue(), qpp1.getPrice().getValue(),
                 "Price for the first quantity must match the first price.");
         final QuantityPricePeriod qpp2 = qppList.get(1);
         Assertions.assertEquals(secondQuantity, qpp2.getQuantity(),
@@ -151,7 +151,7 @@ class ProportionalMeasurementDistributorTest {
         final LocalDateTime price2AtStartOfDay = price2.getStart().atStartOfDay();
         Assertions.assertEquals(price2AtStartOfDay, qpp2.getStart(),
                 "Quantity period start must match the period start of the price.");
-        Assertions.assertEquals(price2.getValue(), qpp2.getPrice(),
+        Assertions.assertEquals(price2.getValue(), qpp2.getPrice().getValue(),
                 "Price for the second quantity must match the second price.");
         final QuantityPricePeriod qpp3 = qppList.get(2);
         Assertions.assertEquals(thirdQuantity, qpp3.getQuantity(),
@@ -159,7 +159,7 @@ class ProportionalMeasurementDistributorTest {
         final LocalDateTime price3AtStartOfDay = price3.getStart().atStartOfDay();
         Assertions.assertEquals(price3AtStartOfDay, qpp3.getStart(),
                 "Quantity period start must match the period start of the price.");
-        Assertions.assertEquals(price3.getValue(), qpp3.getPrice(),
+        Assertions.assertEquals(price3.getValue(), qpp3.getPrice().getValue(),
                 "Price for the third quantity must match the third price.");
         Assertions.assertEquals(measurement1.getEnd(), qpp3.getEnd(),
                 "Quantity period end must match the end of the measurement.");
@@ -187,7 +187,7 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp1 = qppList.get(0);
         Assertions.assertEquals(measurement1.getStart(), qpp1.getStart(),
                 "Measurement period start must match quantity period start.");
-        Assertions.assertEquals(price.getValue(), qpp1.getPrice(),
+        Assertions.assertEquals(price.getValue(), qpp1.getPrice().getValue(),
                 "Price for the quantity must match the price.");
         Assertions.assertEquals(priceQuantity, qpp1.getQuantity(),
                 "Distributed quantity does not match");
@@ -228,7 +228,7 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp1 = qppList.get(0);
         Assertions.assertEquals(measurement1.getStart(), qpp1.getStart(),
                 "Measurement period start must match quantity period start.");
-        Assertions.assertEquals(price1.getValue(), qpp1.getPrice(),
+        Assertions.assertEquals(price1.getValue(), qpp1.getPrice().getValue(),
                 "Price for the quantity must match the price.");
         Assertions.assertEquals(firstQuantity, qpp1.getQuantity(),
                 "Distributed quantity does not match");
@@ -237,7 +237,7 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp2 = qppList.get(1);
         Assertions.assertEquals(measurement2.getStart(), qpp2.getStart(),
                 "Measurement period start must match quantity period start.");
-        Assertions.assertEquals(price2.getValue(), qpp2.getPrice(),
+        Assertions.assertEquals(price2.getValue(), qpp2.getPrice().getValue(),
                 "Price for the quantity must match the price.");
         Assertions.assertEquals(secondQuantity, qpp2.getQuantity(),
                 "Distributed quantity does not match");
@@ -277,7 +277,7 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp1 = qppList.get(0);
         Assertions.assertEquals(measurement1.getStart(), qpp1.getStart(),
                 "Measurement period start must match quantity period start.");
-        Assertions.assertEquals(price1.getValue(), qpp1.getPrice(),
+        Assertions.assertEquals(price1.getValue(), qpp1.getPrice().getValue(),
                 "Price for the quantity must match the price.");
         Assertions.assertEquals(firstQuantity, qpp1.getQuantity(),
                 "Distributed quantity does not match");
@@ -286,7 +286,7 @@ class ProportionalMeasurementDistributorTest {
         final QuantityPricePeriod qpp2 = qppList.get(1);
         Assertions.assertEquals(measurement2.getStart(), qpp2.getStart(),
                 "Measurement period start must match quantity period start.");
-        Assertions.assertEquals(price1.getValue(), qpp2.getPrice(),
+        Assertions.assertEquals(price1.getValue(), qpp2.getPrice().getValue(),
                 "Price for the quantity must match the price.");
         Assertions.assertEquals(secondQuantity, qpp2.getQuantity(),
                 "Distributed quantity does not match");
@@ -314,7 +314,7 @@ class ProportionalMeasurementDistributorTest {
                 "Measurement period start must match quantity period start.");
         Assertions.assertEquals(price.getStart(), qpp1.getStart().toLocalDate(),
                 "Price period start must match quantity period start.");
-        Assertions.assertEquals(price.getValue(), qpp1.getPrice(),
+        Assertions.assertEquals(price.getValue(), qpp1.getPrice().getValue(),
                 "Price for the quantity must match the price.");
         Assertions.assertEquals(firstQuantity, qpp1.getQuantity(),
                 "Distributed quantity does not match");
