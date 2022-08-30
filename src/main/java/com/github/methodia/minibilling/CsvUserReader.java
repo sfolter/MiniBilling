@@ -24,7 +24,7 @@ public class CsvUserReader implements UsersReader {
         final List<User> userList = new ArrayList<>();
         String[] line;
         int counter = 0;
-        try (final CSVReader reader = new CSVReader(new FileReader(path + "\\users.csv"))) {
+        try (final CSVReader reader = new CSVReader(new FileReader(path + "users.csv"))) {
             while (null != (line = reader.readNext())) {
                 final CsvPricesReader price = new CsvPricesReader(path, Integer.parseInt(line[2]));
                 final List<Price> priceList = price.read();

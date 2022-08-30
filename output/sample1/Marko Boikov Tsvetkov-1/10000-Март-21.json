@@ -1,9 +1,10 @@
 {
-    "documentDate": "2022-08-08T14:05:39.728429200",
+    "documentDate": "2022-08-30T15:45:22.534524300",
     "documentNumber": "10000",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
-    "totalAmount": 156.6,
+    "totalAmount": "200.07 EUR",
+    "totalAmountWithVat": "262.5940 EUR",
     "lines": [{
         "index": 1,
         "quantity": 87,
@@ -12,6 +13,41 @@
         "product": "gas",
         "price": 1.8,
         "priceList": 1,
-        "amount": 156.6
-    }]
+        "amount": "80.07 EUR"
+    }],
+    "taxes": [{
+        "index": 1,
+        "lines": 1,
+        "name": "Standing charge",
+        "quantity": 75,
+        "unit": "days",
+        "price": 1.6,
+        "amount": "61.36 EUR"
+    }],
+    "vat": [
+        {
+            "index": 1,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 60,
+            "percentage": 20,
+            "amount": "9.61 EUR"
+        },
+        {
+            "index": 2,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "3.20 EUR"
+        },
+        {
+            "index": 3,
+            "lines": 0,
+            "taxes": 1,
+            "taxedAmountPercentage": 100,
+            "percentage": 20,
+            "amount": "12.27 EUR"
+        }
+    ]
 }

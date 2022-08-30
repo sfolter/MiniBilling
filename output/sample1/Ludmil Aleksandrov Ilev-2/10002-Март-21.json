@@ -1,9 +1,10 @@
 {
-    "documentDate": "2022-08-08T14:05:39.793392900",
+    "documentDate": "2022-08-30T15:45:22.766628",
     "documentNumber": "10002",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
-    "totalAmount": 273.6,
+    "totalAmount": "272.69 EUR",
+    "totalAmountWithVat": "411.6280 EUR",
     "lines": [{
         "index": 1,
         "quantity": 152,
@@ -12,6 +13,41 @@
         "product": "gas",
         "price": 1.8,
         "priceList": 1,
-        "amount": 273.6
-    }]
+        "amount": "139.89 EUR"
+    }],
+    "taxes": [{
+        "index": 1,
+        "lines": 1,
+        "name": "Standing charge",
+        "quantity": 83,
+        "unit": "days",
+        "price": 1.6,
+        "amount": "67.90 EUR"
+    }],
+    "vat": [
+        {
+            "index": 1,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 60,
+            "percentage": 20,
+            "amount": "16.79 EUR"
+        },
+        {
+            "index": 2,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "5.60 EUR"
+        },
+        {
+            "index": 3,
+            "lines": 0,
+            "taxes": 1,
+            "taxedAmountPercentage": 100,
+            "percentage": 20,
+            "amount": "13.58 EUR"
+        }
+    ]
 }

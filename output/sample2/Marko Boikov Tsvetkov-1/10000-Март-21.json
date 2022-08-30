@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-19T13:16:31.953373700",
+    "documentDate": "2022-08-30T15:44:45.369699100",
     "documentNumber": "10000",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
-    "totalAmount": "73.08 EUR",
-    "totalAmountWithVat": "226.85 EUR",
+    "totalAmount": "155.77 EUR",
+    "totalAmountWithVat": "160.8540 EUR",
     "lines": [
         {
             "index": 1,
@@ -14,7 +14,7 @@
             "product": "gas",
             "price": 0.7,
             "priceList": 1,
-            "amount": "48.72 EUR"
+            "amount": "24.91 EUR"
         },
         {
             "index": 2,
@@ -24,7 +24,7 @@
             "product": "gas",
             "price": 1.4,
             "priceList": 1,
-            "amount": "24.36 EUR"
+            "amount": "12.46 EUR"
         }
     ],
     "taxes": [
@@ -35,7 +35,7 @@
             "quantity": 58,
             "unit": "days",
             "price": 1.6,
-            "amount": "92.80 EUR"
+            "amount": "47.45 EUR"
         },
         {
             "index": 2,
@@ -44,7 +44,7 @@
             "quantity": 16,
             "unit": "days",
             "price": 1.6,
-            "amount": "25.60 EUR"
+            "amount": "13.09 EUR"
         }
     ],
     "vat": [
@@ -54,7 +54,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "5.85 EUR"
+            "amount": "2.99 EUR"
         },
         {
             "index": 2,
@@ -62,7 +62,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "1.95 EUR"
+            "amount": "1.00 EUR"
         },
         {
             "index": 3,
@@ -70,7 +70,7 @@
             "taxes": 1,
             "taxedAmountPercentage": 100,
             "percentage": 20,
-            "amount": "18.56 EUR"
+            "amount": "9.49 EUR"
         },
         {
             "index": 1,
@@ -78,7 +78,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "2.92 EUR"
+            "amount": "1.50 EUR"
         },
         {
             "index": 2,
@@ -86,7 +86,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "0.97 EUR"
+            "amount": "0.50 EUR"
         },
         {
             "index": 3,
@@ -94,7 +94,7 @@
             "taxes": 2,
             "taxedAmountPercentage": 100,
             "percentage": 20,
-            "amount": "5.12 EUR"
+            "amount": "2.62 EUR"
         }
     ]
 }

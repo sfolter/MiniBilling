@@ -1,30 +1,30 @@
 {
-    "documentDate": "2022-08-19T13:16:31.953373700",
-    "documentNumber": "10000",
-    "consumer": "Marko Boikov Tsvetkov",
-    "reference": "1",
-    "totalAmount": "73.08 EUR",
-    "totalAmountWithVat": "226.85 EUR",
+    "documentDate": "2022-08-30T15:44:45.602384500",
+    "documentNumber": "10002",
+    "consumer": "Ludmil Aleksandrov Ilev",
+    "reference": "2",
+    "totalAmount": "255.55 EUR",
+    "totalAmountWithVat": "373.9600 EUR",
     "lines": [
         {
             "index": 1,
-            "quantity": 69.6,
-            "lineStart": "2021-01-01T09:00:00Z",
+            "quantity": 106.4,
+            "lineStart": "2021-01-01T08:00:00Z",
             "lineEnd": "2021-02-28T23:59:59Z",
             "product": "gas",
-            "price": 0.7,
-            "priceList": 1,
-            "amount": "48.72 EUR"
+            "price": 0.4,
+            "priceList": 2,
+            "amount": "21.76 EUR"
         },
         {
             "index": 2,
-            "quantity": 17.4,
+            "quantity": 45.6,
             "lineStart": "2021-03-01T00:00:00Z",
-            "lineEnd": "2021-03-17T10:20:00Z",
+            "lineEnd": "2021-03-25T13:40:00Z",
             "product": "gas",
-            "price": 1.4,
-            "priceList": 1,
-            "amount": "24.36 EUR"
+            "price": 4.4,
+            "priceList": 2,
+            "amount": "102.59 EUR"
         }
     ],
     "taxes": [
@@ -35,16 +35,16 @@
             "quantity": 58,
             "unit": "days",
             "price": 1.6,
-            "amount": "92.80 EUR"
+            "amount": "47.45 EUR"
         },
         {
             "index": 2,
             "lines": 2,
             "name": "Standing charge",
-            "quantity": 16,
+            "quantity": 24,
             "unit": "days",
             "price": 1.6,
-            "amount": "25.60 EUR"
+            "amount": "19.63 EUR"
         }
     ],
     "vat": [
@@ -54,7 +54,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "5.85 EUR"
+            "amount": "2.61 EUR"
         },
         {
             "index": 2,
@@ -62,7 +62,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "1.95 EUR"
+            "amount": "0.87 EUR"
         },
         {
             "index": 3,
@@ -70,7 +70,7 @@
             "taxes": 1,
             "taxedAmountPercentage": 100,
             "percentage": 20,
-            "amount": "18.56 EUR"
+            "amount": "9.49 EUR"
         },
         {
             "index": 1,
@@ -78,7 +78,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "2.92 EUR"
+            "amount": "12.31 EUR"
         },
         {
             "index": 2,
@@ -86,7 +86,7 @@
             "taxes": 0,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "0.97 EUR"
+            "amount": "4.10 EUR"
         },
         {
             "index": 3,
@@ -94,7 +94,7 @@
             "taxes": 2,
             "taxedAmountPercentage": 100,
             "percentage": 20,
-            "amount": "5.12 EUR"
+            "amount": "3.93 EUR"
         }
     ]
 }

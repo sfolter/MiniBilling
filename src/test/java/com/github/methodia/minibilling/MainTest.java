@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.text.ParseException;
@@ -18,24 +19,25 @@ import java.util.stream.Collectors;
 public class MainTest {
 
     @Test
-    void testSample1() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException, org.json.simple.parser.ParseException {
+    void testSample1() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException,
+            org.json.simple.parser.ParseException, URISyntaxException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
-//        File file = new File("test.");
-//        for(final String fileNames : file.list())
-//            System.out.println(fileNames);
         testSample(sampleNumber, yearMonth);
 
     }
 
     @Test
-    void testSample2() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException, org.json.simple.parser.ParseException {
+    void testSample2() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException,
+            org.json.simple.parser.ParseException, URISyntaxException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, NoSuchFieldException, IllegalAccessException, ParseException, org.json.simple.parser.ParseException {
+    private void testSample(int sampleNumber, String yearMonth)
+            throws IOException, NoSuchFieldException, IllegalAccessException, ParseException,
+            org.json.simple.parser.ParseException, URISyntaxException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
@@ -100,10 +102,10 @@ public class MainTest {
     }
 
 
-    private String getSampleInputDir(int sampleNumber) {
+    private String getSampleInputDir(int sampleNumber) throws URISyntaxException {
         final URL inputDir = MainTest.class.getClassLoader()
                 .getResource(String.format("sample%s/input/", sampleNumber));
-        return inputDir.getPath();
+        return inputDir.toURI().getPath();
     }
 
     private String getOutputDir(int sampleNumber) {
@@ -112,10 +114,10 @@ public class MainTest {
         return outputDir;
     }
 
-    private String getExpectedDir(int sampleNumber) {
+    private String getExpectedDir(int sampleNumber) throws URISyntaxException {
         final URL inputDir = MainTest.class.getClassLoader()
                 .getResource(String.format("sample%s/expected/", sampleNumber));
-        return inputDir.getPath();
+        return inputDir.toURI().getPath();
     }
 }
 
