@@ -22,7 +22,7 @@ public class InvoiceGenerator {
      * end of the line etc.
      */
     public Invoice generate(User user, Collection<Measurement> measurements, LocalDateTime dateReportingTo,
-                            List<BigDecimal> vatPercentages) {
+                            List<VatPercentages> vatPercentages) {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor =
                 new ProportionalMeasurementDistributor(measurements, user.getPrice());
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();

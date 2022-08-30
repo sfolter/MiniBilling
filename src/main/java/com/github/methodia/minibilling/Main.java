@@ -19,6 +19,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -38,8 +39,8 @@ public class Main {
 
         String dateReportingTo = "21-03";
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
-        String inputPath = "C:\\Users\\user\\Desktop\\29.07\\MiniBilling\\src\\test\\resources\\sample2\\input";
-        String outputPath = "C:\\Users\\user\\Desktop\\29.07\\MiniBilling\\src\\test\\resources\\sample2\\output";
+        String inputPath = "C:\\Users\\user\\Desktop\\peshkata\\MiniBilling\\src\\test\\resources\\sample2\\input";
+        String outputPath = "C:\\Users\\user\\Desktop\\peshkata\\MiniBilling\\src\\test\\resources\\sample2\\output";
 
         ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
         readingsFR.read();
@@ -49,20 +50,25 @@ public class Main {
 
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyConverter);
-        VatPercentageGenerator vatPercentageGenerator = new VatPercentageGenerator();
 
         // Looping through users and sort them by their referent number
         UserFileReader userFR = new UserFileReader(inputPath);
         List<User> users = userFR.read().stream().sorted(Comparator.comparing(User::getRef)).toList();
         //            Looping through every user and check their Measurements, and based on them and price, the algorithm below
         //            creates invoices and based on price periods, create individual lines if there is a change of prices.
+
+        List<VatPercentages> vatPercentages=new ArrayList<>();
+        vatPercentages.add(new VatPercentages(new BigDecimal("60"),new BigDecimal("20")));
+        vatPercentages.add(new VatPercentages(new BigDecimal("40"),new BigDecimal("10")));
+
         for (User user : users) {
             List<Reading> userReadings = allReadings.stream()
                     .filter(reading -> reading.getUser().getRef()
                             .equals(user.getRef())).toList();
             Collection<Measurement> userMeasurements = measurementGenerator.generate(user, userReadings);
+
             Invoice invoice = invoiceGenerator.generate(user, userMeasurements, dateReportingToLDT,
-                    vatPercentageGenerator.percentageGenerate(new BigDecimal("60"), new BigDecimal("40")));
+                    vatPercentages);
             saveToFile(invoice, outputPath, user);
 
         }
