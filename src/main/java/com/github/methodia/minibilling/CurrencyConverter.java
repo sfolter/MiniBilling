@@ -13,7 +13,7 @@ import java.net.http.HttpResponse;
 
 public class CurrencyConverter {
 
-    private String key;
+    private final String key;
 
     public CurrencyConverter(String key) {
         this.key = key;
@@ -28,11 +28,7 @@ public class CurrencyConverter {
         } catch (JSONException e) {
             throw new RuntimeException (e);
         }
-
-
-
     }
-
     private String httpGetRequest(String currency) {
         try {
             String urlLink = "https://api.apilayer.com/fixer/convert?to=" + currency + "&from=BGN&amount=1";
@@ -48,9 +44,6 @@ public class CurrencyConverter {
             throw new RuntimeException (e);
         }
     }
-
-
-
 /*{
     "success": true,
     "query": {

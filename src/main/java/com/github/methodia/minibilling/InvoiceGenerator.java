@@ -38,8 +38,6 @@ public class InvoiceGenerator {
                 int lineIndex = invoiceLines.size() + 1;
                 InvoiceLine invoiceLine = createInvoiceLine(lineIndex, qpp, user);
                 invoiceLines.add(invoiceLine);
-                String product = qpp.getProduct();
-
                 taxList.add(taxGenerator.generate(new BigDecimal("1.6"), invoiceLine, taxList.size()));
             } else {
                 break;
@@ -51,9 +49,7 @@ public class InvoiceGenerator {
         List<Vat> vat = new VatGenerator().generate(vatPercentages, invoiceLines, taxList);
 
         BigDecimal taxAmount = taxList.stream().map(Tax::getAmount).reduce(new BigDecimal(0), BigDecimal::add);
-
         BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(taxAmount, BigDecimal::add);
-
         BigDecimal totalAmountWithVat = vat.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add);
 
         return new Invoice(documentNumber, userName, user.getRef(), totalAmount, totalAmountWithVat, invoiceLines,
