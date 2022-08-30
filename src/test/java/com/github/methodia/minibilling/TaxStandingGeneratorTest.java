@@ -16,7 +16,7 @@ class TaxStandingGeneratorTest {
     void calculationDays() {
         final InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("100"),
                 LocalDateTime.of(2021, Month.APRIL, 3, 20, 20, 20),
-                LocalDateTime.of(2021, Month.MAY, 3, 20, 20, 20),
+                LocalDateTime.of(2021, Month.MAY, 3 , 20, 20, 20),
                 "gas", new BigDecimal("1.6"), 1, new BigDecimal("160"));
         final List<InvoiceLine> invoiceLines = new ArrayList<>();
         invoiceLines.add(invoiceLine);
