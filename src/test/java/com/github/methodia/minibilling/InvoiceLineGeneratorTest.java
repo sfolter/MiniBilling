@@ -3,6 +3,7 @@ package com.github.methodia.minibilling;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ import java.util.List;
 public class InvoiceLineGeneratorTest {
 
     @Test
-    void testAmount() {
+    void testAmount() throws IOException, InterruptedException {
         InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
 
         List<Price> prices = new ArrayList<>();

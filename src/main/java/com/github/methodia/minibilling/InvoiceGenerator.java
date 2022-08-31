@@ -10,7 +10,7 @@ import java.util.List;
 
 public class InvoiceGenerator {
 
-    public Invoice generate(LocalDateTime dateReportingTo, List<Measurement> measurements) {
+    public Invoice generate(LocalDateTime dateReportingTo, List<Measurement> measurements,String currencyFrom,String currencyTo) {
 
         ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
                 measurements);
@@ -22,6 +22,7 @@ public class InvoiceGenerator {
 
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal totalAmountWithVat = BigDecimal.ZERO;
+        BigDecimal exchangedTotalAmount = BigDecimal.ZERO;
         List<Tax> taxes = new ArrayList<>();
 
         InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
@@ -44,6 +45,11 @@ public class InvoiceGenerator {
                 totalAmount = totalAmount.add(invoiceLine.getAmount()).add(tax.getAmount())
                         .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
 
+//                CurrencyConverter currencyConverter = new CurrencyConverter();
+//                String currencyRate = currencyConverter.convertTo(currencyFrom,currencyTo);
+//                exchangedTotalAmount = totalAmount.multiply(new BigDecimal(currencyRate)).setScale(2,RoundingMode.HALF_UP);
+
+
                 vats.addAll(vat);
                 totalAmountWithVat = totalAmountWithVat.add(vats.get(0).getAmount().add(invoiceLine.getAmount()))
                         .setScale(2, RoundingMode.HALF_UP);
@@ -52,9 +58,8 @@ public class InvoiceGenerator {
         }
         vats.addAll(vatGenerator.taxWithVat(taxes));
 
-
         return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(),
-                measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines, taxes, vats);
+                measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat,currencyFrom,currencyTo,exchangedTotalAmount, invoiceLines, taxes, vats);
 
     }
 

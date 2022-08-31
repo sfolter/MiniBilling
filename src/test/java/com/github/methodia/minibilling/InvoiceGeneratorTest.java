@@ -30,7 +30,7 @@ public class InvoiceGeneratorTest {
         measurements.add(measurement);
 
         Invoice invoice = invoiceGenerator.generate(LocalDateTime.of(2021, Month.DECEMBER, 23, 5, 30, 50),
-                measurements
+                measurements,"BGN","EUR"
         );
         Assertions.assertEquals(new BigDecimal("427.20").setScale(2, RoundingMode.HALF_UP).stripTrailingZeros(), invoice.getTotalAmount(),
                 "Amount is incorrect");
