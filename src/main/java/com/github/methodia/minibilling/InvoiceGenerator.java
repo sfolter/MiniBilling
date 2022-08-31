@@ -42,17 +42,15 @@ public class InvoiceGenerator {
                 List<Vat> vat = vatGenerator.generateVat(invoiceLine, taxes);
 
                 totalAmount = totalAmount.add(invoiceLine.getAmount()).add(tax.getAmount())
-                        .setScale(2, RoundingMode.HALF_UP)
-                        .stripTrailingZeros();
-
+                        .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
 
                 vats.addAll(vat);
                 totalAmountWithVat = totalAmountWithVat.add(vats.get(0).getAmount().add(invoiceLine.getAmount()))
-                        .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+                        .setScale(2, RoundingMode.HALF_UP);
             }
 
         }
-        vats.addAll(vatGenerator.taxWithVat(vats.size(), taxes));
+        vats.addAll(vatGenerator.taxWithVat(taxes));
 
 
         return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(),

@@ -46,4 +46,12 @@ public class Invoice {
     public String getReference() {
         return reference;
     }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public BigDecimal getTotalAmountWithVat() {
+        return totalAmountWIthVat;
+    }
 }

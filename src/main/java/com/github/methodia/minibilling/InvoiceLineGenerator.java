@@ -14,10 +14,10 @@ public class InvoiceLineGenerator implements LineGenerator {
         String product = qpp.getPrice().getProduct();
         BigDecimal price = qpp.getPrice().getValue();
         int priceList = user.getNumberPricingList();
-        BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue()).setScale(2, RoundingMode.HALF_UP)
-                .stripTrailingZeros();
+        BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
 
         return new InvoiceLine(index, quantity, lineStart, lineEnd, product, price, priceList, amount);
+
     }
 }
 

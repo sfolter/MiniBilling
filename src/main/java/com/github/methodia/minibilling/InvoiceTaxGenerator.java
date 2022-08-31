@@ -13,8 +13,8 @@ public class InvoiceTaxGenerator implements TaxGenerator {
 
         BigDecimal quantity = BigDecimal.valueOf(
                 invoiceLine.getLineStart().until(invoiceLine.getLineEnd(), ChronoUnit.DAYS) + 1);
-        BigDecimal taxAmount = quantity.multiply(BigDecimal.valueOf(1.6));
+        BigDecimal taxAmount = quantity.multiply(new BigDecimal("1.6"));
 
-        return new Tax(invoiceLine.getIndex(), linesOfTax, quantity, BigDecimal.valueOf(1.6), taxAmount);
+        return new Tax(invoiceLine.getIndex(), linesOfTax, quantity, new BigDecimal("1.6"), taxAmount);
     }
 }
