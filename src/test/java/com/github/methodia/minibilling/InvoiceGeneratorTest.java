@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
@@ -33,10 +34,20 @@ class InvoiceGeneratorTest {
         final CurrencyCalculator currencyCalculator = new SameCurrency();
         final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyCalculator, "BGN");
         Invoice invoice = invoiceGenerator.generate(measurements, 1, LocalDate.of(2021, Month.APRIL, 30), "BGN");
+        Assertions.assertEquals(new BigDecimal("140").stripTrailingZeros(),invoice.getLines().get(0).getAmount(),
+                "Amount of the first line is incorrect.");
+        Assertions.assertEquals(new BigDecimal("280").stripTrailingZeros(),invoice.getLines().get(1).getAmount(),
+                "Amount of the first line is incorrect.");
         Assertions.assertEquals(new BigDecimal("508"),invoice.getTotalAmount(),
                 "Total amount isn't correct.");
         Assertions.assertEquals(new BigDecimal("592.80"),invoice.getTotalAmountWithVat(),
                 "Total amount with vat isn't correct.");
+        Assertions.assertEquals(measurements.size(),invoice.getLines().size(),
+                "Count of lines is incorrect.");
+        Assertions.assertEquals(invoice.getLines().size(),invoice.getTaxes().size(),
+                "Count of taxes is incorrect");
+        Assertions.assertEquals(invoice.getLines().size()*2+invoice.getTaxes().size(),invoice.getVat().size(),
+                "Count of vats is incorrect");
     }
 
 }

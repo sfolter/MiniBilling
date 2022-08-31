@@ -41,11 +41,8 @@ public class InvoiceGenerator {
                 .map(Vat::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         final BigDecimal totalAmountWithVat = totalAmount.add(vatAmount);
-
-        // CurrencyCalculator currencyCalculator=new CurrencyCalculator("u4hHXxTZJcijFYOGD3M2DPintFpugci8");
-        // BigDecimal totalAmountCurrency = currencyCalculator.calculateTo(currency, totalAmount.get());
-        // PRIMER: String total =totalAmountCurrency+currency;
-        return new Invoice(documentDate, docNumber, consumer, reference, totalAmount, totalAmountWithVat, invoiceLines,
+        return new Invoice(documentDate, docNumber, consumer, reference, totalAmount, totalAmountWithVat, toCurrency,
+                invoiceLines,
                 taxes, vat);
     }
 

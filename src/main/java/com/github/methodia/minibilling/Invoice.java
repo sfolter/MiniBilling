@@ -12,6 +12,7 @@ public class Invoice {
     private final String reference;
     private final BigDecimal totalAmount;
     private final BigDecimal totalAmountWithVat;
+    private final String currency;
     private final List<InvoiceLine> lines;
     private final List<Tax> taxes;
     private final List<Vat> vat;
@@ -19,7 +20,7 @@ public class Invoice {
 
     public Invoice(final LocalDateTime documentDate, final String documentNumber, final String consumer,
                    final String reference,
-                   final BigDecimal totalAmount, final BigDecimal totalAmountWithVat, final List<InvoiceLine> lines,
+                   final BigDecimal totalAmount, final BigDecimal totalAmountWithVat, final String currency, final List<InvoiceLine> lines,
                    final List<Tax> taxes,
                    final List<Vat> vat) {
         this.documentDate = documentDate;
@@ -28,6 +29,7 @@ public class Invoice {
         this.reference = reference;
         this.totalAmount = totalAmount;
         this.totalAmountWithVat = totalAmountWithVat;
+        this.currency = currency;
         this.lines = lines;
         this.taxes = taxes;
         this.vat = vat;
@@ -59,5 +61,7 @@ public class Invoice {
         return lines;
     }
 
+    public List<Tax> getTaxes() {return taxes;}
 
+    public List<Vat> getVat() {return vat;}
 }

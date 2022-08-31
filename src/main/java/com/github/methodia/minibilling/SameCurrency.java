@@ -2,10 +2,10 @@ package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
 
-public class SameCurrency implements CurrencyCalculator{
+public class SameCurrency implements CurrencyCalculator {
 
     @Override
-    public BigDecimal calculate(BigDecimal amount, String fromCurrency, String toCurrency) {
+    public BigDecimal calculate(final BigDecimal amount, final String fromCurrency, final String toCurrency) {
         return amount;
     }
 }
