@@ -26,5 +26,9 @@ public class TaxGeneratorTest {
         List<Integer> taxLineExample = new ArrayList<>();
         taxLineExample.add(1);
         Assertions.assertEquals(taxLineExample, tax.getLines(), "Wrong Lines");
+
+
+
+
     }
 }

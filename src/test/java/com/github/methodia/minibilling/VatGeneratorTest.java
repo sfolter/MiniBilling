@@ -20,6 +20,7 @@ public class VatGeneratorTest {
         List<InvoiceLine> invoiceLineList=new ArrayList<>();
         invoiceLineList.add(new InvoiceLine(1,new BigDecimal("150"),ldtStart,ldtEnd,"gas",
                 new BigDecimal("2"),1,new BigDecimal("2")));
+
 //        invoiceLineList.add(new InvoiceLine(2,new BigDecimal("30"),))
     }
 }
