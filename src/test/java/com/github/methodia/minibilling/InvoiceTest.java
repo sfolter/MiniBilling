@@ -18,9 +18,6 @@ import java.util.Locale;
 public class InvoiceTest {
     @Test
     void testSample1() {
-        /*
-        TaxLines(int index, int lines, String name, int quantity, String unit, BigDecimal price, BigDecimal amount)
-         */
 
         List<Price> priceList = new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2022, 8, 29), LocalDate.of(2022, 8, 31), new BigDecimal("10")));
