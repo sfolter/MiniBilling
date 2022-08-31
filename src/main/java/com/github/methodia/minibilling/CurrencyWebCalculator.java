@@ -45,7 +45,7 @@ public class CurrencyWebCalculator implements CurrencyCalculator {
     }
 
     @Override
-    public BigDecimal calculate(final String fromCurrency, final String toCurrency, final BigDecimal amount) {
+    public BigDecimal calculate(final BigDecimal amount, final String fromCurrency, final String toCurrency) {
         BigDecimal result = BigDecimal.ZERO;
         final String urlLink =
                 "https://api.apilayer.com/currency_data/convert?to=" + toCurrency + "&from=" + fromCurrency + "&amount="

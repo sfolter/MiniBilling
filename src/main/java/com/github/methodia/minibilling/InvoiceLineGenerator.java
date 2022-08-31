@@ -16,7 +16,9 @@ public class InvoiceLineGenerator {
         return totalAmountLines;
     }
 
-    public List<InvoiceLine> createInvoiceLine(final List<Measurement> measurements, final LocalDate borderDate) {
+    public List<InvoiceLine> createInvoiceLine(final List<Measurement> measurements, final LocalDate borderDate,
+                                               final CurrencyCalculator currencyCalculator,
+                                               final String fromCurrency, final String toCurrency) {
 
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
                 measurements);
@@ -31,7 +33,9 @@ public class InvoiceLineGenerator {
                 final String product = qpp.getPrice().getProduct();
                 final BigDecimal price = qpp.getPrice().getValue();
                 final int priceList = qpp.getUser().getPriceListNumber();
-                final BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue())
+                final BigDecimal value = qpp.getQuantity().multiply(qpp.getPrice().getValue())
+                        .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+                final BigDecimal amount=currencyCalculator.calculate(value,fromCurrency,toCurrency)
                         .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
                 totalAmountLines = totalAmountLines.add(amount);
                 invoiceLines.add(new InvoiceLine(invoiceLines.size() + 1, quantity, start, end,

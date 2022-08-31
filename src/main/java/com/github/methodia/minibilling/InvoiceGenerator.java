@@ -14,7 +14,7 @@ public class InvoiceGenerator {
     //    }
 
     public Invoice generate(final List<Measurement> measurements, final long documentNumber,
-                            final LocalDate borderDate) {
+                            final LocalDate borderDate,final CurrencyCalculator currencyCalculator, final String fromCurrency, final String toCurrency) {
 
         final InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
         final VatGenerator vatGenerator = new VatGenerator(ExampleInputInformation.vatPercentages());
@@ -24,7 +24,8 @@ public class InvoiceGenerator {
         final String consumer = measurements.get(0).getUser().getName();
         final String reference = measurements.get(0).getUser().getRef();
 
-        final List<InvoiceLine> invoiceLines = invoiceLineGenerator.createInvoiceLine(measurements, borderDate);
+        final List<InvoiceLine> invoiceLines = invoiceLineGenerator.createInvoiceLine(measurements, borderDate,
+                currencyCalculator,fromCurrency, toCurrency);
         final TaxGenerator taxGenerator = new TaxStandingGenerator(invoiceLines);
         final List<Tax> taxes = taxGenerator.generate();
         final List<Vat> vat = vatGenerator.generate(invoiceLines, taxes);
