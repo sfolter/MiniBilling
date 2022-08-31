@@ -13,7 +13,7 @@ public class MeasurementTest {
     @Test
     void measurementGettersTest(){
         List<Price> priceList=new ArrayList<>();
-        priceList.add(new Price("gas", LocalDate.of(2022,03,01),
+        priceList.add(new Price("gas", LocalDate.of(2022,3,1),
                 LocalDate.of(2022,3,2),new BigDecimal("2.50")));
         priceList.add(new Price("gas", LocalDate.of(2022,3,3),
                 LocalDate.of(2022,4,3),new BigDecimal("3.50")));

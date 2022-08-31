@@ -3,6 +3,7 @@ package com.github.methodia.minibilling;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,12 +21,14 @@ public class TaxGeneratorTest {
         TaxGenerator taxGenerator = new TaxGenerator();
         Tax tax = taxGenerator.generate(taxAmount, invoiceLine, 0);
 
-        Assertions.assertEquals(new BigDecimal("200"), tax.getAmount(), "Wrong Amount");
+
         Assertions.assertEquals(1, tax.getIndex(), "Wrong index");
 
         List<Integer> taxLineExample = new ArrayList<>();
         taxLineExample.add(1);
         Assertions.assertEquals(taxLineExample, tax.getLines(), "Wrong Lines");
+        Assertions.assertEquals(new BigDecimal("200"), tax.getAmount(), "Wrong Amount");
+
 
 
 

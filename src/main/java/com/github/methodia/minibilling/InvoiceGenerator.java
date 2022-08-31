@@ -65,7 +65,6 @@ public class InvoiceGenerator {
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         // add the following method in order to set up your currency converter
         // .multiply(currencyConverter.getCurrencyValue(user.getCyrrency()))
-        //TODO add product to qpp; remove the following code
         String product = qpp.getProduct();
         return new InvoiceLine(lineIndex, quantity, start, end,
                 product, price, user.getNumberPricingList(), amount);
