@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.text.ParseException;
@@ -23,20 +24,21 @@ import java.util.stream.Collectors;
 public class MainTest {
 
     @Test
-    void testSample1() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException {
+    void testSample1() throws IOException, ParseException, org.json.simple.parser.ParseException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
     @Test
-    void testSample2() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException {
+    void testSample2() throws IOException, ParseException, org.json.simple.parser.ParseException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, NoSuchFieldException, IllegalAccessException, ParseException {
+    private void testSample(int sampleNumber, String yearMonth)
+            throws IOException, ParseException, org.json.simple.parser.ParseException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
@@ -119,6 +121,3 @@ public class MainTest {
         return inputDir.getPath();
     }
 }
-
-
-

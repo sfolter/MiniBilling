@@ -10,14 +10,14 @@ import java.util.TreeMap;
 
 public class Main {
     public static void main(final String[] args) throws ParseException, IOException, org.json.simple.parser.ParseException {
-//        String yearMonthStr = args[0];
-//        String resourceDir = args[1];
-//        String outputDir = args[2];
+        final String yearMonthStr = args[0];
+        final String resourceDir = args[1];
+        final String outputDir = args[2];
 
 
-        final String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
-        final String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\test\\";
-        final String yearMonthStr = "21-03";
+//        final String resourceDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+//        final String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\test\\";
+//        final String yearMonthStr = "21-03";
         final String toCurrency = "BGN";
 
         //user.csv
