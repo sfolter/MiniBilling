@@ -18,9 +18,10 @@ public class Main {
         final AtomicLong documentNumberId = new AtomicLong(10000);
 
         final String myApiKey = "9ab98220c5e63e8f38644829";
-        final CurrencyCalculator currencyCalculator = new CurrencyExchangeCalculator(myApiKey);
         final String fromCurrency = "BGN";
         final String toCurrency = "BGN";
+        final CurrencyCalculator currencyCalculator =
+                fromCurrency.compareTo(toCurrency) == 0 ? new SameCurrency() : new CurrencyExchangeCalculator(myApiKey);
 
         final UsersReader userReader = new UserFileReader(resourceDirectory);
         final Map<String, User> users = userReader.read();
@@ -29,12 +30,12 @@ public class Main {
         final Map<String, List<Reading>> readings = readingReader.read();
 
         final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
-        final InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyCalculator, fromCurrency);
 
         users.values().stream()
                 .map(user -> measurementGenerator.generate(user, readings.get(user.getRef())))
                 .map(measurement -> invoiceGenerator.generate(measurement, documentNumberId.getAndIncrement(),
-                        borderDate, currencyCalculator, fromCurrency, toCurrency))
+                        borderDate, toCurrency))
                 .forEach(invoice -> SaveInvoice.saveToFile(invoice, outputDirectory, borderDate));
     }
 }

@@ -6,15 +6,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class InvoiceGenerator {
+        private final CurrencyCalculator currencyCalculator;
+        private final String fromCurrency;
 
-    //    private final String currency;
-    //
-    //    public InvoiceGenerator(String currency) {
-    //        this.currency = currency;
-    //    }
+    public InvoiceGenerator(final CurrencyCalculator currencyCalculator, final String fromCurrency) {
+        this.currencyCalculator = currencyCalculator;
+        this.fromCurrency = fromCurrency;
+    }
 
     public Invoice generate(final List<Measurement> measurements, final long documentNumber,
-                            final LocalDate borderDate,final CurrencyCalculator currencyCalculator, final String fromCurrency, final String toCurrency) {
+                            final LocalDate borderDate, final String toCurrency) {
 
         final InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
         final VatGenerator vatGenerator = new VatGenerator(ExampleInputInformation.vatPercentages());

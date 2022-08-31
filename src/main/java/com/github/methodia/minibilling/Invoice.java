@@ -53,6 +53,8 @@ public class Invoice {
         return totalAmount;
     }
 
+    public BigDecimal getTotalAmountWithVat() {return totalAmountWithVat;}
+
     public List<InvoiceLine> getLines() {
         return lines;
     }

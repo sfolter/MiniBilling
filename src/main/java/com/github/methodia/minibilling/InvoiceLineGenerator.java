@@ -34,7 +34,7 @@ public class InvoiceLineGenerator {
                 final BigDecimal price = qpp.getPrice().getValue();
                 final int priceList = qpp.getUser().getPriceListNumber();
                 final BigDecimal value = qpp.getQuantity().multiply(qpp.getPrice().getValue())
-                        .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+                        .setScale(2, RoundingMode.HALF_UP);
                 final BigDecimal amount=currencyCalculator.calculate(value,fromCurrency,toCurrency)
                         .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
                 totalAmountLines = totalAmountLines.add(amount);
