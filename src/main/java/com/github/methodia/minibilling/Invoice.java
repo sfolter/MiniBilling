@@ -33,6 +33,7 @@ public class Invoice {
     public LocalDateTime getDocumentDate() {
         return documentDate;
     }
+    public String getDocumentNumberTest(){return documentNumber;}
 
     public static synchronized String getDocumentNumber() {
         return String.valueOf(counter);

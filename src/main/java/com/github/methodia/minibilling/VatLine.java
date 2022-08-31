@@ -28,6 +28,10 @@ public class VatLine {
         return lines;
     }
 
+    public int getTaxes(){return taxes;}
+
+    public int getTaxedAmountPercentage(){return taxedAmountPercentage;}
+
     public int getPercentage() {
         return percentage;
     }

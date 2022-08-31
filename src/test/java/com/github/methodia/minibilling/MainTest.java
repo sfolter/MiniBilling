@@ -7,34 +7,37 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * @author Miroslav Kovachev
- * 21.07.2022
- * Methodia Inc.
- */
 public class MainTest {
 
     @Test
-    void testSample1() throws IOException, ParseException, org.json.simple.parser.ParseException, NoSuchFieldException, IllegalAccessException {
+    void testSample1() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException,
+            org.json.simple.parser.ParseException, URISyntaxException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
+
     }
 
     @Test
-    void testSample2() throws IOException, ParseException, org.json.simple.parser.ParseException, NoSuchFieldException, IllegalAccessException {
+    void testSample2() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException,
+            org.json.simple.parser.ParseException, URISyntaxException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, ParseException, org.json.simple.parser.ParseException, NoSuchFieldException, IllegalAccessException {
+    private void testSample(int sampleNumber, String yearMonth)
+            throws IOException, NoSuchFieldException, IllegalAccessException, ParseException,
+            org.json.simple.parser.ParseException, URISyntaxException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
@@ -43,29 +46,18 @@ public class MainTest {
         final File output = new File(outputDir);
         checkDirectories(expectedFiles, output, sampleNumber);
     }
+
     private void checkDirectories(File sampleDir, File outputDir, int sampleNumber) throws IOException {
-
-
+        final File[] sampleInputFiles = sampleDir.listFiles();
         final File[] outputFiles = outputDir.listFiles();
         final Map<String, File> outputFilesByName = Arrays.stream(outputFiles)
                 .collect(Collectors.toMap(File::getName, file -> file));
-        final File[] sampleInputFiles = sampleDir.listFiles();
-//        ListIterator<Map.Entry<String, File>> iterator = new ArrayList<>(outputFilesByName.entrySet()).
-//                listIterator(outputFilesByName.size());
-
-
         Assertions.assertEquals(sampleInputFiles.length, outputFiles.length,
                 String.format("The generated files (directories) do not match the expected  in sample%s",
                         sampleNumber));
-
-        for (File sampleInputFile : outputFiles) { // Replace output files with sampleInputFiles
-
-
+        for (File sampleInputFile : sampleInputFiles) {
             final String sampleInputFileName = sampleInputFile.getName();
-
-
             Assertions.assertTrue(outputFilesByName.containsKey(sampleInputFileName));
-
             final File outputFile = outputFilesByName.get(sampleInputFileName);
             if (sampleInputFile.isDirectory()) {
                 checkDirectories(sampleInputFile, outputFile, sampleNumber);
@@ -110,10 +102,10 @@ public class MainTest {
     }
 
 
-    private String getSampleInputDir(int sampleNumber) {
+    private String getSampleInputDir(int sampleNumber) throws URISyntaxException {
         final URL inputDir = MainTest.class.getClassLoader()
                 .getResource(String.format("sample%s/input/", sampleNumber));
-        return inputDir.getPath();
+        return inputDir.toURI().getPath();
     }
 
     private String getOutputDir(int sampleNumber) {
@@ -122,11 +114,9 @@ public class MainTest {
         return outputDir;
     }
 
-    private String getExpectedDir(int sampleNumber) {
+    private String getExpectedDir(int sampleNumber) throws URISyntaxException {
         final URL inputDir = MainTest.class.getClassLoader()
                 .getResource(String.format("sample%s/expected/", sampleNumber));
-        return inputDir.getPath();
+        return inputDir.toURI().getPath();
     }
-
-
 }
