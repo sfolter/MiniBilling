@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MeasurementGeneratorTest {
@@ -70,6 +71,19 @@ public class MeasurementGeneratorTest {
 
 
     }
+//    @Test
+//    void emptyMeasurementReturnExceptions(){
+//        Measurements measurements = new MeasurementGenerator();
+//        User user = getUser();
+//        List<Reading> readings = new ArrayList<>();
+//
+//        Assertions.assertThrows(IllegalStateException.class,
+//                ()->{
+//
+//                }
+//                );
+//
+//    }
 
     private User getUser() {
         List<Price> prices = new ArrayList<>();

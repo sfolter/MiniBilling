@@ -15,12 +15,15 @@ import java.util.List;
 public class InvoiceLineGeneratorTest {
 
     @Test
-    void testAmount() {
+    void testInvoiceLine() {
         InvoiceLine invoiceLine = getInvoiceLine();
 
-        Assertions.assertEquals(new BigDecimal("20000.00").setScale(2, RoundingMode.HALF_UP).stripTrailingZeros(),
+        Assertions.assertEquals(new BigDecimal("10234").setScale(2, RoundingMode.HALF_UP).stripTrailingZeros(),
                 invoiceLine.getAmount().stripTrailingZeros(),
                 "Amount is incorrect");
+        Assertions.assertEquals(1, invoiceLine.getIndex(),
+                "Amount is incorrect");
+
 
     }
 

@@ -33,10 +33,10 @@ public class InvoiceGeneratorTest {
         Invoice invoice = invoiceGenerator.generate(LocalDateTime.of(2021, Month.DECEMBER, 23, 5, 30, 50),
                 measurements, "BGN", "EUR", currencyConverter);
 
-        Assertions.assertEquals(new BigDecimal("427.20").setScale(2, RoundingMode.HALF_UP).stripTrailingZeros(),
+        Assertions.assertEquals(new BigDecimal("251.41").setScale(2, RoundingMode.HALF_UP).stripTrailingZeros(),
                 invoice.getTotalAmount(),
                 "Amount is incorrect");
-        Assertions.assertEquals(new BigDecimal("403.20").setScale(2, RoundingMode.HALF_UP).stripTrailingZeros(),
+        Assertions.assertEquals(new BigDecimal("294.33").setScale(2, RoundingMode.HALF_UP).stripTrailingZeros(),
                 invoice.getTotalAmountWithVat().stripTrailingZeros(),
                 "Amount is incorrect");
     }
@@ -63,10 +63,7 @@ public class InvoiceGeneratorTest {
 
         currencyConverter.convertTo("BGN", "EUR", invoice.getTotalAmount());
 
-        Assertions.assertEquals("BGN", invoice.getCurrencyFrom(), "Currency is incorrect");
-        Assertions.assertEquals("EUR", invoice.getCurrencyTo(), "Currency is incorrect");
-
-        Assertions.assertEquals(new BigDecimal("218.33"), invoice.getExchangedTotalAmount(), "Amount is incorrect");
+        Assertions.assertEquals(new BigDecimal("218.6"), invoice.getTotalAmount(), "Amount is incorrect");
 
     }
 }

@@ -24,7 +24,7 @@ public class InvoiceGenerator {
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal totalAmountWithVat = BigDecimal.ZERO;
         List<Tax> taxes = new ArrayList<>();
-        BigDecimal exchangedTotalAmount1 = BigDecimal.ZERO;
+
         InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
         InvoiceVatGenerator vatGenerator = new InvoiceVatGenerator();
         InvoiceTaxGenerator taxGenerator = new InvoiceTaxGenerator();
@@ -51,16 +51,16 @@ public class InvoiceGenerator {
 
 
                 vats.addAll(vat);
-                totalAmountWithVat = totalAmountWithVat.add(vats.get(0).getAmount().add(invoiceLine.getAmount()))
-                        .setScale(2, RoundingMode.HALF_UP);
             }
 
         }
         vats.addAll(vatGenerator.taxWithVat(taxes));
+        totalAmountWithVat = totalAmountWithVat.add(
+                        vats.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add))
+                .setScale(2, RoundingMode.HALF_UP);
 
         return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(),
-                measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, currencyFrom, currencyTo,
-                exchangedTotalAmount1, invoiceLines, taxes, vats);
+                measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines, taxes, vats);
 
     }
 

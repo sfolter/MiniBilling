@@ -20,13 +20,18 @@ public class InvoiceVatGeneratorTest {
     }
 
     @Test
-    void testVatAmount() {
+    void testVat() {
         List<Vat> vats = getVats();
+
+        List<Integer> lines = new ArrayList<>();
+        lines.add(1);
 
         Assertions.assertEquals(new BigDecimal("12.00").setScale(2, RoundingMode.HALF_UP), vats.get(0).getAmount(),
                 "Amount is incorrect");
         Assertions.assertEquals(new BigDecimal("4.00").setScale(2, RoundingMode.HALF_UP), vats.get(1).getAmount(),
                 "Amount is incorrect");
+        Assertions.assertEquals(lines.get(0), vats.get(0).getLines().get(0),
+                "Lines are not correct");
 
     }
 

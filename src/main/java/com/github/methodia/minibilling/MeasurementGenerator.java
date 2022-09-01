@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeasurementGenerator {
+public class MeasurementGenerator implements Measurements {
 
     public List<Measurement> generate(User user, List<Reading> readings) {
 
