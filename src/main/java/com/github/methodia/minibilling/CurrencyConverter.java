@@ -10,10 +10,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class CurrencyConverter {
+public class CurrencyConverter implements Converter {
 
-    public String convertTo(String convertFrom, String convertTo)  {
-        String url = "https://api.apilayer.com/currency_data/convert?to="+convertTo+"&from="+ convertFrom+"&amount=1";
+    public BigDecimal convertTo(String convertFrom, String convertTo, BigDecimal amount) {
+        String url =
+                "https://api.apilayer.com/currency_data/convert?to=" + convertTo + "&from=" + convertFrom + "&amount=1";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
@@ -26,7 +27,7 @@ public class CurrencyConverter {
             String responseBody = response.body();
 
             JSONObject json = new JSONObject(responseBody);
-            return String.valueOf(json.get("result"));
+            return (BigDecimal) json.get("result");
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

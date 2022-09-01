@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+
     public static void main(String[] args) {
 
         String dateReporting = args[0];
@@ -21,7 +22,7 @@ public class Main {
         ReadingReaderInterface readingReader = new ReadingReader(inputDir);
         Map<String, User> userMap = userReader.read();
 
-        CurrencyConverter currencyConverter = new CurrencyConverter();
+        Converter currencyConverter = new CurrencyConverter();
         final String currencyFrom = "BGN";
         final String currencyTo = "EUR";
 
@@ -30,7 +31,8 @@ public class Main {
         Map<String, List<Reading>> readingsList = readingReader.read();
         userMap.values().stream()
                 .map(user -> measurementGenerator.generate(user, readingsList.get(user.getRef())))
-                .map(measurements -> invoiceGenerator.generate(parseReportingDate, measurements,currencyFrom,currencyTo))
+                .map(measurements -> invoiceGenerator.generate(parseReportingDate, measurements, currencyFrom,
+                        currencyTo, currencyConverter))
                 .forEach(invoice -> FileMaker.FileSaver(invoice, outputDir, parseReportingDate));
 
     }

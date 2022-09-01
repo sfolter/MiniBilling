@@ -17,12 +17,7 @@ public class MeasurementGeneratorTest {
 
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
 
-        List<Price> prices = new ArrayList<>();
-        Price price = new Price("gas", LocalDate.of(2021, Month.JANUARY, 5),
-                LocalDate.of(2021, Month.FEBRUARY, 15), new BigDecimal("200"));
-        prices.add(price);
-
-        User user = new User("Marko", "2", 1, prices);
+        User user = getUser();
 
         List<Reading> readings = new ArrayList<>();
         Reading reading = new Reading(LocalDateTime.of(2020, Month.AUGUST, 16, 3, 20), new BigDecimal("200"), user);
@@ -46,12 +41,7 @@ public class MeasurementGeneratorTest {
     void testForTwoMeasurements() {
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
 
-        List<Price> prices = new ArrayList<>();
-        Price price = new Price("gas", LocalDate.of(2021, Month.JANUARY, 5),
-                LocalDate.of(2021, Month.FEBRUARY, 15), new BigDecimal("200"));
-        prices.add(price);
-
-        User user = new User("Marko", "2", 1, prices);
+        User user = getUser();
 
         Reading reading = new Reading(LocalDateTime.of(2020, Month.AUGUST, 16, 3, 20), new BigDecimal("200"), user);
         Reading reading1 = new Reading(LocalDateTime.of(2020, Month.OCTOBER, 16, 3, 20), new BigDecimal("300"), user);
@@ -79,5 +69,15 @@ public class MeasurementGeneratorTest {
         Assertions.assertEquals(new BigDecimal("300"), measurementList.get(1).getValue(), "Value is incorrect");
 
 
+    }
+
+    private User getUser() {
+        List<Price> prices = new ArrayList<>();
+        Price price = new Price("gas", LocalDate.of(2021, Month.JANUARY, 5),
+                LocalDate.of(2021, Month.FEBRUARY, 15), new BigDecimal("200"));
+        prices.add(price);
+
+        User user = new User("Marko", "2", 1, prices);
+        return user;
     }
 }

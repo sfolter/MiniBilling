@@ -20,7 +20,8 @@ public class Invoice {
     private static long id = 10000;
 
     public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount,
-                   BigDecimal totalAmountWIthVat,String currencyFrom,String currencyTo,BigDecimal exchangedTotalAmount, List<InvoiceLine> invoiceLines, List<Tax> tax, List<Vat> vat) {
+                   BigDecimal totalAmountWIthVat, String currencyFrom, String currencyTo,
+                   BigDecimal exchangedTotalAmount, List<InvoiceLine> invoiceLines, List<Tax> tax, List<Vat> vat) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -57,5 +58,17 @@ public class Invoice {
 
     public BigDecimal getTotalAmountWithVat() {
         return totalAmountWIthVat;
+    }
+
+    public BigDecimal getExchangedTotalAmount() {
+        return exchangedTotalAmount;
+    }
+
+    public String getCurrencyFrom() {
+        return currencyFrom;
+    }
+
+    public String getCurrencyTo() {
+        return currencyTo;
     }
 }
