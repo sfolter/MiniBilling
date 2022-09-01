@@ -9,19 +9,25 @@ import java.time.LocalDateTime;
 public class InvoiceLineTest {
 
     @Test
-    public void getInvoiceLine9() {
+    public void getInvoiceLine() {
         final InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("436"),
-                LocalDateTime.of(2021, 1, 1, 14, 40, 00),
-                LocalDateTime.of(2021, 03, 11, 7, 00, 00), "gas", new BigDecimal("1.8"), 1, new BigDecimal("401"));
+                LocalDateTime.of(2021, 1, 1, 14, 40, 0),
+                LocalDateTime.of(2021, 3, 11, 7, 0, 0), "gas", new BigDecimal("1.8"), 1, new BigDecimal("401"));
 
-        Assertions.assertEquals(1, invoiceLine.getIndex(), "Index did not match.");
-        Assertions.assertEquals(new BigDecimal("436"), invoiceLine.getQuantity(), "Quantity did not match");
-        Assertions.assertEquals(LocalDateTime.of(2021, 1, 1, 14, 40, 00), invoiceLine.getStart(),
-                "Start date did not match");
-        Assertions.assertEquals(LocalDateTime.of(2021, 03, 11, 7, 00, 00), invoiceLine.getEnd(),
-                "End date did not match.");
-        Assertions.assertEquals("gas", invoiceLine.getProduct(), "Product did not match");
-        Assertions.assertEquals(new BigDecimal("1.8"), invoiceLine.getPrice(), "Price did not match.");
-        Assertions.assertEquals(new BigDecimal("401"), invoiceLine.getAmount(), "Amount did not match");
+        Assertions.assertEquals(1, invoiceLine.getIndex(), "Index does not match.");
+        Assertions.assertEquals(new BigDecimal("436"), invoiceLine.getQuantity(), "Quantity does not match");
+        Assertions.assertEquals(LocalDateTime.of(2021, 1, 1, 14, 40, 0), invoiceLine.getStart(),
+                "Start date does not match");
+        Assertions.assertEquals(LocalDateTime.of(2021, 3, 11, 7, 0, 0), invoiceLine.getEnd(),
+                "End date does not match.");
+        Assertions.assertEquals("gas", invoiceLine.getProduct(), "Product does not match");
+        Assertions.assertEquals(new BigDecimal("1.8"), invoiceLine.getPrice(), "Price does not match.");
+        Assertions.assertEquals(new BigDecimal("401"), invoiceLine.getAmount(), "Amount does not match");
+        Assertions.assertEquals(new BigDecimal("436"), invoiceLine.getQuantity(), "Quantity does not match");
+        Assertions.assertEquals(1, invoiceLine.getIndex(), "Index does not match");
+        Assertions.assertEquals(1, invoiceLine.getPriceList(), "Price list does not match");
+        Assertions.assertEquals(LocalDateTime.of(2021, 1, 1, 14, 40), invoiceLine.getStart(),
+                "Start date does not match");
+        Assertions.assertEquals(LocalDateTime.of(2021, 3, 11, 7, 0), invoiceLine.getEnd(), "End date does not match");
     }
 }

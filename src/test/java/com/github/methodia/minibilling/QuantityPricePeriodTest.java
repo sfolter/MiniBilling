@@ -16,9 +16,9 @@ public class QuantityPricePeriodTest {
                 LocalDateTime.of(2022, 3, 3, 3, 3, 3, 3), price, new BigDecimal("60"));
 
         Assertions.assertEquals(LocalDateTime.of(2021, 5, 26, 12, 12, 12, 12), qpp.getStart(),
-                "Start date did not match.");
-        Assertions.assertEquals(LocalDateTime.of(2022, 3, 3, 3, 3, 3, 3), qpp.getEnd(), "End date did not match.");
-        Assertions.assertEquals(price, qpp.getPrice(), "Price did not match.");
-        Assertions.assertEquals(new BigDecimal("60"), qpp.getQuantity(), "Quantity did not match.");
+                "Start date does not match.");
+        Assertions.assertEquals(LocalDateTime.of(2022, 3, 3, 3, 3, 3, 3), qpp.getEnd(), "End date does not match.");
+        Assertions.assertEquals(price, qpp.getPrice(), "Price does not match.");
+        Assertions.assertEquals(new BigDecimal("60"), qpp.getQuantity(), "Quantity does not match.");
     }
 }

@@ -59,12 +59,12 @@ class ProportionalMeasurementDistributorTest {
                 LocalDate.of(2021, 3, 20), priceValue1);
         final Price price2 = new Price("gas", LocalDate.of(2021, 3, 21),
                 LocalDate.of(2021, 5, 1), priceValue2);
-        int firstHalfDays = 14;
-        int secondHalfDays = 25;
-        int measurementDays = firstHalfDays + secondHalfDays;
-        BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
+        final int firstHalfDays = 14;
+        final int secondHalfDays = 25;
+        final int measurementDays = firstHalfDays + secondHalfDays;
+        final BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
-        BigDecimal secondQuantity = measurement1.getValue().subtract(firstQuantity);
+        final BigDecimal secondQuantity = measurement1.getValue().subtract(firstQuantity);
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
         prices.add(price2);
@@ -116,15 +116,15 @@ class ProportionalMeasurementDistributorTest {
                 LocalDate.of(2021, 3, 20), priceValue2);
         final Price price3 = new Price("gas", LocalDate.of(2021, 3, 21),
                 LocalDate.of(2021, 4, 30), priceValue3);
-        long firstThreeDays = measurement1.getStart().until(price1.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
-        long secondThreeDays = price2.getStart().atTime(00, 00, 00).until(price2.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
-        long thirdThreeDays = price3.getStart().atTime(00, 00, 00).until(measurement1.getEnd(), ChronoUnit.DAYS);
-        long measurementDays = firstThreeDays + secondThreeDays + thirdThreeDays;
-        BigDecimal firstQuantity = BigDecimal.valueOf(firstThreeDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
+        final long firstThreeDays = measurement1.getStart().until(price1.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
+        final long secondThreeDays = price2.getStart().atTime(00, 00, 00).until(price2.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
+        final long thirdThreeDays = price3.getStart().atTime(00, 00, 00).until(measurement1.getEnd(), ChronoUnit.DAYS);
+        final long measurementDays = firstThreeDays + secondThreeDays + thirdThreeDays;
+        final BigDecimal firstQuantity = BigDecimal.valueOf(firstThreeDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
-        BigDecimal secondQuantity = BigDecimal.valueOf(secondThreeDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
+        final BigDecimal secondQuantity = BigDecimal.valueOf(secondThreeDays).divide(BigDecimal.valueOf(measurementDays), 1, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
-        BigDecimal thirdQuantity = measurement1.getValue().subtract(firstQuantity).subtract(secondQuantity);
+        final BigDecimal thirdQuantity = measurement1.getValue().subtract(firstQuantity).subtract(secondQuantity);
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
         prices.add(price2);
@@ -173,9 +173,9 @@ class ProportionalMeasurementDistributorTest {
         final BigDecimal priceValue = new BigDecimal("1.50");
         final Price price = new Price("gas", LocalDate.of(2021, 3, 6),
                 LocalDate.of(2021, 4, 20), priceValue);
-        long pricePeriod = measurement1.getStart().until(price.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
-        long measurementDays = pricePeriod;
-        BigDecimal priceQuantity = BigDecimal.valueOf(pricePeriod).divide(BigDecimal.valueOf(measurementDays), 0, RoundingMode.HALF_UP)
+        final long pricePeriod = measurement1.getStart().until(price.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
+        final long measurementDays = pricePeriod;
+        final BigDecimal priceQuantity = BigDecimal.valueOf(pricePeriod).divide(BigDecimal.valueOf(measurementDays), 0, RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price);
@@ -208,11 +208,11 @@ class ProportionalMeasurementDistributorTest {
                 LocalDate.of(2021, 4, 14), priceValue1);
         final Price price2 = new Price("gas", LocalDate.of(2021, 4, 15),
                 LocalDate.of(2021, 5, 20), priceValue2);
-        long firstHalfDays = measurement1.getStart().until(price1.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
-        long secondHalfDays = price2.getStart().atTime(00, 00, 00).until(measurement2.getEnd(), ChronoUnit.DAYS);
-        BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(firstHalfDays), RoundingMode.HALF_UP)
+        final long firstHalfDays = measurement1.getStart().until(price1.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
+        final long secondHalfDays = price2.getStart().atTime(0, 0, 0).until(measurement2.getEnd(), ChronoUnit.DAYS);
+        final BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(firstHalfDays), RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
-        BigDecimal secondQuantity = BigDecimal.valueOf(secondHalfDays).divide(BigDecimal.valueOf(secondHalfDays), RoundingMode.HALF_UP)
+        final BigDecimal secondQuantity = BigDecimal.valueOf(secondHalfDays).divide(BigDecimal.valueOf(secondHalfDays), RoundingMode.HALF_UP)
                 .multiply(measurement2.getValue());
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
@@ -257,11 +257,11 @@ class ProportionalMeasurementDistributorTest {
         final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
                 LocalDate.of(2021, 5, 14), priceValue1);
 
-        long firstHalfDays = measurement1.getStart().until(price1.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
-        long secondHalfDays = price1.getStart().atTime(00, 00, 00).until(measurement2.getEnd(), ChronoUnit.DAYS);
-        BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(firstHalfDays), RoundingMode.HALF_UP)
+        final long firstHalfDays = measurement1.getStart().until(price1.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
+        final long secondHalfDays = price1.getStart().atTime(0, 0, 0).until(measurement2.getEnd(), ChronoUnit.DAYS);
+        final BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(firstHalfDays), RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
-        BigDecimal secondQuantity = BigDecimal.valueOf(secondHalfDays).divide(BigDecimal.valueOf(secondHalfDays), RoundingMode.HALF_UP)
+        final BigDecimal secondQuantity = BigDecimal.valueOf(secondHalfDays).divide(BigDecimal.valueOf(secondHalfDays), RoundingMode.HALF_UP)
                 .multiply(measurement2.getValue());
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
@@ -301,8 +301,8 @@ class ProportionalMeasurementDistributorTest {
         final BigDecimal priceValue = new BigDecimal("1.50");
         final Price price = new Price("gas", LocalDate.of(2021, 3, 6),
                 LocalDate.of(2021, 4, 14), priceValue);
-        long firstHalfDays = measurement1.getStart().until(price.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
-        BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(firstHalfDays), RoundingMode.HALF_UP)
+        final long firstHalfDays = measurement1.getStart().until(price.getEnd().atTime(23, 59, 59), ChronoUnit.DAYS);
+        final BigDecimal firstQuantity = BigDecimal.valueOf(firstHalfDays).divide(BigDecimal.valueOf(firstHalfDays), RoundingMode.HALF_UP)
                 .multiply(measurement1.getValue());
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price);
@@ -327,13 +327,13 @@ class ProportionalMeasurementDistributorTest {
     @Test
     void testLocalDateCompareTo() {
 
-        final LocalDate priceEndDate = LocalDate.of(2021, 03, 20);
-        final LocalDate measurementEndDate = LocalDate.of(2021, 03, 21);
+        final LocalDate priceEndDate = LocalDate.of(2021, 3, 20);
+        final LocalDate measurementEndDate = LocalDate.of(2021, 3, 21);
         final ArrayList<Object> objects = new ArrayList<>();
         System.out.println(priceEndDate.compareTo(measurementEndDate));
     }
 
-    private static Measurement getMeasurement(BigDecimal measurementValue) {
+    private static Measurement getMeasurement(final BigDecimal measurementValue) {
         final Measurement measurement1 = new Measurement(LocalDateTime.of(2021, 3, 6, 13, 23),
                 LocalDateTime.of(2021, 4, 14, 15, 32), measurementValue,
                 new User("Test Testov", "ref", 1, Collections.emptyList()));

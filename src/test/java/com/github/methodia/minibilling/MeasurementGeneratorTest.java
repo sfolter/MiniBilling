@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -31,12 +30,12 @@ public class MeasurementGeneratorTest {
         final Measurement measurement = measurements.iterator().next();
 
         Assertions.assertEquals(firstReading.getTime().toLocalDateTime(), measurement.getStart(),
-                "Start date did not match");
+                "Start date does not match");
         Assertions.assertEquals(secondReading.getTime().toLocalDateTime(), measurement.getEnd(),
-                "End date did not match");
-        Assertions.assertEquals(firstReading.getUser(), measurement.getUser(), "User did not match");
-        Assertions.assertEquals(secondReading.getUser(), measurement.getUser(), "User did not match");
+                "End date does not match");
+        Assertions.assertEquals(firstReading.getUser(), measurement.getUser(), "User does not match");
+        Assertions.assertEquals(secondReading.getUser(), measurement.getUser(), "User does not match");
         Assertions.assertEquals(secondReading.getValue().subtract(firstReading.getValue()), measurement.getValue(),
-                "Value did not match");
+                "Value does not match");
     }
 }

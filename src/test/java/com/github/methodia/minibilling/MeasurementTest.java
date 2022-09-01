@@ -19,10 +19,10 @@ public class MeasurementTest {
                 LocalDateTime.of(2022, 6, 6, 6, 6, 6, 6), new BigDecimal("50"), user);
 
         Assertions.assertEquals(LocalDateTime.of(2021, 2, 2, 2, 2, 2, 2), measurement.getStart(),
-                "Start date did not match.");
+                "Start date does not match.");
         Assertions.assertEquals(LocalDateTime.of(2022, 6, 6, 6, 6, 6, 6), measurement.getEnd(),
-                "End date did not match.");
-        Assertions.assertEquals(new BigDecimal("50"), measurement.getValue(), "Value did not match");
-        Assertions.assertEquals(user, measurement.getUser(), "User did not match.");
+                "End date does not match.");
+        Assertions.assertEquals(new BigDecimal("50"), measurement.getValue(), "Value does not match");
+        Assertions.assertEquals(user, measurement.getUser(), "User does not match.");
     }
 }

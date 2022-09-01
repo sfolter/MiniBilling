@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FolderGeneratorTest {
+
     @Test
-    public void generateFolder(){
+    public void generateFolder() {
         final List<Price> priceList = new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2022, 1, 1), LocalDate.of(2022, 2, 2), new BigDecimal("2")));
         final User user = new User("Gosho", "2", 2, priceList);
@@ -18,6 +19,6 @@ public class FolderGeneratorTest {
         final FolderGenerator folderGenerator = new FolderGenerator(user, path);
         final String folderPath = folderGenerator.folderGenerate();
 
-        Assertions.assertEquals(path+user.getName()+"-"+user.getRef(), folderPath, "Path did not match");
+        Assertions.assertEquals(path + user.getName() + "-" + user.getRef(), folderPath, "Path does not match");
     }
 }

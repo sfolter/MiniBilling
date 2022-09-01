@@ -18,8 +18,8 @@ public class InvoiceTest {
         final User user = new User("Ivan", "1", 1, priceList);
         final List<InvoiceLine> lines = new ArrayList<>();
         lines.add(new InvoiceLine(1, new BigDecimal("436"),
-                LocalDateTime.of(2021, 1, 1, 14, 40, 00),
-                LocalDateTime.of(2021, 03, 11, 7, 00, 00), "gas", new BigDecimal("1.8"), 1, new BigDecimal("401")));
+                LocalDateTime.of(2021, 1, 1, 14, 40, 0),
+                LocalDateTime.of(2021, 3, 11, 7, 0, 0), "gas", new BigDecimal("1.8"), 1, new BigDecimal("401")));
         final List<Vat> vats = new ArrayList<>();
         vats.add(new Vat(1, 1, 0, 60, 20, new BigDecimal("150")));
         final List<Taxes> taxesLines = new ArrayList<>();
@@ -29,13 +29,13 @@ public class InvoiceTest {
                 new BigDecimal("1014"), lines, vats, taxesLines);
 
         Assertions.assertEquals(LocalDateTime.of(2022, 8, 30, 10, 53, 32), invoice.getDocumentDate(),
-                "Document date did not match");
-        Assertions.assertEquals(user, invoice.getConsumer(), "User did not match");
-        Assertions.assertEquals(new BigDecimal("511"), invoice.getTotalAmount(), "Total amount did not match");
+                "Document date does not match");
+        Assertions.assertEquals(user, invoice.getConsumer(), "User does not match");
+        Assertions.assertEquals(new BigDecimal("511"), invoice.getTotalAmount(), "Total amount does not match");
         Assertions.assertEquals(new BigDecimal("1014"), invoice.getTotalAmountWithVat(),
-                "Total amount with vat did not match");
-        Assertions.assertEquals(lines, invoice.getLines(), "Lines did not match");
-        Assertions.assertEquals(vats, invoice.getVatsLines(), "Vats did not match");
-        Assertions.assertEquals(taxesLines, invoice.getTaxesLines(), "Taxes did not match");
+                "Total amount with vat does not match");
+        Assertions.assertEquals(lines, invoice.getLines(), "Lines does not match");
+        Assertions.assertEquals(vats, invoice.getVatsLines(), "Vats does not match");
+        Assertions.assertEquals(taxesLines, invoice.getTaxesLines(), "Taxes does not match");
     }
 }

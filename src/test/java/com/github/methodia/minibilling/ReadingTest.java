@@ -21,7 +21,7 @@ public class ReadingTest {
                 new BigDecimal("2.50"), user, "gas");
 
         Assertions.assertEquals("gas", reading.getProduct(), "Reading getProduct method returns wrong information");
-        Assertions.assertEquals(new BigDecimal("2.50"), reading.getValue(), "Value did not match the expected");
+        Assertions.assertEquals(new BigDecimal("2.50"), reading.getValue(), "Value does not match the expected");
         Assertions.assertEquals(ZonedDateTime.of(2022, 2, 2, 2, 2, 2, 2, ZoneId.of("GMT")), reading.getTime(),
                 "Time is not correct");
         Assertions.assertEquals(user, reading.getUser(), "User is not correct");
