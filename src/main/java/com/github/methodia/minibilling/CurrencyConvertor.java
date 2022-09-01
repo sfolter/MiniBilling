@@ -10,7 +10,7 @@ public class CurrencyConvertor {
 
     private String currency;
 
-    public CurrencyConvertor(String currency, String key) {
+    public CurrencyConvertor(String currency) {
         this.currency = currency;
     }
 

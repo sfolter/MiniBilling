@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
-import static com.github.methodia.minibilling.InvoiceGenerator.taxedAmountPercentageVat1;
+import static com.github.methodia.minibilling.InvoiceGenerator.TAXED_AMOUNT_PERCENTAGE_VAT_1;
 
 public class JsonFileGenerator {
     private Invoice invoice;
@@ -99,7 +99,7 @@ public class JsonFileGenerator {
             int linesInVat = invoice.getVatsLines().get(i).getLines();
             newVatLine.put("lines", linesInVat);
 
-            newVatLine.put("taxedAmountPercentage", taxedAmountPercentageVat1 - percentageForVat2);
+            newVatLine.put("taxedAmountPercentage", TAXED_AMOUNT_PERCENTAGE_VAT_1 - percentageForVat2);
             percentageForVat2 += 20;
             int percentage = invoice.getVatsLines().get(i).getPercentage();
             newVatLine.put("percentage", percentage);
