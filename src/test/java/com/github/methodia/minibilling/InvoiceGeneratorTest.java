@@ -31,9 +31,12 @@ public class InvoiceGeneratorTest {
         List<VatPercentages>vatPercentageList=new ArrayList<>();
         vatPercentageList.add(new VatPercentages(new BigDecimal("60"),new BigDecimal("20")));
         vatPercentageList.add(new VatPercentages(new BigDecimal("40"),new BigDecimal("10")));
-        CurrencyConverter currencyConverter=new CurrencyConverter();
+
+        HttpRequest currencyConverter= (val) -> new BigDecimal("2");
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyConverter);
         Invoice invoice = invoiceGenerator.generate(user, measurementCollection, borderLDT, vatPercentageList);
+
+
 
         Assertions.assertEquals("10000",invoice.getDocNumber(),"DocumentNumber is incorrect.");
         Assertions.assertEquals("Georgi Ivanov Simeonov",invoice.getConsumer(),"Consumer is incorrect.");
