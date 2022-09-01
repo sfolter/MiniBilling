@@ -25,17 +25,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * @author Miroslav Kovachev
- * 21.07.2022
- * Methodia Inc.
- */
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
-        String apiKey = "xSjvqqK3AgQPI3PPKGCiDrC2q06e41xt";
-        CurrencyConverter currencyConverter = new CurrencyConverter(apiKey);
         String dateReportingTo = args[0];
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
         String inputPath = args[1];
@@ -43,11 +35,14 @@ public class Main {
 
         ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
         readingsFR.read();
+
         Collection<Reading> allReadings = readingsFR.read().stream()
                 .sorted(Comparator.comparing(Reading::getTime))
                 .toList();
 
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+
+        HttpRequest currencyConverter = new CurrencyConverter();
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyConverter);
 
         // Looping through users and sort them by their referent number
@@ -55,7 +50,6 @@ public class Main {
         List<User> users = userFR.read().stream().sorted(Comparator.comparing(User::getRef)).toList();
         //            Looping through every user and check their Measurements, and based on them and price, the algorithm below
         //            creates invoices and based on price periods, create individual lines if there is a change of prices.
-
         List<VatPercentages> vatPercentages=new ArrayList<>();
         vatPercentages.add(new VatPercentages(new BigDecimal("60"),new BigDecimal("20")));
         vatPercentages.add(new VatPercentages(new BigDecimal("40"),new BigDecimal("10")));
@@ -74,7 +68,6 @@ public class Main {
     }
 
     private static final class LocalDateAdapter extends TypeAdapter<LocalDateTime> {
-
         @Override
         public void write(final JsonWriter jsonWriter, final LocalDateTime localDate) throws IOException {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
@@ -90,14 +83,12 @@ public class Main {
     }
 
     private static void saveToFile(Invoice invoice, String outputPath, User user) throws IOException {
-
         //Parsing Invoice class into Json format using GSON library
         Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter()).create();
         String json = gson.toJson(invoice);
 
         //Sorting InvoiceLine list as we would like to get the last invoice end date
-
         List<InvoiceLine> invoiceLinesList = invoice.getLines().stream()
                 .sorted(Comparator.comparing(InvoiceLine::getEnd).reversed()).toList();
         if (!invoiceLinesList.isEmpty()) {
@@ -128,7 +119,7 @@ public class Main {
      */
     private static void creatingJsonFIle(String json, String jsonFilePath) throws IOException {
         File creatingFiles = new File(jsonFilePath);
-        creatingFiles.createNewFile();
+        boolean newFile = creatingFiles.createNewFile();
         try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
             out.write(json);
         } catch (DateTimeParseException e) {
@@ -142,7 +133,8 @@ public class Main {
      */
     private static void createFolder(String folderPath) {
         File creatingFolders = new File(folderPath);
-        boolean bool2 = creatingFolders.mkdirs();
+        boolean mkdirs = creatingFolders.mkdirs();
+
     }
 
     /**
@@ -156,7 +148,6 @@ public class Main {
         ZonedDateTime borderTimeZDT = yearMonth.atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.of("Z"));
         return LocalDateTime.parse(String.valueOf(borderTimeZDT), formatter);
     }
-
 
     /**
      * Converting the Month of last Invoice to Bulgarian language String

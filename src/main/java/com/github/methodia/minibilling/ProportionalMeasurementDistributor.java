@@ -10,11 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @author Miroslav Kovachev
- * 28.07.2022
- * Methodia Inc.
- */
 public class ProportionalMeasurementDistributor implements MeasurementPriceDistributor {
 
     final private Collection<Measurement> measurements;

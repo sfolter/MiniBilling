@@ -10,9 +10,9 @@ import java.util.List;
 
 public class InvoiceGenerator {
 
-    final private CurrencyConverter currencyConverter;
+    final private HttpRequest currencyConverter;
 
-    public InvoiceGenerator(CurrencyConverter currencyConverter) {
+    public InvoiceGenerator(HttpRequest currencyConverter) {
         this.currencyConverter = currencyConverter;
     }
 
@@ -28,17 +28,16 @@ public class InvoiceGenerator {
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
-
-
-
         List<Tax> taxList = new ArrayList<>();
         TaxGenerator taxGenerator = new TaxGenerator();
+        BigDecimal currencyValue = currencyConverter.getCurrencyValue(user.getCurrency());
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             if (dateReportingTo.compareTo(qpp.getEnd()) >= 0) {
                 int lineIndex = invoiceLines.size() + 1;
-                InvoiceLine invoiceLine = createInvoiceLine(lineIndex, qpp, user);
+                InvoiceLine invoiceLine = createInvoiceLine(lineIndex, qpp, user,currencyValue);
                 invoiceLines.add(invoiceLine);
-                taxList.add(taxGenerator.generate(new BigDecimal("1.6"), invoiceLine, taxList.size()));
+                taxList.add(taxGenerator.generate( invoiceLine,new BigDecimal("1.6"),
+                        currencyValue, taxList.size()));
             } else {
                 break;
             }
@@ -56,15 +55,17 @@ public class InvoiceGenerator {
                 vat, taxList);
     }
 
-    private InvoiceLine createInvoiceLine(int lineIndex, QuantityPricePeriod qpp, User user) {
+    private InvoiceLine createInvoiceLine(int lineIndex, QuantityPricePeriod qpp, User user,BigDecimal currencyValue) {
         BigDecimal quantity = qpp.getQuantity();
         LocalDateTime start = qpp.getStart();
         LocalDateTime end = qpp.getEnd();
         BigDecimal price = qpp.getPrice();
+
         BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice())
+                .multiply(currencyValue)
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         // add the following method in order to set up your currency converter
-        // .multiply(currencyConverter.getCurrencyValue(user.getCyrrency()))
+
         String product = qpp.getProduct();
         return new InvoiceLine(lineIndex, quantity, start, end,
                 product, price, user.getNumberPricingList(), amount);

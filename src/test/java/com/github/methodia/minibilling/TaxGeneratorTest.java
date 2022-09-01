@@ -19,16 +19,14 @@ public class TaxGeneratorTest {
         InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("100"),
                 ldtStart, ldtEnd, "gas", new BigDecimal("2"), 1, new BigDecimal("45"));
         TaxGenerator taxGenerator = new TaxGenerator();
-        Tax tax = taxGenerator.generate(taxAmount, invoiceLine, 0);
-
-
-        Assertions.assertEquals(1, tax.getIndex(), "Wrong index");
+        BigDecimal currencyValue=new BigDecimal("2.50");
+        Tax tax = taxGenerator.generate(invoiceLine,taxAmount,currencyValue,  0);
 
         List<Integer> taxLineExample = new ArrayList<>();
         taxLineExample.add(1);
         Assertions.assertEquals(taxLineExample, tax.getLines(), "Wrong Lines");
         Assertions.assertEquals(new BigDecimal("200"), tax.getAmount(), "Wrong Amount");
-
+        Assertions.assertEquals(1, tax.getIndex(), "Wrong index");
 
 
 

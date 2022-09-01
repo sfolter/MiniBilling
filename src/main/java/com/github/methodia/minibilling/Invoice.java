@@ -1,7 +1,5 @@
 package com.github.methodia.minibilling;
 
-
-
 import java.math.BigDecimal;
 import java.util.List;
 

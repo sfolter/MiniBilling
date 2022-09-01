@@ -39,8 +39,8 @@ public class VatGenerator {
             List<Integer> taxedLines = new ArrayList<>();
             BigDecimal taxedAmountPercentage = new BigDecimal("100");
             BigDecimal percentage = new BigDecimal("20");
-            BigDecimal vatAmount = tax.getAmount().multiply(percentage).divide(taxedAmountPercentage
-                    .setScale(2, RoundingMode.HALF_UP));
+            BigDecimal vatAmount = tax.getAmount().multiply(percentage).divide(taxedAmountPercentage)
+                    .setScale(2, RoundingMode.HALF_UP);
             taxedLines.add(tax.getLines().get(0));
             vatTax.add(new Vat(index + vatTax.size() + 1,taxedAmountPercentage,
                     String.valueOf(percentage), vatAmount, taxedLines));
