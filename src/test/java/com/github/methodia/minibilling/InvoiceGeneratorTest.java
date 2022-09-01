@@ -33,7 +33,7 @@ class InvoiceGeneratorTest {
 
         final CurrencyCalculator currencyCalculator = (a,f,t) -> a;
         final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyCalculator, "BGN");
-        Invoice invoice = invoiceGenerator.generate(measurements, 1, LocalDate.of(2021, Month.APRIL, 30), "BGN");
+        final Invoice invoice = invoiceGenerator.generate(measurements, 1, LocalDate.of(2021, Month.APRIL, 30), "BGN");
         Assertions.assertEquals(new BigDecimal("140").stripTrailingZeros(), invoice.getLines().get(0).getAmount(),
                 "Amount of the first line is incorrect.");
         Assertions.assertEquals(new BigDecimal("280").stripTrailingZeros(), invoice.getLines().get(1).getAmount(),

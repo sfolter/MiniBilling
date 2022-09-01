@@ -16,11 +16,13 @@ class TaxStandingGeneratorTest {
     void calculationDays() {
         final InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("100"),
                 LocalDateTime.of(2021, Month.APRIL, 3, 20, 20, 20),
-                LocalDateTime.of(2021, Month.MAY, 3 , 20, 20, 20),
+                LocalDateTime.of(2021, Month.MAY, 3, 20, 20, 20),
                 "gas", new BigDecimal("1.6"), 1, new BigDecimal("160"));
         final List<InvoiceLine> invoiceLines = new ArrayList<>();
         invoiceLines.add(invoiceLine);
-        final TaxStandingGenerator taxStandingGenerator = new TaxStandingGenerator(invoiceLines);
+        final CurrencyCalculator currencyCalculator = (a, f, t) -> a;
+        final TaxStandingGenerator taxStandingGenerator = new TaxStandingGenerator(invoiceLines, currencyCalculator,
+                "BGN", "BGN");
         final List<Tax> taxes = taxStandingGenerator.generate();
         Assertions.assertEquals(1, taxes.get(0).getLineIndex().get(0),
                 "Index for line is not the same.");

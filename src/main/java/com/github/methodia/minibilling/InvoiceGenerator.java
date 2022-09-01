@@ -6,8 +6,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class InvoiceGenerator {
-        private final CurrencyCalculator currencyCalculator;
-        private final String fromCurrency;
+
+    private final CurrencyCalculator currencyCalculator;
+    private final String fromCurrency;
 
     public InvoiceGenerator(final CurrencyCalculator currencyCalculator, final String fromCurrency) {
         this.currencyCalculator = currencyCalculator;
@@ -26,8 +27,9 @@ public class InvoiceGenerator {
         final String reference = measurements.get(0).getUser().getRef();
 
         final List<InvoiceLine> invoiceLines = invoiceLineGenerator.createInvoiceLine(measurements, borderDate,
-                currencyCalculator,fromCurrency, toCurrency);
-        final TaxGenerator taxGenerator = new TaxStandingGenerator(invoiceLines);
+                currencyCalculator, fromCurrency, toCurrency);
+        final TaxGenerator taxGenerator = new TaxStandingGenerator(invoiceLines, currencyCalculator, fromCurrency,
+                toCurrency);
         final List<Tax> taxes = taxGenerator.generate();
         final List<Vat> vat = vatGenerator.generate(invoiceLines, taxes);
 
