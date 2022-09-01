@@ -12,9 +12,9 @@ public class PriceTest {
         Price price = new Price("gas", LocalDate.of(2022, 4, 5)
                 , LocalDate.of(2022, 5, 5), new BigDecimal("2.50"));
 
-        Assertions.assertEquals("gas",price.getProduct(),"Price product getter is incorrect");
-        Assertions.assertEquals(LocalDate.of(2022,4,5),price.getStart(),"Price startDate getter is incorrect");
-        Assertions.assertEquals(LocalDate.of(2022,5,5),price.getEnd(),"Price endDate getter is incorrect");
-        Assertions.assertEquals(new BigDecimal("2.50"),price.getValue(),"Price value getter is incorrect");
+        Assertions.assertEquals("gas",price.product(),"Price product getter is incorrect");
+        Assertions.assertEquals(LocalDate.of(2022,4,5),price.start(),"Price startDate getter is incorrect");
+        Assertions.assertEquals(LocalDate.of(2022,5,5),price.end(),"Price endDate getter is incorrect");
+        Assertions.assertEquals(new BigDecimal("2.50"),price.value(),"Price value getter is incorrect");
     }
 }

@@ -23,10 +23,10 @@ public class MeasurementTest {
                 LocalDateTime.of(2022, 2, 2, 2, 2, 2), new BigDecimal("2.30"), user);
 
         Assertions.assertEquals(LocalDateTime.of(2022, 1, 1, 1, 1, 1)
-                ,measurement.getStart(),"Measuremet getStart is incorrect");
+                ,measurement.start(),"Measuremet getStart is incorrect");
         Assertions.assertEquals(LocalDateTime.of(2022, 2, 2, 2, 2, 2),
-                measurement.getEnd(),"Measurement getEnd is incorrect");
-        Assertions.assertEquals(new BigDecimal("2.30"),measurement.getValue(),"Measurement getValue is incorrect");
-        Assertions.assertEquals(user,measurement.getUser(),"Measurement getUser is incorrect");
+                measurement.end(),"Measurement getEnd is incorrect");
+        Assertions.assertEquals(new BigDecimal("2.30"),measurement.value(),"Measurement getValue is incorrect");
+        Assertions.assertEquals(user,measurement.user(),"Measurement getUser is incorrect");
     }
 }

@@ -37,7 +37,7 @@ public class Main {
         readingsFR.read();
 
         Collection<Reading> allReadings = readingsFR.read().stream()
-                .sorted(Comparator.comparing(Reading::getTime))
+                .sorted(Comparator.comparing(Reading::time))
                 .toList();
 
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
@@ -47,7 +47,7 @@ public class Main {
 
         // Looping through users and sort them by their referent number
         UserFileReader userFR = new UserFileReader(inputPath);
-        List<User> users = userFR.read().stream().sorted(Comparator.comparing(User::getRef)).toList();
+        List<User> users = userFR.read().stream().sorted(Comparator.comparing(User::ref)).toList();
         //            Looping through every user and check their Measurements, and based on them and price, the algorithm below
         //            creates invoices and based on price periods, create individual lines if there is a change of prices.
         List<VatPercentages> vatPercentages=new ArrayList<>();
@@ -56,8 +56,8 @@ public class Main {
 
         for (User user : users) {
             List<Reading> userReadings = allReadings.stream()
-                    .filter(reading -> reading.getUser().getRef()
-                            .equals(user.getRef())).toList();
+                    .filter(reading -> reading.user().ref()
+                            .equals(user.ref())).toList();
             Collection<Measurement> userMeasurements = measurementGenerator.generate(user, userReadings);
 
             Invoice invoice = invoiceGenerator.generate(user, userMeasurements, dateReportingToLDT,
@@ -97,7 +97,7 @@ public class Main {
             int outputOfTheYear = lastInvoiceDate.getYear() % 100;
 
             //Creating folder in the following path
-            String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
+            String folderPath = outputPath + "\\" + user.name() + "-" + user.ref();
             createFolder(folderPath);
 
 

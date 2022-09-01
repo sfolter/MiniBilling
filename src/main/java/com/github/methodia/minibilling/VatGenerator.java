@@ -21,6 +21,7 @@ public class VatGenerator {
             vattedLines.add(invoiceLine.getIndex());
 
             for (VatPercentages percentage : vatPercentages) {
+                //noinspection BigDecimalMethodWithoutRoundingCalled
                 BigDecimal vatAmount = invoiceLine.getAmount()
                         .multiply(percentage.taxedAmountPercentage().divide(new BigDecimal("100")))
                         .multiply(percentage.percentage().divide(new BigDecimal("100")))
@@ -39,6 +40,7 @@ public class VatGenerator {
             List<Integer> taxedLines = new ArrayList<>();
             BigDecimal taxedAmountPercentage = new BigDecimal("100");
             BigDecimal percentage = new BigDecimal("20");
+            //noinspection BigDecimalMethodWithoutRoundingCalled
             BigDecimal vatAmount = tax.getAmount().multiply(percentage).divide(taxedAmountPercentage)
                     .setScale(2, RoundingMode.HALF_UP);
             taxedLines.add(tax.getLines().get(0));

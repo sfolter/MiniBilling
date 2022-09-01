@@ -21,9 +21,9 @@ public class ReadingTest {
         Reading reading = new Reading(LocalDateTime.of(2022, 3, 4, 11, 15, 34),
                 new BigDecimal("7.30"), user);
 
-        Assertions.assertEquals(user,reading.getUser(),"User getter is incorrect");
+        Assertions.assertEquals(user,reading.user(),"User getter is incorrect");
         Assertions.assertEquals(LocalDateTime.of(2022, 3, 4, 11, 15, 34)
-                ,reading.getTime(),"Reading getTime is incorrect");
-        Assertions.assertEquals(new BigDecimal("7.30"),reading.getValue(),"Reading get value is incorrect");
+                ,reading.time(),"Reading getTime is incorrect");
+        Assertions.assertEquals(new BigDecimal("7.30"),reading.value(),"Reading get value is incorrect");
     }
 }

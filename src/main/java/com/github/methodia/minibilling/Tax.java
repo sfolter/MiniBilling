@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Tax {
 
-    private int index;
+    private final int index;
     private final List<Integer> lines;
     private final String name;
     private final BigDecimal quantity;
@@ -33,5 +33,13 @@ public class Tax {
 
     public List<Integer> getLines() {
         return lines;
+    }
+
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
     }
 }

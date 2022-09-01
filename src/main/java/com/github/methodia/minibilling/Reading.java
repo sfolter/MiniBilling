@@ -3,27 +3,6 @@ package com.github.methodia.minibilling;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Reading {
+public record Reading(LocalDateTime time, BigDecimal value, User user) {
 
-    private final LocalDateTime time;
-    private final BigDecimal value;
-    private final User user;
-
-    public Reading(LocalDateTime time, BigDecimal value, User user) {
-        this.time = time;
-        this.value = value;
-        this.user = user;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public User getUser() {
-        return user;
-    }
 }

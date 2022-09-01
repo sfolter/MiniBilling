@@ -23,12 +23,12 @@ class MeasurementGeneratorTest {
         final MeasurementGenerator measurementGenerator= new MeasurementGenerator();
         Collection<Measurement> measurementCollections=measurementGenerator.generate(test,readings);
         final Measurement singleMeasurement = measurementCollections.iterator().next();
-        LocalDateTime measurementStart = singleMeasurement.getStart();
-        LocalDateTime measurementEnd = singleMeasurement.getEnd();
-        BigDecimal value=singleMeasurement.getValue();
-        Assertions.assertEquals(reading1.getTime(),measurementStart,
+        LocalDateTime measurementStart = singleMeasurement.start();
+        LocalDateTime measurementEnd = singleMeasurement.end();
+        BigDecimal value=singleMeasurement.value();
+        Assertions.assertEquals(reading1.time(),measurementStart,
                 "Start time of measurement doesn't match with time of reading");
-        Assertions.assertEquals(reading2.getTime(),measurementEnd,
+        Assertions.assertEquals(reading2.time(),measurementEnd,
                 "End time of measurement doesn't match with time of reading");
         Assertions.assertEquals(new BigDecimal("100"),value,
                 "Quantity doesn't match.");
@@ -55,25 +55,25 @@ class MeasurementGeneratorTest {
         final MeasurementGenerator measurementGenerator= new MeasurementGenerator();
         List<Measurement> measurementCollections=measurementGenerator.generate(test,readings).stream().toList();
 
-        Assertions.assertEquals(reading1.getTime(),measurementCollections.get(0).getStart(),
+        Assertions.assertEquals(reading1.time(),measurementCollections.get(0).start(),
                 "Start time of measurement2 doesn't match with time of reading" );
-        Assertions.assertEquals(reading2.getTime(),measurementCollections.get(0).getEnd(),
+        Assertions.assertEquals(reading2.time(),measurementCollections.get(0).end(),
                 "End time of measurement2 doesn't match with time of reading" );
-        Assertions.assertEquals(new BigDecimal("100"),measurementCollections.get(0).getValue(),
+        Assertions.assertEquals(new BigDecimal("100"),measurementCollections.get(0).value(),
                 "Quantity is different.");
 
-        Assertions.assertEquals(reading2.getTime(),measurementCollections.get(1).getStart(),
+        Assertions.assertEquals(reading2.time(),measurementCollections.get(1).start(),
                 "Start time of measurement2 doesn't match with time of reading" );
-        Assertions.assertEquals(reading3.getTime(),measurementCollections.get(1).getEnd(),
+        Assertions.assertEquals(reading3.time(),measurementCollections.get(1).end(),
                 "End time of measurement2 doesn't match with time of reading" );
-        Assertions.assertEquals(new BigDecimal("70"),measurementCollections.get(1).getValue(),
+        Assertions.assertEquals(new BigDecimal("70"),measurementCollections.get(1).value(),
                 "Quantity is different.");
 
-        Assertions.assertEquals(reading3.getTime(),measurementCollections.get(2).getStart(),
+        Assertions.assertEquals(reading3.time(),measurementCollections.get(2).start(),
                 "Start time of measurement2 doesn't match with time of reading" );
-        Assertions.assertEquals(reading4.getTime(),measurementCollections.get(2).getEnd(),
+        Assertions.assertEquals(reading4.time(),measurementCollections.get(2).end(),
                 "End time of measurement2 doesn't match with time of reading" );
-        Assertions.assertEquals(new BigDecimal("30"),measurementCollections.get(2).getValue(),
+        Assertions.assertEquals(new BigDecimal("30"),measurementCollections.get(2).value(),
                 "Quantity is different.");
 
     }
