@@ -58,6 +58,9 @@ public class InvoiceGenerator {
         totalAmountWithVat = totalAmountWithVat.add(
                         vats.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add))
                 .setScale(2, RoundingMode.HALF_UP);
+        if (invoiceLines.size()==0){
+            throw new IllegalStateException();
+        }
 
         return new Invoice(Invoice.getDocumentNumber(), measurements.get(0).getUser().getName(),
                 measurements.get(0).getUser().getRef(), totalAmount, totalAmountWithVat, invoiceLines, taxes, vats);

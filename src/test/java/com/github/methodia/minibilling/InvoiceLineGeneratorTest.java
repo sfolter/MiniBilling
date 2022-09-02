@@ -40,7 +40,6 @@ public class InvoiceLineGeneratorTest {
         QuantityPricePeriod qpp = new QuantityPricePeriod(LocalDateTime.of(2021, Month.MAY, 10, 13, 40),
                 LocalDateTime.of(2021, Month.AUGUST, 11, 18, 50), price, new BigDecimal("100"),
                 user);
-        InvoiceLine invoiceLine = invoiceLineGenerator.generateInvoiceLine(1, qpp, user);
-        return invoiceLine;
+        return invoiceLineGenerator.generateInvoiceLine(1, qpp, user);
     }
 }

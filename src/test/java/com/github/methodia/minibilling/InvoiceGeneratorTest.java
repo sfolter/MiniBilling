@@ -66,4 +66,16 @@ public class InvoiceGeneratorTest {
         Assertions.assertEquals(new BigDecimal("218.6"), invoice.getTotalAmount(), "Amount is incorrect");
 
     }
+
+    @Test
+    void emptyMeasurementReturnExceptions() {
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+
+        List<Reading> readings = new ArrayList<>();
+
+        Assertions.assertThrows(IllegalStateException.class, () -> invoiceGenerator.generate(LocalDateTime.of(2021, Month.AUGUST, 10, 5, 30),
+                measurementGenerator.generate(null, readings), "", "", null),"The measurement is empty");
+    }
+
 }

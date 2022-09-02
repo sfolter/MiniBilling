@@ -20,6 +20,9 @@ public class MeasurementGenerator implements Measurements {
             previous.add(reading);
 
         });
+        if (measurements.size()==0){
+            throw new IllegalStateException();
+        }
 
         return measurements;
 

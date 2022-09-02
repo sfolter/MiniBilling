@@ -56,8 +56,7 @@ public class InvoiceVatGeneratorTest {
         taxList.add(new Tax(1, lines, new BigDecimal("1.8"), new BigDecimal("0.4"), new BigDecimal("100")
         ));
         InvoiceVatGenerator vatGenerator = new InvoiceVatGenerator();
-        List<Vat> vats = vatGenerator.generateVat(invoiceLine, taxList);
-        return vats;
+        return vatGenerator.generateVat(invoiceLine, taxList);
     }
 
 

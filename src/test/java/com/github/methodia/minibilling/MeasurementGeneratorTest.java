@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MeasurementGeneratorTest {
@@ -71,19 +70,15 @@ public class MeasurementGeneratorTest {
 
 
     }
-//    @Test
-//    void emptyMeasurementReturnExceptions(){
-//        Measurements measurements = new MeasurementGenerator();
-//        User user = getUser();
-//        List<Reading> readings = new ArrayList<>();
-//
-//        Assertions.assertThrows(IllegalStateException.class,
-//                ()->{
-//
-//                }
-//                );
-//
-//    }
+
+    @Test
+    void emptyMeasurementReturnExceptions() {
+        MeasurementGenerator measurementGenerator = new MeasurementGenerator();
+
+        List<Reading> readings = new ArrayList<>();
+
+        Assertions.assertThrows(IllegalStateException.class,()-> measurementGenerator.generate(null, readings),"The measurement is empty");
+    }
 
     private User getUser() {
         List<Price> prices = new ArrayList<>();
@@ -91,7 +86,6 @@ public class MeasurementGeneratorTest {
                 LocalDate.of(2021, Month.FEBRUARY, 15), new BigDecimal("200"));
         prices.add(price);
 
-        User user = new User("Marko", "2", 1, prices);
-        return user;
+        return new User("Marko", "2", 1, prices);
     }
 }
