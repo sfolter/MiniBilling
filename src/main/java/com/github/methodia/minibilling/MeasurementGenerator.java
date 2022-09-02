@@ -32,6 +32,9 @@ public class MeasurementGenerator {
                 }
             }
         }
+        if (measurements.isEmpty()) {
+            throw new IllegalStateException();
+        }
         return measurements;
     }
 

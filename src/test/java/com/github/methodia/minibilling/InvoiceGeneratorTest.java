@@ -67,6 +67,42 @@ public class InvoiceGeneratorTest {
         Assertions.assertEquals(new BigDecimal("208.05"),
                 generatedInvoice.getTotalAmountWithVat().setScale(2, RoundingMode.HALF_UP),
                 "Total amount with vat does not match");
-
+        Assertions.assertEquals(1, generatedInvoice.getLines().get(0).getIndex(), "Index in line does not match");
+        Assertions.assertEquals(new BigDecimal("50"), generatedInvoice.getLines().get(0).getQuantity(),
+                "Quantity in line does not match");
+        Assertions.assertEquals(LocalDateTime.of(2022, 2, 2, 2, 2, 2, 2), generatedInvoice.getLines().get(0).getStart(),
+                "Start date in line does not match");
+        Assertions.assertEquals(LocalDateTime.of(2022, 5, 2, 2, 2, 2, 2), generatedInvoice.getLines().get(0).getEnd(),
+                "End date in line does not match");
+        Assertions.assertEquals("gas", generatedInvoice.getLines().get(0).getProduct(),
+                "Product in line does not match");
+        Assertions.assertEquals(new BigDecimal("2"), generatedInvoice.getLines().get(0).getPrice(),
+                "Price in line does not match");
+        Assertions.assertEquals(1, generatedInvoice.getLines().get(0).getPriceList(),
+                "Price list in line does not match");
+        Assertions.assertEquals(new BigDecimal("51.13"), generatedInvoice.getLines().get(0).getAmount(),
+                "Amount in line does not match");
+        Assertions.assertEquals(1, generatedInvoice.getTaxesLines().get(0).getIndex(), "Index in tax does not match");
+        Assertions.assertEquals(1, generatedInvoice.getTaxesLines().get(0).getLines(), "Lines in tax does not match");
+        Assertions.assertEquals("Standing charge", generatedInvoice.getTaxesLines().get(0).getName(),
+                "Name in tax does not match");
+        Assertions.assertEquals(89, generatedInvoice.getTaxesLines().get(0).getQuantity(),
+                "Quantity in tax does not match");
+        Assertions.assertEquals("days", generatedInvoice.getTaxesLines().get(0).getUnit(),
+                "Unit in tax does not match");
+        Assertions.assertEquals(new BigDecimal("1.6"),
+                generatedInvoice.getTaxesLines().get(0).getPrice().setScale(1, RoundingMode.HALF_UP),
+                "Price in tax does not match");
+        Assertions.assertEquals(new BigDecimal("72.81"), generatedInvoice.getTaxesLines().get(0).getAmount(),
+                "Amount in tax does not match");
+        Assertions.assertEquals(1, generatedInvoice.getVatsLines().get(0).getIndex(), "Index in vat does not match");
+        Assertions.assertEquals(1, generatedInvoice.getVatsLines().get(0).getLines(), "Lines in vat does not match");
+        Assertions.assertEquals(0, generatedInvoice.getVatsLines().get(0).getTaxes(), "Tax in vat does not match");
+        Assertions.assertEquals(60, generatedInvoice.getVatsLines().get(0).getTaxedAmountPercentage(),
+                "Taxed amount percentage does not match");
+        Assertions.assertEquals(20, generatedInvoice.getVatsLines().get(0).getPercentage(),
+                "Percentage does not match");
+        Assertions.assertEquals(new BigDecimal("6.14"), generatedInvoice.getVatsLines().get(0).getAmount(),
+                "Amount in vat does not match");
     }
 }

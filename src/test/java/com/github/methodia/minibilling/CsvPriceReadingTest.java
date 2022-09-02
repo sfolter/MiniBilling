@@ -20,5 +20,9 @@ public class CsvPriceReadingTest {
         pricesToCheck.add(new Price("gas", LocalDate.of(2022, 2, 2), LocalDate.of(2022, 3, 3), new BigDecimal("1.5")));
 
         Assertions.assertEquals(pricesToCheck.size(), prices.size(), "Prices size does not match");
+        Assertions.assertEquals("gas",prices.get(0).getProduct(), "Product does not match" );
+        Assertions.assertEquals(LocalDate.of(2021, 1,1),prices.get(0).getStart(), "Start date does not match");
+        Assertions.assertEquals(LocalDate.of(2022,12,31), prices.get(0).getEnd(), "End date does not match");
+        Assertions.assertEquals(new BigDecimal("1.8"), prices.get(0).getValue(), "Value does not match");
     }
 }
