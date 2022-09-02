@@ -108,4 +108,5 @@ public class InvoiceGenerator {
         YearMonth yearMonth = YearMonth.parse(yearMonthStr, DateTimeFormatter.ofPattern("yy-MM"));
         return yearMonth.atEndOfMonth().atTime(23, 59, 59);
     }
+    public String getCurrency(){return currency;}
 }

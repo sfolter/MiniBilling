@@ -15,6 +15,7 @@ import static com.github.methodia.minibilling.Main.API_KEY;
 public class CurrencyExchange {
 
 
+
     public JSONObject exchange() throws IOException, ParseException {
         String url_str = "https://v6.exchangerate-api.com/v6/" + API_KEY + "/latest/BGN";
         URL url = new URL(url_str);

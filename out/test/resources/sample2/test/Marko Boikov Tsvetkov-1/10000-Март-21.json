@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-30T09:26:04.780194100",
+    "documentDate": "2022-09-02T09:27:45.377559900",
     "documentNumber": "10000",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
-    "totalAmount": "73.08 BGN",
-    "totalAmountWithVat": "314.54 BGN",
+    "totalAmount": "37.37 EUR",
+    "totalAmountWithVat": "160.85 EUR",
     "lines": [
         {
             "index": 1,
@@ -14,7 +14,7 @@
             "product": "gas",
             "price": 0.7,
             "priceList": 1,
-            "amount": "48.72 BGN"
+            "amount": "24.91 EUR"
         },
         {
             "index": 2,
@@ -24,7 +24,7 @@
             "product": "gas",
             "price": 1.4,
             "priceList": 1,
-            "amount": "24.36 BGN"
+            "amount": "12.46 EUR"
         }
     ],
     "taxes": [
@@ -35,7 +35,7 @@
             "quantity": 58,
             "unit": "days",
             "price": 1.6,
-            "amount": "92.80 BGN"
+            "amount": "47.45 EUR"
         },
         {
             "index": 2,
@@ -44,7 +44,7 @@
             "quantity": 16,
             "unit": "days",
             "price": 1.6,
-            "amount": "25.60 BGN"
+            "amount": "13.09 EUR"
         }
     ],
     "vat": [
@@ -53,14 +53,14 @@
             "lines": 1,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "5.85 BGN"
+            "amount": "2.99 EUR"
         },
         {
             "index": 2,
             "lines": 1,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "1.95 BGN"
+            "amount": "1.00 EUR"
         }
     ]
 }
