@@ -2,6 +2,7 @@ package com.github.methodia.minibilling;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -77,7 +78,8 @@ public class MeasurementGeneratorTest {
 
         List<Reading> readings = new ArrayList<>();
 
-        Assertions.assertThrows(IllegalStateException.class,()-> measurementGenerator.generate(null, readings),"The measurement is empty");
+        final Executable executable = () -> measurementGenerator.generate(null, readings);
+        Assertions.assertThrows(IllegalStateException.class, executable);
     }
 
     private User getUser() {
@@ -89,3 +91,4 @@ public class MeasurementGeneratorTest {
         return new User("Marko", "2", 1, prices);
     }
 }
+
