@@ -21,7 +21,7 @@ class ProportionalMeasurementDistributorTest {
 
         final BigDecimal priceValue = new BigDecimal("1.4");
         final Price price = new Price("gas", LocalDate.of(2021, 3, 1),
-                LocalDate.of(2021, 5, 1), priceValue);
+                LocalDate.of(2021, 5, 1), priceValue, 1);
 
         List<Price> prices = new ArrayList<>();
         prices.add(price);
@@ -63,9 +63,9 @@ class ProportionalMeasurementDistributorTest {
         final BigDecimal priceValue2 = new BigDecimal("3.50");
 
         final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
-                LocalDate.of(2021, 3, 20), priceValue1);
+                LocalDate.of(2021, 3, 20), priceValue1, 1);
         final Price price2 = new Price("gas", LocalDate.of(2021, 3, 21),
-                LocalDate.of(2021, 5, 1), priceValue2);
+                LocalDate.of(2021, 5, 1), priceValue2, 1);
 
         List<Price> prices = new ArrayList<>();
         prices.add(price1);
@@ -125,13 +125,13 @@ class ProportionalMeasurementDistributorTest {
         final BigDecimal priceValue3 = new BigDecimal("4.00");
 
         final Price price1 = new Price("gas", LocalDate.of(2021, 3, 1),
-                LocalDate.of(2021, 3, 10), priceValue1);
+                LocalDate.of(2021, 3, 10), priceValue1, 1);
 
         final Price price2 = new Price("gas", LocalDate.of(2021, 3, 11),
-                LocalDate.of(2021, 3, 18), priceValue2);
+                LocalDate.of(2021, 3, 18), priceValue2, 1);
 
         final Price price3 = new Price("gas", LocalDate.of(2021, 3, 19),
-                LocalDate.of(2021, 4, 30), priceValue3);
+                LocalDate.of(2021, 4, 30), priceValue3, 1);
 
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
@@ -205,10 +205,10 @@ class ProportionalMeasurementDistributorTest {
         final BigDecimal priceValue1 = new BigDecimal("1.50");
         final BigDecimal priceValue2 = new BigDecimal("3.50");
         final Price price1 = new Price("gas", LocalDate.of(2021, 3, 20),
-                LocalDate.of(2021, 3, 30), priceValue1);
+                LocalDate.of(2021, 3, 30), priceValue1, 1);
 
         final Price price2 = new Price("gas", LocalDate.of(2021, 3, 31),
-                LocalDate.of(2021, 4, 14), priceValue2);
+                LocalDate.of(2021, 4, 14), priceValue2, 1);
 
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);
@@ -267,10 +267,10 @@ class ProportionalMeasurementDistributorTest {
         final BigDecimal priceValue2 = new BigDecimal("3.50");
 
         final Price price1 = new Price("gas", LocalDate.of(2021, 4, 20),
-                LocalDate.of(2021, 5, 30), priceValue1);
+                LocalDate.of(2021, 5, 30), priceValue1, 1);
 
         final Price price2 = new Price("gas", LocalDate.of(2021, 3, 31),
-                LocalDate.of(2021, 4, 14), priceValue2);
+                LocalDate.of(2021, 4, 14), priceValue2, 1);
 
         final ArrayList<Price> prices = new ArrayList<>();
         prices.add(price1);

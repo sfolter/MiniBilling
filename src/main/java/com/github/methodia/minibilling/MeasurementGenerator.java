@@ -23,8 +23,8 @@ public class MeasurementGenerator {
             for (int i = 0; i < readings.size() - 1; i++) {
                 Reading current = readings.get(i);
                 Reading next = readings.get(i + 1);
-                BigDecimal value = next.value().subtract(current.value());
-                measurements.add(new Measurement(current.time(), next.time(), value, user));
+                BigDecimal value = next.getValue().subtract(current.getValue());
+                measurements.add(new Measurement(current.getTime(), next.getTime(), value, user));
             }
         }
         return measurements;

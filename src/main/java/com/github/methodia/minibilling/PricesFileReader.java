@@ -52,10 +52,10 @@ public class PricesFileReader implements PricesReader {
 
                         List<Price> list = new ArrayList<>();
                         if (result.get(numberPricingList) == null) {
-                            list.add(new Price(product, start, end, price));
+                            list.add(new Price(product, start, end, price, 1));
                             result.put(numberPricingList, list);
                         } else {
-                            result.get(numberPricingList).add(new Price(product, start, end, price));
+                            result.get(numberPricingList).add(new Price(product, start, end, price,1));
                         }
                     }
                 } catch (IOException e) {

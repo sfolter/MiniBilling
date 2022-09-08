@@ -20,8 +20,15 @@ dependencies {
 // https://mvnrepository.com/artifact/org.json/json
     implementation group: 'org.json', name: 'json', version: '20211205'
 
+    // https://mvnrepository.com/artifact/postgresql/postgresql
+    implementation group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
+
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.0'
+
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.7.0'
+
 
 }
 

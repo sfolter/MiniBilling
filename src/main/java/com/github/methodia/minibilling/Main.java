@@ -1,16 +1,23 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.Connection.DataBaseConnect;
+
+
+import com.github.methodia.minibilling.jdbcQueries.ReadingsDataBaseRead;
+import com.github.methodia.minibilling.jdbcQueries.UserDataBaseRead;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -25,6 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -32,32 +40,36 @@ public class Main {
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
         String inputPath = args[1];
         String outputPath = args[2];
+        Connection dataBaseConnector=DataBaseConnect.createConnection("postgres","123321123","postgres");
+        List<User> userList = UserDataBaseRead.userReader(dataBaseConnector);
+        List<Reading> readings = ReadingsDataBaseRead.readingsReader(dataBaseConnector, userList);
+        //        ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
+//        readingsFR.read();
 
-        ReadingsFileReader readingsFR = new ReadingsFileReader(inputPath);
-        readingsFR.read();
+//        Collection<Reading> allReadings = readingsFR.read().stream()
+//                .sorted(Comparator.comparing(Reading::time))
+//                .toList();
 
-        Collection<Reading> allReadings = readingsFR.read().stream()
-                .sorted(Comparator.comparing(Reading::time))
-                .toList();
 
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
-
-        HttpRequest currencyConverter = new CurrencyConverter();
+        CurrencyConverter currencyConverter = new CurrencyRate();
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyConverter);
 
         // Looping through users and sort them by their referent number
-        UserFileReader userFR = new UserFileReader(inputPath);
-        List<User> users = userFR.read().stream().sorted(Comparator.comparing(User::ref)).toList();
+        //UserFileReader userFR = new UserFileReader(inputPath);
+        //List<User> users = userFR.read().stream().sorted(Comparator.comparing(User::getRef)).toList();
         //            Looping through every user and check their Measurements, and based on them and price, the algorithm below
         //            creates invoices and based on price periods, create individual lines if there is a change of prices.
         List<VatPercentages> vatPercentages=new ArrayList<>();
         vatPercentages.add(new VatPercentages(new BigDecimal("60"),new BigDecimal("20")));
         vatPercentages.add(new VatPercentages(new BigDecimal("40"),new BigDecimal("10")));
 
-        for (User user : users) {
-            List<Reading> userReadings = allReadings.stream()
-                    .filter(reading -> reading.user().ref()
-                            .equals(user.ref())).toList();
+        for (User user : userList) {
+            List<Reading> userReadings=readings.stream()
+                    .filter(reading -> reading.getUser().getRef().equals(user.getRef())).toList();
+            // List<Reading> userReadings = allReadings.stream()
+//                    .filter(reading -> reading.user().getRef()
+//                            .equals(user.getRef())).toList();
             Collection<Measurement> userMeasurements = measurementGenerator.generate(user, userReadings);
 
             Invoice invoice = invoiceGenerator.generate(user, userMeasurements, dateReportingToLDT,
@@ -97,7 +109,7 @@ public class Main {
             int outputOfTheYear = lastInvoiceDate.getYear() % 100;
 
             //Creating folder in the following path
-            String folderPath = outputPath + "\\" + user.name() + "-" + user.ref();
+            String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
             createFolder(folderPath);
 
 

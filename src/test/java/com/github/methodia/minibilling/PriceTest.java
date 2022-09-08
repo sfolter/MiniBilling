@@ -10,7 +10,7 @@ public class PriceTest {
     @Test
     void testPriceGetters(){
         Price price = new Price("gas", LocalDate.of(2022, 4, 5)
-                , LocalDate.of(2022, 5, 5), new BigDecimal("2.50"));
+                , LocalDate.of(2022, 5, 5), new BigDecimal("2.50"), 1);
 
         Assertions.assertEquals("gas",price.product(),"Price product getter is incorrect");
         Assertions.assertEquals(LocalDate.of(2022,4,5),price.start(),"Price startDate getter is incorrect");

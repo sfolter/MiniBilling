@@ -10,9 +10,9 @@ import java.util.List;
 
 public class InvoiceGenerator {
 
-    final private HttpRequest currencyConverter;
+    final private CurrencyConverter currencyConverter;
 
-    public InvoiceGenerator(HttpRequest currencyConverter) {
+    public InvoiceGenerator(CurrencyConverter currencyConverter) {
         this.currencyConverter = currencyConverter;
     }
 
@@ -24,13 +24,13 @@ public class InvoiceGenerator {
     public Invoice generate(User user, Collection<Measurement> measurements, LocalDateTime dateReportingTo,
                             List<VatPercentages> vatPercentages) {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor =
-                new ProportionalMeasurementDistributor(measurements, user.price());
+                new ProportionalMeasurementDistributor(measurements, user.getPrice());
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
         List<Tax> taxList = new ArrayList<>();
         TaxGenerator taxGenerator = new TaxGenerator();
-        BigDecimal currencyValue = currencyConverter.getCurrencyValue(user.currency());
+        BigDecimal currencyValue = currencyConverter.getCurrencyValue(user.getCurrency());
         for (QuantityPricePeriod qpp : quantityPricePeriods) {
             if (dateReportingTo.compareTo(qpp.end()) >= 0) {
                 int lineIndex = invoiceLines.size() + 1;
@@ -44,14 +44,14 @@ public class InvoiceGenerator {
         }
 
         String documentNumber = Invoice.getDocumentNumber();
-        String userName = user.name();
+        String userName = user.getName();
         List<Vat> vat = new VatGenerator().generate(vatPercentages, invoiceLines, taxList);
 
         BigDecimal taxAmount = taxList.stream().map(Tax::getAmount).reduce(new BigDecimal(0), BigDecimal::add);
         BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(taxAmount, BigDecimal::add);
         BigDecimal totalAmountWithVat = vat.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add);
 
-        return new Invoice(documentNumber, userName, user.ref(), totalAmount, totalAmountWithVat, invoiceLines,
+        return new Invoice(documentNumber, userName, user.getRef(), totalAmount, totalAmountWithVat, invoiceLines,
                 vat, taxList);
     }
 
@@ -68,7 +68,7 @@ public class InvoiceGenerator {
 
         String product = qpp.product();
         return new InvoiceLine(lineIndex, quantity, start, end,
-                product, price, user.numberPricingList(), amount);
+                product, price, user.getNumberPricingList(), amount);
     }
 
 

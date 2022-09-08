@@ -18,7 +18,7 @@ public class InvoiceGeneratorTest {
 
         List<Price> priceList = new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2020, 4, 5)
-                , LocalDate.of(2022, 5, 5), new BigDecimal("2.50")));
+                , LocalDate.of(2022, 5, 5), new BigDecimal("2.50"), 1));
 
         User user = new User("Georgi Ivanov Simeonov", "2", 1, priceList, "EUR");
 
@@ -34,8 +34,9 @@ public class InvoiceGeneratorTest {
         vatPercentageList.add(new VatPercentages(new BigDecimal("60"), new BigDecimal("20")));
         vatPercentageList.add(new VatPercentages(new BigDecimal("40"), new BigDecimal("10")));
 
-        HttpRequest currencyConverter = (val) -> new BigDecimal("2");
-        BigDecimal currencyRate = new BigDecimal("2");
+        BigDecimal currencyRate= new BigDecimal("2");
+        CurrencyConverter currencyConverter = (val) -> currencyRate;
+
 
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyConverter);
         Invoice invoice = invoiceGenerator.generate(user, measurementCollection, borderLDT, vatPercentageList);

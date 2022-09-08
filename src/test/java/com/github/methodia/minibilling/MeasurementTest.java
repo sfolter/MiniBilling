@@ -14,9 +14,9 @@ public class MeasurementTest {
     void measurementGettersTest(){
         List<Price> priceList=new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2022,3,1),
-                LocalDate.of(2022,3,2),new BigDecimal("2.50")));
+                LocalDate.of(2022,3,2),new BigDecimal("2.50"),1));
         priceList.add(new Price("gas", LocalDate.of(2022,3,3),
-                LocalDate.of(2022,4,3),new BigDecimal("3.50")));
+                LocalDate.of(2022,4,3),new BigDecimal("3.50"),1));
         User user = new User("Georgi Ivanov Milanov","1",2,priceList,"EUR");
 
         Measurement measurement = new Measurement(LocalDateTime.of(2022, 1, 1, 1, 1, 1),

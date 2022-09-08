@@ -39,7 +39,7 @@ public class ReadingsFileReader implements ReadingsReader {
                 LocalDateTime instant = LocalDateTime.from(timeZDT);
                 BigDecimal price = new BigDecimal(data[3]);
 
-                User user = userFileReader.read().stream().filter(user1 -> user1.ref()
+                User user = userFileReader.read().stream().filter(user1 -> user1.getRef()
                         .equals(referentNumber)).findFirst().orElse(null);
 
                 result.add(new Reading(instant, price, user));
