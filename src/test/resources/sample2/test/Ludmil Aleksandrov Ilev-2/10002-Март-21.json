@@ -1,10 +1,10 @@
 {
-    "documentDate": "2022-08-30T09:26:05.081419400",
+    "documentDate": "2022-09-02T09:27:45.786235400",
     "documentNumber": "10002",
     "consumer": "Ludmil Aleksandrov Ilev",
     "reference": "2",
-    "totalAmount": "243.20 BGN",
-    "totalAmountWithVat": "731.40 BGN",
+    "totalAmount": "124.35 EUR",
+    "totalAmountWithVat": "373.96 EUR",
     "lines": [
         {
             "index": 1,
@@ -14,7 +14,7 @@
             "product": "gas",
             "price": 0.4,
             "priceList": 2,
-            "amount": "42.56 BGN"
+            "amount": "21.76 EUR"
         },
         {
             "index": 2,
@@ -24,7 +24,7 @@
             "product": "gas",
             "price": 4.4,
             "priceList": 2,
-            "amount": "200.64 BGN"
+            "amount": "102.59 EUR"
         }
     ],
     "taxes": [
@@ -35,7 +35,7 @@
             "quantity": 58,
             "unit": "days",
             "price": 1.6,
-            "amount": "92.80 BGN"
+            "amount": "47.45 EUR"
         },
         {
             "index": 2,
@@ -44,7 +44,7 @@
             "quantity": 24,
             "unit": "days",
             "price": 1.6,
-            "amount": "38.40 BGN"
+            "amount": "19.63 EUR"
         }
     ],
     "vat": [
@@ -53,14 +53,14 @@
             "lines": 1,
             "taxedAmountPercentage": 60,
             "percentage": 20,
-            "amount": "5.11 BGN"
+            "amount": "2.61 EUR"
         },
         {
             "index": 2,
             "lines": 1,
             "taxedAmountPercentage": 40,
             "percentage": 10,
-            "amount": "1.70 BGN"
+            "amount": "0.87 EUR"
         }
     ]
 }

@@ -35,6 +35,8 @@ public class MeasurementGeneratorTest {
 
         Assertions.assertEquals(readingTestOne.getTime().toLocalDateTime(), start, "Start times don't match");
         Assertions.assertEquals(readingTestOne.getUser().getName(), consumer, "Start times don't match");
+        Assertions.assertEquals("gas",readingTestOne.getProduct(),"Product doesn't match");
+
         Assertions.assertEquals(readingTestTwo.getTime().toLocalDateTime(), end, "End times don't match" );
         Assertions.assertEquals(readingTestTwo.getValue().subtract(readingTestOne.getValue()), value, "Quantity doesn't match");
 

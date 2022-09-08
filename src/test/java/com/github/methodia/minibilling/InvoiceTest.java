@@ -41,6 +41,12 @@ public class InvoiceTest {
         Assertions.assertEquals("1", invoice.getDocumentNumberTest(), "Document number is incorrect");
         Assertions.assertEquals(new BigDecimal("10"), invoice.getTotalAmount(), "Total amount is incorrect");
         Assertions.assertEquals(new BigDecimal("100"), invoice.getTotalAmountWithVat(), "Total amount with VAT is incorrect");
+        Assertions.assertEquals(1, invoice.getTaxesLines().size(), "TaxLines don't match");
+        Assertions.assertEquals(1, invoice.getLines().size(), "Lines don't match");
+        Assertions.assertEquals(invoiceLines.get(0).getStart(), invoice.getDocumentDate(), "DocumentDate is incorrect");
+        Assertions.assertEquals(user.getName(), invoice.getConsumer().getName(), "User doesn't match");
+        Assertions.assertEquals(1, invoice.getVatsLines().size(), "VAT lines don't match");
+
 
     }
 }

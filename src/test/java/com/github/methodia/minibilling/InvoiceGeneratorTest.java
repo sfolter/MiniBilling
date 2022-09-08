@@ -59,5 +59,6 @@ public class InvoiceGeneratorTest {
         Assertions.assertEquals(taxLines.size(), generatedInvoice.getTaxesLines().size(), "Taxes don't match");
         Assertions.assertEquals(vatLines.size(), generatedInvoice.getVatsLines().size(), "VATs don't match");
 
+
     }
 }

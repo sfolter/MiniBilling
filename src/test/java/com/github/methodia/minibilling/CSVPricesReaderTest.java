@@ -18,7 +18,6 @@ public class CSVPricesReaderTest{
             final List<Price> pricesToCheck = new ArrayList<>();
             pricesToCheck.add(
                     new Price("gas", LocalDate.of(2022, 2, 2), LocalDate.of(2022, 3, 3), new BigDecimal("1.5")));
-
             Assertions.assertEquals(pricesToCheck.size(), prices.size(), "Prices size don't match");
 
             }

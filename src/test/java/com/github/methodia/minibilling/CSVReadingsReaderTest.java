@@ -46,5 +46,7 @@ public class CSVReadingsReaderTest {
                         users.get("0"), "gas"));
 
         Assertions.assertEquals(checkReadingsTo.size(), readings.size(), "Readings size doesn't match");
+        Assertions.assertEquals(checkReadingsTo.get(0).getProduct(), priceList.get(0).getProduct(), "Product doesn't match");
+
     }
 }
