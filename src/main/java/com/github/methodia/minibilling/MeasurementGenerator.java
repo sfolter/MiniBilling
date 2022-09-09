@@ -20,7 +20,9 @@ public class MeasurementGenerator {
             if (user.ref().equals(reading.user().ref())) {
                 if (null != previous) {
                     final BigDecimal value = reading.value().subtract(previous.value());
-                    measurements.add(new Measurement(previous.time().toLocalDateTime(), reading.time().toLocalDateTime(), value, user));
+                    measurements.add(
+                            new Measurement(previous.time().toLocalDateTime(), reading.time().toLocalDateTime(), value,
+                                    user));
                 }
                 previous = reading;
             }

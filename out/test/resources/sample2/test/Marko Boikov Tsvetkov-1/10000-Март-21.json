@@ -1,9 +1,10 @@
 {
-    "documentDate": "2022-08-09T14:40:11.026998300",
+    "documentDate": "2022-08-19T11:44:33.400200500",
     "documentNumber": "10000",
     "consumer": "Marko Boikov Tsvetkov",
     "reference": "1",
-    "totalAmount": 73.08,
+    "totalAmount": "191.48BGN",
+    "totalAmountWithVat": "368.37BGN",
     "lines": [
         {
             "index": 1,
@@ -12,8 +13,8 @@
             "lineEnd": "2021-02-28T23:59:59Z",
             "product": "gas",
             "price": 0.7,
-            "priceList": 2,
-            "amount": 48.72
+            "priceList": 1,
+            "amount": "48.72BGN"
         },
         {
             "index": 2,
@@ -22,8 +23,72 @@
             "lineEnd": "2021-03-17T10:20:00Z",
             "product": "gas",
             "price": 1.4,
-            "priceList": 2,
-            "amount": 24.36
+            "priceList": 1,
+            "amount": "24.36BGN"
+        }
+    ],
+    "taxes": [
+        {
+            "index": 1,
+            "linesIndex": 1,
+            "name": "Standing charge",
+            "quantity": 58,
+            "unit": "days",
+            "price": "1.60BGN",
+            "amount": "92.80BGN"
+        },
+        {
+            "index": 2,
+            "linesIndex": 2,
+            "name": "Standing charge",
+            "quantity": 16,
+            "unit": "days",
+            "price": "1.60BGN",
+            "amount": "25.60BGN"
+        }
+    ],
+    "vat": [
+        {
+            "index": 1,
+            "lineIndex": 1,
+            "taxedAmountPercentage": 60,
+            "percentage": 20,
+            "amount": "5.85BGN"
+        },
+        {
+            "index": 2,
+            "lineIndex": 1,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "1.95BGN"
+        },
+        {
+            "index": 3,
+            "lineIndex": 1,
+            "taxedAmountPercentage": 100,
+            "percentage": 20,
+            "amount": "18.56BGN"
+        },
+        {
+            "index": 1,
+            "lineIndex": 2,
+            "taxedAmountPercentage": 60,
+            "percentage": 20,
+            "amount": "2.92BGN"
+        },
+        {
+            "index": 2,
+            "lineIndex": 2,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "0.97BGN"
+        },
+        {
+            "index": 3,
+            "lineIndex": 2,
+            "taxedAmountPercentage": 100,
+            "percentage": 20,
+            "amount": "5.12BGN"
         }
     ]
 }

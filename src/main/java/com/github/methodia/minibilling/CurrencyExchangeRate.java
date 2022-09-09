@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class CurrencyExchangeRate {
+
     public static JSONObject currencyExchangeRate() throws IOException, ParseException {
         final String urlStr = "https://v6.exchangerate-api.com/v6/03049edfdad9865e25818961/latest/BGN";
 

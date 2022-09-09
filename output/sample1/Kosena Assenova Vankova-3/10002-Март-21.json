@@ -1,9 +1,10 @@
 {
-    "documentDate": "2022-08-09T10:26:48.748830700",
+    "documentDate": "2022-08-31T09:26:49.609806100",
     "documentNumber": "10002",
     "consumer": "Kosena Assenova Vankova",
     "reference": "3",
-    "totalAmount": 784.8,
+    "totalAmount": "895.20BGN",
+    "totalAmountWithVat": "1042.85BGN",
     "lines": [{
         "index": 1,
         "quantity": 436,
@@ -12,6 +13,38 @@
         "product": "gas",
         "price": 1.8,
         "priceList": 1,
-        "amount": 784.8
-    }]
+        "amount": "784.80BGN"
+    }],
+    "taxes": [{
+        "index": 1,
+        "linesIndex": 1,
+        "name": "Standing charge",
+        "quantity": 69,
+        "unit": "days",
+        "price": "1.60BGN",
+        "amount": "110.40BGN"
+    }],
+    "vat": [
+        {
+            "index": 1,
+            "lineIndex": 1,
+            "taxedAmountPercentage": 60,
+            "percentage": 20,
+            "amount": "94.18BGN"
+        },
+        {
+            "index": 2,
+            "lineIndex": 1,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "31.39BGN"
+        },
+        {
+            "index": 3,
+            "lineIndex": 1,
+            "taxedAmountPercentage": 100,
+            "percentage": 20,
+            "amount": "22.08BGN"
+        }
+    ]
 }

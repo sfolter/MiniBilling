@@ -13,11 +13,13 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class JsonFileGenerator {
+
     public void generateJsonFile(final JSONObject json, final String folderPath) throws ParseException, IOException {
         final JSONArray jsonArray = (JSONArray) json.get("lines");
-        final HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList().get(jsonArray.toList().size()-1);
+        final HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList()
+                .get(jsonArray.toList().size() - 1);
         final String lineEnd = (String) jsonLines.get("lineEnd");
-//        String lineEnd = lineEndJson.toString();
+        //        String lineEnd = lineEndJson.toString();
         final Date jud = new SimpleDateFormat("yy-MM").parse(lineEnd);
         final String month = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("bg")).format(jud);
         final String[] splitDate = month.split("\\s+");

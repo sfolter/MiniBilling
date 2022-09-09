@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 public class CurrencyConvertor {
+
     public BigDecimal convertCurrency(final String toCurrency) throws IOException, ParseException {
         final JSONObject json = CurrencyExchangeRate.currencyExchangeRate();
         final JSONObject conversionRates = (JSONObject) json.get("conversion_rates");

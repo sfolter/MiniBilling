@@ -76,12 +76,12 @@ public class JsonGenerator {
             taxesArray.put(taxesJsonObj);
 
         }
-        for (int j = 0; j <invoice.getVatLines().size() ; j++) {
+        for (int j = 0; j < invoice.getVatLines().size(); j++) {
             final JSONObject vatJsonObj = new JSONObject();
             orderedJsonObj(vatJsonObj);
             vatJsonObj.put("index", vatLines.get(j).index());
             vatJsonObj.put("lineIndex", vatLines.get(j).lineIndex());
-            vatJsonObj.put("taxedAmountPercentage",vatLines.get(j).taxedAmountPercentage());
+            vatJsonObj.put("taxedAmountPercentage", vatLines.get(j).taxedAmountPercentage());
             vatJsonObj.put("percentage", vatLines.get(j).vatPercentage());
             final String vatAmount = vatLines.get(j).amount().toString() + toCurrency;
             vatJsonObj.put("amount", vatAmount);

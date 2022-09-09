@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CsvFileReadingReader implements ReadingsReader {
+
     @Override
     public Collection<Reading> read(final Map<String, User> userMap, final String path) {
         String[] line;
@@ -23,10 +24,12 @@ public class CsvFileReadingReader implements ReadingsReader {
 
             while (null != (line = reader.readNext())) {
                 final String time = line[2];
-                final ZonedDateTime parsedZonedDateTime = ZonedDateTime.parse(time, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+                final ZonedDateTime parsedZonedDateTime = ZonedDateTime.parse(time,
+                                DateTimeFormatter.ISO_ZONED_DATE_TIME)
                         .withZoneSameInstant(ZoneOffset.UTC);
 
-                readingsList.add(new Reading(userMap.get(line[0]), line[1], parsedZonedDateTime, new BigDecimal(line[3])));
+                readingsList.add(
+                        new Reading(userMap.get(line[0]), line[1], parsedZonedDateTime, new BigDecimal(line[3])));
             }
             return readingsList;
 
