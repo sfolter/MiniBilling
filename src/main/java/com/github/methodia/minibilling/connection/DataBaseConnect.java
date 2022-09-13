@@ -1,4 +1,4 @@
-package com.github.methodia.minibilling.Connection;
+package com.github.methodia.minibilling.connection;
 
 import java.sql.*;
 import java.util.Properties;
