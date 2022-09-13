@@ -23,7 +23,7 @@ public class Main {
         final String outputDir = "C:\\Users\\user\\IdeaProjects\\MiniBilling\\src\\test\\resources\\sample1\\test\\";
         final String yearMonthStr = "21-03";
         final String toCurrency = "BGN";
-        int a = 1;
+
 
 
         //user database

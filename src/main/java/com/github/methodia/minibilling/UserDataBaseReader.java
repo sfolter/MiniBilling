@@ -1,5 +1,6 @@
 package com.github.methodia.minibilling;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,10 +16,10 @@ import java.util.TreeMap;
  * @Date 09.09.2022
  * Methodia Inc.
  */
-public class UserDataBaseReader {
+public class UserDataBaseReader implements UsersReader{
 
     PriceDataBaseReader priceDataBaseReader = new PriceDataBaseReader();
-
+    @Override
     public Map<String, User> read() throws SQLException, ClassNotFoundException {
         Connection c = null;
         Class.forName("org.postgresql.Driver");
@@ -58,4 +59,5 @@ public class UserDataBaseReader {
         c.close();
         return userMap;
     }
+
 }
