@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class MainTest {
 
     @Test
     void testSample1() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException,
-            org.json.simple.parser.ParseException, URISyntaxException {
+            org.json.simple.parser.ParseException, URISyntaxException, SQLException, ClassNotFoundException {
         final int sampleNumber = 1;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
@@ -29,7 +30,7 @@ public class MainTest {
 
     @Test
     void testSample2() throws IOException, ParseException, NoSuchFieldException, IllegalAccessException,
-            org.json.simple.parser.ParseException, URISyntaxException {
+            org.json.simple.parser.ParseException, URISyntaxException, SQLException, ClassNotFoundException {
         final int sampleNumber = 2;
         final String yearMonth = "21-03";
         testSample(sampleNumber, yearMonth);
@@ -37,7 +38,7 @@ public class MainTest {
 
     private void testSample(final int sampleNumber, final String yearMonth)
             throws IOException, NoSuchFieldException, IllegalAccessException, ParseException,
-            org.json.simple.parser.ParseException, URISyntaxException {
+            org.json.simple.parser.ParseException, URISyntaxException, SQLException, ClassNotFoundException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
