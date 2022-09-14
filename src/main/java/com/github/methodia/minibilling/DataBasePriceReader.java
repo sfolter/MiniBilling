@@ -8,7 +8,7 @@ import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DataBasePriceReader {
+public class DataBasePriceReader implements PricesReader {
 
     private final String queryParameter;
 
@@ -16,6 +16,7 @@ public class DataBasePriceReader {
         this.queryParameter = queryParameter;
     }
 
+    @Override
     public List<Price> read() throws SQLException, ClassNotFoundException {
         final List<Price> prices = new LinkedList<>();
         final DBConnection dbConnection = new DBConnection(queryParameter);

@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DataBaseUserReader {
+public class DataBaseUserReader implements UsersReader {
 
     String queryParameter;
 
@@ -15,6 +15,7 @@ public class DataBaseUserReader {
         this.queryParameter = queryParameter;
     }
 
+    @Override
     public Map<String, User> read() throws SQLException, ClassNotFoundException {
         final DBConnection dbConnection = new DBConnection(queryParameter);
         final ResultSet resultSet = dbConnection.createConnection();

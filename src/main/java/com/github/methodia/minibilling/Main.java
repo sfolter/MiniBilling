@@ -12,16 +12,16 @@ public class Main {
     public static void main(final String[] args)
             throws ParseException, IOException, NoSuchFieldException, IllegalAccessException,
             org.json.simple.parser.ParseException, SQLException, ClassNotFoundException {
-        final String reportDate = args[0];
-        final String inPath = args[1];
-        final String outPath = args[2];
-        //        final String reportDate = "21-03";
-        //             //   test1
-        //                final String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\input\\";
-        //                final String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\expected\\";
-        //        main sample1
-        //                String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
-        //                String outPath="C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";
+//        final String reportDate = args[0];
+//        final String inPath = args[1];
+//        final String outPath = args[2];
+                final String reportDate = "21-03";
+//                     //   test1
+//                        final String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\input\\";
+//                        final String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\expected\\";
+//                main sample1
+                        String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+                        String outPath="C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";
         //        main sample2
         //        final String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         //        final String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";

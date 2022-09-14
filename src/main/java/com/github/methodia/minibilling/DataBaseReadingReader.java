@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class DataBaseReadingReader {
+public class DataBaseReadingReader implements ReadingsReader {
 
     private final String queryParameter;
 
@@ -22,6 +22,7 @@ public class DataBaseReadingReader {
         this.userMap = userMap;
     }
 
+    @Override
     public Collection<Reading> read() throws SQLException, ClassNotFoundException {
         final List<Reading> readingsList = new ArrayList<>();
         final DBConnection dbConnection = new DBConnection(queryParameter);
