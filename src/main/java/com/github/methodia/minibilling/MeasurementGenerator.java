@@ -1,6 +1,9 @@
 package com.github.methodia.minibilling;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,10 +27,16 @@ public class MeasurementGenerator {
                 Reading current = readings.get(i);
                 Reading next = readings.get(i + 1);
                 BigDecimal value = next.getValue().subtract(current.getValue());
-                measurements.add(new Measurement(current.getTime(), next.getTime(), value, user));
+                LocalDateTime currentToLdt=zdtToLdt(current.getDate());
+                LocalDateTime nextToLdt=zdtToLdt(next.getDate());
+                measurements.add(new Measurement(currentToLdt, nextToLdt, value, user));
             }
         }
         return measurements;
     }
+    private LocalDateTime zdtToLdt(ZonedDateTime zdt){
+        return zdt.withZoneSameInstant(ZoneId.of("Z")).toLocalDateTime();
+    }
+
 }
 

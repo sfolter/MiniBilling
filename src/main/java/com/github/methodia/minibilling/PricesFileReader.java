@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PricesFileReader implements PricesReader {
+public class PricesFileReader {
 
     String path;
 
@@ -23,7 +23,6 @@ public class PricesFileReader implements PricesReader {
         this.path = path;
     }
 
-    @Override
     public Map<Integer, List<Price>> read() {
 
         Map<Integer, List<Price>> result = new LinkedHashMap<>();
@@ -52,10 +51,10 @@ public class PricesFileReader implements PricesReader {
 
                         List<Price> list = new ArrayList<>();
                         if (result.get(numberPricingList) == null) {
-                            list.add(new Price(product, start, end, price, 1));
+                            list.add(new Price(product, start, end, price));
                             result.put(numberPricingList, list);
                         } else {
-                            result.get(numberPricingList).add(new Price(product, start, end, price,1));
+                            result.get(numberPricingList).add(new Price(product, start, end, price));
                         }
                     }
                 } catch (IOException e) {

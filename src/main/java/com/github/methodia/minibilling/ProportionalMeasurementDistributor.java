@@ -54,14 +54,14 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
 
             BigDecimal currentQuantitySum = BigDecimal.ZERO;
             for (Price price : pricesForMeasurement) {
-                final LocalDate priceEnd = price.end();
+                final LocalDate priceEnd = price.getEndDate();
                 final LocalDate measurementEnd = measurement.end().toLocalDate();
 
                 final LocalDateTime qppStart = lastDateTime;
 
-                String qppProduct = price.product();
+                String qppProduct = price.getProduct();
 
-                final BigDecimal qppPrice = price.value();
+                final BigDecimal qppPrice = price.getPrice();
                 final long measurementDays = measurement.start().until(measurement.end(), ChronoUnit.DAYS);
 
                 if (priceEnd.compareTo(measurementEnd) >= 0) {
@@ -72,7 +72,7 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
                             qppQuantity);
                     quantityPricePeriods.add(quantityPricePeriod);
                 } else {
-                    final LocalDateTime qppEnd = LocalDateTime.from(price.end().atTime(23, 59, 59)
+                    final LocalDateTime qppEnd = LocalDateTime.from(price.getEndDate().atTime(23, 59, 59)
                             .atZone(ZoneId.of("Europe/Sofia")).withZoneSameInstant(ZoneId.of("Z")));
 
                     final long qppPeriodDays = lastDateTime.until(qppEnd, ChronoUnit.DAYS);
@@ -97,8 +97,8 @@ public class ProportionalMeasurementDistributor implements MeasurementPriceDistr
         final LocalDateTime measurementStart = measurement.start();
         final LocalDateTime measurementEnd = measurement.end();
         for (Price price : prices) {
-            final LocalDateTime priceStart = price.start().atTime(0, 0);
-            final LocalDateTime priceEnd = price.end().atTime(0, 0);
+            final LocalDateTime priceStart = price.getStartDate().atTime(0, 0);
+            final LocalDateTime priceEnd = price.getEndDate().atTime(0, 0);
             if (measurementStart.isBefore(priceEnd.plusDays(1)) && measurementEnd.isAfter(
                     priceStart.plusDays(1))) {
                 filteredPrices.add(price);

@@ -24,7 +24,7 @@ public class InvoiceGenerator {
     public Invoice generate(User user, Collection<Measurement> measurements, LocalDateTime dateReportingTo,
                             List<VatPercentages> vatPercentages) {
         ProportionalMeasurementDistributor proportionalMeasurementDistributor =
-                new ProportionalMeasurementDistributor(measurements, user.getPrice());
+                new ProportionalMeasurementDistributor(measurements, user.getPricesList().prices);
         Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
 
         List<InvoiceLine> invoiceLines = new ArrayList<>();
@@ -51,7 +51,7 @@ public class InvoiceGenerator {
         BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(taxAmount, BigDecimal::add);
         BigDecimal totalAmountWithVat = vat.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add);
 
-        return new Invoice(documentNumber, userName, user.getRef(), totalAmount, totalAmountWithVat, invoiceLines,
+        return new Invoice(documentNumber, userName, user.getRefNumber(), totalAmount, totalAmountWithVat, invoiceLines,
                 vat, taxList);
     }
 
@@ -68,7 +68,7 @@ public class InvoiceGenerator {
 
         String product = qpp.product();
         return new InvoiceLine(lineIndex, quantity, start, end,
-                product, price, user.getNumberPricingList(), amount);
+                product, price, user.getPriceList().getId(), amount);
     }
 
 

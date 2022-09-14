@@ -51,7 +51,7 @@ public class JsonFileCreator implements SaveData {
             int outputOfTheYear = lastInvoiceDate.getYear() % 100;
 
             //Creating folder in the following path
-            String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRef();
+            String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRefNumber();
             createFolder(folderPath);
 
 

@@ -1,75 +1,66 @@
 package com.github.methodia.minibilling;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
+@Entity
+@Table(name = "prices")
+public class Price{
 
-public final class Price {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    int id;
 
-    private final String product;
-    private final LocalDate start;
-    private final LocalDate end;
-    private final BigDecimal value;
+    @Column(name = "price_list_id")
+    int priceListId;
+    @Column(name = "product")
+    private String product;
+    @Column(name = "start_date")
+    private LocalDate startDate;
+    @Column(name = "end_date")
+    private LocalDate endDate;
+    @Column(name = "price")
+    private BigDecimal price;
 
-    private final int numberPriceList;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "price_list_id",insertable = false,updatable = false)
+    PriceList pricesList;
+    //    @ManyToOne
+    //    @JoinColumn(name = "price_list_id")
+    //    private Users users;
 
-    public int getNumberPriceList() {
-        return numberPriceList;
+    public Price() {
     }
 
-    public Price(String product, LocalDate start, LocalDate end, BigDecimal value, int numberPriceList) {
+    public Price(String product, LocalDate startDate, LocalDate endDate, BigDecimal price) {
         this.product = product;
-        this.start = start;
-        this.end = end;
-        this.value = value;
-        this.numberPriceList = numberPriceList;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
     }
 
-    public String product() {
+    public String getProduct() {
         return product;
     }
 
-    public LocalDate start() {
-        return start;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public LocalDate end() {
-        return end;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public BigDecimal value() {
-        return value;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
-        var that = (Price) obj;
-        return Objects.equals(this.product, that.product) &&
-                Objects.equals(this.start, that.start) &&
-                Objects.equals(this.end, that.end) &&
-                Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(product, start, end, value);
-    }
-
-    @Override
-    public String toString() {
-        return "Price[" +
-                "product=" + product + ", " +
-                "start=" + start + ", " +
-                "end=" + end + ", " +
-                "value=" + value + ']';
-    }
-
-
+    //    public Users getUsers() {
+    //        return users;
+    //    }
+    //
+    //    public void setUsers(Users users) {
+    //        this.users = users;
+    //    }
 }
-

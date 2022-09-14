@@ -1,40 +1,71 @@
 package com.github.methodia.minibilling;
 
+import javax.persistence.*;
+import java.beans.ConstructorProperties;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.time.ZonedDateTime;
 
+@Entity
+@Table(name = "readings")
 public class Reading {
 
-    private final LocalDateTime time;
-    private final BigDecimal value;
-    private final User user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    int id;
 
-    public Reading(LocalDateTime time, BigDecimal value, User user) {
-        this.time = time;
+    @Column(name = "ref_number")
+    String refNumber;
+    @Column(name = "product")
+    private  String product;
+    @Column (name = "date")
+    private  ZonedDateTime date;
+    @Column(name = "value")
+    private  BigDecimal value;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ref_number",insertable = false,updatable = false)
+    private User user;
+
+    public Reading() {}
+
+    public Reading(String refNumber, String product, ZonedDateTime date, BigDecimal value) {
+        this.refNumber=refNumber;
+        this.product = product;
+        this.date = date;
         this.value = value;
-        this.user = user;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public User getUsers() {
+        return user;
+    }
+
+    public String getRefNumber() {
+        return refNumber;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public ZonedDateTime  getDate() {
+        return date;
     }
 
     public BigDecimal getValue() {
         return value;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     @Override
     public String toString() {
-        return "Reading[" +
-                "time=" + time + ", " +
-                "value=" + value + ", " +
-                "user=" + user + ']';
+        return "Readings{" +
+                " product='" + product + '\'' +
+                ", date=" + date +
+                ", value=" + value +
+                '}';
     }
-
-
 }
+
