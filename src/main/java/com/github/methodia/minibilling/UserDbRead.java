@@ -8,11 +8,15 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class UserDbRead implements DataReader{
+    Session session;
+
+    public UserDbRead(Session session) {
+        this.session = session;
+    }
 
     @Override
     public  List<User> read() {
-        SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
-        Session session=sessionFactory.openSession();
+
         session.beginTransaction();
         Query query= session.createQuery("from User");
         return query.getResultList();
