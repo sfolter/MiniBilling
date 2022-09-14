@@ -31,7 +31,7 @@ public class Main {
         LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
         String inputPath = args[1];
         String outputPath = args[2];
-        List<User>result=dataReader(new UserDbRead());
+        List<User>result=readData(new UserDbRead());
         MeasurementGenerator measurementGenerator = new MeasurementGenerator();
         CurrencyConverter currencyConverter = new CurrencyRate();
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyConverter);
@@ -60,7 +60,7 @@ public class Main {
         ZonedDateTime borderTimeZDT = yearMonth.atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.of("Z"));
         return LocalDateTime.parse(String.valueOf(borderTimeZDT), formatter);
     }
-    private static List<User> dataReader(DataReader dr){
+    private static List<User> readData(DataReader dr){
     return dr.read();
     }
 }

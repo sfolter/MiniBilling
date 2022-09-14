@@ -24,11 +24,6 @@ public class PriceList {
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public PriceList(int id, List<Price> prices) {
         this.id = id;
         this.prices = prices;
