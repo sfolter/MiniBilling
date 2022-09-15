@@ -1,8 +1,10 @@
 package com.github.methodia.minibilling;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,9 +39,10 @@ public class Tax {
     @Column(name = "amounts")
     private  BigDecimal amount;
 
-    @ManyToOne
-    @JoinColumn(name = "document_numbers")
-    Invoice invoice;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn( name = "document_numbers")
+//
+//    Invoice invoice;
 
 
     public Tax() {

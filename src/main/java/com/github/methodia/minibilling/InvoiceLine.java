@@ -39,9 +39,10 @@ public class InvoiceLine {
     @Column(name = "amounts")
     private  BigDecimal amount;
 
-    @ManyToOne
-    @JoinColumn(name = "document_numbers")
-    Invoice invoice;
+
+//    @ManyToOne
+//    @JoinColumn(name = "document_numbers")
+//    Invoice invoice;
 
     public InvoiceLine() {
     }

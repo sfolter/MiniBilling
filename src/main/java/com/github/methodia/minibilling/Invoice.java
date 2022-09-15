@@ -1,32 +1,37 @@
 package com.github.methodia.minibilling;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "invoice")
-public class Invoice {
+public class Invoice implements Serializable {
     @Transient
     private static long idContour = 10000;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id",
-            nullable = false)
-    private Integer id;
+    private UUID id;
 
-    @Column(name = "document_numbers")
+
+    @Column(name = "document_numbers",unique = true)
     private  String documentNumber;
     @Column(name = "consumers")
     private  String consumer;
@@ -36,20 +41,17 @@ public class Invoice {
     private  BigDecimal totalAmount;
     @Column(name = "total_amounts_with_vats")
     private  BigDecimal totalAmountWithVat;
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany(targetEntity = InvoiceLine.class)
+    @JoinColumn(name = "document_numbers",nullable = false,updatable = false)
+
     private  List<InvoiceLine> lines;
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany(targetEntity = Vat.class,fetch = FetchType.LAZY)
+    @JoinColumn(name = "document_numbers" ,nullable = false,updatable = false)
     private  List<Vat> vat;
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany(targetEntity = Tax.class,fetch = FetchType.LAZY)
+    @JoinColumn(name = "document_numbers",nullable = false,updatable = false)
     private  List<Tax> taxes;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Invoice() {
     }

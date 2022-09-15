@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.transaction.Status;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "vats")
-public class Vat {
+public class Vat  {
 
     @Id
     @Column(name = "id",
@@ -40,10 +41,10 @@ public class Vat {
     @Column(name = "amounts")
     private  BigDecimal amount;
 
-    @ManyToOne
-    @JoinColumn(name = "document_numbers")
-    Invoice invoice;
-
+//    @ManyToOne
+//    @JoinColumn(name = "document_numbers")
+//    Invoice invoice;
+//
 
     public Vat() {
     }
