@@ -95,4 +95,12 @@ public class Invoice {
     public BigDecimal getTotalAmountWithVat() {
         return totalAmountWithVat;
     }
+
+    public List<Vat> getVat() {
+        return vat;
+    }
+
+    public List<Tax> getTaxes() {
+        return taxes;
+    }
 }

@@ -40,6 +40,8 @@ public class Tax {
     @ManyToOne
     @JoinColumn(name = "document_numbers")
     Invoice invoice;
+
+
     public Tax() {
     }
 

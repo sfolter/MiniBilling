@@ -43,7 +43,10 @@ public class Main {
 
             new JsonFileCreator(invoice, outputPath, user).save();
             session.persist(invoice);
-
+        //            invoice.getLines().stream().forEach(session.persist());
+            invoice.getLines().forEach(session::save);
+            invoice.getTaxes().forEach(session::save);
+            invoice.getVat().forEach(session::save);
         }
         session.getTransaction().commit();
     }
