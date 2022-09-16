@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -18,7 +19,8 @@ public class PriceList {
     @Column(name = "price_list_id")
     private int id;
 
-    @OneToMany(mappedBy = "pricesList")
+    @OneToMany
+            @JoinColumn(name = "price_list_id",insertable = false,updatable = false)
     List<Price> prices;
 
     public int getId() {

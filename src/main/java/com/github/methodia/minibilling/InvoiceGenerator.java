@@ -43,7 +43,7 @@ public class InvoiceGenerator {
             }
         }
 
-        String documentNumber = Invoice.getDocumentNumber();
+        Integer documentNumber = Integer.valueOf(Invoice.getDocumentNumber());
         String userName = user.getName();
         List<Vat> vat = new VatGenerator().generate(vatPercentages, invoiceLines, taxList);
 

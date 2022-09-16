@@ -25,10 +25,11 @@ public class User implements Serializable {
     @JoinColumn(name = "price_list_id")
     private PriceList pricesList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany
+            @JoinColumn(name = "ref_number")
     List<Reading> readingsList;
 
-    @Column(name = "currency")
+    @Column(name = "currencies")
     String currency;
 
     public PriceList getPricesList() {

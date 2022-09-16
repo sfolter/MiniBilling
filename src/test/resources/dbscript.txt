@@ -1,0 +1,119 @@
+create table users(
+name varchar(60) not null,
+ref_number varchar(60) primary key,
+price_list_id int,
+currency varchar,
+constraint fk
+foreign key(price_list_id)
+references price_lists(price_list_id)
+);
+
+create table readings(
+id serial not null primary key,
+ref_number varchar(60) references users(ref_number),
+product varchar(30) not null ,
+date varchar(60)  not null,
+value decimal
+);
+
+create table prices(
+price_list_id int  references price_lists(price_list_id),
+product varchar(60),
+start_date date not null,
+end_date date  not null,
+price decimal
+);
+
+create  table price_lists(
+price_list_id int primary key
+);
+
+insert into prices(id,price_list_id,product,start_date,end_date,price)
+values(1,'1','gas','2021-01-01','2021-02-28','0.7'),
+(2,'1','gas','2021-03-01','2022-04-28','1.4'),
+(3,'2','gas','2021-01-01','2021-02-28','0.4'),
+(4,'2','gas','2021-03-01','2022-04-28','4.4');
+select * from prices;
+delete from prices ;
+insert into prices(id)
+values(1),(2),(3),(4);
+alter table prices add id serial primary key;
+
+
+insert into users(name,ref_number,price_list_id, currencies)
+values('Marko Boikov Tsvetkov','1','1','GBP'),
+('Kosena Assenova Vankova','3','1','EUR'),
+('Ludmil Aleksandrov Ilev','2','2','BGN');
+select * from users;
+insert into price_lists(price_list_id)
+values(1),(2);
+select * from price_lists;
+delete from users ;
+
+insert into readings(id,ref_number,product,date,value)
+values(1,'2','gas','2021-01-01T11:00:00+03:00','1444'),
+(2,'1','gas','2021-01-01T12:00:00+03:00','1480'),
+(3,'3','gas','2021-01-01T17:40:00+03:00','1302'),
+(4,'3','gas','2021-03-11T10:00:00+03:00','1738'),
+(5,'1','gas','2021-03-17T13:20:00+03:00','1567'),
+(6,'2','gas','2021-03-25T16:40:00+03:00','1596'),
+(7,'2','gas','2021-04-28T01:40:00+03:00','1845');
+select * from readings;
+
+delete from readings ;
+drop table readings ;
+
+select u.name,r.date,r.value from users as u
+ join readings as r on u.ref_number = r.ref_number
+ join prices2 as p2 on u.number_of_price_list = p2.prices_id_2
+group by u.name,r.date,r.value;
+
+select u.name,r.date,r.value from users as u
+ join readings as r on u.ref_number = r.ref_number
+ join prices1 as p1 on u.number_of_price_list = p1.prices_id_1
+group by u.name,r.date,r.value;
+
+select * from users as u join price_lists as pl on u.number_of_price_list  = pl.price_list_id;
+
+select* from users as u
+join price_lists as pl on pl.price_list_id =u.price_list_id;
+
+select * from users as u
+join readings as r on u.ref_number=r.ref_number
+join price_lists as pl on u.price_list_id =pl.price_list_id
+join prices as p on p.price_list_id =pl.price_list_id ;
+
+select * from users as u
+join price_lists as pl on u.price_list_id = pl.price_list_id
+join prices as p on pl.price_list_id = p.price_list_id
+join readings as r on u.ref_number= r.ref_number;
+
+select * from users as u
+join prices as p on u.price_list_id =p.price_list_id ;
+
+
+delete from invoicelines  ;
+delete from invoice ;
+delete from vats ;
+delete from taxes ;
+delete from tax_lines ;
+delete from vat_lines ;
+delete from vat_taxes ;
+
+
+select * from invoice i ;
+select * from invoicelines i ;
+select * from taxes t ;
+select * from vats v ;
+select * from tax_lines tl ;
+
+DELETE FROM invoicelines;
+DELETE FROM invoice;
+DELETE FROM tax_lines;
+DELETE FROM vat_lines;
+DELETE FROM vat_taxes;
+DELETE FROM taxes;
+delete from vats ;
+
+select * from invoice  as i,
+join * from invoicelines i2 where i2.document_numbers=i.document_numbers ;

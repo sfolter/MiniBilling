@@ -1,6 +1,8 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.dataSave.DataBaseParser;
 import com.github.methodia.minibilling.dataSave.JsonFileCreator;
+import com.github.methodia.minibilling.dataSave.SaveData;
 import org.hibernate.Session;
 
 import java.io.IOException;
@@ -35,18 +37,11 @@ public class Main {
 
         for (User user : result) {
             List<Reading> userReadings = user.getReadingsList();
-
             Collection<Measurement> userMeasurements = measurementGenerator.generate(user, userReadings);
-
             Invoice invoice = invoiceGenerator.generate(user, userMeasurements, dateReportingToLDT,
                     vatPercentages);
-
-            new JsonFileCreator(invoice, outputPath, user).save();
-            session.persist(invoice);
-        //            invoice.getLines().stream().forEach(session.persist());
-            invoice.getLines().forEach(session::save);
-            invoice.getTaxes().forEach(session::save);
-            invoice.getVat().forEach(session::save);
+            saveData(new JsonFileCreator(invoice,user,outputPath));
+            saveData(new DataBaseParser(invoice,session));
         }
         session.getTransaction().commit();
     }
@@ -62,6 +57,9 @@ public class Main {
 
     private static List<User> readData(DataReader dr) {
         return dr.read();
+    }
+    private static void saveData(SaveData saveData){
+        saveData.save();
     }
 }
 

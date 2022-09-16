@@ -25,18 +25,19 @@ import java.util.List;
 import java.util.Locale;
 
 public class JsonFileCreator implements SaveData {
-   private final Invoice invoice;
-    private final String outputPath;
-    private final User user;
 
-    public JsonFileCreator(Invoice invoice, String outputPath, User user) {
+    Invoice invoice;
+    private final User user;
+    private final String outputPath;
+
+    public JsonFileCreator(Invoice invoice, User user, String outputPath) {
         this.invoice = invoice;
-        this.outputPath = outputPath;
         this.user = user;
+        this.outputPath = outputPath;
     }
 
     @Override
-    public   void save() {
+    public void save() {
         //Parsing Invoice class into Json format using GSON library
         Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new JsonFileCreator.LocalDateAdapter()).create();
@@ -69,7 +70,9 @@ public class JsonFileCreator implements SaveData {
         }
 
     }
+
     private static final class LocalDateAdapter extends TypeAdapter<LocalDateTime> {
+
         @Override
         public void write(final JsonWriter jsonWriter, final LocalDateTime localDate) throws IOException {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
@@ -83,10 +86,12 @@ public class JsonFileCreator implements SaveData {
             return LocalDateTime.parse(jsonReader.nextString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
     }
+
     private static String getMonthOfLastInvoiceToBulgarian(LocalDate lastInvoiceDate) {
         String lastInvoiceDateInBG = lastInvoiceDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("Bg"));
         return lastInvoiceDateInBG.substring(0, 1).toUpperCase() + lastInvoiceDateInBG.substring(1);
     }
+
     /**
      * Checking if JsonFile by the exists with the format documentNumber-Month(translated to bulgarian language),
      * and the last two numbers of the year on Last reporting date, in case not,

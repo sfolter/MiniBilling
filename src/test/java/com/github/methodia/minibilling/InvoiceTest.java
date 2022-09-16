@@ -24,7 +24,7 @@ public class InvoiceTest {
 
         List<Vat>vatList=new ArrayList<>();
         vatList.add(new Vat(2,linesList,new BigDecimal("60"),"30",new BigDecimal("3")));
-        Invoice invoice = new Invoice("10001", "Milcho Georgiev Georgiev", "2", new BigDecimal("100"),
+        Invoice invoice = new Invoice(10001, "Milcho Georgiev Georgiev", "2", new BigDecimal("100"),
                 new BigDecimal("120"), invoiceLineList, vatList, new ArrayList<>());
         Assertions.assertEquals( "Milcho Georgiev Georgiev", invoice.getConsumer(),
                 "Invoice getConsumer method returns incorrect information");

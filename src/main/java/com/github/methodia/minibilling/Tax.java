@@ -1,15 +1,11 @@
 package com.github.methodia.minibilling;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,36 +20,30 @@ public class Tax {
             nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @Column(name = "indexes")
-    private  int index;
+    @Column(name = "index")
+    private int index;
     @ElementCollection
-    private  List<Integer> lines;
-    @Column(name = "names")
-    private  String name;
-    @Column(name = "quantities")
-    private  BigDecimal quantity;
-    @Column(name = "units")
-    private  String unit;
-    @Column(name = "prices")
-    private  BigDecimal price;
-    @Column(name = "amounts")
-    private  BigDecimal amount;
+    private List<Integer> lines;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "quantity")
+    private BigDecimal quantity;
+    @Column(name = "unit")
+    private String unit;
+    @Column(name = "price")
+    private BigDecimal price;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn( name = "document_numbers")
-//
-//    Invoice invoice;
-
+    //    @ManyToOne(cascade = CascadeType.ALL)
+    //    @JoinColumn( name = "document_numbers",referencedColumnName = "document_numbers")
+    //    Invoice invoice;
+    //
+    //    public void setInvoice(Invoice invoice) {
+    //        this.invoice = invoice;
+    //    }
 
     public Tax() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public Tax(int index, List<Integer> lines, BigDecimal quantity, BigDecimal amount) {

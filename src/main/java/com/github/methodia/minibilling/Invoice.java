@@ -1,20 +1,14 @@
 package com.github.methodia.minibilling;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,42 +17,43 @@ import java.util.UUID;
 @Entity
 @Table(name = "invoice")
 public class Invoice implements Serializable {
+
     @Transient
     private static long idContour = 10000;
 
-    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private UUID id;
-
-
-    @Column(name = "document_numbers",unique = true)
-    private  String documentNumber;
-    @Column(name = "consumers")
-    private  String consumer;
+    @Id
+    @Column(name = "document_number",
+            unique = true)
+    private Integer documentNumber;
+    @Column(name = "consumer")
+    private String consumer;
     @Column(name = "ref")
-    private  String reference;
-    @Column(name = "total_amounts")
-    private  BigDecimal totalAmount;
-    @Column(name = "total_amounts_with_vats")
-    private  BigDecimal totalAmountWithVat;
-    @OneToMany(targetEntity = InvoiceLine.class)
-    @JoinColumn(name = "document_numbers",nullable = false,updatable = false)
+    private String reference;
+    @Column(name = "total_amount")
+    private BigDecimal totalAmount;
+    @Column(name = "total_amounts_with_vat")
+    private BigDecimal totalAmountWithVat;
+    @OneToMany
+    @JoinColumn(name = "document_number")
+    private List<InvoiceLine> lines;
+    @OneToMany
+    @JoinColumn(name = "document_number")
+    private List<Vat> vat;
 
-    private  List<InvoiceLine> lines;
-    @OneToMany(targetEntity = Vat.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "document_numbers" ,nullable = false,updatable = false)
-    private  List<Vat> vat;
-    @OneToMany(targetEntity = Tax.class,fetch = FetchType.LAZY)
-    @JoinColumn(name = "document_numbers",nullable = false,updatable = false)
-    private  List<Tax> taxes;
+    @OneToMany
+    @JoinColumn(name = "document_number")
+    private List<Tax> taxes;
 
 
     public Invoice() {
     }
 
 
-    public Invoice(String documentNumber, String consumer, String reference, BigDecimal totalAmount,
-                   BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat, List<Tax>taxes) {
+    public Invoice(Integer documentNumber, String consumer, String reference, BigDecimal totalAmount,
+                   BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat, List<Tax> taxes) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -67,15 +62,16 @@ public class Invoice implements Serializable {
         this.totalAmountWithVat = totalAmountWithVat;
         this.lines = lines;
         this.vat = vat;
-        this.taxes=taxes;
-    }
-
-    public String getDocNumber() {
-        return documentNumber;
+        this.taxes = taxes;
+        //        this.lines.stream().forEach(line-> line.setInvoice(Invoice.this));
     }
 
     public static String getDocumentNumber() {
-        return String.valueOf (idContour++);
+        return String.valueOf(idContour++);
+    }
+
+    public Integer getDocNumber() {
+        return documentNumber;
     }
 
     public String getConsumer() {

@@ -23,9 +23,6 @@ public class Price{
     @Column(name = "price")
     private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "price_list_id",insertable = false,updatable = false)
-    PriceList pricesList;
     //    @ManyToOne
     //    @JoinColumn(name = "price_list_id")
     //    private Users users;

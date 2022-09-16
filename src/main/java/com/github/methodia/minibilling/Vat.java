@@ -25,7 +25,7 @@ public class Vat  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "indexes")
+    @Column(name = "index")
     private  int index;
 
     @ElementCollection
@@ -34,17 +34,17 @@ public class Vat  {
     @ElementCollection
 
     private  List<Integer> taxes;
-    @Column(name = "taxed_amount_percentages")
+    @Column(name = "taxed_amount_percentage")
     private  BigDecimal taxedAmountPercentage;
-    @Column(name = "percentages")
+    @Column(name = "percentage")
     private  BigDecimal percentage;
-    @Column(name = "amounts")
+    @Column(name = "amount")
     private  BigDecimal amount;
 
 //    @ManyToOne
-//    @JoinColumn(name = "document_numbers")
+//    @JoinColumn( name = "document_numbers",referencedColumnName = "document_numbers")
 //    Invoice invoice;
-//
+
 
     public Vat() {
     }

@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,38 +19,39 @@ public class InvoiceLine {
             nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @Column(name = "indexes")
-    private  int index;
-    @Column(name = "quantities")
-    private  BigDecimal quantity;
+    @Column(name = "index")
+    private int index;
+    @Column(name = "quantity")
+    private BigDecimal quantity;
 
     @Column(name = "linesStart")
-    private  LocalDateTime lineStart;
+    private LocalDateTime lineStart;
     @Column(name = "linesEnd")
-    private  LocalDateTime lineEnd;
-    @Column(name = "products")
-    private  String product;
-    @Column(name = "prices")
-    private  BigDecimal price;
-    @Column(name = "price_lists")
-    private  int priceList;
-    @Column(name = "amounts")
-    private  BigDecimal amount;
+    private LocalDateTime lineEnd;
+    @Column(name = "product")
+    private String product;
+    @Column(name = "price")
+    private BigDecimal price;
+    @Column(name = "price_list")
+    private int priceList;
+    @Column(name = "amount")
+    private BigDecimal amount;
+
+    //    @Column(name = "document_numbers",insertable = false,updatable = false)
+    //    Integer docNumbers;
 
 
-//    @ManyToOne
-//    @JoinColumn(name = "document_numbers")
-//    Invoice invoice;
+
+    //    @ManyToOne
+    //    @JoinColumn( name = "document_numbers",referencedColumnName = "document_numbers")
+    //    @Expose(serialize = true,deserialize = false)
+    //    Invoice invoice;
+
+    //    public void setInvoice(Invoice invoice) {
+    //        this.invoice = invoice;
+    //    }
 
     public InvoiceLine() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public InvoiceLine(int index, BigDecimal quantity, LocalDateTime start, LocalDateTime end, String product,
