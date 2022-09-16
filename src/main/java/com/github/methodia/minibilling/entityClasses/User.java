@@ -1,6 +1,4 @@
-package com.github.methodia.minibilling;
-
-import com.github.methodia.minibilling.Reading;
+package com.github.methodia.minibilling.entityClasses;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

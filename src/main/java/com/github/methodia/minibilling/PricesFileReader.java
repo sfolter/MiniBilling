@@ -1,6 +1,8 @@
 package com.github.methodia.minibilling;
 
 
+import com.github.methodia.minibilling.entityClasses.Price;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,7 +21,7 @@ public class PricesFileReader {
 
     String path;
 
-    PricesFileReader(String path) {
+    public PricesFileReader(String path) {
         this.path = path;
     }
 

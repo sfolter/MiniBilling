@@ -1,4 +1,4 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.entityClasses;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +21,7 @@ public class PriceList {
 
     @OneToMany
             @JoinColumn(name = "price_list_id",insertable = false,updatable = false)
+    public
     List<Price> prices;
 
     public int getId() {

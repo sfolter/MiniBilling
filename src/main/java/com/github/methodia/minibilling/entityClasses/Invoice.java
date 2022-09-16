@@ -1,9 +1,7 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.entityClasses;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -12,7 +10,6 @@ import javax.persistence.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "invoice")
@@ -20,10 +17,6 @@ public class Invoice implements Serializable {
 
     @Transient
     private static long idContour = 10000;
-
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private UUID id;
     @Id
     @Column(name = "document_number",
             unique = true)

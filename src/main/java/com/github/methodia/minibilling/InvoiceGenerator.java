@@ -1,5 +1,11 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entityClasses.Invoice;
+import com.github.methodia.minibilling.entityClasses.InvoiceLine;
+import com.github.methodia.minibilling.entityClasses.Tax;
+import com.github.methodia.minibilling.entityClasses.User;
+import com.github.methodia.minibilling.entityClasses.Vat;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
 package com.github.methodia.minibilling.dataSave;
 
-import com.github.methodia.minibilling.Invoice;
+import com.github.methodia.minibilling.entityClasses.Invoice;
 import org.hibernate.Session;
 
 public class DataBaseParser implements SaveData {

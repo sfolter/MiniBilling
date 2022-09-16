@@ -1,5 +1,8 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entityClasses.Reading;
+import com.github.methodia.minibilling.entityClasses.User;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -9,13 +12,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class MeasurementGenerator {
-
-    //   final private User user;
-    //    final private
-    //    public MeasurementGenerator(User user, Collection<Reading> readings) {
-    //        this.user = user;
-    //        this.readings = readings.stream().toList();
-    //    }
 
     /**
      * Calculating the quantity between every reading and adding it to list
@@ -27,14 +23,15 @@ public class MeasurementGenerator {
                 Reading current = readings.get(i);
                 Reading next = readings.get(i + 1);
                 BigDecimal value = next.getValue().subtract(current.getValue());
-                LocalDateTime currentToLdt=zdtToLdt(current.getDate());
-                LocalDateTime nextToLdt=zdtToLdt(next.getDate());
+                LocalDateTime currentToLdt = convertZdtToLdt(current.getDate());
+                LocalDateTime nextToLdt = convertZdtToLdt(next.getDate());
                 measurements.add(new Measurement(currentToLdt, nextToLdt, value, user));
             }
         }
         return measurements;
     }
-    private LocalDateTime zdtToLdt(ZonedDateTime zdt){
+
+    private LocalDateTime convertZdtToLdt(ZonedDateTime zdt) {
         return zdt.withZoneSameInstant(ZoneId.of("Z")).toLocalDateTime();
     }
 

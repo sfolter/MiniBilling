@@ -1,8 +1,8 @@
 package com.github.methodia.minibilling.dataSave;
 
-import com.github.methodia.minibilling.Invoice;
-import com.github.methodia.minibilling.InvoiceLine;
-import com.github.methodia.minibilling.User;
+import com.github.methodia.minibilling.entityClasses.Invoice;
+import com.github.methodia.minibilling.entityClasses.InvoiceLine;
+import com.github.methodia.minibilling.entityClasses.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;

@@ -32,14 +32,14 @@
 
         <property name="hibernate.jdbc.time_zone" >UTC</property>
 
-        <mapping class="com.github.methodia.minibilling.User"/>
-        <mapping class="com.github.methodia.minibilling.Reading"/>
-        <mapping class="com.github.methodia.minibilling.Price"/>
-        <mapping class="com.github.methodia.minibilling.PriceList"/>
-        <mapping class="com.github.methodia.minibilling.Invoice"/>
-        <mapping class="com.github.methodia.minibilling.InvoiceLine"/>
-        <mapping class="com.github.methodia.minibilling.Vat"/>
-        <mapping class="com.github.methodia.minibilling.Tax"/>
+        <mapping class="com.github.methodia.minibilling.entityClasses.User"/>
+        <mapping class="com.github.methodia.minibilling.entityClasses.Reading"/>
+        <mapping class="com.github.methodia.minibilling.entityClasses.Price"/>
+        <mapping class="com.github.methodia.minibilling.entityClasses.PriceList"/>
+        <mapping class="com.github.methodia.minibilling.entityClasses.Invoice"/>
+        <mapping class="com.github.methodia.minibilling.entityClasses.InvoiceLine"/>
+        <mapping class="com.github.methodia.minibilling.entityClasses.Vat"/>
+        <mapping class="com.github.methodia.minibilling.entityClasses.Tax"/>
 <!--        <mapping class="com.github.methodia.minibilling.VatIndex"/>-->
 <!--        <mapping class="com.github.methodia.minibilling.TaxInedxes"/>-->
 

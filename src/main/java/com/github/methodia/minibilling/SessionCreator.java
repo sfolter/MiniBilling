@@ -11,6 +11,6 @@ public class SessionCreator {
 
     public static Session createSession() {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-    return sessionFactory.openSession();
+        return sessionFactory.openSession();
     }
 }

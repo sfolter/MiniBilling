@@ -1,5 +1,8 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entityClasses.InvoiceLine;
+import com.github.methodia.minibilling.entityClasses.Tax;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.temporal.ChronoUnit;
@@ -8,7 +11,7 @@ import java.util.List;
 
 public class TaxGenerator {
 
-    public Tax generate(InvoiceLine invoiceLine,BigDecimal currencyValue, BigDecimal taxAmount, int taxListSize) {
+    public Tax generate(InvoiceLine invoiceLine, BigDecimal currencyValue, BigDecimal taxAmount, int taxListSize) {
 
         List<Integer> invoiceIndex = new ArrayList<>();
         invoiceIndex.add(invoiceLine.getIndex());

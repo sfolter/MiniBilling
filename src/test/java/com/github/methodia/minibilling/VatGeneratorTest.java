@@ -1,5 +1,6 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entityClasses.InvoiceLine;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

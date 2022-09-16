@@ -1,13 +1,13 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.dataRead;
 
+import com.github.methodia.minibilling.entityClasses.User;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import javax.persistence.Query;
 import java.util.List;
 
-public class UserDbRead implements DataReader{
+public class UserDbRead implements DataReader {
+
     Session session;
 
     public UserDbRead(Session session) {
@@ -15,10 +15,10 @@ public class UserDbRead implements DataReader{
     }
 
     @Override
-    public  List<User> read() {
+    public List<User> read() {
 
         session.beginTransaction();
-        Query query= session.createQuery("from User");
+        Query query = session.createQuery("from User");
         return query.getResultList();
     }
 }

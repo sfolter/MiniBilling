@@ -1,6 +1,7 @@
 package com.github.methodia.minibilling;
 
 
+import com.github.methodia.minibilling.entityClasses.Vat;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

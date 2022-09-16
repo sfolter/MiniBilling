@@ -1,5 +1,9 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entityClasses.InvoiceLine;
+import com.github.methodia.minibilling.entityClasses.Tax;
+import com.github.methodia.minibilling.entityClasses.Vat;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -27,7 +31,7 @@ public class VatGenerator {
                         .multiply(percentage.percentage().divide(new BigDecimal("100")))
                         .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
                 vatInvoiceLines.add(
-                        new Vat(vatInvoiceLines.size() + 1, vattedLines,percentage.taxedAmountPercentage(),
+                        new Vat(vatInvoiceLines.size() + 1, vattedLines, percentage.taxedAmountPercentage(),
                                 String.valueOf(percentage.percentage()), vatAmount));
             }
         }
@@ -44,7 +48,7 @@ public class VatGenerator {
             BigDecimal vatAmount = tax.getAmount().multiply(percentage).divide(taxedAmountPercentage)
                     .setScale(2, RoundingMode.HALF_UP);
             taxedLines.add(tax.getLines().get(0));
-            vatTax.add(new Vat(index + vatTax.size() + 1,taxedAmountPercentage,
+            vatTax.add(new Vat(index + vatTax.size() + 1, taxedAmountPercentage,
                     String.valueOf(percentage), vatAmount, taxedLines));
         }
         return vatTax;
