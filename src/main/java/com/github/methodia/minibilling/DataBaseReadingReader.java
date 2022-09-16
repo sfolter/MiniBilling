@@ -27,7 +27,6 @@ public class DataBaseReadingReader implements ReadingsReader {
         final List<Reading> readingsList = new ArrayList<>();
         final DBConnection dbConnection = new DBConnection(queryParameter);
         final ResultSet resultSet = dbConnection.createConnection();
-
         while (resultSet.next()) {
             final String time = resultSet.getDate("date") + "T" + resultSet.getTime("date") + "+02:00";
             final ZonedDateTime parsedTime = ZonedDateTime.parse(time,

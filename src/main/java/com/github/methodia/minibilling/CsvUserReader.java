@@ -28,8 +28,8 @@ public class CsvUserReader implements UsersReader {
             while (null != (line = reader.readNext())) {
                 final CsvPricesReader price = new CsvPricesReader(path, Integer.parseInt(line[2]));
                 final List<Price> priceList = price.read();
-                userList.add(new User(line[0], line[1], Integer.parseInt(line[2]), priceList));
-                userMap.put(line[1], userList.get(counter));
+                //                userList.add(new User(line[0], line[1], Integer.parseInt(line[2]), priceList));
+                //                userMap.put(line[1], userList.get(counter));
                 counter++;
             }
         } catch (CsvValidationException | IOException e) {

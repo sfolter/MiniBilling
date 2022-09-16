@@ -19,10 +19,13 @@ public class JsonGenerator {
 
     private final String currency;
 
-    public JsonGenerator(final Invoice invoice, final String folderPath, final String currency) {
+    private final User user;
+
+    public JsonGenerator(final Invoice invoice, final String folderPath, final String currency, final User user) {
         this.invoice = invoice;
         this.folderPath = folderPath;
         this.currency = currency;
+        this.user = user;
     }
 
     JSONObject json = new JSONObject();
@@ -36,16 +39,17 @@ public class JsonGenerator {
     String documentNumber = Invoice.getDocumentNumber();
 
 
-    public JSONObject generateJSON() throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
+    public JSONObject generateJson() throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
         final User user = invoice.getConsumer();
         final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
-        final List<Price> prices = user.getPrice();
+        final List<Price> prices = user.getPriceList().getPrices();
+        //        final List<Price> prices = user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
             final JSONObject newLine = new JSONObject();
             final JSONObject newTaxesLine = new JSONObject();
-            orderJSON(json);
-            orderJSON(newLine);
-            orderJSON(newTaxesLine);
+            orderJson(json);
+            orderJson(newLine);
+            orderJson(newTaxesLine);
 
             json.put("documentDate", invoice.getDocumentDate());
             json.put("documentNumber", documentNumber);
@@ -93,7 +97,7 @@ public class JsonGenerator {
         //          Line in vat
         for (int j = 0; j < invoice.getVatsLines().size(); j++) {
             final JSONObject newVatLine = new JSONObject();
-            orderJSON(newVatLine);
+            orderJson(newVatLine);
             final int indexInVat = invoice.getVatsLines().get(j).getIndex();
             newVatLine.put("index", indexInVat);
             final int linesInVat = invoice.getVatsLines().get(j).getLines();
@@ -114,7 +118,7 @@ public class JsonGenerator {
         return json;
     }
 
-    public void orderJSON(final JSONObject json) throws NoSuchFieldException, IllegalAccessException {
+    public void orderJson(final JSONObject json) throws NoSuchFieldException, IllegalAccessException {
         final Field changeMap = json.getClass().getDeclaredField("map");
         changeMap.setAccessible(true);
         changeMap.set(json, new LinkedHashMap<>());

@@ -1,19 +1,43 @@
 package com.github.methodia.minibilling;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
+@Entity
+@Table(name = "users")
 public class User {
 
-    private final String name;
-    private final String ref;
-    private final List<Price> price;
-    private final int priceListNumber;
+    @Column(name = "name")
+    private String name;
+    @Id
+    @Column(name = "ref")
+    private String ref;
 
+    @Column(name = "priceListNum")
+    private int priceListNumber;
 
-    public User(final String name, final String ref, final int priceListNumber, final List<Price> price) {
+    @ManyToOne
+    @JoinColumn(name = "priceListNum",
+            insertable = false,
+            updatable = false)
+    private PriceList priceList;
+
+    @OneToMany(mappedBy = "user")
+    List<Reading> readingList;
+
+    public User() {
+    }
+
+    public User(final String name, final String ref, final int priceListNumber) {
         this.name = name;
         this.ref = ref;
-        this.price = price;
+
         this.priceListNumber = priceListNumber;
     }
 
@@ -25,11 +49,26 @@ public class User {
         return ref;
     }
 
-    public List<Price> getPrice() {
-        return price;
-    }
+
 
     public int getPriceListNumber() {
         return priceListNumber;
+    }
+
+    public PriceList getPriceList() {
+        return priceList;
+    }
+
+    public List<Reading> getReadingList() {
+        return readingList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", ref='" + ref + '\'' +
+                ", priceListNumber=" + priceListNumber +
+                '}';
     }
 }

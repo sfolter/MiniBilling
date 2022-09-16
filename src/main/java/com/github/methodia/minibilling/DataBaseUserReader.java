@@ -28,8 +28,8 @@ public class DataBaseUserReader implements UsersReader {
             final String name = resultSet.getString("name");
             final String ref = resultSet.getString("ref");
             final int priceListNumber = resultSet.getInt("priceListNum");
-            userList.add(new User(name, ref, priceListNumber, priceList));
-            userMap.put(ref, userList.get(counter));
+            //            userList.add(new User(name, ref, priceListNumber, priceList));
+            //            userMap.put(ref, userList.get(counter));
             counter++;
 
         }
