@@ -1,5 +1,12 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.Reading;
+import com.github.methodia.minibilling.entity.User;
+import com.github.methodia.minibilling.readers.ReadingFileReader;
+import com.github.methodia.minibilling.readers.ReadingsReader;
+import com.github.methodia.minibilling.readers.UserFileReader;
+import com.github.methodia.minibilling.readers.UsersReader;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;

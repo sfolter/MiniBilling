@@ -1,8 +1,11 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.Invoice;
+import com.github.methodia.minibilling.entity.Price;
+import com.github.methodia.minibilling.entity.PriceList;
+import com.github.methodia.minibilling.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
@@ -22,11 +25,11 @@ class InvoiceGeneratorTest {
         final Measurement firstMeasurement = new Measurement(
                 ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
                 ZonedDateTime.of(2021, 4, 14, 15, 32, 0, 0, ZoneId.of("GMT")), new BigDecimal("100"),
-                new User("Test Testov", "ref", 1, prices));
+                new User("Test Testov", "ref", new PriceList(1), prices));
         final Measurement secondMeasurement = new Measurement(
                 ZonedDateTime.of(2021, 4, 14, 15, 32, 1, 0, ZoneId.of("GMT")),
                 ZonedDateTime.of(2021, 4, 29, 15, 32, 0, 0, ZoneId.of("GMT")), new BigDecimal("200"),
-                new User("Test Testov", "ref", 1, prices));
+                new User("Test Testov", "ref", new PriceList(1), prices));
         final List<Measurement> measurements = new ArrayList<>();
         measurements.add(firstMeasurement);
         measurements.add(secondMeasurement);
@@ -49,5 +52,18 @@ class InvoiceGeneratorTest {
         Assertions.assertEquals(invoice.getLines().size() * 2 + invoice.getTaxes().size(), invoice.getVat().size(),
                 "Count of vats is incorrect");
     }
+    @Test
+    void missingMeasurements() {
+        final List<Measurement> measurements = new ArrayList<>();
 
+
+        final CurrencyCalculator currencyCalculator = (a, f, t) -> a;
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyCalculator, "BGN");
+
+
+        Assertions.assertThrows(RuntimeException.class,
+                () ->  invoiceGenerator.generate(measurements, 1, LocalDate.of(2021, Month.APRIL, 30), "BGN")
+        );
+
+    }
 }

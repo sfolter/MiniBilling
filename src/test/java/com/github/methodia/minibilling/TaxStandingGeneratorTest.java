@@ -1,5 +1,7 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.InvoiceLine;
+import com.github.methodia.minibilling.entity.Tax;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

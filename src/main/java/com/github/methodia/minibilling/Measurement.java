@@ -1,5 +1,7 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.User;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 

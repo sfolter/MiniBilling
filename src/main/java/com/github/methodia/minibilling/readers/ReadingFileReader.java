@@ -1,4 +1,9 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.readers;
+
+import com.github.methodia.minibilling.Formatter;
+import com.github.methodia.minibilling.entity.Reading;
+import com.github.methodia.minibilling.entity.User;
+import com.github.methodia.minibilling.readers.ReadingsReader;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

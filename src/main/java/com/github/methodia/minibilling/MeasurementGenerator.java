@@ -1,5 +1,8 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.Reading;
+import com.github.methodia.minibilling.entity.User;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

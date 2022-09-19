@@ -1,5 +1,8 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.Price;
+import com.github.methodia.minibilling.entity.PriceList;
+import com.github.methodia.minibilling.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -114,14 +117,14 @@ class ProportionalMeasurementDistributorTest {
     private static Measurement getMeasurement(final BigDecimal measurementValue, List<Price> prices) {
         final Measurement measurement1 = new Measurement(ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
                 ZonedDateTime.of(2021, 4, 14, 15, 32, 0, 0, ZoneId.of("GMT")), measurementValue,
-                new User("Test Testov", "ref", 1, prices));
+                new User("Test Testov", "ref", new PriceList(1), prices));
         return measurement1;
     }
 
     private static Measurement getSecondMeasurement(final BigDecimal measurementValue, List<Price> prices) {
         final Measurement measurement2 = new Measurement(ZonedDateTime.of(2021, 4, 15, 13, 23, 0, 0, ZoneId.of("GMT")),
                 ZonedDateTime.of(2021, 5, 14, 15, 32, 0, 0, ZoneId.of("GMT")), measurementValue,
-                new User("Test Testov", "ref", 1, prices));
+                new User("Test Testov", "ref", new PriceList(1), prices));
         return measurement2;
     }
 

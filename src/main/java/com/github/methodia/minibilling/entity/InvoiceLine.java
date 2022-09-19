@@ -1,4 +1,4 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

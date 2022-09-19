@@ -1,5 +1,10 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.Invoice;
+import com.github.methodia.minibilling.entity.InvoiceLine;
+import com.github.methodia.minibilling.entity.Tax;
+import com.github.methodia.minibilling.entity.Vat;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,13 +15,18 @@ public class InvoiceGenerator {
     private final CurrencyCalculator currencyCalculator;
     private final String fromCurrency;
 
-    public InvoiceGenerator(final CurrencyCalculator currencyCalculator, final String fromCurrency) {
+    public InvoiceGenerator(final CurrencyCalculator currencyCalculator, final String fromCurrency)  {
         this.currencyCalculator = currencyCalculator;
         this.fromCurrency = fromCurrency;
     }
 
     public Invoice generate(final List<Measurement> measurements, final long documentNumber,
-                            final LocalDate borderDate, final String toCurrency) {
+                            final LocalDate borderDate, final String toCurrency) throws RuntimeException{
+
+            if( measurements.isEmpty()){
+                throw new RuntimeException();
+            }
+
 
         final InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator();
         final VatGenerator vatGenerator = new VatGenerator(ExampleInputInformation.vatPercentages());

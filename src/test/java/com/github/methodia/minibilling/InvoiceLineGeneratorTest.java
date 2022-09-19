@@ -1,5 +1,9 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.InvoiceLine;
+import com.github.methodia.minibilling.entity.Price;
+import com.github.methodia.minibilling.entity.PriceList;
+import com.github.methodia.minibilling.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +28,7 @@ class InvoiceLineGeneratorTest {
         final Measurement firstMeasurement = new Measurement(
                 ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
                 ZonedDateTime.of(2021, 4, 14, 15, 32, 0, 0, ZoneId.of("GMT")), new BigDecimal("100"),
-                new User("Test Testov", "ref", 1, prices));
+                new User("Test Testov", "ref", new PriceList(1), prices));
         final List<Measurement> measurements = new ArrayList<>();
         measurements.add(firstMeasurement);
         final CurrencyCalculator currencyCalculator=new SameCurrency();

@@ -1,5 +1,6 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.Invoice;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;

@@ -1,5 +1,9 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.InvoiceLine;
+import com.github.methodia.minibilling.entity.Tax;
+import com.github.methodia.minibilling.entity.Vat;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;

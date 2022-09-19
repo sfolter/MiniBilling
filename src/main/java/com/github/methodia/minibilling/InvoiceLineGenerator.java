@@ -1,5 +1,7 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.entity.InvoiceLine;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -32,7 +34,7 @@ public class InvoiceLineGenerator {
                 final LocalDateTime end = qpp.getEnd().toLocalDateTime();
                 final String product = qpp.getPrice().getProduct();
                 final BigDecimal price = qpp.getPrice().getValue();
-                final int priceList = qpp.getUser().getPriceListNumber();
+                final int priceList = qpp.getUser().getPriceListNumber().getId();
                 final BigDecimal value = qpp.getQuantity().multiply(qpp.getPrice().getValue())
                         .setScale(2, RoundingMode.HALF_UP);
                 final BigDecimal amount=currencyCalculator.calculate(value,fromCurrency,toCurrency)
