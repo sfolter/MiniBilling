@@ -2,8 +2,10 @@ package com.github.methodia.minibilling;
 
 import com.github.methodia.minibilling.entity.Reading;
 import com.github.methodia.minibilling.entity.User;
+import com.github.methodia.minibilling.readers.ReadingDao;
 import com.github.methodia.minibilling.readers.ReadingFileReader;
 import com.github.methodia.minibilling.readers.ReadingsReader;
+import com.github.methodia.minibilling.readers.UserDao;
 import com.github.methodia.minibilling.readers.UserFileReader;
 import com.github.methodia.minibilling.readers.UsersReader;
 
@@ -30,10 +32,12 @@ public class Main {
         final CurrencyCalculator currencyCalculator =
                 fromCurrency.compareTo(toCurrency) == 0 ? new SameCurrency() : new CurrencyExchangeCalculator(myApiKey);
 
-        final UsersReader userReader = new UserFileReader(resourceDirectory);
+        //final UsersReader userReader = new UserFileReader(resourceDirectory);
+        final UsersReader userReader = new UserDao();
         final Map<String, User> users = userReader.read();
 
-        final ReadingsReader readingReader = new ReadingFileReader(users, resourceDirectory);
+        //final ReadingsReader readingReader = new ReadingFileReader(users, resourceDirectory);
+        final ReadingsReader readingReader = new ReadingDao();
         final Map<String, List<Reading>> readings = readingReader.read();
 
         final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
