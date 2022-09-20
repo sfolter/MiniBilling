@@ -1,5 +1,6 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.mainlogic;
 
+import com.github.methodia.minibilling.VatPercentage;
 import com.github.methodia.minibilling.entity.InvoiceLine;
 import com.github.methodia.minibilling.entity.Tax;
 import com.github.methodia.minibilling.entity.Vat;
@@ -17,7 +18,7 @@ public class VatGenerator {
         this.percentageList = percentageList;
     }
 
-    List<Vat> generate(final List<InvoiceLine> invoiceLines, final List<Tax> taxes) {
+    public List<Vat> generate(final List<InvoiceLine> invoiceLines, final List<Tax> taxes) {
         final List<Vat> vat = new ArrayList<>();
         vat.addAll(calculateLineVat(invoiceLines));
         vat.addAll(calculateTaxVat(vat.size(), taxes));

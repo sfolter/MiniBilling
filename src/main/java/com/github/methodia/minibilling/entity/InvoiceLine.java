@@ -1,18 +1,38 @@
 package com.github.methodia.minibilling.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+@Entity
+@Table(name = "invoice_lines")
 public class InvoiceLine {
 
-    private final int index;
-    private final BigDecimal quantity;
-    private final LocalDateTime lineStart;
-    private final LocalDateTime lineEnd;
-    private final String product;
-    private final BigDecimal price;
-    private final int priceList;
-    private final BigDecimal amount;
+    @Id
+    @Column(name = "id",nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "index")
+    private int index;
+    @Column(name = "quantity")
+    private BigDecimal quantity;
+    @Column(name = "linesStart")
+    private LocalDateTime lineStart;
+    @Column(name = "linesEnd")
+    private LocalDateTime lineEnd;
+    @Column(name = "product")
+    private String product;
+    @Column(name = "price")
+    private BigDecimal price;
+    @Column(name = "price_list")
+    private int priceList;
+    @Column(name = "amount")
+    private BigDecimal amount;
+    public InvoiceLine (){}
 
     public InvoiceLine(final int index, final BigDecimal quantity, final LocalDateTime lineStart,
                        final LocalDateTime lineEnd, final String product,

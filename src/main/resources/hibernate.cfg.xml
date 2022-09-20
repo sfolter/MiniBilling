@@ -37,10 +37,10 @@
         <mapping class="com.github.methodia.minibilling.entity.Reading"/>
         <mapping class="com.github.methodia.minibilling.entity.Price"/>
         <mapping class="com.github.methodia.minibilling.entity.PriceList"/>
-<!--        <mapping class="com.github.methodia.minibilling.entity.Invoice"/>-->
-<!--        <mapping class="com.github.methodia.minibilling.entity.InvoiceLine"/>-->
-<!--        <mapping class="com.github.methodia.minibilling.entity.Vat"/>-->
-<!--        <mapping class="com.github.methodia.minibilling.entity.Tax"/>-->
+        <mapping class="com.github.methodia.minibilling.entity.Invoice"/>
+        <mapping class="com.github.methodia.minibilling.entity.InvoiceLine"/>
+        <mapping class="com.github.methodia.minibilling.entity.Vat"/>
+        <mapping class="com.github.methodia.minibilling.entity.Tax"/>
         <!--        <mapping class="com.github.methodia.minibilling.VatIndex"/>-->
 
         <!--        <mapping class="com.github.methodia.minibilling.TaxInedxes"/>-->

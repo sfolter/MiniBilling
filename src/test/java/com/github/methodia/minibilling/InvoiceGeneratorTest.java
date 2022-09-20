@@ -4,6 +4,7 @@ import com.github.methodia.minibilling.entity.Invoice;
 import com.github.methodia.minibilling.entity.Price;
 import com.github.methodia.minibilling.entity.PriceList;
 import com.github.methodia.minibilling.entity.User;
+import com.github.methodia.minibilling.mainlogic.InvoiceGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;

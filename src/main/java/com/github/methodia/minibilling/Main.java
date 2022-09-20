@@ -2,11 +2,11 @@ package com.github.methodia.minibilling;
 
 import com.github.methodia.minibilling.entity.Reading;
 import com.github.methodia.minibilling.entity.User;
+import com.github.methodia.minibilling.mainlogic.InvoiceGenerator;
+import com.github.methodia.minibilling.mainlogic.MeasurementGenerator;
 import com.github.methodia.minibilling.readers.ReadingDao;
-import com.github.methodia.minibilling.readers.ReadingFileReader;
 import com.github.methodia.minibilling.readers.ReadingsReader;
 import com.github.methodia.minibilling.readers.UserDao;
-import com.github.methodia.minibilling.readers.UserFileReader;
 import com.github.methodia.minibilling.readers.UsersReader;
 
 import java.time.LocalDate;
@@ -43,11 +43,14 @@ public class Main {
         final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
         final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyCalculator, fromCurrency);
 
+       // final SaveInvoice saveInvoice=new SaveInvoiceInJson(outputDirectory,borderDate);
+        final SaveInvoice saveInvoice=new SaveInvoiceInDataBase();
+
         users.values().stream()
                 .map(user -> measurementGenerator.generate(user, readings.get(user.getRef())))
                 .map(measurement -> invoiceGenerator.generate(measurement, documentNumberId.getAndIncrement(),
                         borderDate, toCurrency))
-                .forEach(invoice -> SaveInvoice.saveToFile(invoice, outputDirectory, borderDate));
+                .forEach(invoice -> saveInvoice.save(invoice));
     }
 }
 

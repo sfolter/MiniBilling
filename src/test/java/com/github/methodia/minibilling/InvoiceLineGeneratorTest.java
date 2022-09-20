@@ -4,6 +4,7 @@ import com.github.methodia.minibilling.entity.InvoiceLine;
 import com.github.methodia.minibilling.entity.Price;
 import com.github.methodia.minibilling.entity.PriceList;
 import com.github.methodia.minibilling.entity.User;
+import com.github.methodia.minibilling.mainlogic.InvoiceLineGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
