@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +20,10 @@ public class CsvReadingReaderTest {
     @Test
     public void readReading() {
         final String path = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\input\\";
-        final ArrayList<Price> priceList = new ArrayList<>();
+        final List<Price> priceList = new LinkedList<>();
         priceList.add(new Price("gas", LocalDate.of(2022, 5, 7), LocalDate.of(2022, 6, 8), new BigDecimal("1.5")));
         final Map<String, User> users = new HashMap<>();
-        users.put("1", new User("Marko", "1", 1, priceList));
+        users.put("1", new User("Marko", "1", 1));
         final CsvReadingReader csvReadingReader = new CsvReadingReader(path, users);
         final Collection<Reading> readings = csvReadingReader.read();
         final List<Reading> checkReadingsTo = new ArrayList<>();

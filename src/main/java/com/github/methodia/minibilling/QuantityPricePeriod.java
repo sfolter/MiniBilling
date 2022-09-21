@@ -7,14 +7,18 @@ public class QuantityPricePeriod {
 
     private final LocalDateTime start;
     private final LocalDateTime end;
-    private final Price price;
+    private final BigDecimal price;
     private final BigDecimal quantity;
 
-    public QuantityPricePeriod(final LocalDateTime start, final LocalDateTime end, final Price price,
+    private final String product;
+
+    public QuantityPricePeriod(final LocalDateTime start, final LocalDateTime end, final BigDecimal price,
+                               final String product,
                                final BigDecimal quantity) {
         this.start = start;
         this.end = end;
         this.price = price;
+        this.product = product;
         this.quantity = quantity;
     }
 
@@ -26,11 +30,15 @@ public class QuantityPricePeriod {
         return end;
     }
 
-    public Price getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
     public BigDecimal getQuantity() {
         return quantity;
+    }
+
+    public String getProduct() {
+        return product;
     }
 }

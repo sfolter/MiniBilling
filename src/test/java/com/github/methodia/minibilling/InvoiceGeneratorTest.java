@@ -22,12 +22,12 @@ public class InvoiceGeneratorTest {
     public void generateInvoice() throws IOException, ParseException {
         final ArrayList<Price> priceList = new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2022, 1, 7), LocalDate.of(2022, 6, 8), new BigDecimal("1.5")));
-        final User user = new User("Ivan", "1", 1, priceList);
+        final User user = new User("Ivan", "1", 1);
         final Reading firstReading = new Reading(ZonedDateTime.of(2022, 2, 2, 2, 2, 2, 2, ZoneId.of("GMT")),
                 new BigDecimal("200"), user, "gas");
         final Reading secondReading = new Reading(ZonedDateTime.of(2022, 5, 2, 2, 2, 2, 2, ZoneId.of("GMT")),
                 new BigDecimal("250"), user, "gas");
-        final Collection<Reading> readings = new ArrayList<>();
+        final List<Reading> readings = new ArrayList<>();
         readings.add(firstReading);
         readings.add(secondReading);
         final MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
@@ -40,7 +40,7 @@ public class InvoiceGeneratorTest {
         final int taxedAmountPercentage = 60;
         final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurements, prices, yearMonthStr,
                 currency, key);
-        final Invoice generatedInvoice = invoiceGenerator.generate(taxedAmountPercentage);
+        final Invoice generatedInvoice = invoiceGenerator.generate();
         final InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("436"),
                 LocalDateTime.of(2021, 1, 1, 14, 40, 0),
                 LocalDateTime.of(2021, 3, 11, 7, 0, 0), "gas", new BigDecimal("1.8"), 1, new BigDecimal("401"));

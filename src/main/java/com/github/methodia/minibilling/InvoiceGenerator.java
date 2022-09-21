@@ -8,11 +8,9 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class InvoiceGenerator {
 
@@ -39,11 +37,7 @@ public class InvoiceGenerator {
     BigDecimal totalAmount = BigDecimal.ZERO;
     BigDecimal totalAmountWithVat = BigDecimal.ZERO;
 
-    static final int PERCENTAGE = 20;
-    static final String NAME = "Standing charge";
-    static final String UNIT = "days";
-
-    public Invoice generate(final int taxedAmountPercentageVat1) throws IOException, ParseException {
+    public Invoice generate() throws IOException, ParseException {
         final ProportionalMeasurementDistributor proportionalMeasurementDistributor = new ProportionalMeasurementDistributor(
                 measurements, prices);
         final List<QuantityPricePeriod> distribute = proportionalMeasurementDistributor.distribute();
@@ -53,6 +47,7 @@ public class InvoiceGenerator {
         final List<Taxes> taxesLines = new ArrayList<>();
         final CurrencyGenerator currencyGenerator = new CurrencyGenerator(currency, key);
         final BigDecimal currencyValue = currencyGenerator.generateCurrency();
+        final List<Vat> vatList = new ArrayList<>();
 
         int index = 1;
 
@@ -62,55 +57,34 @@ public class InvoiceGenerator {
                 //              Invoice Line
                 final BigDecimal quantity = qpp.getQuantity();
                 final LocalDateTime start = qpp.getStart();
-                final String product = qpp.getPrice().getProduct();
-                final BigDecimal price = qpp.getPrice().getValue();
+                final String product = qpp.getProduct();
+                final BigDecimal price = qpp.getPrice();
                 final int priceList = user.getPriceListNumber();
-                BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice().getValue())
+                BigDecimal amount = qpp.getQuantity().multiply(qpp.getPrice())
                         .setScale(2, RoundingMode.HALF_UP);
                 amount = amount.multiply(currencyValue).setScale(2, RoundingMode.HALF_UP);
                 totalAmount = totalAmount.add(amount);
+                final InvoiceLine invoiceLine = new InvoiceLine(index, quantity, start, end, product, price, priceList,
+                        amount);
+                invoiceLines.add(invoiceLine);
                 //              Taxes line
-                final int indexInTaxes = index;
-                final int quantityDays = (int) start.toLocalDate().atStartOfDay()
-                        .until(end.toLocalDate().atTime(23, 59, 59), ChronoUnit.DAYS);
-                final BigDecimal priceInTaxes = new BigDecimal("1.6").setScale(2, RoundingMode.HALF_UP);
-                BigDecimal amountInTaxes = priceInTaxes.multiply(BigDecimal.valueOf(quantityDays))
-                        .setScale(2, RoundingMode.HALF_UP);
+                final TaxesGenerator taxesGenerator = new TaxesGenerator(invoiceLine, taxesLines.size(), currencyValue);
+                final Taxes taxes = taxesGenerator.generate();
+                taxesLines.add(taxes);
+                final BigDecimal amountInTaxes = taxes.getAmount();
                 totalAmount = totalAmount.add(amountInTaxes);
-                amountInTaxes = amountInTaxes.multiply(currencyValue).setScale(2, RoundingMode.HALF_UP);
                 //              Vat Line
-                int indexInVat = 1;
-                final BigDecimal amountInVat = amount.multiply(
-                        new BigDecimal(20).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));
-                final BigDecimal amountForLineAndVat = amountInVat.add(amount);
-                totalAmountWithVat = totalAmountWithVat.add(amountForLineAndVat);
-                final int taxesIndexForVat = index;
-                //                final int taxedAmountPercentageVat1 = 60;
-                final int taxedAmountPercentageVat2 = 100 - taxedAmountPercentageVat1;
-                final int taxedAmountPercentageVat3 = taxedAmountPercentageVat1 + taxedAmountPercentageVat2;
-                BigDecimal amountInVat1 = amount.multiply(
-                        new BigDecimal(taxedAmountPercentageVat1).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));
-                amountInVat1 = amountInVat1.multiply(new BigDecimal(PERCENTAGE))
-                        .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
-                BigDecimal amountInVat2 = amount.multiply(
-                        new BigDecimal(taxedAmountPercentageVat2).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));
-                amountInVat2 = amountInVat2.multiply(new BigDecimal(PERCENTAGE - 10))
-                        .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
-                final BigDecimal amountInVat3 = amountInTaxes.multiply(new BigDecimal(PERCENTAGE))
-                        .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
-                totalAmountWithVat = totalAmountWithVat.add(amountInVat1).add(amountInVat2).add(amountInVat3)
-                        .add(amount).add(amountInTaxes);
-
-                invoiceLines.add(new InvoiceLine(index, quantity, start, end, product, price, priceList, amount));
-                taxesLines.add(new Taxes(indexInTaxes, index, NAME, quantityDays, UNIT, priceInTaxes, amountInTaxes));
-                vatLines.add(new Vat(indexInVat, index, 0, taxedAmountPercentageVat1, PERCENTAGE, amountInVat1));
-                vatLines.add(
-                        new Vat(indexInVat++ + 1, index, 0, taxedAmountPercentageVat2, PERCENTAGE - 10, amountInVat2));
-                vatLines.add(new Vat(indexInVat++ + 1, 0, taxesIndexForVat, taxedAmountPercentageVat3, PERCENTAGE,
-                        amountInVat3));
+                final VatGenerator vatGenerator = new VatGenerator(index, amount, amountInTaxes);
+                vatList.addAll(vatGenerator.generateVats());
+                for (final Vat vat : vatList) {
+                    vatLines.add(vat);
+                    totalAmountWithVat = totalAmountWithVat.add(vat.getAmount());
+                }
+                vatList.clear();
                 index++;
             }
         }
+        totalAmountWithVat = totalAmountWithVat.add(totalAmount);
         final LocalDateTime documentDate = LocalDateTime.now();
         final String documentNumber = Invoice.getDocumentNumber();
 

@@ -16,7 +16,7 @@ public class ReadingTest {
     public void readingGetters() {
         final List<Price> priceList = new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2022, 1, 1), LocalDate.of(2022, 2, 2), new BigDecimal("2")));
-        final User user = new User("Gosho", "2", 2, priceList);
+        final User user = new User("Gosho", "2", 2);
         final Reading reading = new Reading(ZonedDateTime.of(2022, 2, 2, 2, 2, 2, 2, ZoneId.of("GMT")),
                 new BigDecimal("2.50"), user, "gas");
 

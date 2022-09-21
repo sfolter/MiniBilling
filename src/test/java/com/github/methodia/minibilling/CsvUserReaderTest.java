@@ -21,9 +21,9 @@ public class CsvUserReaderTest {
         final CsvUserReader csvUserReader = new CsvUserReader(path);
         final Map<String, User> userMap = csvUserReader.read();
         final Map<String, User> checkUser = new HashMap<>();
-        checkUser.put("1", new User("Marko", "1", 1, Collections.emptyList()));
-        checkUser.put("2", new User("Ivan", "2", 1, Collections.emptyList()));
-        checkUser.put("3", new User("Gosho", "3", 2, Collections.emptyList()));
+        checkUser.put("1", new User("Marko", "1", 1));
+        checkUser.put("2", new User("Ivan", "2", 1));
+        checkUser.put("3", new User("Gosho", "3", 2));
         final List<Price> priceList = new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2021, 1, 1), LocalDate.of(2022, 12, 31), new BigDecimal("1.8")));
 
@@ -31,6 +31,6 @@ public class CsvUserReaderTest {
         Assertions.assertEquals("Marko Boikov Tsvetkov", userMap.get("1").getName(), "Name does not match");
         Assertions.assertEquals("1", userMap.get("1").getRef(), "Ref does not match");
         Assertions.assertEquals(1, userMap.get("1").getPriceListNumber(), "Price list number does not match");
-        Assertions.assertEquals(priceList.size(), userMap.get("1").getPrice().size(), "Price does not match");
+        Assertions.assertEquals(priceList.size(), userMap.get("1").getPriceList().getPrices().size(), "Price does not match");
     }
 }

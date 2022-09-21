@@ -7,15 +7,16 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InvoiceTest {
 
     @Test
     public void getInvoice() {
-        final ArrayList<Price> priceList = new ArrayList<>();
+        final List<Price> priceList = new LinkedList<>();
         priceList.add(new Price("gas", LocalDate.of(2022, 5, 7), LocalDate.of(2022, 6, 8), new BigDecimal("1.5")));
-        final User user = new User("Ivan", "1", 1, priceList);
+        final User user = new User("Ivan", "1", 1);
         final List<InvoiceLine> lines = new ArrayList<>();
         lines.add(new InvoiceLine(1, new BigDecimal("436"),
                 LocalDateTime.of(2021, 1, 1, 14, 40, 0),

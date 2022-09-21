@@ -18,12 +18,12 @@ public class MeasurementGeneratorTest {
     public void getMeasurement() {
         final List<Price> priceList = new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2022, 1, 1), LocalDate.of(2022, 2, 2), new BigDecimal("2")));
-        final User user = new User("Gosho", "2", 2, priceList);
+        final User user = new User("Gosho", "2", 2);
         final Reading firstReading = new Reading(ZonedDateTime.of(2022, 2, 2, 2, 2, 2, 2, ZoneId.of("GMT")),
                 new BigDecimal("200"), user, "gas");
         final Reading secondReading = new Reading(ZonedDateTime.of(2022, 5, 2, 2, 2, 2, 2, ZoneId.of("GMT")),
                 new BigDecimal("250"), user, "gas");
-        final Collection<Reading> readings = new ArrayList<>();
+        final List<Reading> readings = new ArrayList<>();
         readings.add(firstReading);
         readings.add(secondReading);
         final MeasurementGenerator measurementGenerator = new MeasurementGenerator(user, readings);
@@ -44,14 +44,14 @@ public class MeasurementGeneratorTest {
     public void generateTwoMeasurements() {
         final List<Price> priceList = new ArrayList<>();
         priceList.add(new Price("gas", LocalDate.of(2022, 1, 1), LocalDate.of(2022, 2, 2), new BigDecimal("2")));
-        final User user = new User("Gosho", "2", 2, priceList);
+        final User user = new User("Gosho", "2", 2);
         final Reading firstReading = new Reading(ZonedDateTime.of(2022, 2, 2, 2, 2, 2, 2, ZoneId.of("GMT")),
                 new BigDecimal("200"), user, "gas");
         final Reading secondReading = new Reading(ZonedDateTime.of(2022, 5, 2, 2, 2, 2, 2, ZoneId.of("GMT")),
                 new BigDecimal("250"), user, "gas");
         final Reading thirdReading = new Reading(ZonedDateTime.of(2022, 6, 2, 2, 2, 2, 2, ZoneId.of("GMT")),
                 new BigDecimal("320"), user, "gas");
-        final Collection<Reading> readings = new ArrayList<>();
+        final List<Reading> readings = new ArrayList<>();
         readings.add(firstReading);
         readings.add(secondReading);
         readings.add(thirdReading);

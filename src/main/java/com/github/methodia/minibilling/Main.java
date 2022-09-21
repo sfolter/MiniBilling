@@ -13,30 +13,24 @@ public class Main {
     public static void main(final String[] args)
             throws ParseException, IOException, NoSuchFieldException, IllegalAccessException,
             org.json.simple.parser.ParseException, SQLException, ClassNotFoundException {
-        //        final String reportDate = args[0];
-        //        final String inPath = args[1];
-        //        final String outPath = args[2];
+        //                final String reportDate = args[0];
+        //                final String inPath = args[1];
+        //                final String outPath = args[2];
         final String reportDate = "21-03";
-        //                     //   test1
-        //                        final String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\input\\";
-        //                        final String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\out\\test\\resources\\sample1\\expected\\";
-        //                main sample1
-        //                        String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
-        //                        String outPath="C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";
+        //        main sample1
+        //        String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
+        //        String outPath="C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\output\\";
         //        main sample2
         //        final String inPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample1\\input\\";
         final String outPath = "C:\\java projects\\MiniBilling\\MiniBilling\\src\\test\\resources\\sample2\\output\\";
         final String currency = "EUR";
         final String key = "3b14c37cbcca1d0ff2fca003";
-        final int taxedAmountPercentageVat1 = 60;
 
         final SessionGenerator sessionGenerator = new SessionGenerator();
         final Session session = sessionGenerator.createSession();
         session.beginTransaction();
         final UserHibernateDataBaseReader userHibernateDataBaseReader = new UserHibernateDataBaseReader(session);
         final Map<String, User> userList = userHibernateDataBaseReader.read();
-
-
         //        final CsvUserReader userReader = new CsvUserReader(inPath);
         //        final Map<String, User> userMap = userReader.read();
         //        *********************
@@ -54,7 +48,7 @@ public class Main {
             final Collection<Measurement> measurements = measurementGenerator.generate();
             final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(user, measurements, price, reportDate,
                     currency, key);
-            final Invoice invoice = invoiceGenerator.generate(taxedAmountPercentageVat1);
+            final Invoice invoice = invoiceGenerator.generate();
             final FolderGenerator folderGenerator = new FolderGenerator(user, outPath);
             final String folderPath = folderGenerator.folderGenerate();
             final JsonGenerator jsonGenerator = new JsonGenerator(invoice, folderPath, currency, user);
