@@ -16,11 +16,11 @@ import java.time.LocalDate;
 @Table(name = "prices")
 public class Price {
 
-    @Column(name = "productName")
+    @Column(name = "product_name")
     private String product;
-    @Column(name = "startDate")
+    @Column(name = "start_date")
     private LocalDate start;
-    @Column(name = "endDate")
+    @Column(name = "end_date")
     private LocalDate end;
     @Column(name = "price")
     private BigDecimal value;
@@ -31,7 +31,7 @@ public class Price {
     private int id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "numOfPriceList")
+    @JoinColumn(name = "num_of_price_list")
     private PriceList priceList;
 
     public Price() {

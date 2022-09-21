@@ -19,11 +19,11 @@ public class User {
     @Column(name = "ref")
     private String ref;
 
-    @Column(name = "priceListNum")
+    @Column(name = "price_list_num")
     private int priceListNumber;
 
     @ManyToOne
-    @JoinColumn(name = "priceListNum",
+    @JoinColumn(name = "price_list_num",
             insertable = false,
             updatable = false)
     private PriceList priceList;
