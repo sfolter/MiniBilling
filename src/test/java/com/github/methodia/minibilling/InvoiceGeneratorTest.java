@@ -1,5 +1,6 @@
 package com.github.methodia.minibilling;
 
+import com.github.methodia.minibilling.currency.CurrencyCalculator;
 import com.github.methodia.minibilling.entity.Invoice;
 import com.github.methodia.minibilling.entity.Price;
 import com.github.methodia.minibilling.entity.PriceList;
@@ -26,16 +27,16 @@ class InvoiceGeneratorTest {
         final Measurement firstMeasurement = new Measurement(
                 ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
                 ZonedDateTime.of(2021, 4, 14, 15, 32, 0, 0, ZoneId.of("GMT")), new BigDecimal("100"),
-                new User("Test Testov", "ref", new PriceList(1), prices));
+                new User("Test Testov", "ref", new PriceList("1"), prices));
         final Measurement secondMeasurement = new Measurement(
                 ZonedDateTime.of(2021, 4, 14, 15, 32, 1, 0, ZoneId.of("GMT")),
                 ZonedDateTime.of(2021, 4, 29, 15, 32, 0, 0, ZoneId.of("GMT")), new BigDecimal("200"),
-                new User("Test Testov", "ref", new PriceList(1), prices));
+                new User("Test Testov", "ref", new PriceList("1"), prices));
         final List<Measurement> measurements = new ArrayList<>();
         measurements.add(firstMeasurement);
         measurements.add(secondMeasurement);
 
-        final CurrencyCalculator currencyCalculator = (a,f,t) -> a;
+        final CurrencyCalculator currencyCalculator = (a, f, t) -> a;
         final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyCalculator, "BGN");
         final Invoice invoice = invoiceGenerator.generate(measurements, 1, LocalDate.of(2021, Month.APRIL, 30), "BGN");
         Assertions.assertEquals(new BigDecimal("140").stripTrailingZeros(), invoice.getLines().get(0).getAmount(),

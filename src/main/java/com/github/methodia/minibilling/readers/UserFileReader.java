@@ -46,8 +46,8 @@ public class UserFileReader implements UsersReader {
 
         final String name = dataForUser[0];
         final String referentNumber = dataForUser[1];
-        final int priceList = parseInt(dataForUser[2]);
-        final PriceFileReader pricesReader = new PriceFileReader(directory, priceList);
+        final String priceList = dataForUser[2];
+        final PriceFileReader pricesReader = new PriceFileReader(directory,Integer.parseInt(priceList));
         final List<Price> pricesReader1 = pricesReader.read();
 
         return new User(name, referentNumber, new PriceList(priceList), pricesReader1);

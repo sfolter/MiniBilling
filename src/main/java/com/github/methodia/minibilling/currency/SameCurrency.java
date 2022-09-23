@@ -1,4 +1,6 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.currency;
+
+import com.github.methodia.minibilling.currency.CurrencyCalculator;
 
 import java.math.BigDecimal;
 

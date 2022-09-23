@@ -20,7 +20,7 @@ class MeasurementGeneratorTest {
     @Test
     void generateOneMeasurement() {
 
-        User test = new User("Test Testov", "ref", new PriceList(1), Collections.emptyList());
+        User test = new User("Test Testov", "ref", new PriceList("1"), Collections.emptyList());
         List<Reading> readings = new ArrayList<>();
         Reading reading1 = new Reading("ref", ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
                 new BigDecimal("100"), test);
@@ -44,7 +44,7 @@ class MeasurementGeneratorTest {
 
     @Test
     void generateTwoMeasurements() {
-        User test = new User("Test Testov", "ref", new PriceList(1), Collections.emptyList());
+        User test = new User("Test Testov", "ref", new PriceList("1"), Collections.emptyList());
         List<Reading> readings = new ArrayList<>();
         Reading reading1 = new Reading("ref", ZonedDateTime.of(2021, 3, 6, 13, 23, 0, 0, ZoneId.of("GMT")),
                 new BigDecimal("100"), test);

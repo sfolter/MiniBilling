@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class InvoiceLine {
 
     @Id
-    @Column(name = "id",nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "index")
@@ -32,6 +32,7 @@ public class InvoiceLine {
     private int priceList;
     @Column(name = "amount")
     private BigDecimal amount;
+
     public InvoiceLine (){}
 
     public InvoiceLine(final int index, final BigDecimal quantity, final LocalDateTime lineStart,
@@ -45,6 +46,7 @@ public class InvoiceLine {
         this.price = price;
         this.priceList = priceList;
         this.amount = amount;
+
     }
 
     public int getIndex() {
@@ -75,4 +77,37 @@ public class InvoiceLine {
         return amount;
     }
 
+
+
+    public void setIndex(final int index) {
+        this.index = index;
+    }
+
+    public void setQuantity(final BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setLineStart(final LocalDateTime lineStart) {
+        this.lineStart = lineStart;
+    }
+
+    public void setLineEnd(final LocalDateTime lineEnd) {
+        this.lineEnd = lineEnd;
+    }
+
+    public void setProduct(final String product) {
+        this.product = product;
+    }
+
+    public void setPrice(final BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setPriceList(final int priceList) {
+        this.priceList = priceList;
+    }
+
+    public void setAmount(final BigDecimal amount) {
+        this.amount = amount;
+    }
 }

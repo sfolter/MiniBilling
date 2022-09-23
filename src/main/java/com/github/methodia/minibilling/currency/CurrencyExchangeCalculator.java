@@ -1,5 +1,6 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.currency;
 
+import com.github.methodia.minibilling.currency.CurrencyCalculator;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class CurrencyExchangeCalculator implements CurrencyCalculator{
+public class CurrencyExchangeCalculator implements CurrencyCalculator {
     final String apiKey;
 
     public CurrencyExchangeCalculator(final String apiKey) {

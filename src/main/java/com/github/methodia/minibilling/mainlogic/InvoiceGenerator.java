@@ -1,6 +1,6 @@
 package com.github.methodia.minibilling.mainlogic;
 
-import com.github.methodia.minibilling.CurrencyCalculator;
+import com.github.methodia.minibilling.currency.CurrencyCalculator;
 import com.github.methodia.minibilling.ExampleInputInformation;
 import com.github.methodia.minibilling.Measurement;
 import com.github.methodia.minibilling.entity.Invoice;
@@ -23,7 +23,7 @@ public class InvoiceGenerator {
         this.fromCurrency = fromCurrency;
     }
 
-    public Invoice generate(final List<Measurement> measurements, final long documentNumber,
+    public Invoice generate(final List<Measurement> measurements, final int documentNumber,
                             final LocalDate borderDate, final String toCurrency) throws RuntimeException{
 
             if( measurements.isEmpty()){
@@ -35,7 +35,7 @@ public class InvoiceGenerator {
         final VatGenerator vatGenerator = new VatGenerator(ExampleInputInformation.vatPercentages());
 
         final LocalDateTime documentDate = LocalDateTime.now();
-        final String docNumber = String.valueOf(documentNumber);
+        final String docNumber =String.valueOf(documentNumber);
         final String consumer = measurements.get(0).getUser().getName();
         final String reference = measurements.get(0).getUser().getRef();
 

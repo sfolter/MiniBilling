@@ -19,7 +19,7 @@ public class Price {
     private int id;
 
     @Column(name = "price_list_id")
-    int priceList;
+    String priceList;
     @Column(name = "product",
             nullable = false)
     private String product;

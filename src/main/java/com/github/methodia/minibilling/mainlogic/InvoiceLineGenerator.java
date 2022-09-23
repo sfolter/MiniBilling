@@ -1,10 +1,8 @@
 package com.github.methodia.minibilling.mainlogic;
 
-import com.github.methodia.minibilling.CurrencyCalculator;
+import com.github.methodia.minibilling.currency.CurrencyCalculator;
 import com.github.methodia.minibilling.Measurement;
 import com.github.methodia.minibilling.entity.InvoiceLine;
-import com.github.methodia.minibilling.mainlogic.ProportionalMeasurementDistributor;
-import com.github.methodia.minibilling.mainlogic.QuantityPricePeriod;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,6 +15,7 @@ import java.util.List;
 public class InvoiceLineGenerator {
 
     private BigDecimal totalAmountLines = BigDecimal.ZERO;
+
 
     public BigDecimal getTotalAmountLines() {
         return totalAmountLines;
@@ -38,14 +37,14 @@ public class InvoiceLineGenerator {
                 final LocalDateTime end = qpp.getEnd().toLocalDateTime();
                 final String product = qpp.getPrice().getProduct();
                 final BigDecimal price = qpp.getPrice().getValue();
-                final int priceList = qpp.getUser().getPriceListNumber().getId();
+                final String priceList = qpp.getUser().getPriceListNumber().getId();
                 final BigDecimal value = qpp.getQuantity().multiply(qpp.getPrice().getValue())
                         .setScale(2, RoundingMode.HALF_UP);
                 final BigDecimal amount=currencyCalculator.calculate(value,fromCurrency,toCurrency)
                         .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
                 totalAmountLines = totalAmountLines.add(amount);
                 invoiceLines.add(new InvoiceLine(invoiceLines.size() + 1, quantity, start, end,
-                        product, price, priceList, amount));
+                        product, price, Integer.valueOf(priceList), amount));
             }
         }
         return invoiceLines;

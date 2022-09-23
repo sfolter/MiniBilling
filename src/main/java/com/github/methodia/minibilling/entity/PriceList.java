@@ -21,7 +21,7 @@ public class PriceList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "price_list_id")
-    int id;
+    String id;
 
     @OneToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
@@ -34,11 +34,11 @@ public class PriceList {
     public PriceList() {
     }
 
-    public PriceList(final int id) {
+    public PriceList(final String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

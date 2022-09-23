@@ -1,4 +1,4 @@
-package com.github.methodia.minibilling;
+package com.github.methodia.minibilling.saveinvoice;
 
 import com.github.methodia.minibilling.entity.Invoice;
 import com.google.gson.Gson;

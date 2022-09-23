@@ -1,22 +1,29 @@
 package com.github.methodia.minibilling.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Table(name = "invoice")
 public class Invoice {
-@Column(name = "document_date")
+
+    @Column(name = "document_date")
     private LocalDateTime documentDate;
     @Id
-    @Column(name = "document_number",nullable = false)
+    @Column(name = "document_number")
     private String documentNumber;
+
     @Column(name = "consumer")
     private String consumer;
     @Column(name = "referent_number")
@@ -29,20 +36,24 @@ public class Invoice {
     @Column(name = "currency")
 
     private String currency;
-    @OneToMany
-    @JoinColumn(name = "document_number")
-    private List<InvoiceLine> lines;
-    @OneToMany
-    @JoinColumn(name = "document_number")
-    private List<Tax> taxes;
-    @OneToMany
-    @JoinColumn(name = "document_number")
-    private List<Vat> vat;
+    @OneToMany(targetEntity = InvoiceLine.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "invoice_document_number",referencedColumnName = "document_number")
+    private List<InvoiceLine> lines=new ArrayList<>();
+    @OneToMany(targetEntity = Tax.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "invoice_document_number",referencedColumnName = "document_number")
+    private List<Tax> taxes=new ArrayList<>();
+    @OneToMany(targetEntity = Vat.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "invoice_document_number",referencedColumnName = "document_number")
+    private List<Vat> vat=new ArrayList<>();
 
-public Invoice(){}
+
+    public Invoice() {
+    }
+
     public Invoice(final LocalDateTime documentDate, final String documentNumber, final String consumer,
                    final String reference,
-                   final BigDecimal totalAmount, final BigDecimal totalAmountWithVat, final String currency, final List<InvoiceLine> lines,
+                   final BigDecimal totalAmount, final BigDecimal totalAmountWithVat, final String currency,
+                   final List<InvoiceLine> lines,
                    final List<Tax> taxes,
                    final List<Vat> vat) {
         this.documentDate = documentDate;
@@ -77,13 +88,59 @@ public Invoice(){}
         return totalAmount;
     }
 
-    public BigDecimal getTotalAmountWithVat() {return totalAmountWithVat;}
+    public BigDecimal getTotalAmountWithVat() {
+        return totalAmountWithVat;
+    }
 
     public List<InvoiceLine> getLines() {
         return lines;
     }
 
-    public List<Tax> getTaxes() {return taxes;}
+    public List<Tax> getTaxes() {
+        return taxes;
+    }
 
-    public List<Vat> getVat() {return vat;}
+    public List<Vat> getVat() {
+        return vat;
+    }
+
+    public void setDocumentDate(final LocalDateTime documentDate) {
+        this.documentDate = documentDate;
+    }
+
+    public void setDocumentNumber(final String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    public void setConsumer(final String consumer) {
+        this.consumer = consumer;
+    }
+
+    public void setReference(final String reference) {
+        this.reference = reference;
+    }
+
+    public void setTotalAmount(final BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public void setTotalAmountWithVat(final BigDecimal totalAmountWithVat) {
+        this.totalAmountWithVat = totalAmountWithVat;
+    }
+
+    public void setCurrency(final String currency) {
+        this.currency = currency;
+    }
+
+    public void setLines(final List<InvoiceLine> lines) {
+        this.lines = lines;
+    }
+
+    public void setTaxes(final List<Tax> taxes) {
+        this.taxes = taxes;
+    }
+
+    public void setVat(final List<Vat> vat) {
+        this.vat = vat;
+    }
 }

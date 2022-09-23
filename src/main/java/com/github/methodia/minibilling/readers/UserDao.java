@@ -9,12 +9,16 @@ import java.util.stream.Collectors;
 
 public class UserDao implements UsersReader {
 
+    private Session session;
+
+    public UserDao(final Session session) {
+        this.session = session;
+    }
+
     @Override
     public Map<String, User> read() {
-        try (final Session session = SessionFactoryUtil.getSessionFactory()) {
-            List<User> usersDao = session.createQuery("from User ", User.class).getResultList();
-            return usersDao.stream()
-                    .collect(Collectors.toMap(User::getRef, user -> user));
-        }
+        List<User> usersDao = session.createQuery("from User ", User.class).getResultList();
+        return usersDao.stream()
+                .collect(Collectors.toMap(User::getRef, user -> user));
     }
 }
