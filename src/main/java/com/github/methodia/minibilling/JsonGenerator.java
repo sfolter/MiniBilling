@@ -27,15 +27,15 @@ public class JsonGenerator {
         final String documentNumber = Invoice.getDocumentNumber();
         json.put("documentDate", invoice.getDocumentDate());
         json.put("documentNumber", documentNumber);
-        json.put("consumer", user.name());
-        json.put("reference", user.ref());
+        json.put("consumer", user.getName());
+        json.put("reference", user.getRef());
         final String totalAmount = invoice.getTotalAmount().toString() + toCurrency;
         json.put("totalAmount", totalAmount);
         final String totalAmountWithVat = invoice.getTotalAmountWithVat().toString() + toCurrency;
         json.put("totalAmountWithVat", totalAmountWithVat);
 
 
-        final List<Price> prices = user.price();
+        final List<Price> prices = user.getPriceList().getPrices();
         for (int i = 0; i < prices.size(); i++) {
             final JSONObject invoiceLine = new JSONObject();
             final JSONObject taxesJsonObj = new JSONObject();

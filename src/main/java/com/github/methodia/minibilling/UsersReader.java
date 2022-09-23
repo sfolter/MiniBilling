@@ -9,7 +9,7 @@ import java.util.TreeMap;
  */
 public interface UsersReader {
 
-    TreeMap<String, User> read(String path);
+    TreeMap<String, User> read();
 
 
 }
