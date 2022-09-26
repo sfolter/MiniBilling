@@ -10,7 +10,7 @@ public class UserDbRead implements DataReader {
 
     Session session;
 
-    public UserDbRead(Session session) {
+    public UserDbRead(final Session session) {
         this.session = session;
     }
 
@@ -18,7 +18,7 @@ public class UserDbRead implements DataReader {
     public List<User> read() {
 
         session.beginTransaction();
-        Query query = session.createQuery("from User");
+        final Query query = session.createQuery("from User");
         return query.getResultList();
     }
 }

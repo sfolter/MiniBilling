@@ -27,7 +27,7 @@ public class PriceList {
     public int getId() {
         return id;
     }
-    public PriceList(int id, List<Price> prices) {
+    public PriceList(final int id, final List<Price> prices) {
         this.id = id;
         this.prices = prices;
     }

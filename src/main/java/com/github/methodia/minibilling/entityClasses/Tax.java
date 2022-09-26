@@ -46,13 +46,13 @@ public class Tax {
     public Tax() {
     }
 
-    public Tax(int index, List<Integer> lines, BigDecimal quantity, BigDecimal amount) {
+    public Tax(final int index, final List<Integer> lines, final BigDecimal quantity, final BigDecimal amount) {
         this.index = index;
         this.lines = lines;
-        this.name = "Standing charge";
+        name = "Standing charge";
         this.quantity = quantity;
-        this.unit = "days";
-        this.price = new BigDecimal("1.6");
+        unit = "days";
+        price = new BigDecimal("1.6");
         this.amount = amount;
     }
 

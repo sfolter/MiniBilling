@@ -16,9 +16,9 @@ import java.util.List;
 
 public class InvoiceGenerator {
 
-    final private CurrencyConverter currencyConverter;
+    private final CurrencyConverter currencyConverter;
 
-    public InvoiceGenerator(CurrencyConverter currencyConverter) {
+    public InvoiceGenerator(final CurrencyConverter currencyConverter) {
         this.currencyConverter = currencyConverter;
     }
 
@@ -27,20 +27,20 @@ public class InvoiceGenerator {
      * its needed, dividing them into different lines,also getting the data(,quantity,price,start of the line,
      * end of the line etc.
      */
-    public Invoice generate(User user, Collection<Measurement> measurements, LocalDateTime dateReportingTo,
-                            List<VatPercentages> vatPercentages) {
-        ProportionalMeasurementDistributor proportionalMeasurementDistributor =
+    public Invoice generate(final User user, final Collection<Measurement> measurements, final LocalDateTime dateReportingTo,
+                            final List<VatPercentages> vatPercentages) {
+        final ProportionalMeasurementDistributor proportionalMmDistributor =
                 new ProportionalMeasurementDistributor(measurements, user.getPricesList().prices);
-        Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMeasurementDistributor.distribute();
+        final Collection<QuantityPricePeriod> quantityPricePeriods = proportionalMmDistributor.distribute();
 
-        List<InvoiceLine> invoiceLines = new ArrayList<>();
-        List<Tax> taxList = new ArrayList<>();
-        TaxGenerator taxGenerator = new TaxGenerator();
-        BigDecimal currencyValue = currencyConverter.getCurrencyValue(user.getCurrency());
-        for (QuantityPricePeriod qpp : quantityPricePeriods) {
-            if (dateReportingTo.compareTo(qpp.end()) >= 0) {
-                int lineIndex = invoiceLines.size() + 1;
-                InvoiceLine invoiceLine = createInvoiceLine(lineIndex, qpp, user,currencyValue);
+        final List<InvoiceLine> invoiceLines = new ArrayList<>();
+        final List<Tax> taxList = new ArrayList<>();
+        final TaxGenerator taxGenerator = new TaxGenerator();
+        final BigDecimal currencyValue = currencyConverter.getCurrencyValue(user.getCurrency());
+        for (final QuantityPricePeriod qpp : quantityPricePeriods) {
+            if (0 <= dateReportingTo.compareTo(qpp.end())) {
+                final int lineIndex = invoiceLines.size() + 1;
+                final InvoiceLine invoiceLine = createInvoiceLine(lineIndex, qpp, user,currencyValue);
                 invoiceLines.add(invoiceLine);
                 taxList.add(taxGenerator.generate( invoiceLine,new BigDecimal("1.6"),
                         currencyValue, taxList.size()));
@@ -49,30 +49,30 @@ public class InvoiceGenerator {
             }
         }
 
-        Integer documentNumber = Integer.valueOf(Invoice.getDocumentNumber());
-        String userName = user.getName();
-        List<Vat> vat = new VatGenerator().generate(vatPercentages, invoiceLines, taxList);
+        final Integer documentNumber = Integer.valueOf(Invoice.getDocumentNumber());
+        final String userName = user.getName();
+        final List<Vat> vat = new VatGenerator().generate(vatPercentages, invoiceLines, taxList);
 
-        BigDecimal taxAmount = taxList.stream().map(Tax::getAmount).reduce(new BigDecimal(0), BigDecimal::add);
-        BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(taxAmount, BigDecimal::add);
-        BigDecimal totalAmountWithVat = vat.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add);
+        final BigDecimal taxAmount = taxList.stream().map(Tax::getAmount).reduce(new BigDecimal(0), BigDecimal::add);
+        final BigDecimal totalAmount = invoiceLines.stream().map(InvoiceLine::getAmount).reduce(taxAmount, BigDecimal::add);
+        final BigDecimal totalAmountWithVat = vat.stream().map(Vat::getAmount).reduce(totalAmount, BigDecimal::add);
 
         return new Invoice(documentNumber, userName, user.getRefNumber(), totalAmount, totalAmountWithVat, invoiceLines,
                 vat, taxList);
     }
 
-    private InvoiceLine createInvoiceLine(int lineIndex, QuantityPricePeriod qpp, User user,BigDecimal currencyValue) {
-        BigDecimal quantity = qpp.quantity();
-        LocalDateTime start = qpp.start();
-        LocalDateTime end = qpp.end();
-        BigDecimal price = qpp.price();
+    private InvoiceLine createInvoiceLine(final int lineIndex, final QuantityPricePeriod qpp, final User user, final BigDecimal currencyValue) {
+        final BigDecimal quantity = qpp.quantity();
+        final LocalDateTime start = qpp.start();
+        final LocalDateTime end = qpp.end();
+        final BigDecimal price = qpp.price();
 
-        BigDecimal amount = qpp.quantity().multiply(qpp.price())
+        final BigDecimal amount = qpp.quantity().multiply(qpp.price())
                 .multiply(currencyValue)
                 .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
         // add the following method in order to set up your currency converter
 
-        String product = qpp.product();
+        final String product = qpp.product();
         return new InvoiceLine(lineIndex, quantity, start, end,
                 product, price, user.getPriceList().getId(), amount);
     }

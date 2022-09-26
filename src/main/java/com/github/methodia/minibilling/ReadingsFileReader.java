@@ -11,26 +11,26 @@ import java.util.List;
 
 public class ReadingsFileReader {
 
-    final private String path;
+    private final String path;
 
 
-    public ReadingsFileReader(String path) {
+    public ReadingsFileReader(final String path) {
         this.path = path;
     }
 
 
     public List<Reading> read() {
         String line;
-        List<Reading> result = new ArrayList<>();
+        final List<Reading> result = new ArrayList<>();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path + "\\readings.csv"));
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                String referentNumber = data[0];
-                String product = data[1];
-                String time = data[2];
-                ZonedDateTime timeZDT = ZonedDateTime.parse(time);
-                BigDecimal price = new BigDecimal(data[3]);
+            final BufferedReader br = new BufferedReader(new FileReader(path + "\\readings.csv"));
+            while (null != (line = br.readLine())) {
+                final String[] data = line.split(",");
+                final String referentNumber = data[0];
+                final String product = data[1];
+                final String time = data[2];
+                final ZonedDateTime timeZDT = ZonedDateTime.parse(time);
+                final BigDecimal price = new BigDecimal(data[3]);
 
                 result.add(new Reading(referentNumber, product, timeZDT, price));
             }

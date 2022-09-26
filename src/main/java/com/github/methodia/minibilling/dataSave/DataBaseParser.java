@@ -8,7 +8,7 @@ public class DataBaseParser implements SaveData {
     private final Invoice invoice;
     private final Session session;
 
-    public DataBaseParser(Invoice invoice, Session session) {
+    public DataBaseParser(final Invoice invoice,final Session session) {
         this.invoice = invoice;
         this.session = session;
     }
@@ -16,9 +16,9 @@ public class DataBaseParser implements SaveData {
     @Override
     public void save() {
         session.persist(invoice);
-        //            invoice.getLines().stream().forEach(session.persist());
-        invoice.getLines().forEach(session::save);
-        invoice.getTaxes().forEach(session::save);
-        invoice.getVat().forEach(session::save);
+//        //            invoice.getLines().stream().forEach(session.persist());
+//        invoice.getLines().forEach(session::save);
+//        invoice.getTaxes().forEach(session::save);
+//        invoice.getVat().forEach(session::save);
     }
 }

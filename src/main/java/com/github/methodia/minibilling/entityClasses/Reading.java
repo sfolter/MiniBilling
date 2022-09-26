@@ -31,7 +31,7 @@ public class Reading {
     public Reading() {
     }
 
-    public Reading(String refNumber, String product, ZonedDateTime date, BigDecimal value) {
+    public Reading(final String refNumber, final String product, final ZonedDateTime date, final BigDecimal value) {
         this.refNumber = refNumber;
         this.product = product;
         this.date = date;

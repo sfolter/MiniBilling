@@ -1,11 +1,17 @@
 package com.github.methodia.minibilling.entityClasses;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
 @Entity
 @Table(name = "prices")
-public class Price{
+public class Price {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +36,7 @@ public class Price{
     public Price() {
     }
 
-    public Price(String product, LocalDate startDate, LocalDate endDate, BigDecimal price) {
+    public Price(final String product, final LocalDate startDate, final LocalDate endDate, final BigDecimal price) {
         this.product = product;
         this.startDate = startDate;
         this.endDate = endDate;

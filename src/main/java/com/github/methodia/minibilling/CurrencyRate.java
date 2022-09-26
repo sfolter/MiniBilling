@@ -15,12 +15,12 @@ import java.net.URL;
 public class CurrencyRate implements CurrencyConverter {
 
     @Override
-    public BigDecimal getCurrencyValue(String currency) {
+    public BigDecimal getCurrencyValue(final String currency) {
         try {
-            URL url = new URL("https://api.exchangerate.host/convert?from=BGN&to="+currency);
-            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+            final URL url = new URL("https://api.exchangerate.host/convert?from=BGN&to="+currency);
+            final HttpURLConnection request = (HttpURLConnection) url.openConnection();
             request.connect();
-            JsonElement root = JsonParser.parseReader(new InputStreamReader((InputStream) request.getContent()));
+            final JsonElement root = JsonParser.parseReader(new InputStreamReader((InputStream) request.getContent()));
             return root.getAsJsonObject().get("info").getAsJsonObject().get("rate")
                     .getAsBigDecimal().setScale(2, RoundingMode.HALF_UP);
         } catch (IOException e) {

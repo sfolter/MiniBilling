@@ -1,5 +1,6 @@
 package com.github.methodia.minibilling.entityClasses;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,14 +30,14 @@ public class Invoice implements Serializable {
     private BigDecimal totalAmount;
     @Column(name = "total_amounts_with_vat")
     private BigDecimal totalAmountWithVat;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "document_number")
     private List<InvoiceLine> lines;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "document_number")
     private List<Vat> vat;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "document_number")
     private List<Tax> taxes;
 
@@ -45,8 +46,8 @@ public class Invoice implements Serializable {
     }
 
 
-    public Invoice(Integer documentNumber, String consumer, String reference, BigDecimal totalAmount,
-                   BigDecimal totalAmountWithVat, List<InvoiceLine> lines, List<Vat> vat, List<Tax> taxes) {
+    public Invoice(final Integer documentNumber, final String consumer, final String reference, final BigDecimal totalAmount,
+                   final BigDecimal totalAmountWithVat, final List<InvoiceLine> lines, final List<Vat> vat, final List<Tax> taxes) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;

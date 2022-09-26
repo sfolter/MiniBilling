@@ -34,7 +34,7 @@ public class User implements Serializable {
         return pricesList;
     }
 
-    public void setPricesList(PriceList pricesList) {
+    public void setPricesList(final PriceList pricesList) {
         this.pricesList = pricesList;
     }
 
@@ -46,8 +46,8 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String referentNumber, String name, PriceList pricesList,List<Reading> readingsList,String currency) {
-        this.refNumber = referentNumber;
+    public User(final String referentNumber, final String name, final PriceList pricesList, final List<Reading> readingsList, final String currency) {
+        refNumber = referentNumber;
         this.name = name;
         this.pricesList = pricesList;
         this.readingsList=readingsList;

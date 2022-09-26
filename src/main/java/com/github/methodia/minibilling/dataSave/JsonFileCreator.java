@@ -30,7 +30,7 @@ public class JsonFileCreator implements SaveData {
     private final User user;
     private final String outputPath;
 
-    public JsonFileCreator(Invoice invoice, User user, String outputPath) {
+    public JsonFileCreator(final Invoice invoice, final User user, final String outputPath) {
         this.invoice = invoice;
         this.user = user;
         this.outputPath = outputPath;
@@ -39,24 +39,26 @@ public class JsonFileCreator implements SaveData {
     @Override
     public void save() {
         //Parsing Invoice class into Json format using GSON library
-        Gson gson = new GsonBuilder().setPrettyPrinting()
+        final Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new JsonFileCreator.LocalDateAdapter()).create();
-        String json = gson.toJson(invoice);
+        final String json = gson.toJson(invoice);
 
         //Sorting InvoiceLine list as we would like to get the last invoice end date
-        List<InvoiceLine> invoiceLinesList = invoice.getLines().stream()
+        final List<InvoiceLine> invoiceLinesList = invoice.getLines().stream()
                 .sorted(Comparator.comparing(InvoiceLine::getEnd).reversed()).toList();
-        if (!invoiceLinesList.isEmpty()) {
-            LocalDate lastInvoiceDate = invoiceLinesList.get(0).getEnd().toLocalDate();
-            String monthToBulgarian = getMonthOfLastInvoiceToBulgarian(lastInvoiceDate);
-            int outputOfTheYear = lastInvoiceDate.getYear() % 100;
+        if (invoiceLinesList.isEmpty()) {
+            System.out.println("There is no invoices");
+        } else {
+            final LocalDate lastInvoiceDate = invoiceLinesList.get(0).getEnd().toLocalDate();
+            final String monthToBulgarian = getMonthOfLastInvoiceToBulgarian(lastInvoiceDate);
+            final int outputOfTheYear = lastInvoiceDate.getYear() % 100;
 
             //Creating folder in the following path
-            String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRefNumber();
+            final String folderPath = outputPath + "\\" + user.getName() + "-" + user.getRefNumber();
             createFolder(folderPath);
 
 
-            String jsonFilePath =
+            final String jsonFilePath =
                     folderPath + "\\" + invoice.getDocNumber() + "-" + monthToBulgarian + "-" + outputOfTheYear
                             + ".json";
             try {
@@ -65,8 +67,6 @@ public class JsonFileCreator implements SaveData {
                 throw new RuntimeException(e);
             }
 
-        } else {
-            System.out.println("There is no invoices");
         }
 
     }
@@ -75,9 +75,9 @@ public class JsonFileCreator implements SaveData {
 
         @Override
         public void write(final JsonWriter jsonWriter, final LocalDateTime localDate) throws IOException {
-            DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-            ZonedDateTime gmt = localDate.atZone(ZoneId.of("Z"));
-            String formattedLD = gmt.format(formatter);
+            final DateTimeFormatter formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+            final ZonedDateTime gmt = localDate.atZone(ZoneId.of("Z"));
+            final String formattedLD = gmt.format(formatter);
             jsonWriter.value(formattedLD);
         }
 
@@ -87,8 +87,8 @@ public class JsonFileCreator implements SaveData {
         }
     }
 
-    private static String getMonthOfLastInvoiceToBulgarian(LocalDate lastInvoiceDate) {
-        String lastInvoiceDateInBG = lastInvoiceDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("Bg"));
+    private static String getMonthOfLastInvoiceToBulgarian(final LocalDate lastInvoiceDate) {
+        final String lastInvoiceDateInBG = lastInvoiceDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("Bg"));
         return lastInvoiceDateInBG.substring(0, 1).toUpperCase() + lastInvoiceDateInBG.substring(1);
     }
 
@@ -97,10 +97,10 @@ public class JsonFileCreator implements SaveData {
      * and the last two numbers of the year on Last reporting date, in case not,
      * the following algorithm will create the JsonFiles in the format below.
      */
-    private static void creatingJsonFIle(String json, String jsonFilePath) throws IOException {
-        File creatingFiles = new File(jsonFilePath);
-        boolean newFile = creatingFiles.createNewFile();
-        try (PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
+    private static void creatingJsonFIle(final String json, final String jsonFilePath) throws IOException {
+        final File creatingFiles = new File(jsonFilePath);
+        final boolean newFile = creatingFiles.createNewFile();
+        try (final PrintWriter out = new PrintWriter(new FileWriter(jsonFilePath))) {
             out.write(json);
         } catch (DateTimeParseException e) {
             throw new IOException(e);
@@ -111,9 +111,9 @@ public class JsonFileCreator implements SaveData {
      * Checking if folders by the following format - username-referent number, in case the folders doesn't exist
      * the following algorithm will create the folders in the format below.
      */
-    private static void createFolder(String folderPath) {
-        File creatingFolders = new File(folderPath);
-        boolean mkdirs = creatingFolders.mkdirs();
+    private static void createFolder(final String folderPath) {
+        final File creatingFolders = new File(folderPath);
+        final boolean mkdirs = creatingFolders.mkdirs();
 
     }
 }

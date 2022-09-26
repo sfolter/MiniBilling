@@ -11,22 +11,22 @@ import java.util.List;
 
 public class VatGenerator {
 
-    public List<Vat> generate(List<VatPercentages> vatPercentages, List<InvoiceLine> invoiceLines, List<Tax> taxes) {
-        List<Vat> vat = new ArrayList<>();
+    public List<Vat> generate(final List<VatPercentages> vatPercentages, final List<InvoiceLine> invoiceLines, final List<Tax> taxes) {
+        final List<Vat> vat = new ArrayList<>();
         vat.addAll(invoiceLinesVatGenerator(vatPercentages, invoiceLines));
         vat.addAll(taxVatGenerator(vat.size(), taxes));
         return vat;
     }
 
-    private List<Vat> invoiceLinesVatGenerator(List<VatPercentages> vatPercentages, List<InvoiceLine> invoiceLines) {
-        List<Vat> vatInvoiceLines = new ArrayList<>();
-        for (InvoiceLine invoiceLine : invoiceLines) {
-            List<Integer> vattedLines = new ArrayList<>();
+    private List<Vat> invoiceLinesVatGenerator(final List<VatPercentages> vatPercentages, final List<InvoiceLine> invoiceLines) {
+        final List<Vat> vatInvoiceLines = new ArrayList<>();
+        for (final InvoiceLine invoiceLine : invoiceLines) {
+            final List<Integer> vattedLines = new ArrayList<>();
             vattedLines.add(invoiceLine.getIndex());
 
-            for (VatPercentages percentage : vatPercentages) {
+            for (final VatPercentages percentage : vatPercentages) {
                 //noinspection BigDecimalMethodWithoutRoundingCalled
-                BigDecimal vatAmount = invoiceLine.getAmount()
+                final BigDecimal vatAmount = invoiceLine.getAmount()
                         .multiply(percentage.taxedAmountPercentage().divide(new BigDecimal("100")))
                         .multiply(percentage.percentage().divide(new BigDecimal("100")))
                         .setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
@@ -38,14 +38,14 @@ public class VatGenerator {
         return vatInvoiceLines;
     }
 
-    private List<Vat> taxVatGenerator(int index, List<Tax> taxes) {
-        List<Vat> vatTax = new ArrayList<>();
-        for (Tax tax : taxes) {
-            List<Integer> taxedLines = new ArrayList<>();
-            BigDecimal taxedAmountPercentage = new BigDecimal("100");
-            BigDecimal percentage = new BigDecimal("20");
+    private List<Vat> taxVatGenerator(final int index, final List<Tax> taxes) {
+        final List<Vat> vatTax = new ArrayList<>();
+        for (final Tax tax : taxes) {
+            final List<Integer> taxedLines = new ArrayList<>();
+            final BigDecimal taxedAmountPercentage = new BigDecimal("100");
+            final BigDecimal percentage = new BigDecimal("20");
             //noinspection BigDecimalMethodWithoutRoundingCalled
-            BigDecimal vatAmount = tax.getAmount().multiply(percentage).divide(taxedAmountPercentage)
+            final BigDecimal vatAmount = tax.getAmount().multiply(percentage).divide(taxedAmountPercentage)
                     .setScale(2, RoundingMode.HALF_UP);
             taxedLines.add(tax.getLines().get(0));
             vatTax.add(new Vat(index + vatTax.size() + 1, taxedAmountPercentage,

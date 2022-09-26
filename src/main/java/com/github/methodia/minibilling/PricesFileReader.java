@@ -21,38 +21,38 @@ public class PricesFileReader {
 
     String path;
 
-    public PricesFileReader(String path) {
+    public PricesFileReader(final String path) {
         this.path = path;
     }
 
     public Map<Integer, List<Price>> read() {
 
-        Map<Integer, List<Price>> result = new LinkedHashMap<>();
-        File directoryPath = new File(path);
+        final Map<Integer, List<Price>> result = new LinkedHashMap<>();
+        final File directoryPath = new File(path);
         String line;
-        String[] contents = directoryPath.list();
-        assert contents != null;
-        for (String fileName : contents) {
-            Pattern p = Pattern.compile("prices-(\\d+)\\.csv");
-            Matcher m = p.matcher(fileName);
+        final String[] contents = directoryPath.list();
+        assert null != contents;
+        for (final String fileName : contents) {
+            final Pattern p = Pattern.compile("prices-(\\d+)\\.csv");
+            final Matcher matcher = p.matcher(fileName);
 
-            if (m.find()) {
-                BufferedReader br;
-                int numberPricingList = Integer.parseInt(m.group(1));
-                try (FileReader fileReader = new FileReader(path + "\\" + fileName)) {
+            if (matcher.find()) {
+                final BufferedReader br;
+                final int numberPricingList = Integer.parseInt(matcher.group(1));
+                try (final FileReader fileReader = new FileReader(path + "\\" + fileName)) {
                     br = new BufferedReader(fileReader);
-                    while ((line = br.readLine()) != null) {
-                        String[] pricesData = line.split(",");
-                        String product = pricesData[0];
-                        String stringBeginningDate = pricesData[1];
-                        String stringEndDate = pricesData[2];
+                    while (null != (line = br.readLine())) {
+                        final String[] pricesData = line.split(",");
+                        final String product = pricesData[0];
+                        final String stringBeginningDate = pricesData[1];
+                        final String stringEndDate = pricesData[2];
 
-                        LocalDate start = convertStringIntoLocalDate(stringBeginningDate);
-                        LocalDate end = convertStringIntoLocalDate(stringEndDate);
-                        BigDecimal price = new BigDecimal(pricesData[3]);
+                        final LocalDate start = convertStringIntoLocalDate(stringBeginningDate);
+                        final LocalDate end = convertStringIntoLocalDate(stringEndDate);
+                        final BigDecimal price = new BigDecimal(pricesData[3]);
 
-                        List<Price> list = new ArrayList<>();
-                        if (result.get(numberPricingList) == null) {
+                        final List<Price> list = new ArrayList<>();
+                        if (null == result.get(numberPricingList)) {
                             list.add(new Price(product, start, end, price));
                             result.put(numberPricingList, list);
                         } else {
@@ -72,8 +72,8 @@ public class PricesFileReader {
     /**
      * Parsing String into LocalDate in format yyyy-MM-dd
      */
-    private LocalDate convertStringIntoLocalDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private LocalDate convertStringIntoLocalDate(final String date) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         return LocalDate.parse(date, formatter);
 

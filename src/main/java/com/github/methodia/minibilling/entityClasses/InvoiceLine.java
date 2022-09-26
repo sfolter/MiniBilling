@@ -54,12 +54,12 @@ public class InvoiceLine {
     public InvoiceLine() {
     }
 
-    public InvoiceLine(int index, BigDecimal quantity, LocalDateTime start, LocalDateTime end, String product,
-                       BigDecimal price, int priceList, BigDecimal amount) {
+    public InvoiceLine(final int index, final BigDecimal quantity, final LocalDateTime start, final LocalDateTime end, final String product,
+                       final BigDecimal price, final int priceList, final BigDecimal amount) {
         this.index = index;
         this.quantity = quantity;
-        this.lineStart = start;
-        this.lineEnd = end;
+        lineStart = start;
+        lineEnd = end;
         this.product = product;
         this.price = price;
         this.priceList = priceList;
