@@ -1,0 +1,55 @@
+create  table users(
+id serial primary key,
+    name varchar(60) not null,
+ref_number int,
+price_list_id int
+);
+
+create table readings(
+id serial primary key,
+ref_number int,
+product varchar(30) not null ,
+   date timestamp  not null,
+value decimal
+);
+
+create table prices(
+id serial primary key,
+price_list_id int,
+product varchar(60),
+start_date date not null,
+end_date date  not null,
+price decimal
+);
+
+
+create  table price_lists(
+price_list_id int primary key
+);
+
+insert into prices(price_list_id,product,start_date,end_date,price)
+values('1','gas','2021-01-01','2021-02-28','0.7'),
+('1','gas','2021-03-01','2022-04-28','1.4'),
+('2','gas','2021-01-01','2021-02-28','0.4'),
+('2','gas','2021-03-01','2022-04-28','4.4');
+select * from prices;
+
+insert into users(name,ref_number,price_list_id)
+values('Marko Boikov Tsvetkov','1','1'),
+('Kosena Assenova Vankova','3','1'),
+('Ludmil Aleksandrov Ilev','2','2');
+select * from users;
+
+insert into price_lists(price_list_id)
+values(1),(2);
+select * from price_lists;
+
+insert into readings(ref_number,product,date,value)
+values('2','gas','2021-01-01T11:00:00+03:00','1444'),
+('1','gas','2021-01-01T12:00:00+03:00','1480'),
+('3','gas','2021-01-01T17:40:00+03:00','1302'),
+('3','gas','2021-03-11T10:00:00+03:00','1738'),
+('1','gas','2021-03-17T13:20:00+03:00','1567'),
+('2','gas','2021-03-25T16:40:00+03:00','1596'),
+('2','gas','2021-04-28T01:40:00+03:00','1845');
+select * from readings;

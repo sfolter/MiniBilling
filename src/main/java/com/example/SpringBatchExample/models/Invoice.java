@@ -1,0 +1,77 @@
+package com.example.SpringBatchExample.models;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.math.BigDecimal;
+import java.util.List;
+
+@Entity
+@Table(name = "invoice")
+public class Invoice {
+
+    @Id
+    @Column(name = "doc_number")
+    private String documentNumber;
+    @Column(name = "consumer")
+    private String consumer;
+    @Column(name = "ref_number")
+    private int reference;
+    @Column(name = "total_amount")
+    private BigDecimal totalAmount;
+    @Column(name = "total_amount_with_vat")
+    private BigDecimal totalAmountWithVat;
+    @Column(name = "lines")
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<InvoiceLine> lines;
+    @Column(name = "taxes")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doc_number")
+    private List<Tax> taxes;
+    @Column(name = "vats")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doc_number")
+    private List<Vat> vats;
+    public static int id = 10000;
+
+
+    public Invoice(final String documentNumber, final String consumer, final int reference, final BigDecimal totalAmount,
+                   final BigDecimal totalAmountWIthVat, final List<InvoiceLine> invoiceLines, final List<Tax> tax, final List<Vat> vat) {
+
+        this.documentNumber = documentNumber;
+        this.consumer = consumer;
+        this.reference = reference;
+        this.totalAmount = totalAmount;
+        totalAmountWithVat = totalAmountWIthVat;
+        lines = invoiceLines;
+        vats = vat;
+        taxes = tax;
+
+    }
+
+    public static synchronized String getDocumentNumber() {
+        return String.valueOf(id++);
+    }
+
+    public String getDocNumber() {
+        return documentNumber;
+    }
+
+    public String getConsumer() {
+        return consumer;
+    }
+
+    public int getReference() {
+        return reference;
+    }
+
+    public Invoice() {
+
+    }
+
+}
