@@ -27,7 +27,7 @@ public class User implements Serializable {
             @JoinColumn(name = "ref_number")
     List<Reading> readingsList;
 
-    @Column(name = "currencies")
+    @Column(name = "currency")
     String currency;
 
     public PriceList getPricesList() {
