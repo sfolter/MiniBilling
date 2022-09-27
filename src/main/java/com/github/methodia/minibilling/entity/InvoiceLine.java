@@ -1,13 +1,15 @@
 package com.github.methodia.minibilling.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "invoice_lines")
 public class InvoiceLine {
@@ -33,7 +35,8 @@ public class InvoiceLine {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    public InvoiceLine (){}
+    public InvoiceLine() {
+    }
 
     public InvoiceLine(final int index, final BigDecimal quantity, final LocalDateTime lineStart,
                        final LocalDateTime lineEnd, final String product,
@@ -65,13 +68,17 @@ public class InvoiceLine {
         return lineEnd;
     }
 
-    public String getProduct() {return product;}
+    public String getProduct() {
+        return product;
+    }
 
     public BigDecimal getPrice() {
         return price;
     }
 
-    public int getPriceList() {return priceList;}
+    public int getPriceList() {
+        return priceList;
+    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -85,14 +92,6 @@ public class InvoiceLine {
 
     public void setQuantity(final BigDecimal quantity) {
         this.quantity = quantity;
-    }
-
-    public void setLineStart(final LocalDateTime lineStart) {
-        this.lineStart = lineStart;
-    }
-
-    public void setLineEnd(final LocalDateTime lineEnd) {
-        this.lineEnd = lineEnd;
     }
 
     public void setProduct(final String product) {

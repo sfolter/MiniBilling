@@ -22,9 +22,9 @@ public class ReadingDao implements ReadingsReader {
 
     @Override
     public Map<String, List<Reading>> read() {
-
         List<Reading> readingsDao = session.createQuery("from Reading ", Reading.class).getResultList();
-        return readingsDao.stream().map(this::setTime)
+        return readingsDao.stream()
+              // .map(this::setTime)
                 .collect(Collectors.groupingBy(reading -> reading.getUser().getRef()));
 
     }

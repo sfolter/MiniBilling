@@ -1,14 +1,13 @@
 package com.github.methodia.minibilling.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.io.Serializable;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,15 +35,15 @@ public class Invoice {
     @Column(name = "currency")
 
     private String currency;
-    @OneToMany(targetEntity = InvoiceLine.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "invoice_document_number",referencedColumnName = "document_number")
-    private List<InvoiceLine> lines=new ArrayList<>();
-    @OneToMany(targetEntity = Tax.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "invoice_document_number",referencedColumnName = "document_number")
-    private List<Tax> taxes=new ArrayList<>();
-    @OneToMany(targetEntity = Vat.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "invoice_document_number",referencedColumnName = "document_number")
-    private List<Vat> vat=new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_document_number")
+    private List<InvoiceLine> lines = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_document_number")
+    private List<Tax> taxes = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_document_number")
+    private List<Vat> vat = new ArrayList<>();
 
 
     public Invoice() {
@@ -66,10 +65,6 @@ public class Invoice {
         this.lines = lines;
         this.taxes = taxes;
         this.vat = vat;
-    }
-
-    public LocalDateTime getDocumentDate() {
-        return documentDate;
     }
 
     public String getDocumentNumber() {
@@ -104,29 +99,6 @@ public class Invoice {
         return vat;
     }
 
-    public void setDocumentDate(final LocalDateTime documentDate) {
-        this.documentDate = documentDate;
-    }
-
-    public void setDocumentNumber(final String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-
-    public void setConsumer(final String consumer) {
-        this.consumer = consumer;
-    }
-
-    public void setReference(final String reference) {
-        this.reference = reference;
-    }
-
-    public void setTotalAmount(final BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public void setTotalAmountWithVat(final BigDecimal totalAmountWithVat) {
-        this.totalAmountWithVat = totalAmountWithVat;
-    }
 
     public void setCurrency(final String currency) {
         this.currency = currency;
@@ -135,12 +107,5 @@ public class Invoice {
     public void setLines(final List<InvoiceLine> lines) {
         this.lines = lines;
     }
-
-    public void setTaxes(final List<Tax> taxes) {
-        this.taxes = taxes;
-    }
-
-    public void setVat(final List<Vat> vat) {
-        this.vat = vat;
-    }
 }
+

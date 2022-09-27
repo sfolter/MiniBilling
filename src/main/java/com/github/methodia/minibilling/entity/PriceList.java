@@ -1,15 +1,17 @@
 package com.github.methodia.minibilling.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -43,12 +45,12 @@ public class PriceList {
     }
 
     public List<Price> getPriceList() {
-        return priceList.stream().map(price -> setZone(price)).toList();
+        return priceList.stream().map(PriceList::setZone).toList();
     }
 
-    private Price setZone(Price price) {
-        ZonedDateTime withZoneSameInstantStart = price.getStart();
-        ZonedDateTime withZoneSameInstantEnd = price.getEnd().with(LocalTime.of(23, 59, 59));
+    private static Price setZone(final Price price) {
+        final ZonedDateTime withZoneSameInstantStart = price.getStart();
+        final ZonedDateTime withZoneSameInstantEnd = price.getEnd().with(LocalTime.of(23, 59, 59));
         price.setStart(withZoneSameInstantStart);
         price.setEnd(withZoneSameInstantEnd);
         return price;

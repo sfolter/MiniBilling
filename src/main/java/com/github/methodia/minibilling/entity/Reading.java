@@ -1,14 +1,15 @@
 package com.github.methodia.minibilling.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
@@ -47,10 +48,6 @@ public class Reading {
         this.time = time;
         this.value = value;
         this.user = user;
-    }
-
-    public String getReferentNumber() {
-        return referentNumber;
     }
 
     public ZonedDateTime getTime() {

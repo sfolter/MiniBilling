@@ -1,13 +1,13 @@
 package com.github.methodia.minibilling.entity;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class Tax {
     private int id;
     @Column(name = "index")
     private int index;
-    @Column(name="lines")
+    @Column(name = "lines")
     @ElementCollection
     private List<Integer> lineIndex;
     @Column(name = "name")
@@ -73,20 +73,8 @@ public class Tax {
         this.index = index;
     }
 
-    public void setLineIndex(final List<Integer> lineIndex) {
-        this.lineIndex = lineIndex;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
     public void setQuantity(final long quantity) {
         this.quantity = quantity;
-    }
-
-    public void setUnit(final String unit) {
-        this.unit = unit;
     }
 
     public void setPrice(final BigDecimal price) {
