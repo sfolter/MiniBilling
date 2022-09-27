@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class QuantityPricePeriodTest {
     @Test
     void qppGetters(){
-        QuantityPricePeriod qpp = new QuantityPricePeriod(LocalDateTime.of(2021, 1, 1, 1, 1, 1),
+        final QuantityPricePeriod qpp = new QuantityPricePeriod(LocalDateTime.of(2021, 1, 1, 1, 1, 1),
                 LocalDateTime.of(2021, 2, 2, 2, 2, 2), new BigDecimal("2.50"),
                 "gas", new BigDecimal("2.2"));
 

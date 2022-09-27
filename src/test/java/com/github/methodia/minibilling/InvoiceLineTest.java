@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class InvoiceLineTest {
 @Test
     void invoiceLineGetters(){
-    InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("100"),
+    final InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("100"),
             LocalDateTime.of(2021, 1, 1, 1, 1, 2),
             LocalDateTime.of(2021, 2, 2, 2, 2, 2),
             "gas", new BigDecimal("2.50"), 1, new BigDecimal("100"));

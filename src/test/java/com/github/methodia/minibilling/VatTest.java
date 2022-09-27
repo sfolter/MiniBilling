@@ -15,10 +15,10 @@ public class VatTest {
     void vatGetters() {
 
 
-        List<Integer> linesList = new ArrayList<>();
+        final List<Integer> linesList = new ArrayList<>();
         linesList.add(1);
 
-        Vat vat = new Vat(1, linesList, new BigDecimal("20"), "40", new BigDecimal("23"));
+        final Vat vat = new Vat(1, linesList, new BigDecimal("20"), "40", new BigDecimal("23"));
 
         Assertions.assertEquals(new BigDecimal("23"),vat.getAmount(),"Vat amount is incorrect.");
         Assertions.assertEquals(linesList,vat.getLines(),"Lines List is incorrect.");

@@ -26,7 +26,7 @@ public class Main {
     public static void main(final String[] args) {
         final String dateReportingTo = args[0];
         final LocalDateTime dateReportingToLDT = convertingBorderTimeIntoLDT(dateReportingTo);
-        final String inputPath = args[1];
+       // final String inputPath = args[1];
         final String outputPath = args[2];
 
         final Session session = SessionCreator.createSession();

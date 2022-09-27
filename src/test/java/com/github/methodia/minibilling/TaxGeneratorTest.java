@@ -11,23 +11,24 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("AutoBoxing")
 public class TaxGeneratorTest {
 
     @Test
     void generateTax() {
-        BigDecimal taxAmount = new BigDecimal("100");
-        LocalDateTime ldtStart = LocalDateTime.of(2021, 3, 15, 13, 23, 12);
-        LocalDateTime ldtEnd = LocalDateTime.of(2021, 3, 17, 15, 45, 28);
-        InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("100"),
+        final BigDecimal taxAmount = new BigDecimal("100");
+        final LocalDateTime ldtStart = LocalDateTime.of(2021, 3, 15, 13, 23, 12);
+        final LocalDateTime ldtEnd = LocalDateTime.of(2021, 3, 17, 15, 45, 28);
+        final InvoiceLine invoiceLine = new InvoiceLine(1, new BigDecimal("100"),
                 ldtStart, ldtEnd, "gas", new BigDecimal("2"), 1, new BigDecimal("45"));
-        TaxGenerator taxGenerator = new TaxGenerator();
-        BigDecimal currencyValue=new BigDecimal("2.50");
-        Tax tax = taxGenerator.generate(invoiceLine,taxAmount,currencyValue,  0);
+        final TaxGenerator taxGenerator = new TaxGenerator();
+        final BigDecimal currencyValue=new BigDecimal("2.50");
+        final Tax tax = taxGenerator.generate(invoiceLine,taxAmount,currencyValue,  0);
 
-        List<Integer> taxLineExample = new ArrayList<>();
+        final List<Integer> taxLineExample = new ArrayList<>();
         taxLineExample.add(1);
         Assertions.assertEquals(taxLineExample, tax.getLines(), "Wrong Lines");
-        Assertions.assertEquals(new BigDecimal("200"), tax.getAmount(), "Wrong Amount");
+        Assertions.assertEquals(new BigDecimal("500.00"), tax.getAmount(), "Wrong Amount");
         Assertions.assertEquals(1, tax.getIndex(), "Wrong index");
 
 
