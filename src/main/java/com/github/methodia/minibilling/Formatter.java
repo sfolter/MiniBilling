@@ -24,7 +24,7 @@ public final class Formatter {
     }
 
     public static ZonedDateTime parseReading(final String date) {
-        return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME).withZoneSameInstant(ZoneId.of(ZONE_ID));
+        return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
     }
 
     public static ZonedDateTime parsePriceStart(final String date) {

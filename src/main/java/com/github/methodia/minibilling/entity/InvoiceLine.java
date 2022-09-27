@@ -84,29 +84,4 @@ public class InvoiceLine {
         return amount;
     }
 
-
-
-    public void setIndex(final int index) {
-        this.index = index;
-    }
-
-    public void setQuantity(final BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setProduct(final String product) {
-        this.product = product;
-    }
-
-    public void setPrice(final BigDecimal price) {
-        this.price = price;
-    }
-
-    public void setPriceList(final int priceList) {
-        this.priceList = priceList;
-    }
-
-    public void setAmount(final BigDecimal amount) {
-        this.amount = amount;
-    }
 }

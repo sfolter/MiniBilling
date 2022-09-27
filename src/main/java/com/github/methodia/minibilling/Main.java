@@ -8,9 +8,11 @@ import com.github.methodia.minibilling.entity.User;
 import com.github.methodia.minibilling.mainlogic.InvoiceGenerator;
 import com.github.methodia.minibilling.mainlogic.MeasurementGenerator;
 import com.github.methodia.minibilling.readers.ReadingDao;
+import com.github.methodia.minibilling.readers.ReadingFileReader;
 import com.github.methodia.minibilling.readers.ReadingsReader;
 import com.github.methodia.minibilling.readers.SessionFactoryUtil;
 import com.github.methodia.minibilling.readers.UserDao;
+import com.github.methodia.minibilling.readers.UserFileReader;
 import com.github.methodia.minibilling.readers.UsersReader;
 import com.github.methodia.minibilling.saveinvoice.SaveInvoice;
 import com.github.methodia.minibilling.saveinvoice.SaveInvoiceInDataBase;
@@ -29,11 +31,11 @@ public class Main {
 
     public static final String ZONE_ID = "GMT";
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         final String resourceDirectory = args[1];
         final String outputDirectory = args[2];
         final String dateToReporting = args[0];
-//            String dateToReporting="21-03";
+        //            String dateToReporting="21-03";
         final LocalDate borderDate = Formatter.parseBorder(dateToReporting);
         final AtomicInteger documentNumberId = new AtomicInteger(10000);
 
@@ -41,9 +43,9 @@ public class Main {
         final String fromCurrency = "BGN";
         final String toCurrency = "BGN";
         final CurrencyCalculator currencyCalculator =
-                fromCurrency.compareTo(toCurrency) == 0 ? new SameCurrency() : new CurrencyExchangeCalculator(myApiKey);
-        Session tempSession = SessionFactoryUtil.getSession();
-        Transaction transaction = tempSession.beginTransaction();
+                0 == fromCurrency.compareTo(toCurrency) ? new SameCurrency() : new CurrencyExchangeCalculator(myApiKey);
+        final Session tempSession = SessionFactoryUtil.getSession();
+        final Transaction transaction = tempSession.beginTransaction();
 
         tempSession.createNativeQuery("drop table tax_lineindex;\n"
                 + "drop table tax;\n"
@@ -55,27 +57,27 @@ public class Main {
         transaction.commit();
         tempSession.close();
         final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();
+        final Session session = sessionFactory.openSession();
         session.beginTransaction();
-        //final UsersReader userReader = new UserFileReader(resourceDirectory);
-        final UsersReader userReader = new UserDao(session);
+        final UsersReader userReader = new UserFileReader(resourceDirectory);
+        //final UsersReader userReader = new UserDao(session);
         final Map<String, User> users = userReader.read();
 
-        //final ReadingsReader readingReader = new ReadingFileReader(users, resourceDirectory);
-        final ReadingsReader readingReader = new ReadingDao(session);
+        final ReadingsReader readingReader = new ReadingFileReader(users, resourceDirectory);
+       // final ReadingsReader readingReader = new ReadingDao(session);
         final Map<String, List<Reading>> readings = readingReader.read();
 
         final MeasurementGenerator measurementGenerator = new MeasurementGenerator();
         final InvoiceGenerator invoiceGenerator = new InvoiceGenerator(currencyCalculator, fromCurrency);
 
-        //final SaveInvoice saveInvoice=new SaveInvoiceInJson(outputDirectory,borderDate);
-       final SaveInvoice saveInvoice = new SaveInvoiceInDataBase(session);
+        final SaveInvoice saveInvoice=new SaveInvoiceInJson(outputDirectory,borderDate);
+        //final SaveInvoice saveInvoice = new SaveInvoiceInDataBase(session);
 
         users.values().stream()
                 .map(user -> measurementGenerator.generate(user, readings.get(user.getRef())))
                 .map(measurement -> invoiceGenerator.generate(measurement, documentNumberId.getAndIncrement(),
                         borderDate, toCurrency))
-                .forEach(invoice -> saveInvoice.save(invoice));
+                .forEach(saveInvoice::save);
         session.getTransaction().commit();
         session.close();
     }

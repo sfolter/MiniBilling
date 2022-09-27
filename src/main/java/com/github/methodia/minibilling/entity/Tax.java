@@ -52,36 +52,20 @@ public class Tax {
         this.amount = amount;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
     public List<Integer> getLineIndex() {
         return lineIndex;
     }
-
     public long getQuantity() {
         return quantity;
     }
-
     public BigDecimal getPrice() {
         return price;
     }
-
     public BigDecimal getAmount() {
         return amount;
-    }
-
-
-    public void setIndex(final int index) {
-        this.index = index;
-    }
-
-    public void setQuantity(final long quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setPrice(final BigDecimal price) {
-        this.price = price;
-    }
-
-    public void setAmount(final BigDecimal amount) {
-        this.amount = amount;
     }
 }

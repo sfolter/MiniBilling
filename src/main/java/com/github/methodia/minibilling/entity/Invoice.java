@@ -67,45 +67,21 @@ public class Invoice {
         this.vat = vat;
     }
 
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    public String getConsumer() {
-        return consumer;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
+    public String getDocumentNumber() { return documentNumber; }
+    public String getConsumer() { return consumer; }
+    public String getReference() { return reference; }
     public BigDecimal getTotalAmount() {
         return totalAmount;
     }
-
     public BigDecimal getTotalAmountWithVat() {
         return totalAmountWithVat;
     }
-
-    public List<InvoiceLine> getLines() {
-        return lines;
-    }
-
+    public List<InvoiceLine> getLines() { return lines; }
     public List<Tax> getTaxes() {
         return taxes;
     }
-
     public List<Vat> getVat() {
         return vat;
-    }
-
-
-    public void setCurrency(final String currency) {
-        this.currency = currency;
-    }
-
-    public void setLines(final List<InvoiceLine> lines) {
-        this.lines = lines;
     }
 }
 
