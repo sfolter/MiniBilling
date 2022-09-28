@@ -3,10 +3,8 @@ package com.github.methodia.minibilling;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -39,11 +37,11 @@ public class JsonGenerator {
     String documentNumber = Invoice.getDocumentNumber();
 
 
-    public JSONObject generateJson() throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
-        final User user = invoice.getConsumer();
+
+    public JSONObject generateJson() throws NoSuchFieldException, IllegalAccessException {
+        //        final String consumer = invoice.getConsumer();
         final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
         final List<Price> prices = user.getPriceList().getPrices();
-        //        final List<Price> prices = user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
             final JSONObject newLine = new JSONObject();
             final JSONObject newTaxesLine = new JSONObject();
@@ -52,7 +50,7 @@ public class JsonGenerator {
             orderJson(newTaxesLine);
 
             json.put("documentDate", invoice.getDocumentDate());
-            json.put("documentNumber", documentNumber);
+            json.put("documentNumber", Integer.parseInt(documentNumber) - 1);
             json.put("consumer", user.getName());
             json.put("reference", user.getRef());
             json.put("totalAmount", invoice.getTotalAmount().toString() + " " + currency);
@@ -80,7 +78,7 @@ public class JsonGenerator {
             //          Line in taxes
             final int indexInTaxes = invoice.getTaxesLines().get(i).getIndex();
             newTaxesLine.put("index", indexInTaxes);
-            final int linesInTaxes = invoice.getTaxesLines().get(i).getLines();
+            final List<Integer> linesInTaxes = invoice.getTaxesLines().get(i).getLines();
             newTaxesLine.put("lines", linesInTaxes);
             final String name = invoice.getTaxesLines().get(i).getName();
             newTaxesLine.put("name", name);

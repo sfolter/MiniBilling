@@ -46,7 +46,8 @@ public class InvoiceGeneratorTest {
                 LocalDateTime.of(2021, 3, 11, 7, 0, 0), "gas", new BigDecimal("1.8"), 1, new BigDecimal("401"));
         final List<InvoiceLine> invoiceLines = new ArrayList<>();
         invoiceLines.add(invoiceLine);
-        final Taxes taxes = new Taxes(1, 0, "Standing charge", 69, "days", new BigDecimal("1.6"), new BigDecimal("56"));
+        final List<Integer> linesInTaxes = new ArrayList<>();
+        final Taxes taxes = new Taxes(1, linesInTaxes, "Standing charge", 69, "days", new BigDecimal("1.6"), new BigDecimal("56"));
         final List<Taxes> taxesLines = new ArrayList<>();
         taxesLines.add(taxes);
         final Vat vat1 = new Vat(1, 1, 0, 60, 20, new BigDecimal("150"));
@@ -57,14 +58,14 @@ public class InvoiceGeneratorTest {
         vatLines.add(vat2);
         vatLines.add(vat3);
 
-        Assertions.assertEquals(user, generatedInvoice.getConsumer(), "User does not match");
+        Assertions.assertEquals("Ivan", generatedInvoice.getConsumer(), "User does not match");
         Assertions.assertEquals(invoiceLines.size(), generatedInvoice.getLines().size(), "Lines does not match");
         Assertions.assertEquals(taxesLines.size(), generatedInvoice.getTaxesLines().size(),
                 "Taxes lines does not match");
         Assertions.assertEquals(vatLines.size(), generatedInvoice.getVatsLines().size(), "Vat lines does not match");
-        Assertions.assertEquals(new BigDecimal("193.53"), generatedInvoice.getTotalAmount(),
+        Assertions.assertEquals(new BigDecimal("123.94"), generatedInvoice.getTotalAmount(),
                 "Total amount does not match");
-        Assertions.assertEquals(new BigDecimal("208.05"),
+        Assertions.assertEquals(new BigDecimal("146.69"),
                 generatedInvoice.getTotalAmountWithVat().setScale(2, RoundingMode.HALF_UP),
                 "Total amount with vat does not match");
         Assertions.assertEquals(1, generatedInvoice.getLines().get(0).getIndex(), "Index in line does not match");
@@ -83,7 +84,7 @@ public class InvoiceGeneratorTest {
         Assertions.assertEquals(new BigDecimal("51.13"), generatedInvoice.getLines().get(0).getAmount(),
                 "Amount in line does not match");
         Assertions.assertEquals(1, generatedInvoice.getTaxesLines().get(0).getIndex(), "Index in tax does not match");
-        Assertions.assertEquals(1, generatedInvoice.getTaxesLines().get(0).getLines(), "Lines in tax does not match");
+        Assertions.assertEquals(1, generatedInvoice.getTaxesLines().get(0).getLines().size(), "Lines in tax does not match");
         Assertions.assertEquals("Standing charge", generatedInvoice.getTaxesLines().get(0).getName(),
                 "Name in tax does not match");
         Assertions.assertEquals(89, generatedInvoice.getTaxesLines().get(0).getQuantity(),

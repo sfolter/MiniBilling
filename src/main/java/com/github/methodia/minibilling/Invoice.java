@@ -1,23 +1,48 @@
 package com.github.methodia.minibilling;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@Table(name = "invoice")
 public class Invoice {
 
-    private final LocalDateTime documentDate;
-    private final String documentNumber;
-    private final User consumer;
-    private final BigDecimal totalAmount;
-    private final BigDecimal totalAmountWithVat;
-    private final List<InvoiceLine> lines;
-    private final List<Vat> vatsLines;
+    @Column(name = "document_date")
+    private LocalDateTime documentDate;
+    @Id
+    @Column(name = "document_number")
+    private String documentNumber;
+    @Column(name = "consumer")
+    private String consumer;
+    @Column(name = "total_amount")
+    private BigDecimal totalAmount;
+    @Column(name = "total_amount_with_vat")
+    private BigDecimal totalAmountWithVat;
+    @OneToMany
+    @JoinColumn(name = "document_number",
+            nullable = false)
+    private List<InvoiceLine> lines;
+    @OneToMany
+    @JoinColumn(name = "document_number",
+            nullable = false)
+    private List<Vat> vatsLines;
+    @OneToMany
+    @JoinColumn(name = "document_number",
+            nullable = false)
+    private List<Taxes> taxesLines;
+    private static long counter = 10000;
 
-    private final List<Taxes> taxesLines;
-    private static long counter = 9999;
+    public Invoice() {
+    }
 
-    public Invoice(final LocalDateTime documentDate, final String documentNumber, final User consumer,
+    public Invoice(final LocalDateTime documentDate, final String documentNumber, final String consumer,
                    final BigDecimal totalAmount, final BigDecimal totalAmountWithVat,
                    final List<InvoiceLine> lines, final List<Vat> vatsLines, final List<Taxes> taxesLines) {
         this.documentDate = documentDate;
@@ -39,7 +64,7 @@ public class Invoice {
         return String.valueOf(counter);
     }
 
-    public User getConsumer() {
+    public String getConsumer() {
         return consumer;
     }
 

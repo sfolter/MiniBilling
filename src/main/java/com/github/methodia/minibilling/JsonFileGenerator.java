@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class JsonFileGenerator {
+public class JsonFileGenerator implements SaveData {
 
     JSONObject json;
 
@@ -23,7 +23,8 @@ public class JsonFileGenerator {
         this.folderPath = folderPath;
     }
 
-    public void generateFile() throws IOException, ParseException {
+    @Override
+    public void save() throws IOException, ParseException {
         final JSONArray jsonArray = (JSONArray) json.get("lines");
         //noinspection unchecked
         final HashMap<String, Object> jsonLines = (HashMap<String, Object>) jsonArray.toList()

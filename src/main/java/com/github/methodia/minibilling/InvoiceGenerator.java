@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,6 +59,7 @@ public class InvoiceGenerator {
                 //              Invoice Line
                 final BigDecimal quantity = qpp.getQuantity();
                 final LocalDateTime start = qpp.getStart();
+                ZonedDateTime gmt = start.atZone(ZoneId.of("GMT"));
                 final String product = qpp.getProduct();
                 final BigDecimal price = qpp.getPrice();
                 final int priceList = user.getPriceListNumber();
@@ -88,7 +91,8 @@ public class InvoiceGenerator {
         final LocalDateTime documentDate = LocalDateTime.now();
         final String documentNumber = Invoice.getDocumentNumber();
 
-        return new Invoice(documentDate, documentNumber, user, totalAmount, totalAmountWithVat, invoiceLines, vatLines,
+        return new Invoice(documentDate, documentNumber, user.getName(), totalAmount, totalAmountWithVat, invoiceLines,
+                vatLines,
                 taxesLines);
     }
 

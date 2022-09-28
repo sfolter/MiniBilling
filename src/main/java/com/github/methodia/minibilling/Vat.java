@@ -1,15 +1,36 @@
 package com.github.methodia.minibilling;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "vat")
 public class Vat {
 
-    private final int index;
-    private final int lines;
-    private final int taxes;
-    private final int taxedAmountPercentage;
-    private final int percentage;
-    private final BigDecimal amount;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "index")
+    private int index;
+    @Column(name = "lines")
+    private int lines;
+    @Column(name = "taxes")
+    private int taxes;
+    @Column(name = "taxed_amount_percentage")
+    private int taxedAmountPercentage;
+    @Column(name = "percentage")
+    private int percentage;
+    @Column(name = "amount")
+    private BigDecimal amount;
+
+    public Vat() {
+    }
 
     public Vat(final int index, final int lines, final int taxes, final int taxedAmountPercentage, final int percentage,
                final BigDecimal amount) {

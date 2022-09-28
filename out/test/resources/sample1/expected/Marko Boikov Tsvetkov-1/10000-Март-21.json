@@ -1,100 +1,18 @@
 {
-    "documentDate": "2022-09-12T13:39:20.119867900",
-    "documentNumber": "10000",
-    "consumer": "Marko Boikov Tsvetkov",
-    "reference": "1",
-    "totalAmount": "386.79 EUR",
-    "totalAmountWithVat": "493.6880 EUR",
-    "lines": [
-        {
-            "index": 1,
-            "quantity": 87,
-            "lineStart": "2021-01-01T09:00:00Z",
-            "lineEnd": "2021-03-17T10:20:00Z",
-            "product": "gas",
-            "price": 1.8,
-            "priceList": 1,
-            "amount": "80.07 EUR"
-        },
-        {
-            "index": 2,
-            "quantity": 87,
-            "lineStart": "2021-01-01T09:00:00Z",
-            "lineEnd": "2021-03-17T10:20:00Z",
-            "product": "gas",
-            "price": 1.5,
-            "priceList": 1,
-            "amount": "66.72 EUR"
-        }
-    ],
-    "taxes": [
-        {
-            "index": 1,
-            "lines": 1,
-            "name": "Standing charge",
-            "quantity": 75,
-            "unit": "days",
-            "price": 1.6,
-            "amount": "61.36 EUR"
-        },
-        {
-            "index": 2,
-            "lines": 2,
-            "name": "Standing charge",
-            "quantity": 75,
-            "unit": "days",
-            "price": 1.6,
-            "amount": "61.36 EUR"
-        }
-    ],
-    "vat": [
-        {
-            "index": 1,
-            "lines": 1,
-            "taxes": 0,
-            "taxedAmountPercentage": 60,
-            "percentage": 20,
-            "amount": "9.61 EUR"
-        },
-        {
-            "index": 2,
-            "lines": 1,
-            "taxes": 0,
-            "taxedAmountPercentage": 40,
-            "percentage": 10,
-            "amount": "3.20 EUR"
-        },
-        {
-            "index": 3,
-            "lines": 0,
-            "taxes": 1,
-            "taxedAmountPercentage": 100,
-            "percentage": 20,
-            "amount": "12.27 EUR"
-        },
-        {
-            "index": 1,
-            "lines": 2,
-            "taxes": 0,
-            "taxedAmountPercentage": 60,
-            "percentage": 20,
-            "amount": "8.01 EUR"
-        },
-        {
-            "index": 2,
-            "lines": 2,
-            "taxes": 0,
-            "taxedAmountPercentage": 40,
-            "percentage": 10,
-            "amount": "2.67 EUR"
-        },
-        {
-            "index": 3,
-            "lines": 0,
-            "taxes": 2,
-            "taxedAmountPercentage": 100,
-            "percentage": 20,
-            "amount": "12.27 EUR"
-        }
-    ]
+  "documentNumber": "10000",
+  "consumer": "Marko Boikov Tsvetkov",
+  "reference": "1",
+  "totalAmount": 156.6,
+  "lines": [
+    {
+      "index": 1,
+      "quantity":87,
+      "lineStart": "2021-01-01T09:00:00Z",
+      "lineEnd": "2021-03-17T10:20:00Z",
+      "product": "gas",
+      "price": 1.8,
+      "priceList": 1,
+      "amount": 156.6
+    }
+  ]
 }

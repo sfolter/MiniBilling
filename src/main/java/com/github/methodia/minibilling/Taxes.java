@@ -1,18 +1,47 @@
 package com.github.methodia.minibilling;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "taxes")
 public class Taxes {
 
-    private final int index;
-    private final int lines;
-    private final String name;
-    private final int quantity;
-    private final String unit;
-    private final BigDecimal price;
-    private final BigDecimal amount;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "index")
+    private int index;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Integer> lines;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "quantity")
+    private int quantity;
+    @Column(name = "unit")
+    private String unit;
+    @Column(name = "price")
+    private BigDecimal price;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
-    public Taxes(final int index, final int lines, final String name, final int quantity, final String unit,
+    public Taxes() {
+    }
+
+    public Taxes(final int index, final List<Integer> lines, final String name, final int quantity, final String unit,
                  final BigDecimal price, final BigDecimal amount) {
         this.index = index;
         this.lines = lines;
@@ -27,7 +56,7 @@ public class Taxes {
         return index;
     }
 
-    public int getLines() {
+    public List<Integer> getLines() {
         return lines;
     }
 

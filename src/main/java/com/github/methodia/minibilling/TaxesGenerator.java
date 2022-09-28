@@ -33,6 +33,6 @@ public class TaxesGenerator {
         BigDecimal amountInTaxes = priceInTaxes.multiply(BigDecimal.valueOf(quantityDays))
                 .setScale(2, RoundingMode.HALF_UP);
         amountInTaxes = amountInTaxes.multiply(currencyValue).setScale(2, RoundingMode.HALF_UP);
-        return new Taxes(taxesSize + 1, index.size(), NAME, quantityDays, UNIT, priceInTaxes, amountInTaxes);
+        return new Taxes(taxesSize + 1, index, NAME, quantityDays, UNIT, priceInTaxes, amountInTaxes);
     }
 }

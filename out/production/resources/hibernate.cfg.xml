@@ -36,6 +36,10 @@
         <mapping class="com.github.methodia.minibilling.Price"/>
         <mapping class="com.github.methodia.minibilling.PriceList"/>
         <mapping class="com.github.methodia.minibilling.Reading"/>
+        <mapping class="com.github.methodia.minibilling.Invoice"/>
+        <mapping class="com.github.methodia.minibilling.InvoiceLine"/>
+        <mapping class="com.github.methodia.minibilling.Taxes"/>
+        <mapping class="com.github.methodia.minibilling.Vat"/>
 
 
     </session-factory>

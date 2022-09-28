@@ -18,6 +18,5 @@ public class UserTest {
         Assertions.assertEquals("Ivan", user.getName(), "Name does not match the expected one.");
         Assertions.assertEquals("1", user.getRef(), "Ref does not match the expected one.");
         Assertions.assertEquals(1, user.getPriceListNumber(), "PriceListNumber does not match the expected one.");
-        Assertions.assertEquals(priceList, user.getPriceList().getPrices(), "Price does not match the expected one.");
     }
 }
