@@ -7,13 +7,15 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class QuantityPricePeriod {
+
     private final LocalDateTime start;
     private final LocalDateTime end;
     private final Price price;
     private final BigDecimal quantity;
     private final User user;
 
-    public QuantityPricePeriod(final LocalDateTime start, final LocalDateTime end, final Price price, final BigDecimal quantity, final User user) {
+    public QuantityPricePeriod(final LocalDateTime start, final LocalDateTime end, final Price price,
+                               final BigDecimal quantity, final User user) {
         this.start = start;
         this.end = end;
         this.price = price;

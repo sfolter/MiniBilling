@@ -16,9 +16,9 @@ dependencies {
 
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
     implementation 'org.json:json:20220320'
-    implementation group: 'org.json', name: 'json', version: '20220320'
+//    implementation group: 'org.json', name: 'json', version: '20220320'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
-
+    implementation('com.github.openjson:openjson:1.0.12')
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
@@ -28,6 +28,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-batch:2.7.3'
     implementation 'org.postgresql:postgresql:42.5.0'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
 }
 
 tasks.named('test') {

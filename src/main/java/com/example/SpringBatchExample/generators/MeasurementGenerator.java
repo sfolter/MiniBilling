@@ -4,14 +4,13 @@ import com.example.SpringBatchExample.Measurement;
 import com.example.SpringBatchExample.Measurements;
 import com.example.SpringBatchExample.models.Reading;
 import com.example.SpringBatchExample.models.User;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+
 public class MeasurementGenerator implements Measurements {
 
     @Override

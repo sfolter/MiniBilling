@@ -32,7 +32,7 @@ public class MainTest {
         testSample(sampleNumber, yearMonth);
     }
 
-    private void testSample(int sampleNumber, String yearMonth) throws IOException, ParseException {
+    private void testSample(final int sampleNumber, final String yearMonth) throws IOException, ParseException {
         final String outputDir = getOutputDir(sampleNumber);
         final String sampleInputDir = getSampleInputDir(sampleNumber);
         final String[] args = {yearMonth, sampleInputDir, outputDir};
@@ -41,7 +41,9 @@ public class MainTest {
         final File output = new File(outputDir);
         checkDirectories(expectedFiles, output, sampleNumber);
     }
-    private void checkDirectories(File sampleDir, File outputDir, int sampleNumber) throws IOException {
+
+    private void checkDirectories(final File sampleDir, final File outputDir, final int sampleNumber)
+            throws IOException {
         final File[] sampleInputFiles = sampleDir.listFiles();
         final File[] outputFiles = outputDir.listFiles();
         final Map<String, File> outputFilesByName = Arrays.stream(outputFiles)
@@ -49,7 +51,7 @@ public class MainTest {
         Assertions.assertEquals(sampleInputFiles.length, outputFiles.length,
                 String.format("The generated files (directories) do not match the expected  in sample%s",
                         sampleNumber));
-        for (File sampleInputFile : sampleInputFiles) {
+        for (final File sampleInputFile : sampleInputFiles) {
             final String sampleInputFileName = sampleInputFile.getName();
             Assertions.assertTrue(outputFilesByName.containsKey(sampleInputFileName));
             final File outputFile = outputFilesByName.get(sampleInputFileName);
@@ -61,31 +63,32 @@ public class MainTest {
         }
     }
 
-    private void assertInvoiceJsonFilesEqual(File sampleJson, File outputJson, int sampleNumber) throws IOException {
+    private void assertInvoiceJsonFilesEqual(final File sampleJson, final File outputJson, final int sampleNumber)
+            throws IOException {
         final String sampleJsonStr = Files.readString(sampleJson.toPath());
         final String outputJsonStr = Files.readString(outputJson.toPath());
         final JSONObject sampleJsonObject = new JSONObject(sampleJsonStr);
         final JSONObject outputJsonObject = new JSONObject(outputJsonStr);
         final Set<String> invoiceJsonProps = sampleJsonObject.keySet();
-        for (String invoiceJsonProp : invoiceJsonProps) {
+        for (final String invoiceJsonProp : invoiceJsonProps) {
             assertPropertiesEqual(sampleJsonObject, outputJsonObject, invoiceJsonProp, sampleNumber);
         }
     }
 
-    private void assertPropertiesEqual(JSONObject sampleJsonObject, JSONObject outputJsonObject, String key,
-                                       int sampleNumber) {
+    private void assertPropertiesEqual(final JSONObject sampleJsonObject, final JSONObject outputJsonObject,
+                                       final String key,
+                                       final int sampleNumber) {
         final Object sampleInputProp = sampleJsonObject.get(key);
         final Object outputProp = outputJsonObject.get(key);
 
-        if (sampleInputProp instanceof JSONArray) {
-            final JSONArray sampleInputPropArray = (JSONArray) sampleInputProp;
+        if (sampleInputProp instanceof final JSONArray sampleInputPropArray) {
             Assertions.assertTrue(outputProp instanceof JSONArray);
             for (int i = 0; i < sampleInputPropArray.length(); i++) {
-                Object sampleInputPropArrayElement = sampleInputPropArray.get(i);
-                Object outputPropArrayElement = ((JSONArray) outputProp).get(i);
+                final Object sampleInputPropArrayElement = sampleInputPropArray.get(i);
+                final Object outputPropArrayElement = ((JSONArray) outputProp).get(i);
                 Assertions.assertTrue(sampleInputPropArrayElement instanceof JSONObject);
                 Assertions.assertTrue(outputPropArrayElement instanceof JSONObject);
-                ((JSONObject) sampleInputPropArrayElement).keys().forEachRemaining((innerKey) -> assertPropertiesEqual(
+                ((JSONObject) sampleInputPropArrayElement).keys().forEachRemaining(innerKey -> assertPropertiesEqual(
                         (JSONObject) sampleInputPropArrayElement, (JSONObject) outputPropArrayElement, innerKey,
                         sampleNumber));
 
@@ -96,19 +99,19 @@ public class MainTest {
     }
 
 
-    private String getSampleInputDir(int sampleNumber) {
+    private static String getSampleInputDir(final int sampleNumber) {
         final URL inputDir = MainTest.class.getClassLoader()
                 .getResource(String.format("sample%s/input/", sampleNumber));
         return inputDir.getPath();
     }
 
-    private String getOutputDir(int sampleNumber) {
+    private static String getOutputDir(final int sampleNumber) {
         final String programDir = System.getProperty("user.dir");
         final String outputDir = String.format("%s/output/sample%s/", programDir, sampleNumber);
         return outputDir;
     }
 
-    private String getExpectedDir(int sampleNumber) {
+    private static String getExpectedDir(final int sampleNumber) {
         final URL inputDir = MainTest.class.getClassLoader()
                 .getResource(String.format("sample%s/expected/", sampleNumber));
         return inputDir.getPath();

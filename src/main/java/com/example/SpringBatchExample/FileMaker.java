@@ -32,7 +32,8 @@ public class FileMaker {
         }
     }
 
-    private static void createJsonFile(final Invoice invoice, final String folderPath, final LocalDateTime parseReportingDate)
+    private static void createJsonFile(final Invoice invoice, final String folderPath,
+                                       final LocalDateTime parseReportingDate)
             throws IOException {
         final Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter()).create();

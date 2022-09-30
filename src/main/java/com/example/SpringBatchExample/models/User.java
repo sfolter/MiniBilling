@@ -19,24 +19,20 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
     @Column(name = "name")
     @NotNull
     private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ref_number")
     private int refNumber;
     @Column(name = "price_list_id")
     private int numberPricingList;
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Reading> reading;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "price_list_id",
             updatable = false,
@@ -44,6 +40,20 @@ public class User {
     PriceList prices;
 
     public User() {
+    }
+
+    public User(final String name, final int refNumber, final int numberPricingList, final PriceList prices) {
+        this.name = name;
+        this.refNumber = refNumber;
+        this.numberPricingList = numberPricingList;
+        this.prices = prices;
+    }
+
+
+    public User(final String name, final int refNumber, final int numberPricingList) {
+        this.name = name;
+        this.refNumber = refNumber;
+        this.numberPricingList = numberPricingList;
     }
 
     public String getName() {

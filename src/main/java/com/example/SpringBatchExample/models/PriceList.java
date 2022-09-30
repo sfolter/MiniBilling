@@ -16,7 +16,7 @@ import java.util.List;
 public class PriceList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "price_list_id")
     int id;
 
@@ -25,6 +25,15 @@ public class PriceList {
             insertable = false,
             updatable = false)
     List<Price> priceList;
+
+    public PriceList(final int id, final List<Price> priceList) {
+        this.id = id;
+        this.priceList = priceList;
+    }
+
+    public PriceList() {
+
+    }
 
     public List<Price> getPriceList() {
         return priceList;

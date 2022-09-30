@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class Invoice {
     @Column(name = "total_amount_with_vat")
     private BigDecimal totalAmountWithVat;
     @Column(name = "lines")
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<InvoiceLine> lines;
     @Column(name = "taxes")
@@ -35,13 +35,21 @@ public class Invoice {
     private List<Tax> taxes;
     @Column(name = "vats")
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "doc_number")
+    @JoinColumn(name = "doc_number",
+            nullable = false)
     private List<Vat> vats;
+    @Transient
     public static int id = 10000;
 
+    public Invoice() {
 
-    public Invoice(final String documentNumber, final String consumer, final int reference, final BigDecimal totalAmount,
-                   final BigDecimal totalAmountWIthVat, final List<InvoiceLine> invoiceLines, final List<Tax> tax, final List<Vat> vat) {
+    }
+
+
+    public Invoice(final String documentNumber, final String consumer, final int reference,
+                   final BigDecimal totalAmount,
+                   final BigDecimal totalAmountWIthVat, final List<InvoiceLine> invoiceLines, final List<Tax> tax,
+                   final List<Vat> vat) {
 
         this.documentNumber = documentNumber;
         this.consumer = consumer;
@@ -70,8 +78,14 @@ public class Invoice {
         return reference;
     }
 
-    public Invoice() {
-
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
+
+    public BigDecimal getTotalAmountWithVat() {
+        return totalAmountWithVat;
+    }
+
+
 
 }

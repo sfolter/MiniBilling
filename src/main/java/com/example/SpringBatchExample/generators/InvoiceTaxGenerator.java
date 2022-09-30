@@ -2,13 +2,13 @@ package com.example.SpringBatchExample.generators;
 
 import com.example.SpringBatchExample.models.InvoiceLine;
 import com.example.SpringBatchExample.models.Tax;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-@Service
+
+
 public class InvoiceTaxGenerator implements TaxGenerator {
 
     @Override

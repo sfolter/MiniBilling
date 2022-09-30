@@ -3,13 +3,12 @@ package com.example.SpringBatchExample.generators;
 import com.example.SpringBatchExample.QuantityPricePeriod;
 import com.example.SpringBatchExample.models.InvoiceLine;
 import com.example.SpringBatchExample.models.User;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
-@Service
+
 public class InvoiceLineGenerator implements LineGenerator {
 
     @Override

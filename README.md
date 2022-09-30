@@ -218,3 +218,6 @@ Mini Billing
 # Допълнение 3
 
 Да се добави валута за цените, а потребителите да имат желана валута, в която да им се показва сумата.
+
+!!!
+Additional information for the database is located in resources

@@ -4,13 +4,13 @@ import com.example.SpringBatchExample.Percentages;
 import com.example.SpringBatchExample.models.InvoiceLine;
 import com.example.SpringBatchExample.models.Tax;
 import com.example.SpringBatchExample.models.Vat;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-@Service
+
+
 public class InvoiceVatGenerator implements VatGenerator {
 
     BigDecimal vatAmount = BigDecimal.ZERO;

@@ -45,6 +45,15 @@ public class Reading {
 
     }
 
+    public Reading(final ZonedDateTime date,final int refNumber, final BigDecimal value, final User user) {
+        this.refNumber = refNumber;
+        this.date = date;
+        this.value = value;
+        this.user = user;
+    }
+
+
+
     public ZonedDateTime getDate() {
         return date;
     }
@@ -53,4 +62,7 @@ public class Reading {
         return value;
     }
 
+    public int getRefNumber() {
+        return refNumber;
+    }
 }

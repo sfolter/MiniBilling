@@ -35,6 +35,13 @@ public class Price {
 
     }
 
+    public Price(final String product, final ZonedDateTime start, final ZonedDateTime end, final BigDecimal value) {
+        this.product = product;
+        this.start = start;
+        this.end = end;
+        this.value = value;
+    }
+
     public String getProduct() {
         return product;
     }
