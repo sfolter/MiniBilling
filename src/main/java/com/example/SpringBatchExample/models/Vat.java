@@ -55,4 +55,17 @@ public class Vat {
     public List<Integer> getLines() {
         return lines;
     }
+
+    @Override
+    public String toString() {
+        return "Vat{" +
+                "id=" + id +
+                ", index=" + index +
+                ", lines=" + lines +
+                ", taxes=" + taxes +
+                ", taxedAmountPercentage=" + taxedAmountPercentage +
+                ", percentage=" + percentage +
+                ", amount=" + amount +
+                '}';
+    }
 }

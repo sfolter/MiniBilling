@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReadingRepository extends JpaRepository<Reading, String> {
+public interface ReadingRepository extends JpaRepository<Reading, Integer> {
 
     List<Reading> findByRefNumber(int refNumber);
 }

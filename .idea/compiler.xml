@@ -4,6 +4,7 @@
     <bytecodeTargetLevel target="17" />
   </component>
   <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="&quot;-Xlint:unchecked&quot;" />
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="minibilling.test" options="--add-exports jdk.javadoc/jdk.javadoc.internal.doclets.formats.html.markup=ALL-UNNAMED" />
     </option>

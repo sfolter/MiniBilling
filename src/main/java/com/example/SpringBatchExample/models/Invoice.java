@@ -86,6 +86,33 @@ public class Invoice {
         return totalAmountWithVat;
     }
 
+    public List<InvoiceLine> getLines() {
+        return lines;
+    }
 
+    public List<Tax> getTaxes() {
+        return taxes;
+    }
 
+    public List<Vat> getVats() {
+        return vats;
+    }
+
+    public static int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "documentNumber='" + documentNumber + '\'' +
+                ", consumer='" + consumer + '\'' +
+                ", reference=" + reference +
+                ", totalAmount=" + totalAmount +
+                ", totalAmountWithVat=" + totalAmountWithVat +
+                ", lines=" + lines +
+                ", taxes=" + taxes +
+                ", vats=" + vats +
+                '}';
+    }
 }

@@ -67,4 +67,18 @@ public class Tax {
     public BigDecimal getAmount() {
         return amount;
     }
+
+    @Override
+    public String toString() {
+        return "Tax{" +
+                "id=" + id +
+                ", index=" + index +
+                ", lines=" + lines +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", unit='" + unit + '\'' +
+                ", price=" + price +
+                ", amount=" + amount +
+                '}';
+    }
 }

@@ -8,6 +8,7 @@ import com.example.SpringBatchExample.models.Invoice;
 import com.example.SpringBatchExample.models.InvoiceLine;
 import com.example.SpringBatchExample.models.Tax;
 import com.example.SpringBatchExample.models.Vat;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,8 +17,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+@Service
 public class InvoiceGenerator {
+
 
     public InvoiceGenerator() {
     }

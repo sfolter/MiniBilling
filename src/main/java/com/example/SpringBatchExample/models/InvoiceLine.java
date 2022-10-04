@@ -83,4 +83,18 @@ public class InvoiceLine {
         return product;
     }
 
+    @Override
+    public String toString() {
+        return "InvoiceLine{" +
+                "id=" + id +
+                ", index=" + index +
+                ", quantity=" + quantity +
+                ", lineStart=" + lineStart +
+                ", lineEnd=" + lineEnd +
+                ", product='" + product + '\'' +
+                ", price=" + price +
+                ", priceList=" + priceList +
+                ", amount=" + amount +
+                '}';
+    }
 }

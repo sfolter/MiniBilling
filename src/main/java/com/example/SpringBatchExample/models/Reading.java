@@ -22,13 +22,13 @@ public class Reading {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private int id;
 
     @Column(name = "ref_number")
     private int refNumber;
     @Column(name = "product")
     private String product;
-    @Column(name = "date")
+    @Column(name = "r_date")
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private ZonedDateTime date;
