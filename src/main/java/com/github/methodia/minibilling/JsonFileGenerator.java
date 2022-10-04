@@ -15,21 +15,21 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
-
-import static com.github.methodia.minibilling.InvoiceGenerator.TAXED_AMOUNT_PERCENTAGE_VAT_1;
+import java.util.Set;
 
 public class JsonFileGenerator {
-    private Invoice invoice;
-    private String folderPath;
 
-    private String currency;
+    private final Invoice invoice;
+    private final String folderPath;
+    private final String currency;
+    private final User user;
 
-    public JsonFileGenerator(Invoice invoice, String folderPath, String currency) {
+    public JsonFileGenerator(final Invoice invoice, final String folderPath, final String currency, final User user) {
         this.invoice = invoice;
         this.folderPath = folderPath;
         this.currency = currency;
+        this.user = user;
     }
 
     JSONObject json = new JSONObject();
@@ -43,79 +43,88 @@ public class JsonFileGenerator {
     String documentNumber = Invoice.getDocumentNumber();
 
 
-    public void generateJSON() throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
-        User user = invoice.getConsumer();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
-        List<Price> prices = user.getPrice();
-        int percentageForVat2 = 0;
+    public JSONObject generateJSON() throws ParseException, IOException, NoSuchFieldException, IllegalAccessException {
+        final String consumer = invoice.getConsumer();
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssXXX");
+        final Set<Price> prices = user.getPriceList().getPrices();
+        //        final List<Price> prices = user.getPrice();
         for (int i = 0; i < prices.size(); i++) {
-            JSONObject newLine = new JSONObject();
-            JSONObject newVatLine = new JSONObject();
-            JSONObject newTaxesLine = new JSONObject();
-            orderJSON(json);
-            orderJSON(newLine);
-            orderJSON(newTaxesLine);
-            orderJSON(newVatLine);
+            final JSONObject newLine = new JSONObject();
+            final JSONObject newTaxesLine = new JSONObject();
+            orderJson(json);
+            orderJson(newLine);
+            orderJson(newTaxesLine);
+
             json.put("documentDate", invoice.getDocumentDate());
             json.put("documentNumber", documentNumber);
             json.put("consumer", user.getName());
             json.put("reference", user.getRef());
             json.put("totalAmount", invoice.getTotalAmount().toString() + " " + currency);
             json.put("totalAmountWithVat", invoice.getTotalAmountWithVat().toString() + " " + currency);
-            int index = invoice.getLines().get(i).getIndex();
+            //          Invoice lines
+            final int index = invoice.getLines().get(i).getIndex();
             newLine.put("index", index);
-            BigDecimal quantity = invoice.getLines().get(i).getQuantity();
+            final BigDecimal quantity = invoice.getLines().get(i).getQuantity();
             newLine.put("quantity", quantity);
-            String lineStart = invoice.getLines().get(i).getStart().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+            final String lineStart = invoice.getLines().get(i).getStart().atZone(ZoneId.of("GMT"))
+                    .format(dateTimeFormatter);
             newLine.put("lineStart", lineStart);
-            String lineEnd = invoice.getLines().get(i).getEnd().atZone(ZoneId.of("GMT")).format(dateTimeFormatter);
+            final String lineEnd = invoice.getLines().get(i).getEnd().atZone(ZoneId.of("GMT"))
+                    .format(dateTimeFormatter);
             newLine.put("lineEnd", lineEnd);
-            String product = this.invoice.getLines().get(i).getProduct();
+            final String product = invoice.getLines().get(i).getProduct();
             newLine.put("product", product);
-            BigDecimal price = invoice.getLines().get(i).getPrice();
+            final BigDecimal price = invoice.getLines().get(i).getPrice();
             newLine.put("price", price);
-            int priceList = invoice.getLines().get(i).getPriceList();
+            final int priceList = invoice.getLines().get(i).getPriceList();
             newLine.put("priceList", priceList);
-            BigDecimal amount = invoice.getLines().get(i).getAmount();
+            final BigDecimal amount = invoice.getLines().get(i).getAmount();
             newLine.put("amount", amount.toString() + " " + currency);
             lines.put(newLine);
-            int indexInTaxes = invoice.getTaxesLines().get(i).getIndex();
+            //          Tax lines
+            final int indexInTaxes = invoice.getTaxesLines().get(i).getIndex();
             newTaxesLine.put("index", indexInTaxes);
-            int linesInTaxes = invoice.getTaxesLines().get(i).getLines();
+            final int linesInTaxes = invoice.getTaxesLines().get(i).getLines();
             newTaxesLine.put("lines", linesInTaxes);
-            String name = invoice.getTaxesLines().get(i).getName();
+            final String name = invoice.getTaxesLines().get(i).getName();
             newTaxesLine.put("name", name);
-            int quantityInTaxes = invoice.getTaxesLines().get(i).getQuantity();
+            final int quantityInTaxes = invoice.getTaxesLines().get(i).getQuantity();
             newTaxesLine.put("quantity", quantityInTaxes);
-            String unit = invoice.getTaxesLines().get(i).getUnit();
+            final String unit = invoice.getTaxesLines().get(i).getUnit();
             newTaxesLine.put("unit", unit);
-            BigDecimal priceInTaxes = invoice.getTaxesLines().get(i).getPrice();
+            final BigDecimal priceInTaxes = invoice.getTaxesLines().get(i).getPrice();
             newTaxesLine.put("price", priceInTaxes);
-            BigDecimal amountInTaxes = invoice.getTaxesLines().get(i).getAmount();
+            final BigDecimal amountInTaxes = invoice.getTaxesLines().get(i).getAmount();
             newTaxesLine.put("amount", amountInTaxes.toString() + " " + currency);
             taxesLines.put(newTaxesLine);
-            int indexInVat = invoice.getVatsLines().get(i).getIndex();
+        }
+        //          VAT lines
+        for (int j = 0; j < invoice.getVatsLines().size(); j++) {
+            final JSONObject newVatLine = new JSONObject();
+            orderJson(newVatLine);
+            final int indexInVat = invoice.getVatsLines().get(j).getIndex();
             newVatLine.put("index", indexInVat);
-            int linesInVat = invoice.getVatsLines().get(i).getLines();
+            final int linesInVat = invoice.getVatsLines().get(j).getLines();
             newVatLine.put("lines", linesInVat);
-
-            newVatLine.put("taxedAmountPercentage", TAXED_AMOUNT_PERCENTAGE_VAT_1 - percentageForVat2);
-            percentageForVat2 += 20;
-            int percentage = invoice.getVatsLines().get(i).getPercentage();
+            final int taxesInVat = invoice.getVatsLines().get(j).getTaxes();
+            newVatLine.put("taxes", taxesInVat);
+            final int taxedAmountPercentage = invoice.getVatsLines().get(j).getTaxedAmountPercentage();
+            newVatLine.put("taxedAmountPercentage", taxedAmountPercentage);
+            final int percentage = invoice.getVatsLines().get(j).getPercentage();
             newVatLine.put("percentage", percentage);
-            BigDecimal amountInVat = invoice.getVatsLines().get(i).getAmount();
+            final BigDecimal amountInVat = invoice.getVatsLines().get(j).getAmount();
             newVatLine.put("amount", amountInVat.toString() + " " + currency);
             vatLines.put(newVatLine);
         }
-
         json.put("lines", lines);
         json.put("taxes", taxesLines);
         json.put("vat", vatLines);
         fileGenerator();
+        return json;
     }
 
-    public void orderJSON(JSONObject json) throws NoSuchFieldException, IllegalAccessException {
-        Field changeMap = json.getClass().getDeclaredField("map");
+    public void orderJson(final JSONObject json) throws NoSuchFieldException, IllegalAccessException {
+        final Field changeMap = json.getClass().getDeclaredField("map");
         changeMap.setAccessible(true);
         changeMap.set(json, new LinkedHashMap<>());
         changeMap.setAccessible(false);

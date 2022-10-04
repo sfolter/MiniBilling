@@ -2,7 +2,6 @@ package com.github.methodia.minibilling;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 
