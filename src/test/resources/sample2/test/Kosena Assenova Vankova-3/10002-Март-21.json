@@ -1,0 +1,53 @@
+{
+    "documentDate": "2022-10-04T13:24:33.219916700",
+    "documentNumber": "10002",
+    "consumer": "Kosena Assenova Vankova",
+    "reference": "3",
+    "totalAmount": "401.27 EUR",
+    "totalAmountWithVat": "1013.75 EUR",
+    "lines": [{
+        "index": 1,
+        "quantity": 436,
+        "lineStart": "2021-01-01T16:40:00Z",
+        "lineEnd": "2021-03-11T09:00:00Z",
+        "product": "gas",
+        "price": 1.8,
+        "priceList": 1,
+        "amount": "401.27 EUR"
+    }],
+    "taxes": [{
+        "index": 1,
+        "lines": 1,
+        "name": "Standing charge",
+        "quantity": 68,
+        "unit": "days",
+        "price": 1.6,
+        "amount": "55.63 EUR"
+    }],
+    "vat": [
+        {
+            "index": 1,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 60,
+            "percentage": 20,
+            "amount": "48.15 EUR"
+        },
+        {
+            "index": 2,
+            "lines": 1,
+            "taxes": 0,
+            "taxedAmountPercentage": 40,
+            "percentage": 10,
+            "amount": "16.05 EUR"
+        },
+        {
+            "index": 3,
+            "lines": 0,
+            "taxes": 1,
+            "taxedAmountPercentage": 100,
+            "percentage": 20,
+            "amount": "11.13 EUR"
+        }
+    ]
+}
